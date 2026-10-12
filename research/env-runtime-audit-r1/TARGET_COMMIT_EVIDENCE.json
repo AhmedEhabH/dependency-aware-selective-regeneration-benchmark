@@ -1,0 +1,1447 @@
+{
+  "pyproject.toml": {
+    "present": true,
+    "sha256": "0d61da806fa1649fde2da64af745b91c142d61230e34fc9e125851bf8f045e47",
+    "excerpts": [
+      {
+        "line": 8,
+        "text": "description = \"A modular, high performance, headless e-commerce platform built with Python, GraphQL, Django, and React.\""
+      },
+      {
+        "line": 17,
+        "text": "  python = \"~3.12\""
+      },
+      {
+        "line": 22,
+        "text": "  authorizenet = {path = \"vendored/authorizenet\", develop = true}"
+      },
+      {
+        "line": 70,
+        "text": "  python-dateutil = \"^2.8.2\""
+      },
+      {
+        "line": 71,
+        "text": "  python-http-client = \"^3.3.7\""
+      },
+      {
+        "line": 72,
+        "text": "  python-json-logger = \">=0.1.11,<2.1.0\""
+      },
+      {
+        "line": 75,
+        "text": "  pyxb = {path = \"vendored/pyxb\", develop = true}"
+      },
+      {
+        "line": 99,
+        "text": "    [tool.poetry.dependencies.python-magic]"
+      },
+      {
+        "line": 103,
+        "text": "    [tool.poetry.dependencies.python-magic-bin]"
+      },
+      {
+        "line": 139,
+        "text": "  types-python-dateutil = \"^2.8.19\""
+      },
+      {
+        "line": 152,
+        "text": "  python-magic-bin = \"magic\""
+      },
+      {
+        "line": 156,
+        "text": "  DEP002 = [\"azure-common\", \"azure-storage-blob\", \"azure-storage-common\", \"django-redis\", \"gunicorn\", \"psycopg\", \"pyxb\"]"
+      }
+    ]
+  },
+  "poetry.lock": {
+    "present": true,
+    "sha256": "95884b5108283b7929da9adf82afde2532d5de6eb7ef58287cac067154298137",
+    "excerpts": [
+      {
+        "line": 6,
+        "text": "description = \"Adyen Python Api\""
+      },
+      {
+        "line": 8,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 16,
+        "text": "description = \"Low-level AMQP client for Python (fork of amqplib).\""
+      },
+      {
+        "line": 18,
+        "text": "python-versions = \">=3.6\""
+      },
+      {
+        "line": 32,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 43,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 63,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 77,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 94,
+        "text": "description = \"The ultimate Python library in building OAuth and OpenID Connect servers and clients.\""
+      },
+      {
+        "line": 96,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 106,
+        "text": "name = \"authorizenet\""
+      },
+      {
+        "line": 108,
+        "text": "description = \"Authorize.Net Python SDK\""
+      },
+      {
+        "line": 110,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 116,
+        "text": "pyxb = \"1.2.5\""
+      },
+      {
+        "line": 120,
+        "text": "type = \"directory\""
+      },
+      {
+        "line": 121,
+        "text": "url = \"vendored/authorizenet\""
+      },
+      {
+        "line": 126,
+        "text": "description = \"Microsoft Azure Client Library for Python (Common)\""
+      },
+      {
+        "line": 128,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 137,
+        "text": "description = \"Microsoft Azure Core Library for Python\""
+      },
+      {
+        "line": 139,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 156,
+        "text": "description = \"Microsoft Azure Blob Storage Client Library for Python\""
+      },
+      {
+        "line": 158,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 176,
+        "text": "description = \"Microsoft Azure Storage Common Client Library for Python\""
+      },
+      {
+        "line": 178,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 187,
+        "text": "python-dateutil = \"*\""
+      },
+      {
+        "line": 195,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 209,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 249,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 268,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 279,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 290,
+        "text": "description = \"Python multiprocessing fork with improvements and bugfixes\""
+      },
+      {
+        "line": 292,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 303,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 312,
+        "text": "description = \"The AWS SDK for Python\""
+      },
+      {
+        "line": 314,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 333,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 341,
+        "text": "python-dateutil = \">=2.1,<3.0.0\""
+      },
+      {
+        "line": 342,
+        "text": "urllib3 = {version = \">=1.25.4,<2.2.0 || >2.2.0,<3\", markers = \"python_version >= \\\"3.10\\\"\"}"
+      },
+      {
+        "line": 352,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 361,
+        "text": "description = \"Braintree Python Library\""
+      },
+      {
+        "line": 363,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 375,
+        "text": "description = \"Extensible memoizing collections and decorators\""
+      },
+      {
+        "line": 377,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 388,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 401,
+        "text": "python-dateutil = \">=2.8.2\""
+      },
+      {
+        "line": 412,
+        "text": "consul = [\"python-consul2 (==0.1.5)\"]"
+      },
+      {
+        "line": 426,
+        "text": "pymemcache = [\"python-memcached (>=1.61)\"]"
+      },
+      {
+        "line": 443,
+        "text": "description = \"Python package for providing Mozilla's CA Bundle.\""
+      },
+      {
+        "line": 445,
+        "text": "python-versions = \">=3.6\""
+      },
+      {
+        "line": 454,
+        "text": "description = \"Foreign Function Interface for Python calling C code.\""
+      },
+      {
+        "line": 456,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 535,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 546,
+        "text": "python-versions = \">=3.7.0\""
+      },
+      {
+        "line": 645,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 659,
+        "text": "python-versions = \">=3.6.2\""
+      },
+      {
+        "line": 673,
+        "text": "python-versions = \">=3.6,<4\""
+      },
+      {
+        "line": 692,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 709,
+        "text": "python-versions = \">=3.6\""
+      },
+      {
+        "line": 727,
+        "text": "python-versions = \"!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7\""
+      },
+      {
+        "line": 736,
+        "text": "description = \"Code coverage measurement for Python\""
+      },
+      {
+        "line": 738,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 820,
+        "text": "description = \"A Python library that converts cron expressions into human readable strings.\""
+      },
+      {
+        "line": 822,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 834,
+        "text": "description = \"cryptography is a package which provides cryptographic recipes and primitives to Python developers.\""
+      },
+      {
+        "line": 836,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 868,
+        "text": "cffi = {version = \">=1.12\", markers = \"platform_python_implementation != \\\"PyPy\\\"\"}"
+      },
+      {
+        "line": 883,
+        "text": "description = \"An implementation of the Debug Adapter Protocol for Python\""
+      },
+      {
+        "line": 885,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 914,
+        "text": "description = \"XML bomb protection for Python stdlib modules\""
+      },
+      {
+        "line": 916,
+        "text": "python-versions = \">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*\""
+      },
+      {
+        "line": 925,
+        "text": "description = \"A command line utility to check for unused, missing and transitive dependencies in a Python project.\""
+      },
+      {
+        "line": 927,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 951,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 962,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 977,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 986,
+        "text": "description = \"A high-level Python web framework that encourages rapid development and clean, pragmatic design.\""
+      },
+      {
+        "line": 988,
+        "text": "python-versions = \">=3.8\""
+      },
+      {
+        "line": 1009,
+        "text": "python-versions = \">=3.7\""
+      },
+      {
+        "line": 1023,
+        "text": "python-versions = \"*\""
+      },
+      {
+        "line": 1034,
+        "text": "python-versions = \">=3.8\""
+      }
+    ]
+  },
+  "Dockerfile": {
+    "present": true,
+    "sha256": "603cffd387a3a96a97147dfaeeefda167b220ccefadbdfa47fc1a958a5f2773b",
+    "excerpts": [
+      {
+        "line": 2,
+        "text": "FROM python:3.12 AS build-python"
+      },
+      {
+        "line": 10,
+        "text": "# Install Python dependencies"
+      },
+      {
+        "line": 19,
+        "text": "FROM python:3.12-slim"
+      },
+      {
+        "line": 42,
+        "text": "COPY --from=build-python /usr/local/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/"
+      },
+      {
+        "line": 43,
+        "text": "COPY --from=build-python /usr/local/bin/ /usr/local/bin/"
+      },
+      {
+        "line": 49,
+        "text": "RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input"
+      },
+      {
+        "line": 52,
+        "text": "ENV PYTHONUNBUFFERED=1"
+      },
+      {
+        "line": 56,
+        "text": "A modular, high performance, headless e-commerce platform built with Python, \\"
+      }
+    ]
+  },
+  ".github/workflows/pytest.yml": {
+    "present": true,
+    "sha256": "e8b47f0119168af3188d0400a438ec8459d132c19ed66ddecf48f8194ccd0671",
+    "excerpts": [
+      {
+        "line": 33,
+        "text": "    container: python:3.12"
+      },
+      {
+        "line": 67,
+        "text": "          poetry env use python3.12"
+      },
+      {
+        "line": 71,
+        "text": "      - name: Add Python Virtual Environment to PATH"
+      },
+      {
+        "line": 75,
+        "text": "          # Ticket: https://github.com/python-poetry/poetry/issues/7190"
+      },
+      {
+        "line": 82,
+        "text": "          git config --global --add safe.directory \"$GITHUB_WORKSPACE\""
+      }
+    ]
+  },
+  "setup.py": {
+    "present": false
+  },
+  "tox.ini": {
+    "present": false
+  },
+  "runtime.txt": {
+    "present": false
+  },
+  "vendored/pyxb/setup.py": {
+    "present": true,
+    "sha256": "6806801cdb034a732130dcb45fb42961d51a11339693bcde983cf586d1ec68b5",
+    "excerpts": [
+      {
+        "line": 1,
+        "text": "#!/usr/bin/env python"
+      },
+      {
+        "line": 9,
+        "text": "# Require Python 2.6 or higher or Python 3.1 or higher"
+      },
+      {
+        "line": 11,
+        "text": "    raise ValueError('''PyXB requires:"
+      },
+      {
+        "line": 12,
+        "text": "  Python2 version 2.6 or later; or"
+      },
+      {
+        "line": 13,
+        "text": "  Python3 version 3.1 or later"
+      },
+      {
+        "line": 37,
+        "text": "    files = ( 'README.txt', 'pyxb/__init__.py', 'doc/conf.py' )"
+      },
+      {
+        "line": 172,
+        "text": "import pyxb.utils.utility"
+      },
+      {
+        "line": 175,
+        "text": "        'pyxb', 'pyxb.namespace', 'pyxb.binding', 'pyxb.utils', 'pyxb.xmlschema',"
+      },
+      {
+        "line": 176,
+        "text": "        \"pyxb.bundles\""
+      },
+      {
+        "line": 184,
+        "text": "bundle_base = os.path.join(setup_path, 'pyxb', 'bundles')"
+      },
+      {
+        "line": 189,
+        "text": "    print(\"Directory %s bundle search failed: %s\" % (bundle_base, e))"
+      },
+      {
+        "line": 196,
+        "text": "    for fp in pyxb.utils.utility.GetMatchingFiles('%s//' % (bundle_root,), init_re):"
+      },
+      {
+        "line": 210,
+        "text": "        wxs_files = [os.path.basename(_f) for _f in pyxb.utils.utility.GetMatchingFiles(bundle_path, wxs_re) ]"
+      },
+      {
+        "line": 218,
+        "text": "setup(name='PyXB',"
+      },
+      {
+        "line": 219,
+        "text": "      description = 'PyXB (\"pixbee\") is a pure Python package that generates Python source code for classes that correspond to data structures defined by XMLSchema.',"
+      },
+      {
+        "line": 222,
+        "text": "      url='http://pyxb.sourceforge.net',"
+      },
+      {
+        "line": 223,
+        "text": "      # Also change in README.TXT, pyxb/__init__.py, and doc/conf.py"
+      },
+      {
+        "line": 226,
+        "text": "      long_description='''PyXB is a pure `Python <http://www.python.org>`_ package that generates"
+      },
+      {
+        "line": 227,
+        "text": "Python code for classes that correspond to data structures defined by"
+      },
+      {
+        "line": 232,
+        "text": "The major goals of PyXB are:"
+      },
+      {
+        "line": 234,
+        "text": "* Provide a generated Python interface that is \"Pythonic\", meaning similar"
+      },
+      {
+        "line": 237,
+        "text": "  + Attributes and elements are Python properties, with name conflicts"
+      },
+      {
+        "line": 239,
+        "text": "  + Elements with maxOccurs larger than 1 are stored as Python lists"
+      },
+      {
+        "line": 243,
+        "text": "* Support bi-directional conversion (document to Python and back)"
+      },
+      {
+        "line": 255,
+        "text": "      provides=[ 'PyXB' ],"
+      },
+      {
+        "line": 260,
+        "text": "      #data_files= [ ('pyxb/standard/schemas', glob.glob(os.path.join(*'pyxb/standard/schemas/*.xsd'.split('/'))) ) ],"
+      },
+      {
+        "line": 261,
+        "text": "      scripts=[ 'scripts/pyxbgen', 'scripts/pyxbwsdl', 'scripts/pyxbdump' ],"
+      },
+      {
+        "line": 269,
+        "text": "                      , 'Programming Language :: Python :: 2'"
+      },
+      {
+        "line": 270,
+        "text": "                      , 'Programming Language :: Python :: 2.6'"
+      },
+      {
+        "line": 271,
+        "text": "                      , 'Programming Language :: Python :: 2.7'"
+      },
+      {
+        "line": 272,
+        "text": "                      , 'Programming Language :: Python :: 3'"
+      },
+      {
+        "line": 274,
+        "text": "                      , 'Programming Language :: Python :: 3.1'"
+      },
+      {
+        "line": 275,
+        "text": "                      , 'Programming Language :: Python :: 3.2'"
+      },
+      {
+        "line": 276,
+        "text": "                      , 'Programming Language :: Python :: 3.3'"
+      },
+      {
+        "line": 277,
+        "text": "                      , 'Programming Language :: Python :: 3.4'"
+      }
+    ]
+  },
+  "vendored/authorizenet/setup.py": {
+    "present": true,
+    "sha256": "d5e6604f613174290f61e773da26ac7232d0c0f4dc9f906b0a09f1e37cfa6394",
+    "excerpts": [
+      {
+        "line": 15,
+        "text": "    name='authorizenet',"
+      },
+      {
+        "line": 19,
+        "text": "    # https://packaging.python.org/en/latest/single_source_version.html"
+      },
+      {
+        "line": 22,
+        "text": "    description='Authorize.Net Python SDK',"
+      },
+      {
+        "line": 25,
+        "text": "    url='https://github.com/AuthorizeNet/sdk-python',"
+      },
+      {
+        "line": 34,
+        "text": "    # See https://pypi.python.org/pypi?%3Aaction=list_classifiers"
+      },
+      {
+        "line": 49,
+        "text": "        # Specify the Python versions you support here. In particular, ensure"
+      },
+      {
+        "line": 50,
+        "text": "        # that you indicate whether you support Python 2, Python 3 or both."
+      },
+      {
+        "line": 51,
+        "text": "        'Programming Language :: Python :: 2.7',"
+      },
+      {
+        "line": 52,
+        "text": "        'Programming Language :: Python :: 3.4'"
+      },
+      {
+        "line": 56,
+        "text": "    keywords='authorizenet, authorize.net, payment, ecommerce',"
+      },
+      {
+        "line": 65,
+        "text": "    # https://packaging.python.org/en/latest/requirements.html"
+      },
+      {
+        "line": 66,
+        "text": "    install_requires=['pyxb==1.2.5', 'lxml==4.*', 'requests==2.*'],"
+      },
+      {
+        "line": 90,
+        "text": "    # installed, specify them here.  If using Python 2.6 or less, then these"
+      },
+      {
+        "line": 98,
+        "text": "    # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa"
+      }
+    ]
+  },
+  "vendored/pyxb/pyxb/binding/content.py": {
+    "present": true,
+    "sha256": "2a4b80093dcddb99a5a5db201143b130d69a332b69bf7ee596e633f051aea7ff",
+    "excerpts": [
+      {
+        "line": 21,
+        "text": "the Python field in which the values are stored.  They also provide the"
+      },
+      {
+        "line": 31,
+        "text": "import pyxb"
+      },
+      {
+        "line": 32,
+        "text": "import pyxb.namespace"
+      },
+      {
+        "line": 33,
+        "text": "import pyxb.utils.fac"
+      },
+      {
+        "line": 34,
+        "text": "from pyxb.binding import basis"
+      },
+      {
+        "line": 35,
+        "text": "import pyxb.utils.utility"
+      },
+      {
+        "line": 36,
+        "text": "from pyxb.utils import six"
+      },
+      {
+        "line": 40,
+        "text": "class AttributeUse (pyxb.cscRoot):"
+      },
+      {
+        "line": 59,
+        "text": "    \"\"\"Private Python attribute used in instances to hold the attribute value\"\"\""
+      },
+      {
+        "line": 62,
+        "text": "    \"\"\"The L{pyxb.binding.basis.simpleTypeDefinition} for values of the attribute\"\"\""
+      },
+      {
+        "line": 83,
+        "text": "        @type name: L{pyxb.namespace.ExpandedName}"
+      },
+      {
+        "line": 85,
+        "text": "        @param id: The Python identifier for the attribute within the"
+      },
+      {
+        "line": 86,
+        "text": "        containing L{pyxb.basis.binding.complexTypeDefinition}.  This is a"
+      },
+      {
+        "line": 94,
+        "text": "        L{pyxb.basis.binding.complexTypeDefinition}.  This is mangled so"
+      },
+      {
+        "line": 95,
+        "text": "        that it is unique among and is treated as a Python private member."
+      },
+      {
+        "line": 99,
+        "text": "        L{pyxb.binding.basis.simpleTypeDefinition} of which the attribute"
+      },
+      {
+        "line": 115,
+        "text": "        L{pyxb.binding.basis.complexTypeDefinition}.  The default value is"
+      },
+      {
+        "line": 122,
+        "text": "        corresponding L{pyxb.binding.basis.complexTypeDefinition}.  The"
+      },
+      {
+        "line": 127,
+        "text": "        @raise pyxb.SimpleTypeValueError: the L{unicode_default} cannot be used"
+      },
+      {
+        "line": 146,
+        "text": "        @rtype: L{pyxb.namespace.ExpandedName}"
+      },
+      {
+        "line": 177,
+        "text": "        \"\"\"Tag used within Python code for the attribute."
+      },
+      {
+        "line": 187,
+        "text": "        \"\"\"The subclass of L{pyxb.binding.basis.simpleTypeDefinition} of which any attribute value must be an instance.\"\"\""
+      },
+      {
+        "line": 194,
+        "text": "        @type ctd_instance: subclass of L{pyxb.binding.basis.complexTypeDefinition}"
+      },
+      {
+        "line": 207,
+        "text": "            raise pyxb.ProhibitedAttributeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 234,
+        "text": "        @raise pyxb.ProhibitedAttributeError: when instance has attribute but must not"
+      },
+      {
+        "line": 235,
+        "text": "        @raise pyxb.MissingAttributeError: when instance lacks attribute but"
+      },
+      {
+        "line": 238,
+        "text": "        @raise pyxb.BatchContentValidationError: when instance has attribute but its value is not acceptable"
+      },
+      {
+        "line": 243,
+        "text": "                raise pyxb.ProhibitedAttributeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 246,
+        "text": "                raise pyxb.MissingAttributeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 251,
+        "text": "                raise pyxb.MissingAttributeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 260,
+        "text": "        @type ctd_instance: subclass of L{pyxb.binding.basis.complexTypeDefinition}"
+      },
+      {
+        "line": 273,
+        "text": "                raise pyxb.MissingAttributeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 276,
+        "text": "            raise pyxb.ProhibitedAttributeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 280,
+        "text": "            raise pyxb.AttributeChangeError(type(ctd_instance), self.__name, ctd_instance)"
+      },
+      {
+        "line": 305,
+        "text": "    \"\"\"State for a L{pyxb.utils.fac.Automaton} monitoring content for an"
+      },
+      {
+        "line": 309,
+        "text": "    L{pyxb.utils.fac.Configuration_ABC} because we need the L{step} function"
+      },
+      {
+        "line": 332,
+        "text": "    If the value is exceeded, a L{pyxb.ContentNondeterminismExceededError}"
+      },
+      {
+        "line": 364,
+        "text": "        L{pyxb.binding.content.ElementDeclaration} that is the preferred"
+      },
+      {
+        "line": 401,
+        "text": "                raise pyxb.ContentNondeterminismExceededError(self.__instance)"
+      },
+      {
+        "line": 455,
+        "text": "        The list comprises the L{pyxb.binding.content.ElementUse} and"
+      },
+      {
+        "line": 456,
+        "text": "        L{pyxb.binding.content.WildcardUse} instances that are used to"
+      },
+      {
+        "line": 484,
+        "text": "        @raises pyxb.IncompleteElementContentError: if a non-accepting state is found"
+      },
+      {
+        "line": 493,
+        "text": "            raise pyxb.IncompleteElementContentError(self.__instance, cfg, symbols, symbol_set)"
+      },
+      {
+        "line": 523,
+        "text": "                if isinstance(csym, pyxb.binding.basis.NonElementContent):"
+      },
+      {
+        "line": 540,
+        "text": "            if (nec is not None) and isinstance(csym, pyxb.binding.basis.NonElementContent):"
+      },
+      {
+        "line": 555,
+        "text": "                raise pyxb.OrphanElementContentError(self.__instance, csym)"
+      },
+      {
+        "line": 560,
+        "text": "        \"\"\"Implement L{pyxb.binding.basis.complexTypeDefinition._validatedChildren}."
+      },
+      {
+        "line": 635,
+        "text": "                    raise pyxb.InvalidPreferredElementContentError(self.__instance, cfg, symbols, symbol_set, psym)"
+      },
+      {
+        "line": 640,
+        "text": "            raise pyxb.UnprocessedElementContentError(self.__instance, cfg, symbols, symbol_set)"
+      },
+      {
+        "line": 648,
+        "text": "                    raise pyxb.OrphanElementContentError(self.__instance, psym.value)"
+      },
+      {
+        "line": 653,
+        "text": "class _FACSymbol (pyxb.utils.fac.SymbolMatch_mixin):"
+      },
+      {
+        "line": 654,
+        "text": "    \"\"\"Base class for L{pyxb.utils.fac.Symbol} instances associated with PyXB content models."
+      },
+      {
+        "line": 690,
+        "text": "        \"\"\"@param xsd_location: the L{location<pyxb.utils.utility.Location>} of the element use or wildcard declaration.\"\"\""
+      },
+      {
+        "line": 707,
+        "text": "        \"\"\"Return the L{element declaration<pyxb.binding.content.ElementDeclaration>} associated with the use.\"\"\""
+      },
+      {
+        "line": 711,
+        "text": "        \"\"\"Return the L{element binding<pyxb.binding.content.ElementDeclaration.elementBinding>} associated with the use."
+      },
+      {
+        "line": 713,
+        "text": "        Equivalent to L{elementDeclaration}().L{elementBinding()<pyxb.binding.content.ElementDeclaration.elementBinding>}.\"\"\""
+      },
+      {
+        "line": 719,
+        "text": "        Equivalent to L{elementDeclaration}().L{elementBinding()<pyxb.binding.content.ElementDeclaration.elementBinding>}.L{typeDefinition()<pyxb.binding.basis.element.typeDefinition>}.\"\"\""
+      },
+      {
+        "line": 738,
+        "text": "        \"\"\"Satisfy L{pyxb.utils.fac.SymbolMatch_mixin}."
+      },
+      {
+        "line": 745,
+        "text": "        L{pyxb.binding.content.ElementDeclaration._matches} is used to"
+      },
+      {
+        "line": 763,
+        "text": "    incorporated into this class is an artifact of the evolution of PyXB.\"\"\""
+      },
+      {
+        "line": 779,
+        "text": "        \"\"\"Satisfy L{pyxb.utils.fac.SymbolMatch_mixin}."
+      },
+      {
+        "line": 786,
+        "text": "        L{pyxb.binding.content.Wildcard.matches} is used to determine whether"
+      },
+      {
+        "line": 799,
+        "text": "import collections.abc"
+      },
+      {
+        "line": 802,
+        "text": "# internal assumptions made by Python.  Instead delegate everything to an"
+      },
+      {
+        "line": 806,
+        "text": "@pyxb.utils.utility.BackfillComparisons"
+      },
+      {
+        "line": 807,
+        "text": "class _PluralBinding (collections.abc.MutableSequence):"
+      },
+      {
+        "line": 810,
+        "text": "    This is an adapter for Python list.  Any operation that can mutate an item"
+      },
+      {
+        "line": 904,
+        "text": "    corresponding object in Python <id>}, an L{indicator<isPlural>} of whether"
+      },
+      {
+        "line": 910,
+        "text": "        \"\"\"The L{location<pyxb.utils.utility.Location>} in the schema where the"
+      },
+      {
+        "line": 920,
+        "text": "        @rtype: L{pyxb.namespace.ExpandedName}"
+      },
+      {
+        "line": 967,
+        "text": "        @type name: L{pyxb.namespace.ExpandedName}"
+      },
+      {
+        "line": 969,
+        "text": "        @param id: The Python name for the element within the containing"
+      },
+      {
+        "line": 970,
+        "text": "        L{pyxb.basis.binding.complexTypeDefinition}.  This is a public"
+      },
+      {
+        "line": 977,
+        "text": "        L{pyxb.basis.binding.complexTypeDefinition}.  This is mangled so"
+      },
+      {
+        "line": 978,
+        "text": "        that it is unique among and is treated as a Python private member."
+      },
+      {
+        "line": 985,
+        "text": "        identified by L{pyxb.binding.basis.element.typeDefinition} if present."
+      },
+      {
+        "line": 1040,
+        "text": "            raise pyxb.ContentInNilInstanceError(ctd_instance, value)"
+      },
+      {
+        "line": 1042,
+        "text": "        if ctd_instance._validationConfig.forBinding or isinstance(value, pyxb.BIND):"
+      },
+      {
+        "line": 1057,
+        "text": "        @raise pyxb.StructuralBadDocumentError: invoked on an element use that is not plural"
+      },
+      {
+        "line": 1060,
+        "text": "            raise pyxb.ContentInNilInstanceError(ctd_instance, value)"
+      }
+    ]
+  },
+  "vendored/pyxb/pyxb/utils/six.py": {
+    "present": true,
+    "sha256": "379b0fa92f17b9f34aa214a01392aa834667dba9a94a934ab4c2bd22a12669fb",
+    "excerpts": [
+      {
+        "line": 21,
+        "text": "\"\"\"Utilities for writing code that runs on Python 2 and 3\"\"\""
+      },
+      {
+        "line": 31,
+        "text": "__author__ = \"Benjamin Peterson <benjamin@python.org>\""
+      },
+      {
+        "line": 179,
+        "text": "    with Python 2.5 and all existing versions of Python3"
+      },
+      {
+        "line": 193,
+        "text": "    def find_module(self, fullname, path=None):"
+      },
+      {
+        "line": 198,
+        "text": "    def find_spec(self, fullname, path, target=None):"
+      },
+      {
+        "line": 228,
+        "text": "        Python 3.4 (see PEP451)"
+      },
+      {
+        "line": 277,
+        "text": "    MovedAttribute(\"UserDict\", \"UserDict\", \"collections\"),"
+      },
+      {
+        "line": 278,
+        "text": "    MovedAttribute(\"UserList\", \"UserList\", \"collections\"),"
+      },
+      {
+        "line": 279,
+        "text": "    MovedAttribute(\"UserString\", \"UserString\", \"collections\"),"
+      },
+      {
+        "line": 288,
+        "text": "        \"collections_abc\","
+      },
+      {
+        "line": 289,
+        "text": "        \"collections\","
+      },
+      {
+        "line": 290,
+        "text": "        \"collections.abc\" if sys.version_info >= (3, 3) else \"collections\","
+      },
+      {
+        "line": 534,
+        "text": "    \"\"\"Create a six.moves.urllib namespace that resembles the Python 3 namespace\"\"\""
+      },
+      {
+        "line": 826,
+        "text": "        \"\"\"The new-style print function for Python 2.4 and 2.5.\"\"\""
+      },
+      {
+        "line": 898,
+        "text": "    # function does on Python versions after 3.2. It sets the ``__wrapped__``"
+      },
+      {
+        "line": 984,
+        "text": "    For Python 2:"
+      },
+      {
+        "line": 988,
+        "text": "    For Python 3:"
+      },
+      {
+        "line": 1002,
+        "text": "    For Python 2:"
+      },
+      {
+        "line": 1006,
+        "text": "    For Python 3:"
+      },
+      {
+        "line": 1025,
+        "text": "    For Python 2:"
+      },
+      {
+        "line": 1029,
+        "text": "    For Python 3:"
+      },
+      {
+        "line": 1041,
+        "text": "def python_2_unicode_compatible(klass):"
+      },
+      {
+        "line": 1043,
+        "text": "    A class decorator that defines __unicode__ and __str__ methods under Python 2."
+      },
+      {
+        "line": 1044,
+        "text": "    Under Python 3 it does nothing."
+      },
+      {
+        "line": 1046,
+        "text": "    To support Python 2 and 3 with a single code base, define a __str__ method"
+      },
+      {
+        "line": 1052,
+        "text": "                \"@python_2_unicode_compatible cannot be applied \""
+      }
+    ]
+  },
+  "vendored/authorizenet/authorizenet/apicontractsv1.py": {
+    "present": true,
+    "sha256": "afd144594d24f1c37178a0e930a8bbdce502c0539daf0ce8b18aac08193eb8ae",
+    "excerpts": [
+      {
+        "line": 3,
+        "text": "# PyXB bindings for NM:0fc19dc0c6315668ca059fd5839cdad268ce84d3"
+      },
+      {
+        "line": 4,
+        "text": "# Generated 2020-12-16 14:25:16.030175 by PyXB version 1.2.5 using Python 3.7.9.final.0"
+      },
+      {
+        "line": 8,
+        "text": "import pyxb"
+      },
+      {
+        "line": 9,
+        "text": "import pyxb.binding"
+      },
+      {
+        "line": 10,
+        "text": "import pyxb.binding.saxer"
+      },
+      {
+        "line": 12,
+        "text": "import pyxb.utils.utility"
+      },
+      {
+        "line": 13,
+        "text": "import pyxb.utils.domutils"
+      },
+      {
+        "line": 15,
+        "text": "import pyxb.utils.six as _six"
+      },
+      {
+        "line": 17,
+        "text": "_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:6a124e8c-3f7c-11eb-bcdb-847beb3cc146')"
+      },
+      {
+        "line": 19,
+        "text": "# Version of PyXB used to generate the bindings"
+      },
+      {
+        "line": 20,
+        "text": "_PyXBVersion = '1.2.5'"
+      },
+      {
+        "line": 21,
+        "text": "# Generated bindings are not compatible across PyXB versions"
+      },
+      {
+        "line": 22,
+        "text": "if pyxb.__version__ != _PyXBVersion:"
+      },
+      {
+        "line": 23,
+        "text": "    raise pyxb.PyXBVersionError(_PyXBVersion)"
+      },
+      {
+        "line": 27,
+        "text": "_module_typeBindings = pyxb.utils.utility.Object()"
+      },
+      {
+        "line": 30,
+        "text": "import pyxb.binding.datatypes"
+      },
+      {
+        "line": 33,
+        "text": "Namespace = pyxb.namespace.NamespaceForURI('AnetApi/xml/v1/schema/AnetApiSchema.xsd', create_if_missing=True)"
+      },
+      {
+        "line": 38,
+        "text": "    Python instance."
+      },
+      {
+        "line": 40,
+        "text": "    @param xml_text An XML document.  This should be data (Python 2"
+      },
+      {
+        "line": 41,
+        "text": "    str or Python 3 bytes), or a text (Python 2 unicode or Python 3"
+      },
+      {
+        "line": 42,
+        "text": "    str) in the L{pyxb._InputEncoding} encoding."
+      },
+      {
+        "line": 44,
+        "text": "    @keyword default_namespace The L{pyxb.Namespace} instance to use as the"
+      },
+      {
+        "line": 50,
+        "text": "    L{pyxb.utils.utility.Location} instances associated with events and"
+      },
+      {
+        "line": 55,
+        "text": "    if pyxb.XMLStyle_saxer != pyxb._XMLStyle:"
+      },
+      {
+        "line": 56,
+        "text": "        dom = pyxb.utils.domutils.StringToDOM(xml_text)"
+      },
+      {
+        "line": 60,
+        "text": "    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)"
+      },
+      {
+        "line": 64,
+        "text": "        xmld = xmld.encode(pyxb._InputEncoding)"
+      },
+      {
+        "line": 70,
+        "text": "    \"\"\"Create a Python instance from the given DOM node."
+      },
+      {
+        "line": 76,
+        "text": "    return pyxb.binding.basis.element.AnyCreateFromDOM(node, default_namespace)"
+      },
+      {
+        "line": 80,
+        "text": "class numericString (pyxb.binding.datatypes.string):"
+      },
+      {
+        "line": 84,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'numericString')"
+      },
+      {
+        "line": 85,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 8, 2)"
+      },
+      {
+        "line": 87,
+        "text": "numericString._CF_pattern = pyxb.binding.facets.CF_pattern()"
+      },
+      {
+        "line": 94,
+        "text": "class alphaNumericString (pyxb.binding.datatypes.string):"
+      },
+      {
+        "line": 98,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'alphaNumericString')"
+      },
+      {
+        "line": 99,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 14, 2)"
+      },
+      {
+        "line": 101,
+        "text": "alphaNumericString._CF_pattern = pyxb.binding.facets.CF_pattern()"
+      },
+      {
+        "line": 108,
+        "text": "class alphaNumericSpaceString (pyxb.binding.datatypes.string):"
+      },
+      {
+        "line": 112,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'alphaNumericSpaceString')"
+      },
+      {
+        "line": 113,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 20, 2)"
+      },
+      {
+        "line": 115,
+        "text": "alphaNumericSpaceString._CF_pattern = pyxb.binding.facets.CF_pattern()"
+      },
+      {
+        "line": 122,
+        "text": "class authIndicatorEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 126,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'authIndicatorEnum')"
+      },
+      {
+        "line": 127,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 114, 2)"
+      },
+      {
+        "line": 129,
+        "text": "authIndicatorEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=authIndicatorEnum, enum_prefix=None)"
+      },
+      {
+        "line": 137,
+        "text": "class bankAccountTypeEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 141,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'bankAccountTypeEnum')"
+      },
+      {
+        "line": 142,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 121, 2)"
+      },
+      {
+        "line": 144,
+        "text": "bankAccountTypeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=bankAccountTypeEnum, enum_prefix=None)"
+      },
+      {
+        "line": 153,
+        "text": "class echeckTypeEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 157,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'echeckTypeEnum')"
+      },
+      {
+        "line": 158,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 129, 2)"
+      },
+      {
+        "line": 160,
+        "text": "echeckTypeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=echeckTypeEnum, enum_prefix=None)"
+      },
+      {
+        "line": 172,
+        "text": "class paymentMethodEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 176,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'paymentMethodEnum')"
+      },
+      {
+        "line": 177,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 140, 2)"
+      },
+      {
+        "line": 179,
+        "text": "paymentMethodEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=paymentMethodEnum, enum_prefix=None)"
+      },
+      {
+        "line": 188,
+        "text": "class cardTypeEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 192,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cardTypeEnum')"
+      },
+      {
+        "line": 193,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 148, 2)"
+      },
+      {
+        "line": 195,
+        "text": "cardTypeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=cardTypeEnum, enum_prefix=None)"
+      },
+      {
+        "line": 207,
+        "text": "class accountTypeEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 211,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'accountTypeEnum')"
+      },
+      {
+        "line": 212,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 159, 2)"
+      },
+      {
+        "line": 214,
+        "text": "accountTypeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=accountTypeEnum, enum_prefix=None)"
+      },
+      {
+        "line": 227,
+        "text": "class customerTypeEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 231,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'customerTypeEnum')"
+      },
+      {
+        "line": 232,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 171, 2)"
+      },
+      {
+        "line": 234,
+        "text": "customerTypeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=customerTypeEnum, enum_prefix=None)"
+      },
+      {
+        "line": 242,
+        "text": "class ARBSubscriptionUnitEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 246,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ARBSubscriptionUnitEnum')"
+      },
+      {
+        "line": 247,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 178, 2)"
+      },
+      {
+        "line": 249,
+        "text": "ARBSubscriptionUnitEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ARBSubscriptionUnitEnum, enum_prefix=None)"
+      },
+      {
+        "line": 257,
+        "text": "class validationModeEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 261,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'validationModeEnum')"
+      },
+      {
+        "line": 262,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 185, 2)"
+      },
+      {
+        "line": 264,
+        "text": "validationModeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=validationModeEnum, enum_prefix=None)"
+      },
+      {
+        "line": 274,
+        "text": "class splitTenderStatusEnum (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):"
+      },
+      {
+        "line": 278,
+        "text": "    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'splitTenderStatusEnum')"
+      },
+      {
+        "line": 279,
+        "text": "    _XSDLocation = pyxb.utils.utility.Location('https://apitest.authorize.net/xml/v1/schema/AnetApiSchema.xsd', 197, 2)"
+      }
+    ]
+  },
+  "saleor/payment/gateways/authorize_net/__init__.py": {
+    "present": true,
+    "sha256": "c90a4a6092ffde00a0d33d28fcd5b8189370931393b1bcfc54f50eaa12dc4144",
+    "excerpts": [
+      {
+        "line": 4,
+        "text": "from authorizenet import apicontractsv1"
+      },
+      {
+        "line": 5,
+        "text": "from authorizenet.apicontrollers import ("
+      },
+      {
+        "line": 29,
+        "text": "    This API is not present in the authorizenet Python package."
+      },
+      {
+        "line": 113,
+        "text": "    https://github.com/AuthorizeNet/sample-code-python/blob/master/AcceptSuite/create-an-accept-payment-transaction.py"
+      }
+    ]
+  }
+}

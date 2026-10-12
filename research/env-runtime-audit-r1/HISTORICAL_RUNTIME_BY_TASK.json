@@ -1,0 +1,4002 @@
+{
+  "saleor-rc-0179b331be38": {
+    "target_commit": "0179b331be386e5075b69b868a8a16005a563b56",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "d5866f1af31b03fb6dcbe2498e0c04673ae98877102446e7a8e864ac54eb89c7",
+    "frozen_pyproject_sha256": "e1d0f3f027307dbfb504faa5f7ac867570b562a8cd71d12ae9018e1a70425a07",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-02dfdad9985b": {
+    "target_commit": "02dfdad9985b2ee573b6ab9f64b766fe73fe012c",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "631370d263354e63670a748b6186a2f668f09eb5538c933884c7db8a5b393d8f",
+    "frozen_pyproject_sha256": "f229035f980cfc6d6f75599c2427af59b0ff4b327c2057367b59e24b0fdbe73f",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-032b98afff20": {
+    "target_commit": "032b98afff2026468336882ffc04f235243fc4fc",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "5e4a697daaadfb117c191ed8a72054d42bb93c39f03c0f75f99a7434a2c77ee7",
+    "frozen_pyproject_sha256": "a1599620393a614991f1311c60cb86373b9d6ae87f3a012f98ce48bf6800f8e9",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-03be7057c1f1": {
+    "target_commit": "03be7057c1f1d920d0f5498e3f7669f9f94cb327",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "2db9c8ac9da2647e472ffee9d6e8dff538b26bfed86e70e57d210a9b2d1d6ab9",
+    "frozen_pyproject_sha256": "17fd1589faf1ee974ae38d31b9aeef05a4cdf3b80315d1d7dd2de32cf2dd9471",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-03c5a9916858": {
+    "target_commit": "03c5a991685858368c98cb260e8faf75cd07496b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "10a893b69a85d8b6c8fd117af64b1f15a09e9840ee0083324dd03259ad7f7f6f",
+    "frozen_pyproject_sha256": "ffed5e37b181f4534ade7c849e66d87d0991b546e5b2bc720c18d8dea5024abb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-05bdc7feb9ac": {
+    "target_commit": "05bdc7feb9acfba14424dc97a6dbefdd8ab8ecae",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "fdccfe23ca45bd6b49ec1608d8af5c3b7895a27bd07889618dea553e0fc1fce0",
+    "frozen_pyproject_sha256": "454fd3d3f932cf295a451ab4b913d25025638e8ae6e08e7d91f4b2c5cca8afc2",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-07c8859c0ac3": {
+    "target_commit": "07c8859c0ac3031174d6946371341c93175d176a",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "efe7628c89e5898a62c101afbc84af783fdff3767d808414341ce175f6db1519",
+    "frozen_pyproject_sha256": "2e96148891d4e6581dad19ea5a83f625f72484e41c2ac2500079598e1a24b015",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-07f02e2c40ae": {
+    "target_commit": "07f02e2c40ae9357db33f6e24068ccd3095eace4",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7522a31cb543822581810e2dccb98e661a25b9614cf40b9d1d145730b54a8dc0",
+    "frozen_pyproject_sha256": "bc31c878a937622fb14e89a0a8b434b888c7321cbdde49a6dfaab375e872d1c9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-094b1ec0f610": {
+    "target_commit": "094b1ec0f61011d423c04a736976f3286037d5a1",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98b7bc1084852ca93c568f00469b240dfd1f2a6474e57038794d9a58f69fdc5f",
+    "frozen_pyproject_sha256": "4dfdb2d3a927aae928d38acfcb6cbec0d60c2fcf408a2db2295c25de74e07c16",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-0ad61b3f0096": {
+    "target_commit": "0ad61b3f0096a50a0ec8e80b2c1905b06e11aa7d",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "b10135628ec00669e997e369a81336799548c8575f636f2d18e43ee78cebe3ef",
+    "frozen_pyproject_sha256": "1e612a1070bd2278d7aaec1036dc58a002af4a10295b426462e9724a4dfbdff6",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-0b46c89dfd9e": {
+    "target_commit": "0b46c89dfd9e5e22defb45cbd9869403a7817320",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "01f737c2b0af800799a0086ff210c5c0d707356603861805406e45842cb2200f",
+    "frozen_pyproject_sha256": "5346555b96ef77c5b171d34e4013e080d65474b29edc63bd1e6b50387f37ba27",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-0c1062eb0da6": {
+    "target_commit": "0c1062eb0da691a67f6edb7babacea694d666830",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fe974e4f29942f52c1fd1752477fd7f243ffd1c479e8f826da9e44f464b38c71",
+    "frozen_pyproject_sha256": "29b49fc0bfcad4bd086c52946fc9978500f8276175c7cc5e9cfbe7a326eb7a32",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-0df62b3144b0": {
+    "target_commit": "0df62b3144b0ef536b8ecc96aaa2a51f3b8ee175",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c47290d7c383efdcaf8a9c22c1b2bb230e563499e028759e8a1fbe893f047e58",
+    "frozen_pyproject_sha256": "333e98fd08ada7d4b2d5b180f23ce5d8d7225530ef653a16f83b5636e9893e9c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-0e895847d8ae": {
+    "target_commit": "0e895847d8aee6399aedb00420cf602a31eb9094",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "32d18a48dbf450bd52901e4368fc0f0c0b795062e8fe05e2be74baa10d7c1e6e",
+    "frozen_pyproject_sha256": "b52fcf3d751d9d2782a8dcec0664741532c60dfaee83127604268b12eddad05d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-0f16ed78b02b": {
+    "target_commit": "0f16ed78b02b579fb2ba90e5647319a9c5a3f9da",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "d5866f1af31b03fb6dcbe2498e0c04673ae98877102446e7a8e864ac54eb89c7",
+    "frozen_pyproject_sha256": "e1d0f3f027307dbfb504faa5f7ac867570b562a8cd71d12ae9018e1a70425a07",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-0fd3a4d986a0": {
+    "target_commit": "0fd3a4d986a00ebe182729316b70c87601ffc972",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "912d0109c0eda55e6f02605438e2aeb518ef5f6846ade56322657bd1521e302e",
+    "frozen_pyproject_sha256": "c5e0a18e5d1092b554c56a280fcea32c94d27c827d250f9973dccd3806dabfce",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-10889526d151": {
+    "target_commit": "10889526d151d0817d6ca41fdf876e95921a255d",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "3c3c11219d35c80bd2abbbb50fa965d2eb46db804d8a0224755afb7f9750d069",
+    "frozen_pyproject_sha256": "66eb32ede1119d04594d091c33a8d117b71cbe739bdd3c43986ceefb8e38f20b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-11756ee6b65a": {
+    "target_commit": "11756ee6b65a255869f551e838edec1742b1c2ce",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "055416ac5a6404608c845223ac7acc2fdd1ffc1e338166324a4154b787c95d06",
+    "frozen_pyproject_sha256": "6bda59996eb2aadeca5e648916dd9c1cb0c87ea2a8dea1a342c80196db218e33",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-12007c00e480": {
+    "target_commit": "12007c00e480f15c7823d5c10f1c29b5535ad34b",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "9b6c717bb6b6b6753e1253788159db5307bc642b31f3a7a22bb54d34edc218ab",
+    "frozen_pyproject_sha256": "0a68a36b6b8e58d54fc0a49a349c6a48ef0799b390e40b1e1fde1ff08aa97b60",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-138ee68c3818": {
+    "target_commit": "138ee68c3818affda0de12010f561fbf4d2caf9e",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6120f57138e2eb11565486e16bc3925d2a004b43eaed63cf92156987252f0918",
+    "frozen_pyproject_sha256": "a7c7f1501333e75c39ebc5f90d45c5433161d325f724bfd9952b4fc7d223244b",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-14a682044ca4": {
+    "target_commit": "14a682044ca49af5406781e8b921fce6fe4f3d85",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "631370d263354e63670a748b6186a2f668f09eb5538c933884c7db8a5b393d8f",
+    "frozen_pyproject_sha256": "f229035f980cfc6d6f75599c2427af59b0ff4b327c2057367b59e24b0fdbe73f",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-14f2176b5d8c": {
+    "target_commit": "14f2176b5d8c7da0b20bec1806d7f274b23baf2c",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fb04a0e21b863e871f305cbd5f855a379fe0734ec14caccf20c441a9dca2dcc8",
+    "frozen_pyproject_sha256": "1fc8b89e13bf88aa088368f9ee032e3f44616b68a9c86569d0e7d630e765763c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-17c8d807b3d1": {
+    "target_commit": "17c8d807b3d1e1fb2edcff22a63181af94033526",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "039d374f443d450c198703f52630e164f59f0a86e0f1d1dc0c32f1da659f7f4f",
+    "frozen_pyproject_sha256": "a62264825957887d90f631f258dd3c7c0913fd8942f056b8c0224e1a6b08fcdc",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-18430f2a7a16": {
+    "target_commit": "18430f2a7a16e3ba35c8230e35f81cac1b92a386",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "d2b9f1c38e7a97ae653d35c1fc17ffad1189a17ba6e38038d24d4cf139c9a069",
+    "frozen_pyproject_sha256": "0b624d29b8a31562acf6a225894ce54f26c2bfaebdb90c4a9c2dbfc970d3605d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-19bb9b070965": {
+    "target_commit": "19bb9b0709654010d1b4e4e9049af119d3b28815",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "111c72c634baa1719b6dfb0cc3f3bb5777d85c6ac0d27230837e06afb6f5d0aa",
+    "frozen_pyproject_sha256": "e3fab54ee44320bd0ecf50ef58d74398c910f49fc001afee2c80713a1395c741",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-1a8b592913a0": {
+    "target_commit": "1a8b592913a0cadca6d0b171e9afb2f8e4b823f6",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "06a24051b8485b0d11ee5d26cc6c8de9b74ebb13acd250a053c0886309826ec3",
+    "frozen_pyproject_sha256": "7cd1bc0e26b017402b004b60d235b4b20740daed497deb086915a980c10a5a56",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-1abda1e0d36e": {
+    "target_commit": "1abda1e0d36e73402bd7581646b0db5ac647e973",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "d2b9f1c38e7a97ae653d35c1fc17ffad1189a17ba6e38038d24d4cf139c9a069",
+    "frozen_pyproject_sha256": "0b624d29b8a31562acf6a225894ce54f26c2bfaebdb90c4a9c2dbfc970d3605d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-1af1c3a368ec": {
+    "target_commit": "1af1c3a368ec7488f7460a059f20d8db4bf5bd99",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "6c87277d1c177ec43039e5c9c50a3f559a7163dae5949eb6f7565943c84a18ad",
+    "frozen_pyproject_sha256": "e03fbef9d2e85f1aabcc7d3cdda345cd8ca89015c6c5a46fc7143abb82f40d9a",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-1b4da5a88d08": {
+    "target_commit": "1b4da5a88d08b71a5315749a0352ddd9cc0dad39",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "bcbc2a73422f5af5fe7cb98c64e8936870da421b3038be165b6c534eb497a06e",
+    "frozen_pyproject_sha256": "77fdd31757d047f29199c54a75bc35fd98a1b8bde143acd296c6fd23ef5e832c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-1f47b503f69e": {
+    "target_commit": "1f47b503f69e6c027117b7da53fcdce39ed81751",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "766cf9a8da6338294f54bc6f5fabe3fb38288946a03afb0cb62cf1a607093ea8",
+    "frozen_pyproject_sha256": "0c9f4718f438a9544aa6a5cc276c5f9242a4c0800976f48540a6185d09bd7930",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-1f6fbe2ebf9b": {
+    "target_commit": "1f6fbe2ebf9b7224a09fbdc6d4b00e25ee8ca24b",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "7d84c3008773add0fe603465bf76c017008243ac6a9f09906748dfa598c445fe",
+    "frozen_pyproject_sha256": "80f23c556e21c756700557039321d25645c893f892ffc335351446727a877343",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-1f9b5c53a63a": {
+    "target_commit": "1f9b5c53a63a04fae221cb65832fae3c3a61c236",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "29307155e6667ef5b948aa2f663d2f7e61cb38f2a7f980ddbbd1caedd345ce91",
+    "frozen_pyproject_sha256": "6fad67f664a67882ea1a544027146acb65c09fec3818c113149b9f04ec0243e4",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-1fa6a637c7fc": {
+    "target_commit": "1fa6a637c7fcaf5e1c797339ddae102b43282bc4",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "e15495cf9b12819a9f3dfbe8ad8a2b104a9aa4a375e349163e0ec2797b204ac7",
+    "frozen_pyproject_sha256": "a0a76fe34f4fb8f4c934553dd4145f8cb885c3e30d11fd61d8a3574c345792fc",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-208833e2fa53": {
+    "target_commit": "208833e2fa53e41a0ef8767961edafe09240a3f5",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "a39063c3949e40218c689d47d5eadba5215e7e0736edd4a3b961141ce39de6a2",
+    "frozen_pyproject_sha256": "0ea909920634d635dbc0d0481dc157f73d7890fa52581e40473001dd5428f0d4",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-224bf29fb39f": {
+    "target_commit": "224bf29fb39fd14645a5adfda42008ea5fb8d799",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7f8469ab1c723e3e4b79913e1a42b8fd51170b244dfd02e1c13ff583fc6d8bd9",
+    "frozen_pyproject_sha256": "ba38ab06e6b218906799c64e7a7c5ee0eb6f34ce695f8e232b864e0a57c1068c",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-22a30bf2e4cc": {
+    "target_commit": "22a30bf2e4ccda91e1e43673d77e25d439f61746",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6d008f482ab94e1c4170b37c6a44d680d1bb7544bb8d991c1572252a6e62d475",
+    "frozen_pyproject_sha256": "0abef3fcfca00cd243642bfcdb41d886a2e0ab2687527f443e1aba427ceb689a",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-24f9b244d6bc": {
+    "target_commit": "24f9b244d6bc8c591c9707380917d9b6c6d35c35",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-255d39da978a": {
+    "target_commit": "255d39da978a7ec3f20b8cbc8b54b4c02a94566a",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "bf4104c3c0b43d7a268a7cc7b08194bf5746701eea4c7ef058ddf77836a0769e",
+    "frozen_pyproject_sha256": "c6f06bcf5a27fb1ae56579ed573b78cbd53ae764f60f017f8174278bc23afd88",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-27b65eae2a9a": {
+    "target_commit": "27b65eae2a9af0fbb0d2f85a955f8334a3115bac",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "05ebea0816e16778f9f8d11a928f9b7383bb5e5d42e5b05f70cc9949bc714e06",
+    "frozen_pyproject_sha256": "756546dae0bc5bd1968ed9b70f9359d590843b56546ad64e383e76effbbcf2fb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-28799575c518": {
+    "target_commit": "28799575c51810307c71fd14cabc6eaa3b8dfe5e",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-29c2d1abdce0": {
+    "target_commit": "29c2d1abdce021bc32ca41b15da5ce10175227ed",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-2a59d31fc839": {
+    "target_commit": "2a59d31fc8398dd13f2a63c1bc23f44791ea3239",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "01f737c2b0af800799a0086ff210c5c0d707356603861805406e45842cb2200f",
+    "frozen_pyproject_sha256": "5346555b96ef77c5b171d34e4013e080d65474b29edc63bd1e6b50387f37ba27",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-2c218aadc9b7": {
+    "target_commit": "2c218aadc9b757835ec7c85832c67468e7ee818d",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "fb0597a04a35d12bf8ba9f3129329e5b8a629a887c3d26ae2eb173b9bea75e20",
+    "frozen_pyproject_sha256": "3c20e2aa41ce7a4c5fca68ff26ead5ef034acc737cfc585ca93b60e74d569788",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-2c44b8eccc2c": {
+    "target_commit": "2c44b8eccc2ce985dade55a4e1efd0e113bd92a0",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "29307155e6667ef5b948aa2f663d2f7e61cb38f2a7f980ddbbd1caedd345ce91",
+    "frozen_pyproject_sha256": "6fad67f664a67882ea1a544027146acb65c09fec3818c113149b9f04ec0243e4",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-2c770c685a57": {
+    "target_commit": "2c770c685a57466c11d3cc9a0e9e12ed10243408",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6120f57138e2eb11565486e16bc3925d2a004b43eaed63cf92156987252f0918",
+    "frozen_pyproject_sha256": "a7c7f1501333e75c39ebc5f90d45c5433161d325f724bfd9952b4fc7d223244b",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-305415e0f8b7": {
+    "target_commit": "305415e0f8b76b0460949f76f1793db8f3faa722",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "9b6c717bb6b6b6753e1253788159db5307bc642b31f3a7a22bb54d34edc218ab",
+    "frozen_pyproject_sha256": "0a68a36b6b8e58d54fc0a49a349c6a48ef0799b390e40b1e1fde1ff08aa97b60",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-30b4edece5aa": {
+    "target_commit": "30b4edece5aa284f5a1e344e70350a680e43d9cd",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "ba086f074b14766633adcb5b1873c413937f9bfa4b4d5b685c274eeeec24391e",
+    "frozen_pyproject_sha256": "c0c2bbc49d3ac4cd18a93906fd7650e449a9352168cb082aada25c5f3d6fb000",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-30fe250747ae": {
+    "target_commit": "30fe250747ae7f41cbdc6a1d562385515b7ff88c",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "fdccfe23ca45bd6b49ec1608d8af5c3b7895a27bd07889618dea553e0fc1fce0",
+    "frozen_pyproject_sha256": "454fd3d3f932cf295a451ab4b913d25025638e8ae6e08e7d91f4b2c5cca8afc2",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-32f73ff32b2b": {
+    "target_commit": "32f73ff32b2bc098187ade52d1749e2c2f52b707",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "0af739d8c6a87dcea1f5c053007e6eef1fc686e3f1176d6a6ec023cac63f2fef",
+    "frozen_pyproject_sha256": "fb684606ef98f1e472a2ee97a7f8254341675258bb7c5a719444bbcdf5734b99",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-33010c0d5f7f": {
+    "target_commit": "33010c0d5f7fbe40fe588f804b807cbc4300826f",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fb04a0e21b863e871f305cbd5f855a379fe0734ec14caccf20c441a9dca2dcc8",
+    "frozen_pyproject_sha256": "1fc8b89e13bf88aa088368f9ee032e3f44616b68a9c86569d0e7d630e765763c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-333febd35223": {
+    "target_commit": "333febd3522379220788fabac4c716f426ccd76d",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6d008f482ab94e1c4170b37c6a44d680d1bb7544bb8d991c1572252a6e62d475",
+    "frozen_pyproject_sha256": "0abef3fcfca00cd243642bfcdb41d886a2e0ab2687527f443e1aba427ceb689a",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-349d88efcfec": {
+    "target_commit": "349d88efcfec17730095838fd523d05174686e3b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f4a556033bfae895a032dbd68b74c697e74ec73b9724502aacb248ff711cbfa4",
+    "frozen_pyproject_sha256": "499213b69d466802032b8ee6cdf478dd6e2bc00981d789de478b93b79a4cc0a9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-349fe0c194a1": {
+    "target_commit": "349fe0c194a17875b84f276b44a3524d218edb20",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "5a96152c3d400595eab3e4e0719564e339a5b4b5d9e3befa775051604fc75bb3",
+    "frozen_pyproject_sha256": "5a78704933b5cdd709fe84dbeb3467d2c5888c6f980a0c396e4f6fbdd437c3ad",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-3513064157fa": {
+    "target_commit": "3513064157fad67cfc2a0d046a0c329b405cac06",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "dd6ed34c568c2c1b10f32e2bf58425c6c1dc67496194c8ad582c44baaf8de1e0",
+    "frozen_pyproject_sha256": "8d0358c4b4401dbf619fd6ee8a6a128662665ce8f13bbb544c3238cdc23b1dd9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-367b8038f6b9": {
+    "target_commit": "367b8038f6b9d260ef862d78c345f4ac98a321e1",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "6349b31908fcc4c25a11a732ff5040f644d525c261a513f8b4c942fda8455a3b",
+    "frozen_pyproject_sha256": "db7febdc5d1521ae53e3d510caed74bd1ae4015460e16f88d4d19f6f1c018730",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-36a9a14e8d12": {
+    "target_commit": "36a9a14e8d12aad4479ff86e53ac73febd68d782",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "404f9efbf04f91b8d8dd26b559b1c5506a219fb85c0133306aee8b8ab63cf25e",
+    "frozen_pyproject_sha256": "06f1273b169dde180169814862ed5306992cc6a134d15c059a6daf4fa286881d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-373efa067922": {
+    "target_commit": "373efa067922e942e503b210ca4cbfaa7be72962",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "8102b305c2fa2567c6b39c246a42cf4b36e229766ee7b70dbc98f82708950418",
+    "frozen_pyproject_sha256": "8fc351902cf59222e2fdd2a86d3e0de316aef8dff535a4697f2b13ea52df360d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-37a3a7bbec31": {
+    "target_commit": "37a3a7bbec31be4c7cab5d136584077c68155b0f",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "fb0597a04a35d12bf8ba9f3129329e5b8a629a887c3d26ae2eb173b9bea75e20",
+    "frozen_pyproject_sha256": "3c20e2aa41ce7a4c5fca68ff26ead5ef034acc737cfc585ca93b60e74d569788",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-3bf31ab2fefc": {
+    "target_commit": "3bf31ab2fefca154d841803c9fc71057938ce5f9",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "3b24f9cce0aa22d113d6e3446a334013cfe12b7bec44837f5f708089d574c641",
+    "frozen_pyproject_sha256": "57f50335bd8cecd5070c8b5ff40d2bd06c76677ac03ee0ca5f4321bfc9c7f354",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-3cac33590b90": {
+    "target_commit": "3cac33590b90fd34e33ac593180c67f014d9a372",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "88e85e5a567fe20606eda3ec07223130bfaee69655ce2ab016b92fcafcc4bd72",
+    "frozen_pyproject_sha256": "78df47fdb5f8966d4c8ebe77cc2b2bfcc46942744102c6820d249b2ccfb2c6e9",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-3d304a30a5bc": {
+    "target_commit": "3d304a30a5bcc96b8abb6ac35fc6c75f20cbad45",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "20d50e27b851494f7c8e2466ddeb70e7d89baaf4c056ec9cbcae4120ea4a8d79",
+    "frozen_pyproject_sha256": "f13395ae4fb069c6864d10f293cd0c21a4c9a029d95eef09648e3cd728d01c0a",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-438595033c60": {
+    "target_commit": "438595033c608219a88583ae91d50f2e2415e558",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "99da1c31a3fce9030eb358ce4a9494aaec585d59d288a2785e9ae18c232c12ae",
+    "frozen_pyproject_sha256": "11fff4e1ad231c570fb8815f95f1c00eb0b6ceb6c7454b13952cb43057737865",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-4386f322f659": {
+    "target_commit": "4386f322f6598cba95d499ac5b9c852aea2844e4",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fe974e4f29942f52c1fd1752477fd7f243ffd1c479e8f826da9e44f464b38c71",
+    "frozen_pyproject_sha256": "29b49fc0bfcad4bd086c52946fc9978500f8276175c7cc5e9cfbe7a326eb7a32",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-45301d74fb45": {
+    "target_commit": "45301d74fb4511b28d6685a9058e57e0c20596a2",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "765c3430719b7bef8d27ae114c2a1769ddfc21e43cf99e61b5f78a3840af97c1",
+    "frozen_pyproject_sha256": "b46aeeaa615aa4c3a032d886aaa225419d3eb66b2afccf7c81d3ac0e65f6cc09",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-45cfb26218c8": {
+    "target_commit": "45cfb26218c8b0e59be8409bdbfd14ec7189f4d0",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ab46d3a06450a8d76167700bbef6f18d1748009a05c7f4625860b7e1dd045bc1",
+    "frozen_pyproject_sha256": "ceb7e20495bec43aaf3aadbf66b36db3098491ed719fb4de5d95cb92d2213496",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-46456e7317ca": {
+    "target_commit": "46456e7317ca5729241a9f62ff7250e3cf0b00a1",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "d34ec2fa194f5788db15769b4416136512f0be40e88f123269be028594521b57",
+    "frozen_pyproject_sha256": "e5e42789f5c78bfbcc1359a85dff813cf98c3cd92d581156ff19cc9c6098ef88",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-4800fa0beb60": {
+    "target_commit": "4800fa0beb6063e2d4b0fdbdef142259bed717fd",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "bf457238d4d80d761c86a025994f3c68e8d8fd3b3a9958b94940358fb20f80f4",
+    "frozen_pyproject_sha256": "245999ac2ee036b24ecca43b1bd7bab1457bb7cbfe8acc2d0fabbb015328fb76",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-481c2d367c6f": {
+    "target_commit": "481c2d367c6ffe14a5dff85aa983adbea911285c",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "a5d9796c0a08533608ecad1e1a06a5625b3895676e787c35050e164348e9020e",
+    "frozen_pyproject_sha256": "6d38dd5c7f442de13b48a181fd2e9f57ad06202c05a03a983ba37b1dc2f60bde",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-484ce8815cf4": {
+    "target_commit": "484ce8815cf4c6724d49ce26dce5da7fc07ba174",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "b460ad0325aa65f07d5bb5c03b51991e080112cc0270a405cb575fc0cc516ab9",
+    "frozen_pyproject_sha256": "77f2e419954f53eb9928126eeda94ffc51df419b74ac8fabc14d12ae715d66c3",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-4931e989d82d": {
+    "target_commit": "4931e989d82dd30329329938863322aa0ab7d16b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "972046eff23a5290a0abccaf1423ca3c9ac993a1e5a07c41cafe2cc216db67f8",
+    "frozen_pyproject_sha256": "4eb556aa35fa780a7590d59f0f23ce44c62d64675c07ba4dccc9a4c8fd513423",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-4adf36dfdbe7": {
+    "target_commit": "4adf36dfdbe72d356f20321c3f7ca03648c6f58d",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "4fd9bdb12854ba5ad0df44f16f98ed5a000b76d716744bc4521541a6fcd7e2c2",
+    "frozen_pyproject_sha256": "75c71a86388ea4ac2bd3b1ef22540411e7a8aa95fedf47a8150a41cb4b09ccc9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-4e45b83e7475": {
+    "target_commit": "4e45b83e7475a3ebc9b3076d7941a2916d0c386c",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "60bca8a2699d8b58605ab61e44b0c4096666423823a313a852e208b3be698ddd",
+    "frozen_pyproject_sha256": "201b3e014642433ba488a92ef59cb252735150ff8e6963a06d340c05f1fd8666",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-506cd1157e9c": {
+    "target_commit": "506cd1157e9c1bb83b6153b6561a179ad92dd17f",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "3a0af4fcb869aeb0ef338d2a20b0b3b96f8bb7b19f621b7c961b2734832025ad",
+    "frozen_pyproject_sha256": "ff7b9872440d06ea5015cbd81e8e6dc7c2ebde28996928362d7e503b9613f65f",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-50eff94aa37c": {
+    "target_commit": "50eff94aa37cb8b0394643e9b5baca4352b9b096",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "74a77b1b6eece85547699c547ebd4f10ba53081033ba3fd5d6c019f14221ec06",
+    "frozen_pyproject_sha256": "0662aa6e4ff6da5ffc8fb38b7203475d0e9ce8ae031e520493eb81ef48fe49fe",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-5144ee6bd55f": {
+    "target_commit": "5144ee6bd55fd1e31d205fa50659a5db07c27bbb",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "87fb280dc1570d19c4ad8073e0a145d2df8e4f21251f32fef6cd5319cc743fce",
+    "frozen_pyproject_sha256": "8461f4b02682f78aec80ca7620c71a4a0e2771779c0836145e59012d3be419c3",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-52a797b00af3": {
+    "target_commit": "52a797b00af305c5bf7732d2b654822f6f4d556d",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ba0d36db0c5fe60bed2f3e143ba9e0c08aff7d279ba6af9545f0ae710a2709c2",
+    "frozen_pyproject_sha256": "61edabae0c14db12ddbf5c1efb9c589e22a0954b44bd27e448a79eb53687c9ea",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-5477b7dd3867": {
+    "target_commit": "5477b7dd3867bc4be1257bd38a63cd9545d4a52e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "db0ae15b4173873675fbd8ab2dd894f5bdde896fdd44839fe78cb06f0d701e52",
+    "frozen_pyproject_sha256": "9310b2ce393b82e7a58fde61d8122e2c5abc48474d8f6982653c2413a192bcf6",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-54bbb04b8954": {
+    "target_commit": "54bbb04b895460cb88d624edb49eb37596d66e30",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "719787e5889febbfc66d2569d39fc30570cb7e32c118ac2104bbcb1fca729855",
+    "frozen_pyproject_sha256": "a4ba51c627cb599910521c0853bb064361fa348478fefcd000fb4f89336e39fb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-55ff6b5b2b65": {
+    "target_commit": "55ff6b5b2b6584bed844080185804f5d70c1474a",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "4ae66021e4988e948bce425efe31524362da1d5a3d5c19766517a35c8b764782",
+    "frozen_pyproject_sha256": "d7d6ad6eb98d22895d606aed62a4e76cb1ddd9e96287bd153192041357fb9414",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-571a3b145aea": {
+    "target_commit": "571a3b145aeaefed14a8140208ae54450834c288",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "94e8e477858b4aed73e724dba5375098fae97fa56c901b9504c142fa317850eb",
+    "frozen_pyproject_sha256": "0867d18b4c6f5707b529e957f3fe3d66bcc637d0d932e7c0bebfcda2213e3440",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-5821309aed09": {
+    "target_commit": "5821309aed09ba6f1089f9f2f08691bd3812b8b3",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-585562cf1cec": {
+    "target_commit": "585562cf1cecd77f96f7a2aa783e73aae4fd1a23",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "8e28975de0595045dc0e14f7a67fae682450267fb8ec82259df3343152be82b0",
+    "frozen_pyproject_sha256": "e8bf6b19250050a33c49ddad7b029dbf56d72887b5f0e2381ac3587bcf57ec60",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-5c458f26276d": {
+    "target_commit": "5c458f26276d374607ebc2fa6b38219697b207cc",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "10a893b69a85d8b6c8fd117af64b1f15a09e9840ee0083324dd03259ad7f7f6f",
+    "frozen_pyproject_sha256": "ffed5e37b181f4534ade7c849e66d87d0991b546e5b2bc720c18d8dea5024abb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-5c50110d46a2": {
+    "target_commit": "5c50110d46a250d72fa23c1a7f38feb3b64b6921",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "94d3a7fa773470378d765d4fd6463cc0a62eb976026e9cce91cad269039020d2",
+    "frozen_pyproject_sha256": "b44b9708c6f36aece0325209b4c317e3ea17a2277ac9b4cd8b83d565835a430d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-5d2721a36364": {
+    "target_commit": "5d2721a363642d633618ef7e25d7e939b7cc8a98",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c47290d7c383efdcaf8a9c22c1b2bb230e563499e028759e8a1fbe893f047e58",
+    "frozen_pyproject_sha256": "333e98fd08ada7d4b2d5b180f23ce5d8d7225530ef653a16f83b5636e9893e9c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-5f78ba7b1647": {
+    "target_commit": "5f78ba7b164730a844ec868db6669639babc402f",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c5b726bc758b57450cc02f63d2345a782c7372d498055f89b6c2a4b6bb3834ed",
+    "frozen_pyproject_sha256": "1605df34e4067016be79f56633644f0c6edb1af7c7878fdccff44a178edc3789",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-5f8b1cc4db2d": {
+    "target_commit": "5f8b1cc4db2d54295193eb92d7b862164ce197ce",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7768abd9b43249768a23707f43e6e10b95f92277d8bb39edd065633bd592f7f2",
+    "frozen_pyproject_sha256": "61035bd8b091b59dea8a77dc45c109a237ea9b58183173cb49efe3f258002e80",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-6370f4a6b8a5": {
+    "target_commit": "6370f4a6b8a5bb47949c3df4aab2c0d4ad744994",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "fb0597a04a35d12bf8ba9f3129329e5b8a629a887c3d26ae2eb173b9bea75e20",
+    "frozen_pyproject_sha256": "3c20e2aa41ce7a4c5fca68ff26ead5ef034acc737cfc585ca93b60e74d569788",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-63a25a0c46d5": {
+    "target_commit": "63a25a0c46d54b6f800ddb2f94ca20cba50f54f3",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "1d11760210ab3aaeb0405f7b4b06a4fb8787355747e0c42f280e47da883f29ee",
+    "frozen_pyproject_sha256": "d0b4769104f04ded428759dcad39622453afaae25bb88688b43b10f87f57b6bb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-63a31dd3c8ca": {
+    "target_commit": "63a31dd3c8ca9f366b53756fc75c6679fd9768e5",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "a39063c3949e40218c689d47d5eadba5215e7e0736edd4a3b961141ce39de6a2",
+    "frozen_pyproject_sha256": "0ea909920634d635dbc0d0481dc157f73d7890fa52581e40473001dd5428f0d4",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-65643ec7c37f": {
+    "target_commit": "65643ec7c37f68aea30f668feed4193c34a33db8",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "60bca8a2699d8b58605ab61e44b0c4096666423823a313a852e208b3be698ddd",
+    "frozen_pyproject_sha256": "201b3e014642433ba488a92ef59cb252735150ff8e6963a06d340c05f1fd8666",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-659af1b19239": {
+    "target_commit": "659af1b19239efec168ffd752bb908f9e93ea65e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "8df3e77eeef21170075801386a726778fa8ba03d447c78961e88b6644f835fb7",
+    "frozen_pyproject_sha256": "45e9b1ffbaa44832bc23cb5a7819e20d69d72db361db13468706ea1f9e8eee31",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-65dfc61ec9fc": {
+    "target_commit": "65dfc61ec9fc5cd69439816bf1b68fe8c6df71c3",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fe974e4f29942f52c1fd1752477fd7f243ffd1c479e8f826da9e44f464b38c71",
+    "frozen_pyproject_sha256": "29b49fc0bfcad4bd086c52946fc9978500f8276175c7cc5e9cfbe7a326eb7a32",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-663543eaf563": {
+    "target_commit": "663543eaf563e773983e2482b667c45bc540d54b",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7522a31cb543822581810e2dccb98e661a25b9614cf40b9d1d145730b54a8dc0",
+    "frozen_pyproject_sha256": "bc31c878a937622fb14e89a0a8b434b888c7321cbdde49a6dfaab375e872d1c9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-66907b149076": {
+    "target_commit": "66907b149076418cc20168692e7d8dbb00353e8a",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "8ec112c4b60a24cfb10a90bb29243537f035bad528c8d608bc776221338def5b",
+    "frozen_pyproject_sha256": "07124a45f287baf02fd15a3dd82998602a6d42e95b50945d4aff8afd1918bf4b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-67cd71a9e0b7": {
+    "target_commit": "67cd71a9e0b76b954d5576f3565c11364dae8ef5",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "7a88103b870075184312010f9443e026c0c838977f36eee3eca9161ae977a510",
+    "frozen_pyproject_sha256": "a967bfc9ece98fd8020a3f01f54e635ac7fb891bb060bf0f1f49c1905718b821",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-693eb302968c": {
+    "target_commit": "693eb302968cc2633ed75af6bb9a8159599242fd",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "e62141887fa8c7c2253f67d030b64f4aa9e3064c2bee391ff9c52919752ad3a3",
+    "frozen_pyproject_sha256": "05eca29ce072fe081388912103a1efadd3addf4ba1093860c1006f8b41cb6a47",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-697cbdc85b4a": {
+    "target_commit": "697cbdc85b4a184c1b07c91303e47506d30b0b1e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6c9c25a6769917453bd47e249074041fc3ffdf3fb9cdb777182c3066fe2189ba",
+    "frozen_pyproject_sha256": "d28396c0eedb2bfa27adb19f0fec70dc2513f2e588f53638f40c91972f24bbfb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-6a1f884168d2": {
+    "target_commit": "6a1f884168d23962d2fc14a0d65979f770b57314",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-6c928b72daa4": {
+    "target_commit": "6c928b72daa432ebfa31341310ee32984c11a1f7",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "dabbf5512ebc698b7916bea8810ab773edb1e7722519aa70e211f8d7282aae45",
+    "frozen_pyproject_sha256": "746fa020f2312d94e9fc6a5c10013f9d10f1bdd28a16da74c94ebeba37ffea5d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-74fbba6d0734": {
+    "target_commit": "74fbba6d07346addec1d6477533beb9e5dc295ba",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "3d05d8c6035b2ee0e763b4d5d11857879d4adde2bc3095e188caeeb3cf7de5c0",
+    "frozen_pyproject_sha256": "5208a96188d94075c85606a07d778b2414af5e9fa6bbd5ef6a06689a662b607f",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-7691de1ea22e": {
+    "target_commit": "7691de1ea22e7bb30c6f3aa86c91634ed4e2b61b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c32bb8e136ccdb00fa94110e403883c4463f30a3cf822ca17ed1db1955183ca6",
+    "frozen_pyproject_sha256": "f3fbbfd8c1a084d1761511b3944f64ea166fe823d4b4ad64b7b68f68e019e4c1",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-78c9081e2731": {
+    "target_commit": "78c9081e273173907d50b255310be2b4cbfe0658",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "e1cfc7d50cd3579964ea2de9306dcbd697ca20991c28c256ce61e791576dd809",
+    "frozen_pyproject_sha256": "e84ac02009b8c6240fa63fbaeaaf2f01e07f198944e87bfe133a13b4638c0ecf",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-796f4a0fd969": {
+    "target_commit": "796f4a0fd9690c374195135488c36e8641833f24",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "3bf92691f47c8b80937a7cacdd13614bf7f0531b665296c5ecbb548dce7ca8c1",
+    "frozen_pyproject_sha256": "f7be8d7b5aed0f935fdac81f23159960a53bf8864d3539f24226f1caf4d08824",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-7b1e8cee95d5": {
+    "target_commit": "7b1e8cee95d53c6662953ff86a63d8b1761055a7",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "d5971ef04ce878bb56f91e0f7f59b917aca3af02520959e5db2e963ae804999c",
+    "frozen_pyproject_sha256": "798b0d5516cf70da2b861bdb56e2e9bded90b047f950c1a0245645e15cfec353",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-7b3fbb77c331": {
+    "target_commit": "7b3fbb77c33120d32b17952d584112bc4159ffce",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f2f41eb8e63ed5d6b55445c13f08263bfc64deefb8062c4ede1427c79ae00cd3",
+    "frozen_pyproject_sha256": "7c1dbdc5671bfdcdaddf082b78323c50bb7b43b140438014944d55430bc2e61b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-7e42fc67ce72": {
+    "target_commit": "7e42fc67ce72770720440781fc83685a48bd91b8",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "5fe8e59e522872e19bb9732a9807e8d9ae2e0ce50908cf2d565377596236859d",
+    "frozen_pyproject_sha256": "94f138fb56d4013111134bcaa10b19526f9563bcfe63ebc6c4760d76c5219788",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-80a33b28b80d": {
+    "target_commit": "80a33b28b80d7010adad6637bc1b954a243727aa",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6b7d5573b4a4354ecf3889771f3419186805e31cf26951fc9e28a225ac771ed3",
+    "frozen_pyproject_sha256": "1684ba803ea6f819af335a97c2cdbbb011145b3c19f2caa7a27f8cbf7f47edce",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-81d02e76b22e": {
+    "target_commit": "81d02e76b22e3d3b3603e5ae27c5788033ac01b3",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "29e4c6c50a9e91814c6839b635aaeb05a6791dbcd0d8d839e126d8e9803cd2f0",
+    "frozen_pyproject_sha256": "95d4338355dc68c7771e2f6dc171419f8e8d3cd9b5c9017c08b1c0ecf61345ac",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-8220a53473bb": {
+    "target_commit": "8220a53473bb67bbb247490cbd043c56dac4568c",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "287806ca9652ce88f0a0dec1e602a0a3bf7b1f96296efda0b4071ea5d103d7f4",
+    "frozen_pyproject_sha256": "18efc6e748cb17147a161579617d815f259654f3bd853f252792fa7d578b614f",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-843a2c1905ad": {
+    "target_commit": "843a2c1905ad253efc736f8b5e8e76a9006d233b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "344f2011e7ed6aba1922a79c7bc1da3bd7e5487b5f9891065324116c0772b903",
+    "frozen_pyproject_sha256": "a0e6b2c29409944b8f16442cce888adcc49c1dd67a49cd1c4643569fac8111cc",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-85d416c024e1": {
+    "target_commit": "85d416c024e17cc1be0821aef7653de2e5260da8",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "57eb295ae889bd81a1194d1d2fcbf52c572f8ca8de346db9073ac8b51a838d7d",
+    "frozen_pyproject_sha256": "d29ab582d9be851286437cfb6c4617608059bb86eba37fdfbf899bbccc040e7e",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-884327b653cc": {
+    "target_commit": "884327b653cc035fdd9c5c85d0601744f7bad43c",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ef8a350b76f7293f4c2b0077382bb3a1dc3f5c6847463abf56323d3a0866fed3",
+    "frozen_pyproject_sha256": "9dc310741aa2252719a9980ff9e93392a620a9169ff16e86f82e72d613b9dc18",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-8a03c74411d7": {
+    "target_commit": "8a03c74411d770143828db11ea553842c8809b4b",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6c9c25a6769917453bd47e249074041fc3ffdf3fb9cdb777182c3066fe2189ba",
+    "frozen_pyproject_sha256": "d28396c0eedb2bfa27adb19f0fec70dc2513f2e588f53638f40c91972f24bbfb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-8b0cbe2fb72f": {
+    "target_commit": "8b0cbe2fb72f0137567c64d16bd3bfa12962cbd3",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "94e8e477858b4aed73e724dba5375098fae97fa56c901b9504c142fa317850eb",
+    "frozen_pyproject_sha256": "0867d18b4c6f5707b529e957f3fe3d66bcc637d0d932e7c0bebfcda2213e3440",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-8c8d9db54d63": {
+    "target_commit": "8c8d9db54d63d747bc5ec32807cb94361a952fe9",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "694bf290cad7fdca951841172639177acdee0750c2520edb51409beaac014d07",
+    "frozen_pyproject_sha256": "80e710a2af0dd7569df039e10c8daf0d0d18f035752d268bb9a9fe5563183136",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-8e6164e3d123": {
+    "target_commit": "8e6164e3d12327496660f91f836d5c3222d8d2b6",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7f8469ab1c723e3e4b79913e1a42b8fd51170b244dfd02e1c13ff583fc6d8bd9",
+    "frozen_pyproject_sha256": "ba38ab06e6b218906799c64e7a7c5ee0eb6f34ce695f8e232b864e0a57c1068c",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-8eb11da07f09": {
+    "target_commit": "8eb11da07f09437374cb82daa6f10a80a11a1c90",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6c9c25a6769917453bd47e249074041fc3ffdf3fb9cdb777182c3066fe2189ba",
+    "frozen_pyproject_sha256": "d28396c0eedb2bfa27adb19f0fec70dc2513f2e588f53638f40c91972f24bbfb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-9057e82cea23": {
+    "target_commit": "9057e82cea2335edb4ea0545911e39b5e6d90c1a",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "fdccfe23ca45bd6b49ec1608d8af5c3b7895a27bd07889618dea553e0fc1fce0",
+    "frozen_pyproject_sha256": "454fd3d3f932cf295a451ab4b913d25025638e8ae6e08e7d91f4b2c5cca8afc2",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-940b8d83ec5c": {
+    "target_commit": "940b8d83ec5c09aa19416c8bcf38d5c28696a991",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "d5866f1af31b03fb6dcbe2498e0c04673ae98877102446e7a8e864ac54eb89c7",
+    "frozen_pyproject_sha256": "e1d0f3f027307dbfb504faa5f7ac867570b562a8cd71d12ae9018e1a70425a07",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-954887b39f13": {
+    "target_commit": "954887b39f13ab0beabb11a604bd3bf9de1b4c0e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6c9c25a6769917453bd47e249074041fc3ffdf3fb9cdb777182c3066fe2189ba",
+    "frozen_pyproject_sha256": "d28396c0eedb2bfa27adb19f0fec70dc2513f2e588f53638f40c91972f24bbfb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-95db464ad4ea": {
+    "target_commit": "95db464ad4ea43495af45a296ca5fbd5114823df",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "d2b9f1c38e7a97ae653d35c1fc17ffad1189a17ba6e38038d24d4cf139c9a069",
+    "frozen_pyproject_sha256": "0b624d29b8a31562acf6a225894ce54f26c2bfaebdb90c4a9c2dbfc970d3605d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-95dbffbc523a": {
+    "target_commit": "95dbffbc523a5a8865ead2a2649913491ac8e89c",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "3b24f9cce0aa22d113d6e3446a334013cfe12b7bec44837f5f708089d574c641",
+    "frozen_pyproject_sha256": "57f50335bd8cecd5070c8b5ff40d2bd06c76677ac03ee0ca5f4321bfc9c7f354",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-99041211cf9e": {
+    "target_commit": "99041211cf9e01f39c1c7f8ffffbcbbdaea550bc",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "d89b28d8ebf91a4938516d18140952a08f9b2733b008eb32382ad69c979dafbb",
+    "frozen_pyproject_sha256": "e4f3aea43bb8527dca695e86f94dd825e087cdff6bcbd478b94341a451fa521a",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-99f9e28f8b6f": {
+    "target_commit": "99f9e28f8b6f9dc5029a6b3082a66ab546e07f01",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "822fe0fbb5bb00ef5fc3489f1d081c710a3ac8a85f74c32aae4b19446a30587a",
+    "frozen_pyproject_sha256": "1cf92fb12e9ac72d6518434a842378a2cdad9b9a93fcc778e46f3fc3d7128917",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-9b88221ba8c2": {
+    "target_commit": "9b88221ba8c270b183ef17f6288045fcbe1fee96",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "88996bc73690337b087314d8d64ba22ada55a65698b133e615b42461e01056ce",
+    "frozen_pyproject_sha256": "959c3b1e21457db078e65ce3aaa33723597c4b288087853882e1244aa057ea02",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-9b96c1602b1f": {
+    "target_commit": "9b96c1602b1fb419131fd0151483c668f1d0c8b8",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "92b853c9561018389a122736c3ae8d091c4a3c0447dece92ec589fb7afee1b1b",
+    "frozen_pyproject_sha256": "16d9d6064b9dff150ab238c5b85b7334631250c8dd9dcec901a5241ff62a75da",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-9c032845e29b": {
+    "target_commit": "9c032845e29b8d5dc1d40ee812fc2111b6bb2f42",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "43c5c5f0f42cad526bb647b730c984d3d872cf25a458049664f01f6a36301212",
+    "frozen_pyproject_sha256": "b88d9732fd595ad3bec6b388e92bbdfdefecbdfb0fcd4ffee5f12c0d3b668d73",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-a17f11cf7e87": {
+    "target_commit": "a17f11cf7e877227a930f7a6abda8b2a6ecbac5e",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "719787e5889febbfc66d2569d39fc30570cb7e32c118ac2104bbcb1fca729855",
+    "frozen_pyproject_sha256": "a4ba51c627cb599910521c0853bb064361fa348478fefcd000fb4f89336e39fb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-a1e1e2554327": {
+    "target_commit": "a1e1e2554327d91038149233c46ff05d5169ccad",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "87fb280dc1570d19c4ad8073e0a145d2df8e4f21251f32fef6cd5319cc743fce",
+    "frozen_pyproject_sha256": "8461f4b02682f78aec80ca7620c71a4a0e2771779c0836145e59012d3be419c3",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-a36d8a8d0c0c": {
+    "target_commit": "a36d8a8d0c0c073a13ddbf5852707bd32e5c213f",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "16254d642f1fd96ea62c71cd43694a08f047b4be2c0c14ad8586bbc32579f80d",
+    "frozen_pyproject_sha256": "9150ddb04e0db8f7bc1be3c8adb18a8e9ced960482b623eec096e23e9b63d61b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-a576e993bab7": {
+    "target_commit": "a576e993bab7d31d9cccb1bc336b681161bc33e2",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "bd5bbcb053c4bfdb23d75d11da124d5d0ef44820e5fe059a502ddf93d95815d0",
+    "frozen_pyproject_sha256": "d68c2b1130384ba1947ef0c1c823922bacc6dea5e57f92ebbfbdbb1e8d578e41",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-a5e831779345": {
+    "target_commit": "a5e83177934590f18ae0d3b0b92c7cb86d6fc1d5",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "b527c213e6b7f01cdf188165b07484d5b9558aa9aaf69cd7c7b82fb2d5ebdeab",
+    "frozen_pyproject_sha256": "2bf3621dc1236ea27e2cad5475dd0928b897db7d2a15b06f13b6ee2a80bd14cc",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-a650f8f05c02": {
+    "target_commit": "a650f8f05c025de7c12ed5301b72a9d8ba9bf811",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "99429d3a3faebdb25fdf33e8c49ef002ab68615a60462a1c2696347543146fbd",
+    "frozen_pyproject_sha256": "f6e7115341a8480eac45ecede17fee58f6a6f1aabf7be006e4b5c0ae30a61d06",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-a7a2bf4146ba": {
+    "target_commit": "a7a2bf4146ba1afa6ac8e048e209d631e5443711",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "d483bb6f7759db0f287f7618cd2e664403fc1262fb2c251089c4115ec3ce59ee",
+    "frozen_pyproject_sha256": "b558baeec177ffb465e78ffa427b73d7f2976ef013d05c039d30d84ef2c08062",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-a9121e630814": {
+    "target_commit": "a9121e630814c3b1940eb70f5a4d2bd0e41fb4ad",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "dd6ed34c568c2c1b10f32e2bf58425c6c1dc67496194c8ad582c44baaf8de1e0",
+    "frozen_pyproject_sha256": "8d0358c4b4401dbf619fd6ee8a6a128662665ce8f13bbb544c3238cdc23b1dd9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-a93a877388ae": {
+    "target_commit": "a93a877388aefe4277e1adde93c81bdfb6b09c95",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "b967c3558bd489b7ba4fb88f39813f36f70be0d2461e5c3830d0af8cd3d58376",
+    "frozen_pyproject_sha256": "62602f078d9ab6f4b42f630eb957f28ac1f6b7177aa736e44950e80ef8f9901d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-a9e79dac40a2": {
+    "target_commit": "a9e79dac40a2f203417a5e822c26d62359f6645c",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7522a31cb543822581810e2dccb98e661a25b9614cf40b9d1d145730b54a8dc0",
+    "frozen_pyproject_sha256": "bc31c878a937622fb14e89a0a8b434b888c7321cbdde49a6dfaab375e872d1c9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-aa2bcdd0c218": {
+    "target_commit": "aa2bcdd0c2184766e3fa0354cd9ca21c05a432fd",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "920531a71d072f2cb095f459441ca790fd4bb341ab71b051f0e01426bc71d6ad",
+    "frozen_pyproject_sha256": "749de6d3ecd2fc9e0d91f3267346ab0d5f1bb8a68c8558efc33eb37a627ea6aa",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-aa814bd5f355": {
+    "target_commit": "aa814bd5f35544df10e5ac258913d14e59343e4e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "43c5c5f0f42cad526bb647b730c984d3d872cf25a458049664f01f6a36301212",
+    "frozen_pyproject_sha256": "b88d9732fd595ad3bec6b388e92bbdfdefecbdfb0fcd4ffee5f12c0d3b668d73",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-ab6c29ba265d": {
+    "target_commit": "ab6c29ba265d5a38ea7ce16b96c362d472f053e1",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "dcd7c563838bbc753873f9851e8bddd8dc21442371b5b249067a45fd7c085468",
+    "frozen_pyproject_sha256": "b4ad1788918c420088a097d6846477bfceb97b7ff0995aa6652f969f4a5ac7e0",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-add4064d238e": {
+    "target_commit": "add4064d238ea4b1f012786f72d3e566221b436b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c6d58f54fd66bb88ba749eaf63a103ea8520588ccd42c44707c48cee240c94b2",
+    "frozen_pyproject_sha256": "a75ad51add5983ca7c282c9d66347c3d3b3a37ea4224ed840a843da48257210d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-aea05da547c8": {
+    "target_commit": "aea05da547c8df078082d2a59e12a9cd54192f3c",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "20d50e27b851494f7c8e2466ddeb70e7d89baaf4c056ec9cbcae4120ea4a8d79",
+    "frozen_pyproject_sha256": "f13395ae4fb069c6864d10f293cd0c21a4c9a029d95eef09648e3cd728d01c0a",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-b0245506e69b": {
+    "target_commit": "b0245506e69b77bcd8d11b375897b4eb018023d4",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "bd5bbcb053c4bfdb23d75d11da124d5d0ef44820e5fe059a502ddf93d95815d0",
+    "frozen_pyproject_sha256": "d68c2b1130384ba1947ef0c1c823922bacc6dea5e57f92ebbfbdbb1e8d578e41",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-b0672eea0422": {
+    "target_commit": "b0672eea04229f2a2194c64162bade73eb246047",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "29e4c6c50a9e91814c6839b635aaeb05a6791dbcd0d8d839e126d8e9803cd2f0",
+    "frozen_pyproject_sha256": "95d4338355dc68c7771e2f6dc171419f8e8d3cd9b5c9017c08b1c0ecf61345ac",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-b2622810adf1": {
+    "target_commit": "b2622810adf1cad70ea4f10cee82f8db6f76ef8b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "77f09c6896a3f4bcbc15f73d4353f1e2e72e8a8f415bada0a202a5c0d1a225d1",
+    "frozen_pyproject_sha256": "6ab80476c6c2f15eace9044476560dae2236f29a1349cf42336641af53c468a7",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-b2e3652af826": {
+    "target_commit": "b2e3652af826f151135834ecbc67e05b53b4f0fe",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "2dbc4d4c9d9bc3a7b95b32dcd0277c0a5ea9b92b09f9d82d38c04bf9742bae47",
+    "frozen_pyproject_sha256": "5cf82a14ded22d371fe22e4764f1967dcc8c5a48080a4c6c73a1a3fd6fdaf8af",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-b356a525ba2a": {
+    "target_commit": "b356a525ba2ab918b85b6b617ac4df499e70e247",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "3b24f9cce0aa22d113d6e3446a334013cfe12b7bec44837f5f708089d574c641",
+    "frozen_pyproject_sha256": "57f50335bd8cecd5070c8b5ff40d2bd06c76677ac03ee0ca5f4321bfc9c7f354",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-b35783838e51": {
+    "target_commit": "b35783838e51cfc118e07d632f64b01bc3a2c4bb",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "fcb6606b3d89de371949d89481617cda03528a0b45bd0896aad7f1dbcbff6363",
+    "frozen_pyproject_sha256": "decf94c5f073327fdfdae1e1f432dae91a0b12a80737dde0606ca97170eec606",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-b41168d9077d": {
+    "target_commit": "b41168d9077d671e1a553767c7b1be262600a742",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fe974e4f29942f52c1fd1752477fd7f243ffd1c479e8f826da9e44f464b38c71",
+    "frozen_pyproject_sha256": "29b49fc0bfcad4bd086c52946fc9978500f8276175c7cc5e9cfbe7a326eb7a32",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-b60266933f7a": {
+    "target_commit": "b60266933f7a9563613de9e6e9d151e6ade36c97",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "dabbf5512ebc698b7916bea8810ab773edb1e7722519aa70e211f8d7282aae45",
+    "frozen_pyproject_sha256": "746fa020f2312d94e9fc6a5c10013f9d10f1bdd28a16da74c94ebeba37ffea5d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-b79cf8f91f04": {
+    "target_commit": "b79cf8f91f04a919b16912bdb6ec1aae0ec85cad",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "32d18a48dbf450bd52901e4368fc0f0c0b795062e8fe05e2be74baa10d7c1e6e",
+    "frozen_pyproject_sha256": "b52fcf3d751d9d2782a8dcec0664741532c60dfaee83127604268b12eddad05d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-b8786c1bf4d3": {
+    "target_commit": "b8786c1bf4d3a6f47963e546634c6e3732ca2345",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "92b853c9561018389a122736c3ae8d091c4a3c0447dece92ec589fb7afee1b1b",
+    "frozen_pyproject_sha256": "16d9d6064b9dff150ab238c5b85b7334631250c8dd9dcec901a5241ff62a75da",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-b97d1d9c7064": {
+    "target_commit": "b97d1d9c70647376e0950a945c20d1cfd2dc3617",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "d5971ef04ce878bb56f91e0f7f59b917aca3af02520959e5db2e963ae804999c",
+    "frozen_pyproject_sha256": "798b0d5516cf70da2b861bdb56e2e9bded90b047f950c1a0245645e15cfec353",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-ba0f225cc7d3": {
+    "target_commit": "ba0f225cc7d338deeb2ed19929b432208470a69f",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "fe974e4f29942f52c1fd1752477fd7f243ffd1c479e8f826da9e44f464b38c71",
+    "frozen_pyproject_sha256": "29b49fc0bfcad4bd086c52946fc9978500f8276175c7cc5e9cfbe7a326eb7a32",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-ba4ff17faab4": {
+    "target_commit": "ba4ff17faab45eba3afa4d1d153b4505b42270f1",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-bcd9f60d2aef": {
+    "target_commit": "bcd9f60d2aef8553e5ba522f2acd8437d7a0b7f2",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f4a556033bfae895a032dbd68b74c697e74ec73b9724502aacb248ff711cbfa4",
+    "frozen_pyproject_sha256": "499213b69d466802032b8ee6cdf478dd6e2bc00981d789de478b93b79a4cc0a9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-bd0c56fc787e": {
+    "target_commit": "bd0c56fc787ee5d6ff14a4eda0f1087371902b89",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ef8a350b76f7293f4c2b0077382bb3a1dc3f5c6847463abf56323d3a0866fed3",
+    "frozen_pyproject_sha256": "9dc310741aa2252719a9980ff9e93392a620a9169ff16e86f82e72d613b9dc18",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-bd11af3ea0a4": {
+    "target_commit": "bd11af3ea0a496febb937759cbe59bb9cb7b90f4",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7522a31cb543822581810e2dccb98e661a25b9614cf40b9d1d145730b54a8dc0",
+    "frozen_pyproject_sha256": "bc31c878a937622fb14e89a0a8b434b888c7321cbdde49a6dfaab375e872d1c9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-bd64d6fdbe4b": {
+    "target_commit": "bd64d6fdbe4b16280eb061d88ab0ddd90533c64e",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "29307155e6667ef5b948aa2f663d2f7e61cb38f2a7f980ddbbd1caedd345ce91",
+    "frozen_pyproject_sha256": "6fad67f664a67882ea1a544027146acb65c09fec3818c113149b9f04ec0243e4",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-bf938e731bd8": {
+    "target_commit": "bf938e731bd869e3da282917eeb14b8ce0dce306",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "a98dc5e0678d553c008be07b9f08801c57210119c9b6900532e274e933033de0",
+    "frozen_pyproject_sha256": "a98db237e2ed12cfb350aa0e6c6bb03b34cd8a256b0f9128d926aab735ed296c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-c0d4785abd74": {
+    "target_commit": "c0d4785abd7410108364b4e0830862143cc9940c",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "99429d3a3faebdb25fdf33e8c49ef002ab68615a60462a1c2696347543146fbd",
+    "frozen_pyproject_sha256": "f6e7115341a8480eac45ecede17fee58f6a6f1aabf7be006e4b5c0ae30a61d06",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-c12e83aac8f6": {
+    "target_commit": "c12e83aac8f643ef1c393e6762d4cbe6dd1af102",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "bf4104c3c0b43d7a268a7cc7b08194bf5746701eea4c7ef058ddf77836a0769e",
+    "frozen_pyproject_sha256": "c6f06bcf5a27fb1ae56579ed573b78cbd53ae764f60f017f8174278bc23afd88",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-c31fb4cfd08f": {
+    "target_commit": "c31fb4cfd08f5578c90b9109f98f662b119e208a",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6120f57138e2eb11565486e16bc3925d2a004b43eaed63cf92156987252f0918",
+    "frozen_pyproject_sha256": "a7c7f1501333e75c39ebc5f90d45c5433161d325f724bfd9952b4fc7d223244b",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-c38263743e9e": {
+    "target_commit": "c38263743e9ea67c2c198e731f2a6490c700aa57",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "3a0af4fcb869aeb0ef338d2a20b0b3b96f8bb7b19f621b7c961b2734832025ad",
+    "frozen_pyproject_sha256": "ff7b9872440d06ea5015cbd81e8e6dc7c2ebde28996928362d7e503b9613f65f",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-c428b47bddc5": {
+    "target_commit": "c428b47bddc57dc1f3f4e34c202466e39a61e9d2",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "a093d0a2f0b95a750862195ff74dc557f6b9b9c9feb91cc7cd73a0f9f30e06be",
+    "frozen_pyproject_sha256": "6238446e3cd8186d861d4e6c7549690f9b6218441fdebeee6c201c5b84fa6114",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-c4dac9df4baf": {
+    "target_commit": "c4dac9df4bafc289f28752fd57410817dfa42cee",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c47290d7c383efdcaf8a9c22c1b2bb230e563499e028759e8a1fbe893f047e58",
+    "frozen_pyproject_sha256": "333e98fd08ada7d4b2d5b180f23ce5d8d7225530ef653a16f83b5636e9893e9c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-c6220233ccb1": {
+    "target_commit": "c6220233ccb1ed14fbd66c48b7febbbe62cf4411",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "29e4c6c50a9e91814c6839b635aaeb05a6791dbcd0d8d839e126d8e9803cd2f0",
+    "frozen_pyproject_sha256": "95d4338355dc68c7771e2f6dc171419f8e8d3cd9b5c9017c08b1c0ecf61345ac",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-c7207e71e0d3": {
+    "target_commit": "c7207e71e0d303ebd01cb01c35649290c7bceacd",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f9de28e1023d03878535bbd1ecc121d62191662e5ef9f961f1c3af172b3207fe",
+    "frozen_pyproject_sha256": "6bf79da2b70c6661858f4a10dbcee17d60c9934590c0ba197abeca5c8ff3ef89",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-c87441bb1464": {
+    "target_commit": "c87441bb1464abaede7ef4dfd38c22e163ec483f",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ef8a350b76f7293f4c2b0077382bb3a1dc3f5c6847463abf56323d3a0866fed3",
+    "frozen_pyproject_sha256": "9dc310741aa2252719a9980ff9e93392a620a9169ff16e86f82e72d613b9dc18",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-c9c1cc0968d3": {
+    "target_commit": "c9c1cc0968d3da65502640b7203f44ebf24d12fc",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ef8a350b76f7293f4c2b0077382bb3a1dc3f5c6847463abf56323d3a0866fed3",
+    "frozen_pyproject_sha256": "9dc310741aa2252719a9980ff9e93392a620a9169ff16e86f82e72d613b9dc18",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-cae629dc4166": {
+    "target_commit": "cae629dc41669454d71bff48238b7eeaaa651656",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "9b923c5247d9c56e05e247185c892f6f9ed50408351f006c04b14723835d387f",
+    "frozen_pyproject_sha256": "83421f0a3e10396c86fe006b2b25b15c9b7184d0f51ff2e0f51a6c5b4e01166b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-cbd7310268c6": {
+    "target_commit": "cbd7310268c66f6b4ac8b1e60cc748669e947a70",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "9b923c5247d9c56e05e247185c892f6f9ed50408351f006c04b14723835d387f",
+    "frozen_pyproject_sha256": "83421f0a3e10396c86fe006b2b25b15c9b7184d0f51ff2e0f51a6c5b4e01166b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-ccd3960acd1d": {
+    "target_commit": "ccd3960acd1d058528d9796c2b9ff096f28d848e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7522a31cb543822581810e2dccb98e661a25b9614cf40b9d1d145730b54a8dc0",
+    "frozen_pyproject_sha256": "bc31c878a937622fb14e89a0a8b434b888c7321cbdde49a6dfaab375e872d1c9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-cd076fed6118": {
+    "target_commit": "cd076fed6118cd055e279b32e689efbb76404b4f",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "0dc182729a80b45a59352b147ee89a089f9f4df2075495fae7cd385ca78db5b8",
+    "frozen_pyproject_sha256": "4d500d24567963dbc1b0e92a1906047606c9f05d6503496e1e52e531144e1179",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-ce3b63edecef": {
+    "target_commit": "ce3b63edecef7c942ac88888a4bc77149086bbd3",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "3b24f9cce0aa22d113d6e3446a334013cfe12b7bec44837f5f708089d574c641",
+    "frozen_pyproject_sha256": "57f50335bd8cecd5070c8b5ff40d2bd06c76677ac03ee0ca5f4321bfc9c7f354",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-d299e27e5f04": {
+    "target_commit": "d299e27e5f044b98d8314fa19a10c0c7f7d5c9c8",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "bd5bbcb053c4bfdb23d75d11da124d5d0ef44820e5fe059a502ddf93d95815d0",
+    "frozen_pyproject_sha256": "d68c2b1130384ba1947ef0c1c823922bacc6dea5e57f92ebbfbdbb1e8d578e41",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-d361479ab7da": {
+    "target_commit": "d361479ab7da3060cf26e8dbb52c9aab89fab0c0",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "eebbdc3e9adc27e129a0c8f3129c6ae61afdf61745e3e1bce925afccba1f1bae",
+    "frozen_pyproject_sha256": "d5cdace1046fca34ff5271107c93767f9b4fcd809f539bb7f1dcebe8cec7c352",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-d3ab58054844": {
+    "target_commit": "d3ab580548448a4804d9c40a9cc1bd7699624c7c",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "ef8a350b76f7293f4c2b0077382bb3a1dc3f5c6847463abf56323d3a0866fed3",
+    "frozen_pyproject_sha256": "9dc310741aa2252719a9980ff9e93392a620a9169ff16e86f82e72d613b9dc18",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-d498167dcd30": {
+    "target_commit": "d498167dcd3037b15682c8ec8278d38ab1a465dd",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "1fbfd64889899ecb7219bc26f94284579c75253e8e415a2c956e386bd5a4fc6b",
+    "frozen_pyproject_sha256": "351526bd665ef490a4d3ca961e36b3bd17b4385ba6eae88f4f568bbfb9ab3c1e",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-d4fcbd22a853": {
+    "target_commit": "d4fcbd22a8536be6a5ba4c0254eac89b67799b8e",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "06a24051b8485b0d11ee5d26cc6c8de9b74ebb13acd250a053c0886309826ec3",
+    "frozen_pyproject_sha256": "7cd1bc0e26b017402b004b60d235b4b20740daed497deb086915a980c10a5a56",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-d6656e0f2a1d": {
+    "target_commit": "d6656e0f2a1d955b64a48fe21a7fd733203a8cd8",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "009f1ab9e6cdebc904a0e7539eb915fd5446126be9e7d9155c8a6fe5a9a783b2",
+    "frozen_pyproject_sha256": "4017d4ccaef1aa2fe5e4b78e925d9ed179b822e8e705c49a31619a69e8b3fb99",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-d7b03a3eeec0": {
+    "target_commit": "d7b03a3eeec016efdcc6119ae4cd77726df9b282",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "b61fc27577cf334c85aff14db7cab13cd401c46a6ff787f31825c48b7237ad26",
+    "frozen_pyproject_sha256": "f0a21ea85ba0fab9cae0c15ef4ee477f01f0e457b87d9245bf51eeb593f6a96b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-d8a4cd122bf0": {
+    "target_commit": "d8a4cd122bf0a1828588e17d7045c52b7b3da7fa",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "10a893b69a85d8b6c8fd117af64b1f15a09e9840ee0083324dd03259ad7f7f6f",
+    "frozen_pyproject_sha256": "ffed5e37b181f4534ade7c849e66d87d0991b546e5b2bc720c18d8dea5024abb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-dacded922b1f": {
+    "target_commit": "dacded922b1f6482c90e12baa27fbc9109c89a29",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "b6f90dd72d7e203cf7f7ffd38fad45232b5c67992216ecffc8b8592edc8c143e",
+    "frozen_pyproject_sha256": "f241555a8bbd711a6f6bc1a21817db708c51a68667f917628af373965f03e48d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-db5440f7994f": {
+    "target_commit": "db5440f7994f02f85c621a604d9813329db43e56",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "348d32d556acf1000151a62fa979b110273cfacb5bb80725e8bd76a24f9b04bc",
+    "frozen_pyproject_sha256": "41856a29a7f96a52d00c923f6e103a3244e38f80597b2568d3f8d878fa4b06b5",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-dd8ead382526": {
+    "target_commit": "dd8ead3825260c154f7ee5ec00fd7e31cb17a1d0",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "6c87277d1c177ec43039e5c9c50a3f559a7163dae5949eb6f7565943c84a18ad",
+    "frozen_pyproject_sha256": "e03fbef9d2e85f1aabcc7d3cdda345cd8ca89015c6c5a46fc7143abb82f40d9a",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-ddb8921a6744": {
+    "target_commit": "ddb8921a67441288b2489135a2490f6062d7a7c4",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c47290d7c383efdcaf8a9c22c1b2bb230e563499e028759e8a1fbe893f047e58",
+    "frozen_pyproject_sha256": "333e98fd08ada7d4b2d5b180f23ce5d8d7225530ef653a16f83b5636e9893e9c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-dea5ffb730ac": {
+    "target_commit": "dea5ffb730acea34e4f6a5f15cc17036149c9cce",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "14e3ff0bde568aef99e607e7e502ad0529ca62c7f38bc16c281944b34f6394f9",
+    "frozen_pyproject_sha256": "c12c71bedbede3367663ff815e308c32c9314b78a8f93373450c14316794ccbb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-df7c7d4e8466": {
+    "target_commit": "df7c7d4e84667ac413cefaf9041518e87146f326",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "9e2eb6b116281c1c8df7da5fbc8a40d9c4a76004f9019635741725fdbb913d9f",
+    "frozen_pyproject_sha256": "b9075f3bef2c8aa8c45094db6ba2ff2eb16d8807776a447aaf247b45ffaa3c73",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-e0890780bf56": {
+    "target_commit": "e0890780bf56856d2b20ac14b1786749309450ae",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "ba086f074b14766633adcb5b1873c413937f9bfa4b4d5b685c274eeeec24391e",
+    "frozen_pyproject_sha256": "c0c2bbc49d3ac4cd18a93906fd7650e449a9352168cb082aada25c5f3d6fb000",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-e089e93419bf": {
+    "target_commit": "e089e93419bf164f0c3d24d9642db56104f221e2",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "0327471f3028b579bb3c50a61ceaeb7cad8ddf12889cd9b388e4e39dd286a6d3",
+    "frozen_pyproject_sha256": "736e3b362b1ed8bda63b6469e1b2e47269dc3f125be8eae35c5b59b8cf42af80",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-e0f2933d58b9": {
+    "target_commit": "e0f2933d58b973ae61ca26b22a89da026aaaa7ad",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6ebcc3797ca68aabac407fa4f887596941698c6074a3789b17645a78f9091766",
+    "frozen_pyproject_sha256": "91621086df22a2e573da88b20304ca958a071b675e61c3404b2b6a2935575cbe",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-e129a4d6f9b1": {
+    "target_commit": "e129a4d6f9b1cd4e5988c05a173eea4e72564a73",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "168a1aa290b7ec9cefd0df73a0867ac62bb3ff0c12c1c76862cf9ba1133b8cd5",
+    "frozen_pyproject_sha256": "28f8aebf610d287f052733c19110ce83ad5151933d7dd530fce4693c69d25211",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-e28ca6ad6442": {
+    "target_commit": "e28ca6ad6442fa4f407e7e38d3d78239cba6a43b",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "d5652bf7462592ade28ecb51c8201637f3954548bcf18226e22636978913a3d3",
+    "frozen_pyproject_sha256": "3d3adc3c3dc4295e948484e8ecedf60394642e106dcecf76751305dc17f010b2",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-e429b8be07fd": {
+    "target_commit": "e429b8be07fd71bad54ebfe7539d82e02e6af568",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c47290d7c383efdcaf8a9c22c1b2bb230e563499e028759e8a1fbe893f047e58",
+    "frozen_pyproject_sha256": "333e98fd08ada7d4b2d5b180f23ce5d8d7225530ef653a16f83b5636e9893e9c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-e6198146186d": {
+    "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "0d61da806fa1649fde2da64af745b91c142d61230e34fc9e125851bf8f045e47",
+    "frozen_pyproject_sha256": "a1e4d847d62fd78422d4507b491caf2c9949004efe65c4523a8c943e353800d3",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-e7175003a542": {
+    "target_commit": "e7175003a542258f15e341a90a305f6c4cc61df2",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "5fe8e59e522872e19bb9732a9807e8d9ae2e0ce50908cf2d565377596236859d",
+    "frozen_pyproject_sha256": "94f138fb56d4013111134bcaa10b19526f9563bcfe63ebc6c4760d76c5219788",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-e8733aee630a": {
+    "target_commit": "e8733aee630a007e0ec031e772ed517ce6c20e9d",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "1fbfd64889899ecb7219bc26f94284579c75253e8e415a2c956e386bd5a4fc6b",
+    "frozen_pyproject_sha256": "351526bd665ef490a4d3ca961e36b3bd17b4385ba6eae88f4f568bbfb9ab3c1e",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-ea98ffa79753": {
+    "target_commit": "ea98ffa797530747a25690132390669aa6daba03",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "6c87277d1c177ec43039e5c9c50a3f559a7163dae5949eb6f7565943c84a18ad",
+    "frozen_pyproject_sha256": "e03fbef9d2e85f1aabcc7d3cdda345cd8ca89015c6c5a46fc7143abb82f40d9a",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.14",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-eaf1577585a2": {
+    "target_commit": "eaf1577585a27225ca9cce295ab725704b1861c6",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f2f41eb8e63ed5d6b55445c13f08263bfc64deefb8062c4ede1427c79ae00cd3",
+    "frozen_pyproject_sha256": "7c1dbdc5671bfdcdaddf082b78323c50bb7b43b140438014944d55430bc2e61b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-eb61406cecc5": {
+    "target_commit": "eb61406cecc519cea6b2cbd7f042d1d4975e7075",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "b6f90dd72d7e203cf7f7ffd38fad45232b5c67992216ecffc8b8592edc8c143e",
+    "frozen_pyproject_sha256": "f241555a8bbd711a6f6bc1a21817db708c51a68667f917628af373965f03e48d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-ef4d31a09e7c": {
+    "target_commit": "ef4d31a09e7cfb67e7161b1aaa077a98888e7f1a",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-f1d4e82c1dea": {
+    "target_commit": "f1d4e82c1dea2283fb108324a6944adc1e2d82e0",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "dabbf5512ebc698b7916bea8810ab773edb1e7722519aa70e211f8d7282aae45",
+    "frozen_pyproject_sha256": "746fa020f2312d94e9fc6a5c10013f9d10f1bdd28a16da74c94ebeba37ffea5d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-f3a0bc28797b": {
+    "target_commit": "f3a0bc28797b59bf52e7746d5c0991c744b9eb20",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "1d11760210ab3aaeb0405f7b4b06a4fb8787355747e0c42f280e47da883f29ee",
+    "frozen_pyproject_sha256": "d0b4769104f04ded428759dcad39622453afaae25bb88688b43b10f87f57b6bb",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-f3a1ec65571f": {
+    "target_commit": "f3a1ec65571fd2f81c3ceb439136e7451906ebc1",
+    "python_requirement": "~3.8",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.8",
+    "era": "py38",
+    "source_pyproject_sha256": "0af739d8c6a87dcea1f5c053007e6eef1fc686e3f1176d6a6ec023cac63f2fef",
+    "frozen_pyproject_sha256": "fb684606ef98f1e472a2ee97a7f8254341675258bb7c5a719444bbcdf5734b99",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.8",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.8.0",
+      "setup_cfg_python_requires": null,
+      "travis_python_versions": [
+        "3.8"
+      ]
+    }
+  },
+  "saleor-rc-f4eeba7fab16": {
+    "target_commit": "f4eeba7fab16c9ab74ea14e8ff9fe1b2d60f2438",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "c47290d7c383efdcaf8a9c22c1b2bb230e563499e028759e8a1fbe893f047e58",
+    "frozen_pyproject_sha256": "333e98fd08ada7d4b2d5b180f23ce5d8d7225530ef653a16f83b5636e9893e9c",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-f5d2c47e47c3": {
+    "target_commit": "f5d2c47e47c3dd5a13a9084188467ec6f875f6fc",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "e214454483ccbe08cd8e8ef677ff6ed9717c0897de8c3b088d448019a69892cd",
+    "frozen_pyproject_sha256": "b954c58a0f095076d8ef7336b9c985fb498b446f77fc3b74650bec8331443d79",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-f605058a13e8": {
+    "target_commit": "f605058a13e8860662300dfd7188039d95d01b70",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f959ad6a5e3cf539bbc6c97f13323fc31bf3238b631cb0c7001c87dee5557a3e",
+    "frozen_pyproject_sha256": "1718ad99bd43fc6bcb831f51fcef5beb0cf8e4cbaa2d8b8ce2c1589e5aaf7adf",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.9"
+      ]
+    }
+  },
+  "saleor-rc-f623ab428821": {
+    "target_commit": "f623ab428821155d90063021fc2b643d4601819a",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "7522a31cb543822581810e2dccb98e661a25b9614cf40b9d1d145730b54a8dc0",
+    "frozen_pyproject_sha256": "bc31c878a937622fb14e89a0a8b434b888c7321cbdde49a6dfaab375e872d1c9",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-f6a3751a8bc2": {
+    "target_commit": "f6a3751a8bc2bba473ac7e716a13d330c7ad0cfc",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "32d18a48dbf450bd52901e4368fc0f0c0b795062e8fe05e2be74baa10d7c1e6e",
+    "frozen_pyproject_sha256": "b52fcf3d751d9d2782a8dcec0664741532c60dfaee83127604268b12eddad05d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-f74a5394c7f1": {
+    "target_commit": "f74a5394c7f15392450bd9074d406c292abbb2fd",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "189d3608adf205b3234d2278c3338647f28b59a0e3f493e32deca04aff6cf4d9",
+    "frozen_pyproject_sha256": "ee0ee3ce095ee91370db480261ba74670ccebd9b9ae88a4e350e4547c58f4801",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-f953990d221b": {
+    "target_commit": "f953990d221b5f59686ac4580926f2a9f178edf0",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "f2f41eb8e63ed5d6b55445c13f08263bfc64deefb8062c4ede1427c79ae00cd3",
+    "frozen_pyproject_sha256": "7c1dbdc5671bfdcdaddf082b78323c50bb7b43b140438014944d55430bc2e61b",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-fa1ed1794a8a": {
+    "target_commit": "fa1ed1794a8a84bcebee8c3b8dbe47128fa44833",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "99da1c31a3fce9030eb358ce4a9494aaec585d59d288a2785e9ae18c232c12ae",
+    "frozen_pyproject_sha256": "11fff4e1ad231c570fb8815f95f1c00eb0b6ceb6c7454b13952cb43057737865",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-fbfc66e3a46b": {
+    "target_commit": "fbfc66e3a46b2c4ae2b73183df87307d3193f1bf",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "74a77b1b6eece85547699c547ebd4f10ba53081033ba3fd5d6c019f14221ec06",
+    "frozen_pyproject_sha256": "0662aa6e4ff6da5ffc8fb38b7203475d0e9ce8ae031e520493eb81ef48fe49fe",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.8"
+      ],
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-fd463c8aae38": {
+    "target_commit": "fd463c8aae38b120f3d984fa881c1c7c61817591",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "6d008f482ab94e1c4170b37c6a44d680d1bb7544bb8d991c1572252a6e62d475",
+    "frozen_pyproject_sha256": "0abef3fcfca00cd243642bfcdb41d886a2e0ab2687527f443e1aba427ceb689a",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_python_versions": [
+        "3.12"
+      ],
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  },
+  "saleor-rc-fd5b7971c5d2": {
+    "target_commit": "fd5b7971c5d29036e24ec05cd569711e4568a977",
+    "python_requirement": "~3.9",
+    "compatibility": "EXPLICIT_EXCLUDE_3_12",
+    "assigned_python": "3.9",
+    "era": "py39",
+    "source_pyproject_sha256": "98384e6988e210cf2637a73c5123146f56319faa7a1839f100ecb2d9a9c89897",
+    "frozen_pyproject_sha256": "f30d052eb0079b4242c6b71a8b50e29b50817b879a85433c15f6bd0fb6fe65db",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.9",
+      "pyproject_requires_python": null,
+      "runtime_txt": "3.9.0",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.8"
+      ]
+    }
+  },
+  "saleor-rc-fe6e46266e81": {
+    "target_commit": "fe6e46266e81980fad8675334613625e8880b1fd",
+    "python_requirement": "~3.12",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "b6f90dd72d7e203cf7f7ffd38fad45232b5c67992216ecffc8b8592edc8c143e",
+    "frozen_pyproject_sha256": "f241555a8bbd711a6f6bc1a21817db708c51a68667f917628af373965f03e48d",
+    "python_evidence": {
+      "pyproject_poetry_python": "~3.12",
+      "pyproject_requires_python": null,
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12"
+      ]
+    }
+  },
+  "saleor-rc-ffe3a3ece0fb": {
+    "target_commit": "ffe3a3ece0fb29cfbb7c02a032c86da31d17e8b3",
+    "python_requirement": ">=3.12,<3.13",
+    "compatibility": "EXPLICIT_SUPPORT_3_12",
+    "assigned_python": "3.12",
+    "era": "py312",
+    "source_pyproject_sha256": "3b24f9cce0aa22d113d6e3446a334013cfe12b7bec44837f5f708089d574c641",
+    "frozen_pyproject_sha256": "57f50335bd8cecd5070c8b5ff40d2bd06c76677ac03ee0ca5f4321bfc9c7f354",
+    "python_evidence": {
+      "pyproject_poetry_python": null,
+      "pyproject_requires_python": ">=3.12,<3.13",
+      "uv_requires_python": "==3.12.*",
+      "setup_cfg_python_requires": null,
+      "ci_container_pythons": [
+        "python:3.12",
+        "python:3.12-slim"
+      ]
+    }
+  }
+}

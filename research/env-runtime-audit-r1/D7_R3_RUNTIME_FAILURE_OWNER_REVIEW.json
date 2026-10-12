@@ -1,0 +1,135 @@
+{
+  "mission": "M17_ENV_CANON_D7_R3_RUNTIME_FAILURE_OWNER_REVIEW_R1",
+  "created_at_local": "2026-10-12T10:50:15.521152",
+  "provider": "OpenAI",
+  "model": "GPT-6 (exact runtime variant not independently exposed)",
+  "branch": "parallel/env-runtime-audit-2026-10-12",
+  "head": "1661ec215ede6ae96e82735148db4febffb21580",
+  "origin_main": "1661ec215ede6ae96e82735148db4febffb21580",
+  "initial_tree": "CLEAN",
+  "ROOT_CAUSE_CLASSIFICATION": "C_LOCK_RECONSTRUCTION_DEFECT",
+  "ROOT_CAUSE_CLASSIFIED": true,
+  "FROZEN_EVIDENCE_CHANGED": false,
+  "HARNESS_CHANGED": false,
+  "ENVIRONMENT_CHANGED": false,
+  "BENCHMARK_EXECUTED": false,
+  "NETWORK_USED": false,
+  "downloads": 0,
+  "docker_pulls": 0,
+  "source_builds": 0,
+  "benchmark_api_calls": 0,
+  "runtime_assignment_type": "HISTORICAL_RUNTIME",
+  "calibration_status": "BLOCKED_STOP",
+  "calibration_counts": {
+    "executed": 12,
+    "pass": 11,
+    "fail": 1
+  },
+  "answers": {
+    "1_why_unit12_failed": "The frozen wheel contains collections.MutableSequence and fails during authorize_net pytest collection under CPython 3.12.15. The target commit instead vendors PyXB code using collections.abc.MutableSequence. Name/version-only reconstruction discarded that source identity.",
+    "2_was_r3_harness_correct": "G7 correctly failed closed on pytest rc=2; all 10 frozen harness-file hashes match. However, the shared closure representation and calibration install route do not preserve directory-source identity. Correct failure detection does not establish historically faithful environment reconstruction or global harness validity.",
+    "3_was_python312_justified": "YES at the minor-version level: target commit dated 2024-09-16 declares ~3.12, Dockerfile and pytest CI use Python 3.12, lock metadata requires ~3.12. HISTORICAL_RUNTIME. D7 uses normalized bookworm image/3.12.15 patch; this is not a claim of bit-identical historical OS or patch version.",
+    "4_narrow_or_systemic": "Primary C_LOCK_RECONSTRUCTION_DEFECT, specifically loss of dependency source identity rather than a changed numeric pin. Mechanism is systematic name/version flattening; the statically proven directory-source exposure is bounded to two D7 units. Not evidence of a population-wide Python-era assignment defect.",
+    "5_population_affected": "2/144 units (2/219 tasks) share Python 3.12 plus vendored PyXB 1.2.5 source-loss exposure. Only Unit 12 has the observed failure here. 84 units contain PyXB 1.2.5 overall; 75 contain authorizenet 1.1.4; 1 shares the failing lock; 19 use V2_EDITABLE_PLUS_LOCK_DEV; 46 use 3.12.",
+    "6_pyxbx_valid_replacement": "NOT established or authorized. Both local PyXB-X versions fix the observed expression and provide pyxb, but have different distribution identity/version and package file sets. authorizenet requires pyxb==1.2.5. Shared import name and one identical source file do not establish distribution or scientific equivalence.",
+    "7_exclusion_defensible": "NO ad hoc exclusion. Prior PYXB_DISPOSITION_R4X_DELTA finds no unambiguous existing eligibility rule for this defect. Any new population-wide rule needs prospective owner approval, disclosure of observed failure, population accounting and recalibration; it cannot retroactively become predeclared.",
+    "8_recalibration_required": "YES before release qualification of any corrected canon: rerun all frozen 12 from zero after a separately approved additive correction/refreeze. Full D7 must begin from zero for the new canon; do not reuse results across identities. This is a recommendation for owner approval, not execution authority.",
+    "9_full_d7_authorized": "NO"
+  },
+  "population": {
+    "units": 144,
+    "tasks": 219,
+    "counts": {
+      "pyxb_1_2_5": 84,
+      "authorizenet_1_1_4": 75,
+      "same_failing_lock": 1,
+      "v2_editable_plus_lock_dev": 19,
+      "assigned_py312": 46,
+      "directory_pyxb": 2,
+      "py312_pyxb_1_2_5": 2
+    },
+    "unit_compatibility": {
+      "EXPLICIT_SUPPORT_3_12": 46,
+      "EXPLICIT_EXCLUDE_3_12": 98
+    },
+    "task_compatibility": {
+      "EXPLICIT_SUPPORT_3_12": 77,
+      "EXPLICIT_EXCLUDE_3_12": 142
+    },
+    "requirements": {
+      ">=3.12,<3.13": 35,
+      "~3.9": 120,
+      "~3.8": 22,
+      "~3.12": 42
+    },
+    "target_dates": "2024-09-16T10:23:42+02:00\n2024-09-16T10:23:42+02:00",
+    "target_env_runtime_evidence": {
+      "era": "py312",
+      "python_evidence": {
+        "pyproject_poetry_python": "~3.12",
+        "pyproject_requires_python": null,
+        "setup_cfg_python_requires": null,
+        "ci_container_pythons": [
+          "python:3.12"
+        ]
+      },
+      "python_role_evidence": null,
+      "conflict_present": false,
+      "frozen_install_route": "V2_EDITABLE_PLUS_LOCK_DEV"
+    },
+    "harness_hash_checks": {
+      "D7_R3_HARNESS_CONTRACT.md": true,
+      "D7_R3_HARNESS_MANIFEST.json": true,
+      "d7_r3_closure.py": true,
+      "d7_r3_light_pack.py": true,
+      "d7_r3_native_specs.py": true,
+      "d7_r3_probes.py": true,
+      "d7_r3_validation_driver.py": true,
+      "d7_r3_wheeltags.py": true,
+      "tests/pytest.ini": true,
+      "tests/test_d7_r3_harness.py": true
+    },
+    "py312_pyxb_vendored_checks": {
+      "saleor-rc-e6198146186d": {
+        "commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+        "vendored_content_sha256": "2a4b80093dcddb99a5a5db201143b130d69a332b69bf7ee596e633f051aea7ff",
+        "uses_collections_abc": true
+      },
+      "saleor-rc-19bb9b070965": {
+        "commit": "19bb9b0709654010d1b4e4e9049af119d3b28815",
+        "vendored_content_sha256": "2a4b80093dcddb99a5a5db201143b130d69a332b69bf7ee596e633f051aea7ff",
+        "uses_collections_abc": true
+      }
+    }
+  },
+  "recommended_next_action": {
+    "name": "Owner review for source-faithful dependency reconstruction amendment",
+    "requires_separate_owner_authorization": true,
+    "executed": false,
+    "scope": "Preserve Python 3.12 and task eligibility; restore exact commit-local vendored PyXB AND authorizenet identities for both affected tasks through an additive source-aware canon proposal. Include source tree hashes, builds only in a later authorized mission, dependency provenance assertions, frozen harness impact review, full 12-unit recalibration and zero-start Full D7 qualification. Do not prescribe PyXB-X or a Python downgrade.",
+    "relation_to_options": "Additional evidence-led option 6. None of the five listed options alone repairs the demonstrated source-loss defect. If administratively treated as option 2, constrain it to exact historical source restoration rather than an arbitrary new patch."
+  },
+  "classification_alternatives": {
+    "A": "Rejected: the expected vendored historical artifact was not reconstructed.",
+    "B": "Rejected: target and all population assignments agree with explicit historical minor-version constraints.",
+    "C": "Selected: numeric versions retained but directory-source semantics lost.",
+    "D": "Rejected: collection imports legitimate repository gateway tests; nonzero outcome is correctly blocked.",
+    "E": "Rejected: local commit, lock, wheel, generator, and failure evidence suffice."
+  },
+  "evidence_files": [
+    "FAILURE_EVIDENCE_MANIFEST.json",
+    "TARGET_COMMIT_EVIDENCE.json",
+    "SOURCE_FIDELITY_COMPARISON.json",
+    "LOCAL_WHEEL_AUDIT.json",
+    "HISTORICAL_RUNTIME_BY_TASK.json",
+    "DEPENDENCY_SOURCE_EVIDENCE.json",
+    "D7_RUNTIME_BLAST_RADIUS.csv"
+  ],
+  "limits": [
+    "Static audit; no new benchmark or dependency import executed.",
+    "Support counts mean declared minor-version support, not successful tests.",
+    "Two-unit exposure is not two observed failures.",
+    "No blanket absence-of-other-incompatibilities claim.",
+    "Audit policy tests do not execute frozen harness mutation paths."
+  ]
+}

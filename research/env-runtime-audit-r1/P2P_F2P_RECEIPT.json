@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "P2P": {
+    "passed": 6,
+    "failed": 0,
+    "checks": [
+      "test_p1_failure_proven_by_existing_evidence",
+      "test_p2_dependency_chain_and_source_identity",
+      "test_p3_runtime_provenance_population",
+      "test_p4_independent_wheel_hashes_and_frozen_authority",
+      "test_p5_independent_blast_radius_recount",
+      "test_p6_recommendation_requires_owner_and_preserves_boundary"
+    ]
+  },
+  "F2P": {
+    "passed": 7,
+    "failed": 0,
+    "checks": [
+      "test_f1_local_pyxbx_presence_does_not_authorize_replacement",
+      "test_f2_unsupported_python_change_rejected",
+      "test_f3_posthoc_exclusion_rejected",
+      "test_f4_smoke_weakening_rejected",
+      "test_f5_r3_harness_modification_rejected",
+      "test_f6_receipt_and_report_mutation_rejected",
+      "test_f7_full_d7_blocked_by_calibration"
+    ]
+  },
+  "scope": "Static evidence and audit-proposal guard tests, not execution of frozen harness mutation paths.",
+  "benchmark_executed": false
+}

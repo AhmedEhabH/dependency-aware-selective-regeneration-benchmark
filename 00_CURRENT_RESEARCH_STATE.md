@@ -17,7 +17,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** M17 Phase0B-v2 (2026-10-05): M17 REAL qualification + oracle kit FROZEN (tag wp2-m17-v1-real-oracle-kit-2026-10-03, launch amendment tag wp2-m17-v1-real-oracle-kit-r1-2026-10-05); controller-real harness timing fixed (timeout 1800 -> 5400 s); selftest controller timeouts raised 1800 -> 7200 s in both live plans; M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS. ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.
+**Position:** M17_ENV_CANON_D7_R3_RUNTIME_FAILURE_OWNER_REVIEW_R1: local static audit classified C_LOCK_RECONSTRUCTION_DEFECT (vendored PyXB/authorizenet source identity lost; Python 3.12 historically justified). D7 R3 calibration remains 12 executed / 11 PASS / 1 FAIL, BLOCKED_STOP. Two of 144 units share the proven source-loss exposure; no remediation, harness/environment change, benchmark execution or network use.
 
 **Research pipeline:**
 
@@ -84,12 +84,13 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
 | C0->C6 closure + G0_BRAIN_REVIEW | DONE | documentation/evidence consolidation only; brain decision: finalize durable baseline before new science |
 | M16-v1 MAIN OPWS run | NOT AUTHORIZED / CLOSED | closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, brain-approved M16-v2 |
+| M17 D7 R3 runtime owner review / remediation / Full D7 | AUDIT COMPLETE; REMEDIATION AND FULL D7 NOT AUTHORIZED | Read-only static review only. Separate source-faithful reconstruction amendment and fresh all-12 qualification required. |
 
-**Next action:** Await ChatGPT brain review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.
+**Next action:** Owner reviews research/env-runtime-audit-r1/D7_R3_RUNTIME_FAILURE_OWNER_REVIEW.md and its decision matrix. Recommended: separate additive source-faithful reconstruction amendment for both affected tasks, then all-12 recalibration. Full D7 remains unauthorized; do not implement remediation or create a new harness in this audit.
 
 **End-to-end status:** M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-05 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-12 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — CALIBRATION-3b DONE;
