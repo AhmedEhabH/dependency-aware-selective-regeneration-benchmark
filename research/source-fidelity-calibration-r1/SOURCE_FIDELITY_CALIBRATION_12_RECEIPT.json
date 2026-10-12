@@ -1,0 +1,984 @@
+{
+  "N_CALIBRATION": 12,
+  "N_EXECUTED": 12,
+  "N_FAIL": 0,
+  "N_PASS": 12,
+  "SOURCE_IDENTITY_SCHEMA_VERSION": "source_fidelity_r1",
+  "STATUS": "PASS_READY_FOR_FULL_D7_OWNER_DECISION",
+  "aggregate_result": {
+    "all_pass": true,
+    "docker_pull": false,
+    "downloads": 0,
+    "network_used": false,
+    "package_index_access": false,
+    "source_fidelity_change_applied_units": [
+      "vu-b9808f19ace4"
+    ]
+  },
+  "artifact": "SOURCE_FIDELITY_CALIBRATION_12_RECEIPT",
+  "calibration_plan_sha256": "a7617c287a77546ea3a085f4d1fa7115f85fa5988de669419d80677e4ee546bd",
+  "closure_impact": {
+    "mapping": [
+      {
+        "member_task_ids": [
+          "saleor-rc-19bb9b070965"
+        ],
+        "new_source_aware_closure_identity_sha256": "8c638686445b8895e3b16fec2db826e1962ef84c7e85c09ad56dc62c1747516f",
+        "old_canon_closure_identity_sha256": "8c86e692f8d23ca4f9a292edc86bb146f635a6100a99d9723afa4027ce04ac5d",
+        "validation_unit_id": "vu-692af9112c6d",
+        "why_changed": "directory-source packages PyXB 1.2.5 and authorizenet 1.1.4"
+      },
+      {
+        "member_task_ids": [
+          "saleor-rc-e6198146186d"
+        ],
+        "new_source_aware_closure_identity_sha256": "7bf871f278d8c5008682a8203be8835fcb643f9e471c5c43700cd914fa2cb1bd",
+        "old_canon_closure_identity_sha256": "da2fd74b0afb4e996f08a5c2f205cfcd85ed3017ae50e6033de2b7444666fbba",
+        "validation_unit_id": "vu-b9808f19ace4",
+        "why_changed": "directory-source packages PyXB 1.2.5 and authorizenet 1.1.4"
+      }
+    ],
+    "n_changed": 2,
+    "n_unchanged": 142
+  },
+  "created_at_utc": "2026-10-12T12:01:20.024035+00:00",
+  "first_failure": null,
+  "harness_freeze_artifact": "D7_R3_HARNESS_FREEZE",
+  "harness_freeze_sha256": "ad8130941391aad2a0575221373651fbfb138f694122f3cd901c59639f68ab35",
+  "harness_freeze_token": "M17_ENV_CANON_D7_R3_HARNESS_FREEZE_COMPLETE_READY_FOR_CALIBRATION_OWNER_DECISION",
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_R1_FRESH_CALIBRATION_12",
+  "mission_class": "T3_REAL_ENVIRONMENT_QUALIFICATION_FRESH_CALIBRATION_12",
+  "n_membership_changed_vs_plan": 0,
+  "ordered_12_member_identity": [
+    "vu-e4998719ee01",
+    "vu-b68ee1b3ad18",
+    "vu-262f45bffe92",
+    "vu-db74b3640c98",
+    "vu-e878163db06a",
+    "vu-422bca69f329",
+    "vu-117d7bd068d5",
+    "vu-5321e03160a1",
+    "vu-0d8ddec94417",
+    "vu-561a1a172143",
+    "vu-e40f7e955c05",
+    "vu-b9808f19ace4"
+  ],
+  "previous_failed_evidence": {
+    "receipt": "D7_R3_CALIBRATION_12_RECEIPT.json",
+    "sha256": "5bc086be6ef9081be6b99f1940c892281f4ca76bffba39458adcf733ee5c6c33",
+    "status": "IMMUTABLE_FAILED_EVIDENCE_NOT_REUSED"
+  },
+  "selected_artifact_hashes": {
+    "PyXB==1.2.5": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee",
+    "authorizenet==1.1.4": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9"
+  },
+  "selection_rule": "FIRST_12_FROZEN_ORDER",
+  "source_fidelity_built_artifacts": [
+    {
+      "build_ok": true,
+      "name": "PyXB",
+      "probe_status": "PASS",
+      "source_tree_sha256": "5b36fb887b01352de251b872739bbd3786b330b3305d235e278d5caf1d37e1e2",
+      "wheel": "pyxb-1.2.5-py3-none-any.whl",
+      "wheel_sha256": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee"
+    },
+    {
+      "build_ok": true,
+      "name": "authorizenet",
+      "probe_status": "PASS",
+      "source_tree_sha256": "b3e05589709cb4c163e6e9b20f553cf2cbb6c4fd4592c4b76d4d757ac136121e",
+      "wheel": "authorizenet-1.1.4-py3-none-any.whl",
+      "wheel_sha256": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9"
+    }
+  ],
+  "source_fidelity_freeze_commit": "f5f4c1d0ecae135f3b687bf8b9d27ffd150b6338",
+  "source_fidelity_freeze_commit_matches_head": true,
+  "source_fidelity_freeze_tag": "m17-env-source-fidelity-r1-frozen-2026-10-12",
+  "source_fidelity_freeze_tag_peel": "f5f4c1d0ecae135f3b687bf8b9d27ffd150b6338",
+  "unit_result_hashes": {
+    "vu-0d8ddec94417": "07cddd69178b45acf3a86571d288aaff94eda6b0643170c533003a99cec56cf1",
+    "vu-117d7bd068d5": "cc4ad65405f33f6911d98f4d3c37314b278b52bed7713d835cb8710e9a02c8ea",
+    "vu-262f45bffe92": "67cb5d2204b0e4f7ff21eae8891cad8f75a933b5f336dd4ac783268ad4b69721",
+    "vu-422bca69f329": "d9863167a58aebc339e990443fd5d7fd670255e0e5c4940c4d746710866634ec",
+    "vu-5321e03160a1": "5c71b4649d93c513b447b6570f73794f7a9e1b0247f60df753f4a1f9243c2344",
+    "vu-561a1a172143": "1db622fb2e59dcca124e2ee0c91523a918aaa610bbad1828411ffb10e57540d3",
+    "vu-b68ee1b3ad18": "50d6910eb05972d0b81bcc4d2cad440517a3815e7482154c148ee94625570249",
+    "vu-b9808f19ace4": "3ce08d13ac1147300a6249ef45cf761d39273fd069dee6495072f9a0303e3152",
+    "vu-db74b3640c98": "f87f3de423ab5222c57b8e7a7e8383d8e40bf10c9eb13e9ae6c5453ec57436e3",
+    "vu-e40f7e955c05": "b3862aaa53f36be173a9cefcf5ba9c93e5fefb7c539b16ffcb96bc2e795210f1",
+    "vu-e4998719ee01": "8bc2aa3f0c48a8efa782c31a3438fe080a72c8a911a812f0224a43c06b2415b7",
+    "vu-e878163db06a": "63c4ddc7866ca7ae98fc03022a1360f9703287d09235a7c62307a51443e51edf"
+  },
+  "units": [
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==308",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 235,
+        "n_runtime": 233
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 397.0,
+      "end_utc": "2026-10-12T10:44:06.667128+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "023df51f928d9eaa7ebe59808c1340ab7517e1dc7955f21d688c9f8a8dc98aea",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-e4998719ee01",
+      "mapped_task_count": 2,
+      "member_task_ids": [
+        "saleor-rc-438595033c60",
+        "saleor-rc-fa1ed1794a8a"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "29ff3a50420ea62123cf5f6cacb36adaf5bd8a242c0696d628222d921c80a3ff",
+      "old_r3_closure_identity_sha256": "33f1d8415ccefcc9ced33e56a0ea2ade2cf4d4dfacf470ff88cf4fc1612cb641",
+      "ordered_calibration_index": 1,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 233,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T10:37:29.664525+00:00",
+      "task_ids": [
+        "saleor-rc-438595033c60",
+        "saleor-rc-fa1ed1794a8a"
+      ],
+      "validation_unit_id": "vu-e4998719ee01",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==308",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 234,
+        "n_runtime": 232
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 240.3,
+      "end_utc": "2026-10-12T10:48:42.629141+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "083e9cdcbc492744bf2bf7237c031a21a67375bd03439f4016adfdaead66206c",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-b68ee1b3ad18",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-f5d2c47e47c3"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "0149bfb0fbc420657d63b82a135ddd0fb7c9a3857293854028b818b829ff0dd0",
+      "old_r3_closure_identity_sha256": "9649755930a17a4b68bc748b0fd726cde26f849209f92815d3e8c54ad836b562",
+      "ordered_calibration_index": 2,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 232,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T10:44:42.325394+00:00",
+      "task_ids": [
+        "saleor-rc-f5d2c47e47c3"
+      ],
+      "validation_unit_id": "vu-b68ee1b3ad18",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==308",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 235,
+        "n_runtime": 233
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 248.4,
+      "end_utc": "2026-10-12T10:53:17.531438+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "08d4062dbc54aae8e23f2eefb526c85d6208d166e43767a5eca87abfd751168c",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-262f45bffe92",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-5f8b1cc4db2d"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "ced5aa68f3f2f69bd37069646e0567b83eef0262f72158bf9f6eea2ad582c6f2",
+      "old_r3_closure_identity_sha256": "8324a8e8cbff98455e3e21a6183a9456ecffa8cc11c7aaa5e03457069713dd40",
+      "ordered_calibration_index": 3,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 233,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T10:49:09.135750+00:00",
+      "task_ids": [
+        "saleor-rc-5f8b1cc4db2d"
+      ],
+      "validation_unit_id": "vu-262f45bffe92",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==308",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 250,
+        "n_runtime": 248
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 307.99,
+      "end_utc": "2026-10-12T10:58:48.244219+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "09009780028cfcb1b613e38a57e8f95feccf242730e4e430e75c14f8945bdcb3",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-db74b3640c98",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-80a33b28b80d"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "bd7b11572516c94eda7d88b54c7c9a13b023e4d31af8de38a7acbc7fedd0482c",
+      "old_r3_closure_identity_sha256": "dadee7aca4698426ac7ba187f66b825334772fb84c8fcab3fe4a27ebdd79dc64",
+      "ordered_calibration_index": 4,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 248,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T10:53:40.254112+00:00",
+      "task_ids": [
+        "saleor-rc-80a33b28b80d"
+      ],
+      "validation_unit_id": "vu-db74b3640c98",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==310",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 236,
+        "n_runtime": 234
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 837.17,
+      "end_utc": "2026-10-12T11:13:43.273125+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "23c0c565f2b1a84913a985375bb67bbd694ebd04211fb5e2dbd2f9ac9e4857eb",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-e878163db06a",
+      "mapped_task_count": 3,
+      "member_task_ids": [
+        "saleor-rc-697cbdc85b4a",
+        "saleor-rc-8a03c74411d7",
+        "saleor-rc-8eb11da07f09"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "23ea02cc42803ecde3ffa8d3c842d0cbb94e14a95483434c7ed76be89a33afb1",
+      "old_r3_closure_identity_sha256": "e14bb7868dd1576cbb0069db1413833d2b72255f1430a0e47808bc9e45f19e45",
+      "ordered_calibration_index": 5,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 234,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T10:59:46.103023+00:00",
+      "task_ids": [
+        "saleor-rc-697cbdc85b4a",
+        "saleor-rc-8a03c74411d7",
+        "saleor-rc-8eb11da07f09"
+      ],
+      "validation_unit_id": "vu-e878163db06a",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==310",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 236,
+        "n_runtime": 234
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 246.71,
+      "end_utc": "2026-10-12T11:18:15.304015+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "image_id": "sha256:acad85904c7011374316d5b44ecb8967628eb3fd6da9ddd2744c0be396728be6",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "23c0c565f2b1a84913a985375bb67bbd694ebd04211fb5e2dbd2f9ac9e4857eb",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-422bca69f329",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-954887b39f13"
+      ],
+      "native_profile_id": "nat-cc2f641e9e04",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "23ea02cc42803ecde3ffa8d3c842d0cbb94e14a95483434c7ed76be89a33afb1",
+      "old_r3_closure_identity_sha256": "e14bb7868dd1576cbb0069db1413833d2b72255f1430a0e47808bc9e45f19e45",
+      "ordered_calibration_index": 6,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 234,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T11:14:08.596576+00:00",
+      "task_ids": [
+        "saleor-rc-954887b39f13"
+      ],
+      "validation_unit_id": "vu-422bca69f329",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==306",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 234,
+        "n_runtime": 232
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 475.8,
+      "end_utc": "2026-10-12T11:26:33.931509+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "25dc87eed17aca2a953a0425752ea1d9e4cf7f6dc973d7697e44382d0cb7999d",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-117d7bd068d5",
+      "mapped_task_count": 2,
+      "member_task_ids": [
+        "saleor-rc-99f9e28f8b6f",
+        "saleor-rc-dea5ffb730ac"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "ee289d03a7bb2122f7f64bcb5254cca213ce7b1f8a30a5f52ec4187caf01f2ef",
+      "old_r3_closure_identity_sha256": "ea8ec573e2406fc736d3f91e5a23f27ee50d9055f68b46407bbe646debdacfcb",
+      "ordered_calibration_index": 7,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 232,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T11:18:38.129707+00:00",
+      "task_ids": [
+        "saleor-rc-99f9e28f8b6f",
+        "saleor-rc-dea5ffb730ac"
+      ],
+      "validation_unit_id": "vu-117d7bd068d5",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==310",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 254,
+        "n_runtime": 252
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 264.3,
+      "end_utc": "2026-10-12T11:31:28.152174+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "2f588a97ca881e442889aef8970acf7b8f02b6cc3685769f54720304357ebf71",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-5321e03160a1",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-d7b03a3eeec0"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "90e184f0821258e4f2df97137e04e1870665ad95d7f587417a9862643a6fc22b",
+      "old_r3_closure_identity_sha256": "1130c011e5242bf3d77bf599d944d493e064a34df3bb47866e9969c78cc775bc",
+      "ordered_calibration_index": 8,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 252,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T11:27:03.854822+00:00",
+      "task_ids": [
+        "saleor-rc-d7b03a3eeec0"
+      ],
+      "validation_unit_id": "vu-5321e03160a1",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==308",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 254,
+        "n_runtime": 252
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 242.15,
+      "end_utc": "2026-10-12T11:35:58.736374+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "4183cbde326db5e687acec6c910f284c3ff09624e1b4a57afc7aa69a71ede474",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-0d8ddec94417",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-36a9a14e8d12"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "b589ff0e0e71cdae4bafbcc7d872a0c993d5db97149ce4b245df1a0ad47a28c3",
+      "old_r3_closure_identity_sha256": "c251de9b3d56fd5a953748b4cca2744101efff1769a1ac5edd0fc7d22fd0e062",
+      "ordered_calibration_index": 9,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 252,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T11:31:56.581813+00:00",
+      "task_ids": [
+        "saleor-rc-36a9a14e8d12"
+      ],
+      "validation_unit_id": "vu-0d8ddec94417",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==310",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 236,
+        "n_runtime": 234
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 453.04,
+      "end_utc": "2026-10-12T11:43:46.603662+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "4ae15678ae5739279d521b2cd62b4c42a30c975b94179ea4227d3ae9ab82575c",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-561a1a172143",
+      "mapped_task_count": 2,
+      "member_task_ids": [
+        "saleor-rc-7b1e8cee95d5",
+        "saleor-rc-b97d1d9c7064"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "18de0e6d648c67e66f874f96e8b290e67a75bdfee4f92b63ab9845f4a030bb54",
+      "old_r3_closure_identity_sha256": "85b69fe6d762007e248699a7bec5f58ee0125f2eeba48e0e59328423f2a269e8",
+      "ordered_calibration_index": 10,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 234,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T11:36:13.563132+00:00",
+      "task_ids": [
+        "saleor-rc-7b1e8cee95d5",
+        "saleor-rc-b97d1d9c7064"
+      ],
+      "validation_unit_id": "vu-561a1a172143",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==308",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 234,
+        "n_runtime": 232
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 420.83,
+      "end_utc": "2026-10-12T11:51:01.368494+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "54e47d544baa7f34416e26f328ae412d58c39c5665a628de42e73eb32bd178db",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-e40f7e955c05",
+      "mapped_task_count": 2,
+      "member_task_ids": [
+        "saleor-rc-3d304a30a5bc",
+        "saleor-rc-aea05da547c8"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "1db10b5fb0d4586989a2317c363c24a5601717150efdbcbd5051695159feeec9",
+      "old_r3_closure_identity_sha256": "bdb98c4c869d7dd8df2ea456a3b6364a96940c779b33a63ba23708cc5f5f7e9a",
+      "ordered_calibration_index": 11,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 232,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {},
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [],
+      "source_fidelity_change_applied": false,
+      "source_fidelity_overlay": {
+        "artifacts": [],
+        "n_overlaid": 0,
+        "overlaid_pins": []
+      },
+      "start_utc": "2026-10-12T11:44:00.533736+00:00",
+      "task_ids": [
+        "saleor-rc-3d304a30a5bc",
+        "saleor-rc-aea05da547c8"
+      ],
+      "validation_unit_id": "vu-e40f7e955c05",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    },
+    {
+      "closure": {
+        "excluded": [
+          {
+            "pin": "python-magic-bin==0.4.14",
+            "reason": "PLATFORM_WIN32"
+          },
+          {
+            "pin": "pywin32==306",
+            "reason": "MARKER_EXCLUDED_ON_LINUX"
+          }
+        ],
+        "n_pins": 236,
+        "n_runtime": 234
+      },
+      "docker_profile_id": "dk-py312-bookworm",
+      "elapsed_seconds": 236.61,
+      "end_utc": "2026-10-12T11:55:08.265386+00:00",
+      "execution_performed": true,
+      "final_classification": "PASS",
+      "identity_pass": true,
+      "image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "install_status": "PASS",
+      "lock_sha256": "5ac46a7ec1a90deb4fb152a7a10bb3e115c6ddc126aaa6c75b2a138f075822bf",
+      "lock_type": "poetry",
+      "logs_dir": "D:\\wp2_sf_calibration_r1_store\\units\\vu-b9808f19ace4",
+      "mapped_task_count": 1,
+      "member_task_ids": [
+        "saleor-rc-e6198146186d"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "native_status": "PASS",
+      "network_status": "NETWORK_UNAVAILABLE",
+      "new_source_aware_closure_identity_sha256": "7bf871f278d8c5008682a8203be8835fcb643f9e471c5c43700cd914fa2cb1bd",
+      "old_r3_closure_identity_sha256": "52a2ef9e817a0790b2d58e8aa018dc34aa98d9b921730167b8edc6838d4e91a4",
+      "ordered_calibration_index": 12,
+      "pip_check_status": "PASS",
+      "python_version": "3.12",
+      "resolution": {
+        "incompatible": [],
+        "missing": [],
+        "n_runtime_pins": 234,
+        "pass_": true
+      },
+      "resolution_passed": true,
+      "selected_pyxb_authorizenet_hashes": {
+        "PyXB==1.2.5": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee",
+        "authorizenet==1.1.4": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9"
+      },
+      "smoke_status": "PASS",
+      "source_aware_n_fail_closed": 0,
+      "source_aware_non_registry": [
+        "PyXB",
+        "authorizenet"
+      ],
+      "source_fidelity_change_applied": true,
+      "source_fidelity_overlay": {
+        "artifacts": [
+          {
+            "output_filename": "pyxb-1.2.5-py3-none-any.whl",
+            "output_sha256": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee",
+            "pin": "PyXB==1.2.5",
+            "selected_sha256": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee",
+            "source_reference": "vendored/pyxb",
+            "source_tree_sha256": "5b36fb887b01352de251b872739bbd3786b330b3305d235e278d5caf1d37e1e2",
+            "source_type": "DIRECTORY",
+            "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f"
+          },
+          {
+            "output_filename": "authorizenet-1.1.4-py3-none-any.whl",
+            "output_sha256": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9",
+            "pin": "authorizenet==1.1.4",
+            "selected_sha256": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9",
+            "source_reference": "vendored/authorizenet",
+            "source_tree_sha256": "b3e05589709cb4c163e6e9b20f553cf2cbb6c4fd4592c4b76d4d757ac136121e",
+            "source_type": "DIRECTORY",
+            "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f"
+          }
+        ],
+        "n_overlaid": 2,
+        "overlaid_pins": [
+          "PyXB==1.2.5",
+          "authorizenet==1.1.4"
+        ]
+      },
+      "start_utc": "2026-10-12T11:51:11.657675+00:00",
+      "task_ids": [
+        "saleor-rc-e6198146186d"
+      ],
+      "validation_unit_id": "vu-b9808f19ace4",
+      "wheel_tag_gate": {
+        "gate": "WHEEL_TAG",
+        "incompatible": [],
+        "missing": [],
+        "pass_": true
+      }
+    }
+  ]
+}

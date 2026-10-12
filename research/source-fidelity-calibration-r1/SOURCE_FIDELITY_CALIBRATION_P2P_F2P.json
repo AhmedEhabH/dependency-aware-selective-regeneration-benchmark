@@ -1,0 +1,130 @@
+{
+  "all_pass": true,
+  "artifact": "SOURCE_FIDELITY_CALIBRATION_P2P_F2P",
+  "created_at_utc": "2026-10-12T10:17:59.986370+00:00",
+  "f2p": [
+    {
+      "detail": "negative control: ok",
+      "id": "F1",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F2",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F3",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F4",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F5",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F6",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F7",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F8",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F9",
+      "pass": true
+    },
+    {
+      "detail": "negative control: ok",
+      "id": "F10",
+      "pass": true
+    }
+  ],
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_R1_FRESH_CALIBRATION_12",
+  "note": "P2P/F2P preflight only; no real unit executed.",
+  "p2p": [
+    {
+      "detail": "OK",
+      "id": "P1",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P2",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P3",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P4",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P5",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P6",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P7",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P8",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P9",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P10",
+      "pass": true
+    },
+    {
+      "detail": "OK",
+      "id": "P11",
+      "pass": true
+    }
+  ],
+  "phase": "C5_PRE_RUN_P2P_F2P",
+  "static_tooling": {
+    "mypy": "TOOL_PRESENT",
+    "ruff": "TOOL_PRESENT",
+    "ruff_diagnostics_reviewed": {
+      "all_style_only": true,
+      "codes": [
+        "UP035"
+      ],
+      "n_diagnostics": 8,
+      "note": "style-only diagnostics (N818 exception naming, SIM108 ternary, UP035 import, W292 newline); no functional/scientific defect.",
+      "rc": 1
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "all_pass": true,
+  "created_at_utc": "2026-10-12T12:07:28.190454+00:00",
+  "detail": {
+    "plan_ordered_ids": [
+      "vu-e4998719ee01",
+      "vu-b68ee1b3ad18",
+      "vu-262f45bffe92",
+      "vu-db74b3640c98",
+      "vu-e878163db06a",
+      "vu-422bca69f329",
+      "vu-117d7bd068d5",
+      "vu-5321e03160a1",
+      "vu-0d8ddec94417",
+      "vu-561a1a172143",
+      "vu-e40f7e955c05",
+      "vu-b9808f19ace4"
+    ],
+    "plan_python_versions": [
+      "3.12"
+    ],
+    "r3_ordered_ids": [
+      "vu-e4998719ee01",
+      "vu-b68ee1b3ad18",
+      "vu-262f45bffe92",
+      "vu-db74b3640c98",
+      "vu-e878163db06a",
+      "vu-422bca69f329",
+      "vu-117d7bd068d5",
+      "vu-5321e03160a1",
+      "vu-0d8ddec94417",
+      "vu-561a1a172143",
+      "vu-e40f7e955c05",
+      "vu-b9808f19ace4"
+    ],
+    "unit_ordered_ids": [
+      "vu-e4998719ee01",
+      "vu-b68ee1b3ad18",
+      "vu-262f45bffe92",
+      "vu-db74b3640c98",
+      "vu-e878163db06a",
+      "vu-422bca69f329",
+      "vu-117d7bd068d5",
+      "vu-5321e03160a1",
+      "vu-0d8ddec94417",
+      "vu-561a1a172143",
+      "vu-e40f7e955c05",
+      "vu-b9808f19ace4"
+    ]
+  },
+  "invariants": {
+    "CALIBRATION_MEMBERSHIP_CHANGED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "CALIBRATION_ORDER_CHANGED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "NETWORK_USED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "PREVIOUS_FAILED_EVIDENCE_MODIFIED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "PYTHON_VERSION_CHANGED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "PYXBX_USED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "R3_HARNESS_MUTATED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "SCIENTIFIC_POPULATION_CHANGED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "SMOKE_GATE_CHANGED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    },
+    "SOURCE_FIDELITY_RULE_GENERIC": {
+      "pass": true,
+      "required": "TRUE",
+      "value": true
+    },
+    "TASK_ELIGIBILITY_CHANGED": {
+      "pass": true,
+      "required": "FALSE",
+      "value": false
+    }
+  },
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_R1_FRESH_CALIBRATION_12",
+  "phase": "C10_SCIENTIFIC_INVARIANCE_AUDIT"
+}
