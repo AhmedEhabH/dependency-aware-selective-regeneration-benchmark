@@ -1,0 +1,84 @@
+{
+  "mission_id": "M17_D7_R4_B_UV_LOCK_ADAPTER",
+  "mission_class": "T2 - isolated lock-adapter implementation behind the frozen shared interface",
+  "start_commit": "2f37afbc21a50c5b11afe7b13cb593d1e47dd54a",
+  "implementation_files": [
+    "src/benchmark/wp2/env_r4/uv_adapter.py",
+    "tests/unit/wp2/env_r4/test_r4b_uv_adapter.py"
+  ],
+  "real_fixture_identities_used": {
+    "fixture": "research/env-canon-r4/fixtures/saleor-3.23.0-uv.lock",
+    "source": "Saleor 3.23.0 (uv.lock)",
+    "sha256": "86a35ab0bf69629d04cc7f3d09f1c1fa205eb6afc6620b317754490b33f22907",
+    "hash_match_evidence": "reports/target-evidence/run-32650273641/environment-provisioning.json (dependency_sha256)"
+  },
+  "root_editable_self_handling": {
+    "status": "PASS",
+    "recognized_token": "source = { virtual = \".\" }",
+    "represented_as": "LockClosure.editable_self with SourceType.EDITABLE_SELF",
+    "absent_from_requirements": true,
+    "real_fixture_proof": "saleor==3.23.0 carried by editable_self; not emitted as a third-party requirement"
+  },
+  "marker_handling": {
+    "status": "PASS",
+    "evaluation": "packaging.markers.Marker.evaluate against RuntimeTarget-derived PEP 508 env",
+    "included": "marker applies to target => requirement with marker_applies=True",
+    "excluded": "marker does not apply => exclusions with marker_applies=False and raw marker string",
+    "unsupported_marker": "raises LockParseError (fail closed)",
+    "real_fixture_proof": "pywin32/python-magic-bin excluded for linux target with win32 edge markers; markers on dependency edges handled deterministically"
+  },
+  "requires_python_handling": {
+    "status": "PASS",
+    "top_level": "target.python_version not admitted by lock requires-python => LockParseError (fail closed)",
+    "real_fixture_proof": "saleor uv.lock requires-python ==3.12.* accepts 3.12 and rejects 3.9"
+  },
+  "source_type_handling": {
+    "status": "PASS",
+    "REGISTRY": "source = { registry = url } (or no source table) => REGISTRY",
+    "DIRECTORY": "source = { directory = path } => DIRECTORY with source_reference preserved",
+    "PATH": "source = { path = path } => PATH with source_reference preserved",
+    "EDITABLE_SELF": "source = { virtual = ... } => EDITABLE_SELF root only",
+    "unknown": "git/url/file/editable/multi-key/malformed => LockParseError (fail closed)"
+  },
+  "poetry_regression_result": {
+    "status": "PASS",
+    "method": "reuse frozen source_fidelity_r1._poetry_lock_packages + classify_poetry_source + dep_compiler.marker_applicable and _pyv_matches (read-only)",
+    "representative_set": "django 5.2.13, pytest 8.3.4 (marker-bearing), pywin32 311 (win32 marker)",
+    "equivalent_to_predecessor": true,
+    "source_fidelity_identities_unchanged": true
+  },
+  "p2p_results": {
+    "P1_uv_registry_to_registry_requirement": "PASS",
+    "P2_root_virtual_saleor_to_editable_self": "PASS",
+    "P3_editable_root_absent_from_requirements": "PASS",
+    "P4_marker_valid_for_312_included": "PASS",
+    "P5_marker_invalid_excluded_recorded_deterministically": "PASS",
+    "P6_requires_python_evaluated_correctly": "PASS",
+    "P7_directory_path_source_identity_preserved": "PASS",
+    "P8_representative_poetry_preserves_qualified_behavior": "PASS",
+    "P9_repeated_parse_identical_freeze_hash": "PASS"
+  },
+  "f2p_results": {
+    "F1_malformed_uv_lock_fails_closed": "PASS",
+    "F2_unknown_source_type_fails_closed": "PASS",
+    "F3_unsupported_marker_fails_closed": "PASS",
+    "F4_editable_root_emitted_as_registry_requirement_test_fails": "PASS",
+    "F5_missing_name_version_fails_closed": "PASS",
+    "F6_ambiguous_source_identity_fails_closed": "PASS",
+    "F7_unsupported_lock_format_fails_closed": "PASS",
+    "F8_task_id_specific_branch_fails": "PASS"
+  },
+  "validation": {
+    "py_compile": "PASS",
+    "ruff": "PASS",
+    "mypy_strict_changed_production": "PASS",
+    "targeted_pytest": "PASS (38 R4-B + 36 contract = 74)",
+    "related_regression": "PASS (source_fidelity_r1 28 + dep_compiler 18 + contract 36)",
+    "git_diff_check": "PASS"
+  },
+  "network_used": false,
+  "docker_used": false,
+  "full_d7_executed": false,
+  "shared_interface_modified": false,
+  "overall_pass": true
+}
