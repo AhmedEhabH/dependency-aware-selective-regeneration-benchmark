@@ -1,0 +1,277 @@
+{
+  "algorithm": {
+    "description": "Walk the frozen Full-D7 validation-unit order; force-include both source-fidelity-changed units; select a unit only if it covers at least one still-uncovered required execution category; deduplicate; never consult success/failure/result fields. Deterministic from frozen metadata alone.",
+    "name": "metadata_only_stratified_walk",
+    "selection_rule": "no FIRST_N; unit selected iff unit_categories(unit) intersects still-uncovered required categories"
+  },
+  "calibration_units": [
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-e6198146186d"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "forced source-fidelity-changed unit",
+        "docker_profile:dk-py312-bookworm",
+        "lock_adapter:poetry",
+        "native_profile:nat-34c1a3756742",
+        "source_fidelity:vu-b9808f19ace4",
+        "stratum:3.12|poetry|V2_EDITABLE_PLUS_LOCK_DEV",
+        "wheelhouse_era:py312"
+      ],
+      "source_fidelity_changed": true,
+      "validation_unit_id": "vu-b9808f19ace4",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-19bb9b070965"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "forced source-fidelity-changed unit",
+        "docker_profile:dk-py312-bookworm",
+        "lock_adapter:poetry",
+        "native_profile:nat-f65b9bf250fd",
+        "source_fidelity:vu-692af9112c6d",
+        "stratum:3.12|poetry|V2_EDITABLE_PLUS_LOCK_DEV",
+        "wheelhouse_era:py312"
+      ],
+      "source_fidelity_changed": true,
+      "validation_unit_id": "vu-692af9112c6d",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-438595033c60",
+        "saleor-rc-fa1ed1794a8a"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "stratum:3.12|poetry|LOCK_FRAGMENT_MAIN_PLUS_DEV"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-e4998719ee01",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-80a33b28b80d"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "native_profile:nat-a39687f3d19c"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-db74b3640c98",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-954887b39f13"
+      ],
+      "native_profile_id": "nat-cc2f641e9e04",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "native_profile:nat-cc2f641e9e04"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-422bca69f329",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-e0f2933d58b9"
+      ],
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "lock_adapter:uv",
+        "native_profile:nat-02b9bb45ba01",
+        "stratum:3.12|uv|UV_EXPORT"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-13c1de1de71e",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-3bf31ab2fefc",
+        "saleor-rc-95dbffbc523a",
+        "saleor-rc-b356a525ba2a",
+        "saleor-rc-ce3b63edecef",
+        "saleor-rc-ffe3a3ece0fb"
+      ],
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "native_profile:nat-591718dce38a"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-b78ebcf3e530",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py312-bookworm",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-0179b331be38"
+      ],
+      "native_profile_id": "nat-0728db662cde",
+      "python_version": "3.12",
+      "selection_reasons": [
+        "native_profile:nat-0728db662cde"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-bfe987de6e53",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "docker_profile_id": "dk-py38-bullseye",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-208833e2fa53",
+        "saleor-rc-63a31dd3c8ca"
+      ],
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "selection_reasons": [
+        "docker_profile:dk-py38-bullseye",
+        "native_profile:nat-62bc3631c27d",
+        "stratum:3.8|poetry|REQ_MAIN_PLUS_LOCK_DEV",
+        "wheelhouse_era:py38"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-eda4e9f82401",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "docker_profile_id": "dk-py39-bullseye",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-10889526d151"
+      ],
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "selection_reasons": [
+        "docker_profile:dk-py39-bullseye",
+        "native_profile:nat-d35546f097f4",
+        "stratum:3.9|poetry|REQ_MAIN_PLUS_LOCK_DEV",
+        "wheelhouse_era:py39"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-457f26c93ff1",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "docker_profile_id": "dk-py39-bookworm",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-f4eeba7fab16"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "selection_reasons": [
+        "docker_profile:dk-py39-bookworm",
+        "stratum:3.9|poetry|V2_EDITABLE_PLUS_LOCK_DEV"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-ffe68ddec229",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "docker_profile_id": "dk-py39-bullseye",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-add4064d238e"
+      ],
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "selection_reasons": [
+        "native_profile:nat-d7d5ae76a87f"
+      ],
+      "source_fidelity_changed": false,
+      "validation_unit_id": "vu-0e0ef31c7634",
+      "wheelhouse_era": "py39"
+    }
+  ],
+  "coverage_dimensions": [
+    "(python_version, lock_type, install_route) stratum",
+    "docker_profile_id",
+    "native_profile_id (distinct execution path)",
+    "wheelhouse era",
+    "lock adapter path",
+    "source-fidelity-changed unit"
+  ],
+  "mission_id": "M17_D7_R4_D_CAPABILITY_AND_CALIBRATION_PLAN",
+  "n_calibration": 12,
+  "overall_pass": true,
+  "plan_sha256": "8ec20f360f62c7f4d072ad03bb5fe042c85fa98bad64757715227b5c88de687d",
+  "plan_status": "DRAFT_PENDING_R4_INTEGRATION",
+  "population": {
+    "n_mapped_tasks": 219,
+    "n_validation_units": 144
+  },
+  "required_categories": [
+    "docker_profile:dk-py312-bookworm",
+    "docker_profile:dk-py38-bullseye",
+    "docker_profile:dk-py39-bookworm",
+    "docker_profile:dk-py39-bullseye",
+    "lock_adapter:poetry",
+    "lock_adapter:uv",
+    "native_profile:nat-02b9bb45ba01",
+    "native_profile:nat-0728db662cde",
+    "native_profile:nat-34c1a3756742",
+    "native_profile:nat-591718dce38a",
+    "native_profile:nat-62bc3631c27d",
+    "native_profile:nat-a39687f3d19c",
+    "native_profile:nat-cc2f641e9e04",
+    "native_profile:nat-d35546f097f4",
+    "native_profile:nat-d7d5ae76a87f",
+    "native_profile:nat-f65b9bf250fd",
+    "source_fidelity:vu-692af9112c6d",
+    "source_fidelity:vu-b9808f19ace4",
+    "stratum:3.12|poetry|LOCK_FRAGMENT_MAIN_PLUS_DEV",
+    "stratum:3.12|poetry|V2_EDITABLE_PLUS_LOCK_DEV",
+    "stratum:3.12|uv|UV_EXPORT",
+    "stratum:3.8|poetry|REQ_MAIN_PLUS_LOCK_DEV",
+    "stratum:3.9|poetry|REQ_MAIN_PLUS_LOCK_DEV",
+    "stratum:3.9|poetry|V2_EDITABLE_PLUS_LOCK_DEV",
+    "wheelhouse_era:py312",
+    "wheelhouse_era:py38",
+    "wheelhouse_era:py39"
+  ],
+  "schema_version": "env-canon-r4-d/1.0",
+  "source_population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+  "uncovered_categories": []
+}
