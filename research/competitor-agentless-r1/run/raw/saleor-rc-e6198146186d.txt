@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files related to making the `amount` field optional in `transactionEventReport` for specific event types (`REFUND_REVERSE`, `CHARGEBACK`, `INFO`, and `*_FAILURE` events).
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/graphql/payment/mutations/transaction/transaction_event_report.py
+saleor/payment/utils.py
+saleor/graphql/payment/types.py
+saleor/graphql/payment/mutations/transaction/utils.py
+saleor/graphql/payment/mutations/base.py
+```

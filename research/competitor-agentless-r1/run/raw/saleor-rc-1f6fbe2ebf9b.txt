@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Handle confirm action (#5959) * Handle confirm action * Add missing if to confirm that we have any field to update on payment obj", this appears to be related to payment processing functionality.
+
+Based on the repository structure and the problem description mentioning "confirm action" and "payment obj", the most relevant files to edit would be:
+
+```
+saleor/payment/models.py
+saleor/payment/gateway.py
+saleor/graphql/payment/mutations.py
+saleor/payment/utils.py
+saleor/core/payments.py
+```

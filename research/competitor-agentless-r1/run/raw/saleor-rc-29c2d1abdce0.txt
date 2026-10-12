@@ -1,0 +1,15 @@
+Looking at the GitHub problem description, this is about fixing Avalara caching issues. The problem mentions several specific functions that need to be fixed:
+- `calculate_checkout_line_total`
+- `calculate_checkout_line_unit_price` 
+- `get_checkout_line_tax_rate`
+- `get_checkout_shipping_tax_rate`
+
+Based on the repository structure and the nature of the problem (Avalara tax calculation caching), these files would need to be edited:
+
+```
+saleor/plugins/avatax/plugin.py
+saleor/checkout/calculations.py
+saleor/checkout/base_calculations.py
+saleor/graphql/checkout/resolvers.py
+saleor/plugins/manager.py
+```

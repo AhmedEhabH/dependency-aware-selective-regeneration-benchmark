@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding metadata for channels. Based on the repository structure and the nature of the changes mentioned (metadata for channels, ChannelInput updates, GraphQL schema updates), I need to identify the key files that would be involved in this feature.
+
+```
+saleor/channel/models.py
+saleor/graphql/channel/types.py
+saleor/graphql/channel/mutations/base_channel_listing.py
+saleor/channel/migrations/0012_channel_delete_expired_orders_after.py
+saleor/graphql/schema.py
+```

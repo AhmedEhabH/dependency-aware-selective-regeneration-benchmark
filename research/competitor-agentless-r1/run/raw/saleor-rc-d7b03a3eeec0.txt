@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about updating denormalized discounts when adding a new line discount, specifically mentioning `update_unit_discount_data_on_order_line` and `update_discount_for_order_line`. This relates to order line discount functionality.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/utils.py
+saleor/graphql/order/mutations/order_line_discount_update.py
+saleor/graphql/order/mutations/order_line_discount_remove.py
+saleor/discount/utils/order.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add translation field on AssignedSwatchAttributeValue (#19326)", I need to identify files related to swatch attribute values and their translations.
+
+Based on the repository structure, this appears to be related to the attribute system in Saleor. The `AssignedSwatchAttributeValue` would likely be a model in the attribute module that needs translation support.
+
+```
+saleor/attribute/models/product.py
+saleor/attribute/models/base.py
+saleor/translations/models.py
+saleor/attribute/migrations/0055_assignedvariantattributevalue_variant.py
+saleor/graphql/attribute/types.py
+```

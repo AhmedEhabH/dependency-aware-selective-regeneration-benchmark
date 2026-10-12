@@ -1,0 +1,15 @@
+Looking at the GitHub problem description "Fix a bug with refund reason required for non-refund action (#18450)", this appears to be related to refund functionality where refund reasons are being incorrectly required for actions that aren't actually refunds.
+
+Based on the repository structure and the nature of the issue, I need to identify files related to:
+1. Refund actions and their validation logic
+2. Order/grant refund mutations
+3. Refund reason handling
+4. Related GraphQL mutations for refunds
+
+```
+saleor/graphql/order/mutations/order_grant_refund_create.py
+saleor/graphql/order/mutations/order_grant_refund_update.py
+saleor/graphql/order/mutations/order_refund.py
+saleor/graphql/order/mutations/fulfillment_refund_products.py
+saleor/order/models.py
+```

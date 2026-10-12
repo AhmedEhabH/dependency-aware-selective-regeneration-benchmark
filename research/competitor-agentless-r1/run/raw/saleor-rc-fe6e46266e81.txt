@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix failing import-path for promotion schedule (#16915)", I need to identify files related to promotion schedules and import paths.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/core/schedules.py
+saleor/discount/models.py
+saleor/discount/utils/promotion.py
+saleor/schedulers/models.py
+saleor/discount/migrations/0045_promotions.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Make custom header name case-insensitive" and the repository structure, this appears to be related to webhook custom headers functionality mentioned in the migration file `0009_webhook_custom_headers.py`.
+
+Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/webhook/models.py
+saleor/webhook/utils.py
+saleor/app/headers.py
+saleor/webhook/validators.py
+saleor/graphql/webhook/mutations/__init__.py
+```

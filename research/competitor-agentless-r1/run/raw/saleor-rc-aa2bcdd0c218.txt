@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Return empty values list for attribute without choises", I need to identify files related to attributes and their value handling, particularly where choices/values are managed.
+
+Based on the repository structure, the most relevant files would be in the `attribute` module and related GraphQL resolvers:
+
+```
+saleor/attribute/models/base.py
+saleor/graphql/attribute/types.py
+saleor/attribute/models/product.py
+saleor/graphql/attribute/resolvers.py
+saleor/attribute/utils.py
+```

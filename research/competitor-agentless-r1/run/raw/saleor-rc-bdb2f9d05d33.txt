@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Move product attribute related logic to product module (#18014)", I need to identify files that would need to be edited to move product attribute logic from its current location to the product module.
+
+Based on the repository structure, I can see there's an `attribute` module that likely contains general attribute logic, and a `product` module that should receive the product-specific attribute logic. The issue suggests moving product attribute related logic specifically to the product module.
+
+Here are the files that would need to be edited:
+
+```
+saleor/attribute/models/product.py
+saleor/product/models.py
+saleor/attribute/__init__.py
+saleor/product/__init__.py
+saleor/attribute/models/__init__.py
+```

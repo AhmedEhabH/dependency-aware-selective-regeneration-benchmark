@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add attributes to ProductError" and examining the repository structure, I need to identify where `ProductError` is likely defined and related files that would need to be modified.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform codebase. `ProductError` is likely an exception class or error type related to product handling. The most relevant files would be in the `product` module and possibly the core exceptions module.
+
+```
+saleor/product/error_codes.py
+saleor/core/exceptions.py
+saleor/graphql/product/types/products.py
+saleor/product/models.py
+saleor/graphql/product/mutations/products.py
+```

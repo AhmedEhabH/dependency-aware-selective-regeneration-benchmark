@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing variant resolver on CheckoutLine and OrderLine. Based on the repository structure and the nature of the issue, I need to identify files related to GraphQL resolvers for checkout and order lines.
+
+The problem mentions "variant resolver" which would be in the GraphQL layer, specifically in the resolvers for checkout and order types. The issue is likely in the GraphQL resolvers where CheckoutLine and OrderLine variants are being resolved.
+
+```
+saleor/graphql/checkout/resolvers.py
+saleor/graphql/order/resolvers.py
+saleor/graphql/checkout/types.py
+saleor/graphql/order/types.py
+saleor/checkout/models.py
+```

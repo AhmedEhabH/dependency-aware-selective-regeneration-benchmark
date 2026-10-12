@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about making `tokenTargetUrl` optional in the app manifest. Based on the repository structure and the nature of the issue, I need to identify files related to app manifests and their validations.
+
+```
+saleor/app/manifest_validations.py
+saleor/app/models.py
+saleor/app/installation_utils.py
+saleor/graphql/app/mutations/app_install.py
+saleor/app/management/commands/install_app.py
+```

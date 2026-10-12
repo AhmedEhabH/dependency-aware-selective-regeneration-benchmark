@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about fixing products export with filters, specifically:
+
+1. Fix products export with filter that requires channel
+2. Fix stock availability filtering
+
+Based on the repository structure and the nature of the problem, I need to identify files related to product exports, filtering, and CSV functionality.
+
+```
+saleor/csv/utils/products_data.py
+saleor/graphql/product/filters/product.py
+saleor/csv/utils/export.py
+saleor/graphql/csv/mutations/export_products.py
+saleor/product/models.py
+```

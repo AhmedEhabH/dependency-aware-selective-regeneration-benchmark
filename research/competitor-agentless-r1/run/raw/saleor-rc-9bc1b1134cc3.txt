@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Set explicit bucket boundaries (#17759)", this appears to be related to setting up explicit bucket boundaries, which is typically associated with monitoring, metrics, or histogram configurations.
+
+Based on the repository structure and the issue number pattern, this seems to be related to metrics/bucket configurations. The most likely files that would need to be edited are:
+
+```
+saleor/graphql/metrics.py
+saleor/webhook/metrics.py
+saleor/core/telemetry/metric.py
+saleor/settings.py
+saleor/core/tasks.py
+```

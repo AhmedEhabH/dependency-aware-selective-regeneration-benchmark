@@ -1,0 +1,11 @@
+Looking at the problem description "Fix fetching variants for default channel by not authenticated user", this appears to be related to GraphQL queries for product variants that should be accessible to unauthenticated users when viewing the default channel.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/graphql/product/resolvers.py
+saleor/graphql/product/types/products.py
+saleor/product/models.py
+saleor/graphql/core/fields.py
+saleor/channel/models.py
+```

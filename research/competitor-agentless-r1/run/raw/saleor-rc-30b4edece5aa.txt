@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Allow metadata crud for STAFF for apps (#19111)", this appears to be about allowing staff users to perform CRUD operations on metadata for apps (applications/extensions in Saleor).
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/graphql/app/mutations/app_update.py
+saleor/graphql/app/mutations/app_create.py
+saleor/graphql/app/types.py
+saleor/app/models.py
+saleor/graphql/meta/permissions.py
+```

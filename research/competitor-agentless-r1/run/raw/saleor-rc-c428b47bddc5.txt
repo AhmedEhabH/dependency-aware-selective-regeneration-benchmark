@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing the `draftOrderCreate` mutation to save `shipping_method_name`. Based on the repository structure, I need to identify the files related to draft order creation and shipping methods.
+
+The issue is likely in the GraphQL order mutations, specifically the draft order creation functionality. Let me trace through the relevant files:
+
+```
+saleor/graphql/order/mutations/draft_order_create.py
+saleor/order/models.py
+saleor/graphql/order/mutations/__init__.py
+saleor/shipping/models.py
+saleor/graphql/order/types.py
+```

@@ -1,0 +1,125 @@
+{
+  "receipt_id": "M17_AGENTLESS_STYLE_MAIN297_EXECUTION_RECEIPT",
+  "mission": "M17_AGENTLESS_MAIN297_RESUME_FROM_READY_TO_RUN",
+  "adaptation_label": "AGENTLESS_STYLE_ADAPTATION",
+  "created_utc": "2026-10-12T00:00:00Z",
+  "execution_identity": {
+    "branch": "parallel/agentless-main297-2026-10-12",
+    "pre_run_head": "6c2f698154ddcba22ff7d9a85656753a6eaee5ff",
+    "model": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+    "temperature": 0.0,
+    "max_completion_tokens": 1024,
+    "pricing": "frozen deepinfra/turbo through OpenRouter $0.30/$1.00 per 1M tokens"
+  },
+  "population": {
+    "identity": "frozen MAIN_297",
+    "manifest_artifact": "research/wp1b/wp1b_main_297_manifest.json",
+    "manifest_sha256": "6bc5980fde694c1d8818389a8a8cdbf8d0acb410866806b74b404f19a90fccde",
+    "task_ids_sha256": "1678dbaa3793588df4b82dce7d7b2d29586b612698e12a1c4d52ce32f4ccbceb",
+    "n_tasks": 297
+  },
+  "protocol_freeze": {
+    "artifact": "research/competitor-agentless-r1/AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json",
+    "sha256": "08aa4819850733b4fc449362cfbcccc6dd95bef468eeb117a14ed76530e1dcba",
+    "status": "FROZEN_BEFORE_ANY_MAIN297_AGENTLESS_OUTCOME",
+    "no_adaptive_changes_after_first_output": true
+  },
+  "cost_gate": {
+    "artifact": "research/competitor-agentless-r1/agentless_r1_cost_gate.json",
+    "status": "PASSED_BEFORE_ANY_REAL_API_CALL",
+    "hard_ceiling_usd": 2.0
+  },
+  "execution": {
+    "run_dir": "research/competitor-agentless-r1/run",
+    "records_artifact": "research/competitor-agentless-r1/run/agentless_r1_run_records.jsonl",
+    "raw_dir": "research/competitor-agentless-r1/run/raw",
+    "execution_source": "real",
+    "n_total_records": 297,
+    "n_unique_task_records": 297,
+    "n_duplicates": 0,
+    "n_missing": 0,
+    "n_substituted": 0,
+    "order_equality_to_MAIN_297": true,
+    "records_vs_sidecar_sha_mismatch": 0,
+    "records_vs_lf_normalized_raw_txt_mismatch": 0,
+    "raw_storage_note": "raw/*.txt copies are stored with Windows CRLF line endings (Path.write_text translation); the authoritative raw SHA is the runtime-canonical LF hash stored in records and raw/*.sha256 sidecars; LF-normalizing the .txt content reproduces the recorded hash for all 297 tasks."
+  },
+  "budget_fail_closed": {
+    "hard_ceiling_usd": 2.0,
+    "cumulative_api_cost_usd": 2.002373,
+    "triggered": true,
+    "detail": "The 297th and final task's cost pushed the cumulative computed cost to $2.002373, exceeding the $2.00 ceiling. The fail-closed stop fired immediately and no further task was executed; all 297 records are preserved. Ceiling was not raised."
+  },
+  "prediction_freeze": {
+    "artifact": "research/competitor-agentless-r1/agentless_r1_prediction_freeze.json",
+    "sha256": "90495bbb2c8d66a2c9a079cb2dfcd6e1cbf929c01972f1331df4242cdabd9815",
+    "sidecar": "research/competitor-agentless-r1/agentless_r1_prediction_freeze.json.sha256",
+    "sidecar_matches_artifact": true,
+    "n_tasks": 297,
+    "frozen_before_gold_opened": true,
+    "gold_never_read_for_prompt_or_parse": true
+  },
+  "evaluation": {
+    "artifact": "research/competitor-agentless-r1/agentless_r1_evaluation.json",
+    "sha256": "4524be9a04d4328dcc598e42d7aa59607696899096261745383a4225c1723e78",
+    "label": "AGENTLESS_STYLE_ADAPTATION (file-level localization comparator; NOT an exact published-Agentless reproduction)",
+    "evaluator_identity": "benchmark.wp1a.scorer.per_task_confusion/ArmConfusion + benchmark.wp1b.main_scoring pooled() (same frozen file-level evaluator as RM-CSS / SIP / Agent on MAIN_297)",
+    "micro": {"tp": 246, "fp": 637, "fn": 669, "precision": 0.2785956964892412, "recall": 0.26885245901639343, "f1": 0.27363737486095663, "fnr": 0.7311475409836066},
+    "macro": {"precision": 0.2760942760942761, "recall": 0.3556116722783389, "f1": 0.27474769899012325},
+    "selected_set_size": {"mean": 2.973063973063973, "median": 3, "min": 0, "max": 3},
+    "empty_or_malfunction_count": 1,
+    "frozen_comparator_reference_micro_f1": {"RM-CSS": 0.3568, "AGENT": 0.3631, "SIP": 0.2652}
+  },
+  "bootstrap": {
+    "method": "paired cluster bootstrap over tasks (task is the resampling unit)",
+    "n_resamples": 10000,
+    "seed": 20261012,
+    "micro_estimator": "pooled micro confusion recomputed per resample (NOT per-task F1 averaging)",
+    "AGENTLESS_vs_RM-CSS": {"delta_f1_point": -0.0831880219644402, "delta_f1_ci": [-0.1148, -0.0511], "delta_recall_point": -0.038251366120218566, "delta_recall_ci": [-0.0705, -0.0058]},
+    "AGENTLESS_vs_AGENT": {"delta_f1_point": -0.0894318703043584, "delta_f1_ci": [-0.1260, -0.0552], "delta_recall_point": -0.04918032786885246, "delta_recall_ci": [-0.0829, -0.0175]},
+    "AGENTLESS_vs_SIP": {"delta_f1_point": 0.008444004695210783, "delta_f1_ci": [-0.0204, 0.0377], "delta_recall_point": 0.05901639344262294, "delta_recall_ci": [0.0321, 0.0866]}
+  },
+  "efficiency": {
+    "experimental_benchmark_api_cost": {
+      "llm_calls": 297,
+      "http_attempts": 299,
+      "retries": 2,
+      "retried_tasks": ["saleor-rc-8e6164e3d123", "saleor-rc-ccd3960acd1d"],
+      "prompt_tokens": 6555810,
+      "completion_tokens": 35628,
+      "api_cost_usd": 2.002373,
+      "summed_call_latency_seconds": 1065.162,
+      "failures": 0,
+      "empty_or_malfunction_count": 1,
+      "price_source": "frozen deepinfra/turbo through OpenRouter $0.30/$1.00 per 1M"
+    },
+    "orchestration_cost_exclusion": "OpenCode/DeepSeek orchestration-model execution cost is NOT part of the benchmark arm's experimental API cost and is reported separately/not at all by design."
+  },
+  "gold_isolation": {
+    "rule": "gold loaded ONLY after the 297-task prediction artifact was frozen and SHA-256 sidecarred",
+    "gold_artifact": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json (opened_once, RESERVE-300)",
+    "gold_read_before_prediction_freeze": false,
+    "gold_present_in_prediction_freeze": false
+  },
+  "r2_evidence_unchanged": {
+    "verification": "Git blob identity of research/competitor-baselines-r2/REPRODUCIBILITY_RECEIPT_R2.json equals HEAD blob (92746e0795937818af25829543b96187395fa3b8); last-touching commit is the pre-run HEAD 6c2f6981. All 10 non-self output artifacts and 4 recorded scripts match the receipt's recorded SHA-256 once LF normalization (git-canonical) is applied. No tracked modification under research/competitor-baselines-r2/.",
+    "self_entry_not_used_as_self_test": "The receipt's own self-entry (2cb62a...) is NOT treated as a self-integrity test (no documented canonical self-hash rule for that file); git blob identity and non-self artifact hashes are used instead.",
+    "r2_modified": false
+  },
+  "d7_interference_gate": {
+    "receipt": "D:\\wp2_env_store\\receipts\\D7_R3_CALIBRATION_12_RECEIPT.json",
+    "status": "BLOCKED_STOP",
+    "n_executed": 12,
+    "n_pass": 11,
+    "n_fail": 1,
+    "no_d7_work_started_or_altered_by_this_mission": true
+  },
+  "stop_conditions_checked": {
+    "accidental_paid_api_call": false,
+    "cost_ceiling_violation_unprotected": false,
+    "systemic_failure_stop": false,
+    "gold_or_evaluator_corruption": false,
+    "frozen_r2_modification": false,
+    "d7_still_running": false
+  }
+}

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding SKU support to ProductVariantStocksUpdate/Delete mutations. Based on the repository structure and the nature of the change, I need to identify the GraphQL mutation files that would need to be modified.
+
+The key files that would need to be edited are:
+
+```
+saleor/graphql/product/mutations/products.py
+saleor/graphql/warehouse/mutations.py
+saleor/product/models.py
+saleor/graphql/product/types/products.py
+saleor/warehouse/models.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add missing ProductMedia to TYPE_UPDATED_FIELD (#18606)", I need to find files related to type definitions and updated fields, particularly focusing on ProductMedia.
+
+Based on the repository structure and the issue description, this appears to be related to GraphQL schema/types where ProductMedia is missing from some TYPE_UPDATED_FIELD definition. Here are the most likely files that would need to be edited:
+
+```
+saleor/graphql/product/types/products.py
+saleor/graphql/core/types/model.py
+saleor/graphql/product/models.py
+saleor/graphql/core/types/base.py
+saleor/product/models.py
+```

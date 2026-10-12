@@ -1,0 +1,14 @@
+Looking at the GitHub problem description "Make empty attributes where-filter match nothing for pages, products, and variants (#19546)", this appears to be about fixing GraphQL filtering logic for attributes where empty attribute values should match nothing rather than everything.
+
+Based on the repository structure and the nature of the issue, I need to identify files related to:
+1. GraphQL attribute filtering logic
+2. Product/variant/page attribute filtering
+3. Where-filter implementations
+
+```
+saleor/graphql/core/filters/where_filters.py
+saleor/graphql/product/filters/product_attributes.py
+saleor/graphql/page/filters.py
+saleor/graphql/product/filters/product_variant.py
+saleor/graphql/attribute/filters.py
+```

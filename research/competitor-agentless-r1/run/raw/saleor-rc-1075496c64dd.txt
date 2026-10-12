@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "add index on transaction token (#16476)" and examining the repository structure, I need to identify files related to transaction models and migrations that would need to be modified to add an index on a transaction token field.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/payment/models.py
+saleor/payment/migrations/0054_add_idempotency_key_indexes.py
+saleor/payment/migrations/0055_add_constraints_from_indexes.py
+saleor/order/models.py
+saleor/checkout/models.py
+```

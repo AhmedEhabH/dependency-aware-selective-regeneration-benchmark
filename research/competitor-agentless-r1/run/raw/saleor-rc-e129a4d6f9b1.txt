@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files related to the `ProductVariantCreate` mutation that need to be modified to raise an error when the product is empty.
+
+Based on the repository structure, this is a GraphQL mutation in the product variant section. Let me trace through the relevant files:
+
+```
+saleor/graphql/product/mutations/product_variant/product_variant_create.py
+saleor/graphql/product/mutations/product_variant/__init__.py
+saleor/graphql/product/mutations/utils.py
+saleor/product/models.py
+saleor/graphql/product/types/products.py
+```

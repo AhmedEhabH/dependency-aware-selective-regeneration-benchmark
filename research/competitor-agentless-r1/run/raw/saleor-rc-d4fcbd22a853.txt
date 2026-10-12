@@ -1,0 +1,18 @@
+Looking at the GitHub problem description "Drop the log indicating the mismatch of code usage (#17585)", I need to find files that might contain logging statements about code usage mismatches.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform codebase. The issue mentions dropping a log about "mismatch of code usage", which could be related to:
+
+1. Authentication/authorization logs
+2. API usage tracking
+3. Permission checking logs
+4. Code validation or compliance checking logs
+
+Without seeing the specific log message referenced in #17585, I'll look for files that are most likely to contain such logging statements:
+
+```
+saleor/core/logging.py
+saleor/graphql/middleware.py
+saleor/core/auth_backend.py
+saleor/account/models.py
+saleor/graphql/decorators.py
+```

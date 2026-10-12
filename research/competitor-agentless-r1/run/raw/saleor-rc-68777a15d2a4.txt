@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix missing prefetch (#17426)", this appears to be about fixing a missing prefetch optimization in Django queries. Without more specific context about which part of the codebase this refers to, I'll identify the most likely areas where prefetch-related issues commonly occur in this Saleor repository.
+
+Based on the repository structure and typical Django performance optimization patterns, here are the files most likely to need editing:
+
+```
+saleor/graphql/core/dataloaders.py
+saleor/checkout/fetch.py
+saleor/order/fetch.py
+saleor/product/models.py
+saleor/graphql/core/connection.py
+```

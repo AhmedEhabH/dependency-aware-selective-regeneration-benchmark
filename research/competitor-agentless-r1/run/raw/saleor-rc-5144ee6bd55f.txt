@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about extending `AddressFilterInput` to include country filtering and allowing filtering of orders by shipping and billing address data. Based on the repository structure and the nature of the changes needed, here are the files that would need to be edited:
+
+```
+saleor/graphql/order/filters.py
+saleor/graphql/core/filters/filter_input.py
+saleor/graphql/account/filters.py
+saleor/order/models.py
+saleor/graphql/order/schema.py
+```

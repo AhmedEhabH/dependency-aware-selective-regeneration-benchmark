@@ -1,0 +1,15 @@
+Looking at the GitHub problem description "app installation improvements - fetch_manifest can be retried up to two times (#19448)", I need to identify files related to app installation and manifest fetching functionality.
+
+Based on the repository structure, this appears to be related to the `app` module and GraphQL mutations for app management. The key areas would be:
+
+1. App installation utilities
+2. Manifest fetching logic
+3. GraphQL mutations for app installation/retry functionality
+
+```
+saleor/app/installation_utils.py
+saleor/graphql/app/mutations/app_fetch_manifest.py
+saleor/graphql/app/mutations/app_retry_install.py
+saleor/app/utils.py
+saleor/graphql/app/mutations/app_install.py
+```

@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about allowing setting shipping address when switching from Click & Collect (CC) to standard delivery method in checkout. Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/checkout/models.py
+saleor/checkout/utils.py
+saleor/graphql/checkout/mutations/checkout_shipping_address_update.py
+saleor/checkout/actions.py
+saleor/checkout/calculations.py
+```

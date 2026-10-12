@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add FULFILLMENT_APPROVED webhook", I need to identify the files that would need to be modified to add a new webhook event type for fulfillment approval.
+
+Based on the repository structure and the nature of webhooks in Saleor, here are the files that would need to be edited:
+
+```
+saleor/webhook/event_types.py
+saleor/order/events.py
+saleor/webhook/models.py
+saleor/graphql/webhook/schema.py
+saleor/webhook/payloads.py
+```

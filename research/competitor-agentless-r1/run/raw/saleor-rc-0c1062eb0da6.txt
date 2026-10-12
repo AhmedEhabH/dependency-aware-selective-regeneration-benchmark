@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add colon to valid custom header value" and the repository structure, this appears to be related to webhook custom headers validation. The issue is likely in the webhook module where custom headers are validated.
+
+Based on the repository structure and the nature of the problem, here are the files that would need to be edited:
+
+```
+saleor/webhook/validators.py
+saleor/webhook/models.py
+saleor/graphql/webhook/mutations.py
+saleor/app/headers.py
+saleor/webhook/utils.py
+```

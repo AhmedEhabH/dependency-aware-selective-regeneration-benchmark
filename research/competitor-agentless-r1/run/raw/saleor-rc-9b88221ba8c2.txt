@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to find where `APP_CREAED` event is defined and used, and rename it to `APP_INSTALLED`.
+
+Based on the repository structure and the nature of the issue, this is likely related to app events. Let me identify the most relevant files:
+
+```
+saleor/app/models.py
+saleor/account/events.py
+saleor/webhook/event_types.py
+saleor/graphql/app/enums.py
+saleor/core/notify_events.py
+```

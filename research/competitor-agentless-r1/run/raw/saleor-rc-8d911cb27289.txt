@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Refactor description AttributeChoicesSortField (#10690)", I need to identify files related to attribute choices sorting functionality.
+
+Based on the repository structure and the mention of "AttributeChoicesSortField", this appears to be related to GraphQL schema and sorting functionality for attributes. The most relevant files would be in the GraphQL attribute module and potentially the core attribute module.
+
+```
+saleor/graphql/attribute/sorters.py
+saleor/graphql/attribute/enums.py
+saleor/graphql/attribute/types.py
+saleor/attribute/models/base.py
+saleor/graphql/attribute/schema.py
+```

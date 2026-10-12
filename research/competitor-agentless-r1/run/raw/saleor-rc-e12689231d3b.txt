@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Prevent race condition between TransactionEventReport and checkout completion (#18642)", I need to identify files related to transaction event reporting and checkout completion that could have race conditions.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/payment/models.py
+saleor/checkout/complete_checkout.py
+saleor/graphql/payment/mutations/transaction_event_report.py
+saleor/order/actions.py
+saleor/checkout/actions.py
+```

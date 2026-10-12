@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix failing TaxExemptionManage tests (#10704)" and the repository structure, I need to identify files related to tax exemption management functionality.
+
+Based on the repository structure, I can see there's a `tax` module and within the GraphQL module, there's a `tax` subdirectory with a `tax_exemption_manage.py` file in the mutations folder. This is likely where the TaxExemptionManage functionality is implemented.
+
+```
+saleor/graphql/tax/mutations/tax_exemption_manage.py
+saleor/graphql/tax/schema.py
+saleor/checkout/models.py
+saleor/order/models.py
+saleor/graphql/checkout/types.py
+```

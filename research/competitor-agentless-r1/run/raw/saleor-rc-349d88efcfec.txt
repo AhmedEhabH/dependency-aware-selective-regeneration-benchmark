@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about removing stock rows from lock during `checkoutComplete` and involves splitting the complete_checkout function into two transactions. Based on the repository structure and the nature of the changes described, here are the files that would need to be edited:
+
+```
+saleor/checkout/complete_checkout.py
+saleor/graphql/checkout/mutations/checkout_complete.py
+saleor/checkout/models.py
+saleor/warehouse/reservations.py
+saleor/checkout/utils.py
+```

@@ -1,0 +1,15 @@
+Looking at the GitHub problem description, this is about adding refund products support with mutations and resolvers. Based on the repository structure and the nature of the changes described, I need to identify the key files that would be involved in implementing refund functionality.
+
+The main areas mentioned are:
+- Refund products mutation and resolver
+- Dataloader for lines available for refund
+- Extending refund logic to handle stocks
+- Handling order lines and fulfillment lines separately
+
+```
+saleor/graphql/order/mutations/orders.py
+saleor/graphql/order/resolvers.py
+saleor/graphql/order/dataloaders.py
+saleor/order/models.py
+saleor/order/actions.py
+```

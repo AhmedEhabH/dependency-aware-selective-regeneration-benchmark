@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Drop external shipping identifier from checkout metadata (#19094)" and examining the repository structure, I need to identify files related to checkout metadata and external shipping identifiers.
+
+From the migration files in the checkout app, I can see there are references to `external_shipping_method_id` in migrations like `0073_checkout_external_shipping_method_id_and_more.py` and `0080_alter_checkout_external_shipping_method_id.py`. This suggests the external shipping identifier is stored in the checkout model and metadata.
+
+```
+saleor/checkout/models.py
+saleor/checkout/migrations/0073_checkout_external_shipping_method_id_and_more.py
+saleor/checkout/migrations/0080_alter_checkout_external_shipping_method_id.py
+saleor/checkout/migrations/0055_create_checkout_metadata_model.py
+saleor/checkout/migrations/0056_move_checkout_metadata_to_separate_model.py
+```

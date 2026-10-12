@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about adding paginated `productVariants` to the `Product` type in GraphQL. Based on the repository structure and the nature of the change, I need to identify the key files that would need to be modified.
+
+The main areas that would need changes are:
+1. GraphQL product types schema definition
+2. Product resolvers to handle the new field
+3. GraphQL schema files that define the Product type
+4. Possibly dataloaders for efficient loading
+
+```
+saleor/graphql/product/types/products.py
+saleor/graphql/product/resolvers.py
+saleor/graphql/product/schema.py
+saleor/graphql/product/dataloaders/products.py
+```

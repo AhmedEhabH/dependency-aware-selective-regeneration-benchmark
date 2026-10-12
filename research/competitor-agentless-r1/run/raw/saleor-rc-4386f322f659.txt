@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this appears to be about fixing attribute values being mixed up due to same slug values, specifically in the attribute module. The conflict mentioned is in `saleor/attribute/tests/test_utils.py`.
+
+Based on the repository structure and the problem description, here are the files that would likely need to be edited:
+
+```
+saleor/attribute/utils.py
+saleor/attribute/tests/test_utils.py
+saleor/attribute/models/base.py
+saleor/attribute/models/product.py
+saleor/attribute/models/page.py
+```

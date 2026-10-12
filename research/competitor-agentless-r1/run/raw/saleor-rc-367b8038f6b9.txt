@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Allow to filter ExportFiles by app", I need to identify where ExportFiles are defined and where filtering functionality would be implemented.
+
+Based on the repository structure, I can see there's a `csv/` directory which likely contains export functionality. The `csv/models.py` file would contain the ExportFile model definition, and filtering would typically be implemented in GraphQL filters and possibly Django filters.
+
+```
+saleor/csv/models.py
+saleor/graphql/csv/filters.py
+saleor/core/filters.py
+saleor/graphql/app/filters.py
+saleor/app/models.py
+```

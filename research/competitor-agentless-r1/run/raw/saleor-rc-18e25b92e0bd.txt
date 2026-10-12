@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about performance improvements for order subtotal and totalCaptured resolvers, along with benchmarks and code organization changes. Based on the repository structure and the nature of the changes, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/graphql/order/resolvers.py
+saleor/payment/dataloaders.py
+saleor/order/utils.py
+saleor/graphql/order/types.py
+```

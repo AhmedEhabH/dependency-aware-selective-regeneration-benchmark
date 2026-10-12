@@ -1,0 +1,10 @@
+Looking at the GitHub problem description, this is about improving the docstring for the GraphQL `refreshToken` mutation. The issue mentions fixing formatting issues like removing an accidental `-`, formatting variable names as inline code, and adding missing spaces in the docstring.
+
+Based on the repository structure, I need to find where the GraphQL mutations are defined, specifically the authentication-related ones that would contain the `refreshToken` mutation.
+
+```
+saleor/graphql/account/mutations/authentication.py
+saleor/graphql/account/mutations/__init__.py
+saleor/graphql/account/schema.py
+saleor/graphql/account/types.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Log when async event is sent from transaction (#17163)", I need to identify files related to transaction processing and event logging.
+
+Based on the repository structure and the issue description, the most relevant files would be:
+
+```
+saleor/payment/models.py
+saleor/payment/transaction_item_calculations.py
+saleor/order/models.py
+saleor/webhook/models.py
+saleor/core/logging.py
+```

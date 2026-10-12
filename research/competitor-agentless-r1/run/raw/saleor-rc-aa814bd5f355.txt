@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about implementing async payload generation for webhooks, specifically for checkout_updated events and related functionality. Based on the repository structure and the nature of the changes described, here are the key files that would need to be edited:
+
+```
+saleor/webhook/payloads.py
+saleor/webhook/models.py
+saleor/checkout/actions.py
+saleor/webhook/tasks.py
+saleor/graphql/webhook/mutations/webhook_trigger.py
+```

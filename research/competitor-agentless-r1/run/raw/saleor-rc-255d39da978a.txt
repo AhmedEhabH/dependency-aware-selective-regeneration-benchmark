@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add validator for required field 'name' in attribute bulk mutations (#16166)", I need to identify files related to attribute bulk mutations that would need validation for the 'name' field.
+
+Based on the repository structure, the most relevant files would be in the `attribute` and `graphql/attribute` directories, specifically focusing on bulk mutation operations.
+
+```
+saleor/graphql/attribute/bulk_mutations.py
+saleor/graphql/attribute/mutations/attribute_bulk_create.py
+saleor/graphql/attribute/mutations/attribute_bulk_update.py
+saleor/graphql/attribute/mutations/validators.py
+saleor/attribute/models/base.py
+```

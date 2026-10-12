@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Gracefully handle invalid json string (#19205)", this appears to be about handling JSON parsing errors gracefully rather than crashing the application.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/core/utils/json_serializer.py
+saleor/core/editorjs/utils.py
+saleor/graphql/core/types/base.py
+saleor/core/utils/text.py
+saleor/webhook/payload_serializers.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "WIP: fix create_refunded_lines product refunds with manual amount & billed amount", this appears to be related to order refunds functionality, specifically around creating refunded lines for products when dealing with manual amounts and billed amounts.
+
+Based on the repository structure and the nature of the problem, here are the files that would likely need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/actions.py
+saleor/payment/models.py
+saleor/graphql/order/mutations/orders.py
+saleor/order/utils.py
+```

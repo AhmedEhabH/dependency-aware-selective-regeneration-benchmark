@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add metadata to payment_method in webhook handlers" and the repository structure, I need to identify files related to webhook handlers that would need to be modified to add metadata to payment_method.
+
+Based on the repository structure, the most relevant files would be in the webhook and payment directories, particularly those handling webhook processing and payment method data.
+
+```
+saleor/webhook/payloads.py
+saleor/webhook/payload_serializers.py
+saleor/payment/models.py
+saleor/webhook/models.py
+saleor/payment/gateways/stripe/webhooks.py
+```

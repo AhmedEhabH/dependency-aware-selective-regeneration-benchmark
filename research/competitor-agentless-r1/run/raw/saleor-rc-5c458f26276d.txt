@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about refactoring product search in the products resolver, specifically:
+1. Refactoring SQL query in products resolver
+2. Removing useless code from products resolver
+3. Refactoring product search
+
+Based on the repository structure and the nature of the changes, here are the files that would need to be edited:
+
+```
+saleor/graphql/product/resolvers.py
+saleor/graphql/product/filters.py
+saleor/graphql/product/schema.py
+saleor/product/models.py
+saleor/graphql/product/utils.py
+```

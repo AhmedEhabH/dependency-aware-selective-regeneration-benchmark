@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about making the email filter case insensitive for user queries. Based on the repository structure, this would likely involve the GraphQL account filters and possibly the account search functionality.
+
+Let me identify the most relevant files:
+
+```
+saleor/graphql/account/filters.py
+saleor/account/search.py
+saleor/graphql/account/resolvers.py
+saleor/account/models.py
+saleor/graphql/account/schema.py
+```

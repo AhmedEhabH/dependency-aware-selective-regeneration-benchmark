@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Fix query on deleted product", I need to identify files that would handle product queries and deletion logic in the Saleor e-commerce platform.
+
+Based on the repository structure, the most relevant areas would be:
+1. Product models and GraphQL queries
+2. Product deletion logic
+3. Query filtering for deleted products
+
+Here are the files that would likely need to be edited:
+
+```
+saleor/product/models.py
+saleor/graphql/product/resolvers.py
+saleor/graphql/product/schema.py
+saleor/product/signals.py
+saleor/graphql/product/filters.py
+```

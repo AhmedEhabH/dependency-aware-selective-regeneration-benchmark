@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add stockBulkUpdate performance fix (#15154)" and the repository structure, I need to identify files related to stock bulk update functionality, particularly in the warehouse module where stock management would be handled.
+
+Based on the repository structure and the issue description, here are the most relevant files that would need to be edited:
+
+```
+saleor/warehouse/bulk_mutations/stock_bulk_update.py
+saleor/warehouse/mutations/__init__.py
+saleor/warehouse/models.py
+saleor/graphql/warehouse/bulk_mutations/__init__.py
+saleor/warehouse/tasks.py
+```

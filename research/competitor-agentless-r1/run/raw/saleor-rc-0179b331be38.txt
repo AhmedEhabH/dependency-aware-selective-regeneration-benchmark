@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add prefetch for pages (#18108) * Add prefetch for pages * Replace prefetch with custom queries", this appears to be about optimizing database queries for pages by adding prefetching capabilities.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/page/models.py
+saleor/graphql/page/resolvers.py
+saleor/graphql/page/dataloaders.py
+saleor/page/migrations/0031_alter_page_metadata_alter_page_private_metadata_and_more.py
+saleor/graphql/page/schema.py
+```

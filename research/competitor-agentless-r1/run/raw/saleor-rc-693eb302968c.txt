@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, I need to identify files that would need to be edited to add shipping tax rate functionality to orders. Based on the requirements, here are the key areas that need modification:
+
+```
+saleor/order/models.py
+saleor/plugins/manager.py
+saleor/plugins/vatlayer/plugin.py
+saleor/plugins/avatax/plugin.py
+saleor/webhook/payloads.py
+```

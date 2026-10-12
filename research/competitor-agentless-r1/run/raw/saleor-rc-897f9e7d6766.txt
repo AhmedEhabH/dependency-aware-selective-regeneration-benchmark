@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to add a `PregeneratedSubscriptionPayloadsByCheckoutTokenLoader` dataloader. Based on the repository structure and the naming pattern, this would likely be related to GraphQL dataloaders for checkout functionality.
+
+Let me identify the most relevant files:
+
+```
+saleor/graphql/checkout/dataloaders.py
+saleor/graphql/core/dataloaders.py
+saleor/webhook/subscription_payload.py
+saleor/checkout/models.py
+saleor/graphql/checkout/types.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix null amount when transaction amount is 0 (#14275)", this appears to be related to transaction handling where zero amounts are being treated as null instead of proper zero values.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/payment/models.py
+saleor/payment/transaction_item_calculations.py
+saleor/payment/utils.py
+saleor/core/transactions.py
+saleor/graphql/payment/types.py
+```

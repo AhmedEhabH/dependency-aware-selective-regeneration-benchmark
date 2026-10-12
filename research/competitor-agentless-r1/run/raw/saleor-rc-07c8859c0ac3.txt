@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding a `name` field to `ShopSettingsInput` to allow updating the shop's name through the `shopSettingsUpdate` mutation. The name is stored on the Django `Site` object, not `SiteSettings`, and requires special handling for validation and saving.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/graphql/shop/mutations/shop_settings_update.py
+saleor/graphql/shop/types.py
+saleor/site/models.py
+saleor/graphql/shop/schema.py
+saleor/graphql/shop/mutations/__init__.py
+```

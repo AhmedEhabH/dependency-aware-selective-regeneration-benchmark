@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding error handling when trying to create stock that already exists. Based on the repository structure, this would likely be related to warehouse/stock management functionality.
+
+The key files that would need to be edited are:
+
+```
+saleor/warehouse/models.py
+saleor/warehouse/migrations/
+saleor/product/models.py
+saleor/warehouse/error_codes.py
+saleor/graphql/warehouse/mutations/warehouse_create.py
+```

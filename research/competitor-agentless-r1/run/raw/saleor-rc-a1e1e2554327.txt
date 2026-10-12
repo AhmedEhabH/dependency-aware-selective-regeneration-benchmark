@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about fixing permission access to `appExtension.app` to allow staff users without `MANAGE_APPS` permission to fetch it. Based on the repository structure and the nature of the issue, I need to identify files related to app extensions, permissions, and GraphQL resolvers.
+
+```
+saleor/app/models.py
+saleor/graphql/app/types.py
+saleor/graphql/app/resolvers.py
+saleor/app/migrations/0005_appextension.py
+saleor/graphql/app/schema.py
+```

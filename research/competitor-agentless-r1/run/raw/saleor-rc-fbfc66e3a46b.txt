@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Add page webhooks (#6787)", I need to identify the files that would need to be modified to implement webhooks for page-related functionality.
+
+Based on the repository structure, I can see there's already a `webhook/` directory and a `page/` directory. The task would involve adding webhook support for page operations (creation, updates, deletion).
+
+Here are the files that would need to be edited:
+
+```
+saleor/webhook/event_types.py
+saleor/webhook/models.py
+saleor/page/models.py
+saleor/graphql/page/mutations/pages.py
+saleor/webhook/payloads.py
+```

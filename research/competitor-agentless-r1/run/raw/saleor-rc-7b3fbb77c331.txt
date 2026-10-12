@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Add tests for process_payment", I need to identify where the `process_payment` functionality is likely implemented and what files would need to be edited to add tests for it.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform. The payment processing would likely be in the `payment/` directory, and tests would typically be in corresponding test files.
+
+Here are the files that would need to be edited to add tests for `process_payment`:
+
+```
+saleor/payment/gateway.py
+saleor/payment/models.py
+saleor/payment/utils.py
+tests/test_payment.py
+saleor/checkout/complete_checkout.py
+```

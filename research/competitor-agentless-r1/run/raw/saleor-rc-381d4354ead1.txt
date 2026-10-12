@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "remove: duplicated field from channel model (#12759)", I need to identify files related to the channel model that would contain duplicated fields.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/channel/models.py
+saleor/channel/migrations/0001_initial.py
+saleor/graphql/channel/types.py
+saleor/channel/migrations/__init__.py
+saleor/channel/__init__.py
+```

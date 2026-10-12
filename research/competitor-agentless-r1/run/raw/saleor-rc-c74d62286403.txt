@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Do not call .get on Promise, while building promise subscription (#18583)", this appears to be related to GraphQL subscriptions and promise handling.
+
+Based on the repository structure and the issue description, the most relevant files would be:
+
+```
+saleor/graphql/webhook/subscription_query.py
+saleor/graphql/webhook/subscription_payload.py
+saleor/graphql/webhook/utils.py
+saleor/graphql/promise.py
+saleor/webhook/models.py
+```

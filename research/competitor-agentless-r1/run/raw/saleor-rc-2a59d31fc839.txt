@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding "iss" (issuer) to JWT tokens. Based on the repository structure and the mention of JWTManagerBase, I need to identify the files related to JWT token handling.
+
+The key files that would need to be edited are:
+
+```
+saleor/core/jwt_manager.py
+saleor/core/jwt.py
+saleor/account/models.py
+```

@@ -1,0 +1,18 @@
+Looking at the GitHub problem description "Provide a reference for the rich text format (#97444)", I need to identify files related to rich text formatting in the Saleor codebase.
+
+Based on the repository structure, I can see this is a Django-based e-commerce platform. The issue likely relates to rich text editing functionality, which would involve:
+
+1. Editor components (Draft.js or Editor.js based on the utils folder)
+2. GraphQL schema definitions for rich text fields
+3. Model definitions that store rich text content
+4. Migration files that handle rich text format conversions
+
+Let me identify the most relevant files:
+
+```
+saleor/core/utils/editorjs.py
+saleor/core/utils/draftjs.py
+saleor/graphql/core/types/common.py
+saleor/page/models.py
+saleor/product/models.py
+```

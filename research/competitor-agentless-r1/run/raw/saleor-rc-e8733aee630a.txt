@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix failed request handler in AvataxPlugin (#19123)" and the repository structure, I need to identify files related to the Avatax plugin and request handling.
+
+Based on the repository structure, I can see there's an `avatax` directory under `plugins/`, and the issue mentions fixing a failed request handler in AvataxPlugin.
+
+```
+saleor/plugins/avatax/plugin.py
+saleor/plugins/avatax/tasks.py
+saleor/plugins/base_plugin.py
+saleor/plugins/manager.py
+saleor/core/http_client.py
+```

@@ -1,0 +1,18 @@
+Looking at the GitHub problem description "Allow to assigning product without variant to collection (#19045)", I need to identify files related to collection functionality and product assignment in the Saleor repository.
+
+The issue is about allowing products without variants to be assigned to collections. In Saleor, collections are typically found in the product module, and the assignment functionality would be in GraphQL mutations and models.
+
+Let me trace through the relevant files:
+
+1. Collection models and mutations for adding/removing products
+2. Product models and their relationship with collections
+3. GraphQL collection mutations
+4. Collection models and their constraints
+
+```
+saleor/product/models.py
+saleor/graphql/product/mutations/collection/collection_add_products.py
+saleor/graphql/product/mutations/collection/collection_remove_products.py
+saleor/product/migrations/0197_alter_collection_products.py
+saleor/graphql/product/types/collections.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Improve the performance of StockBulkUpdate mutation (#16952)", I need to identify the files related to stock bulk update functionality in the GraphQL warehouse section.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py
+saleor/graphql/warehouse/mutations/__init__.py
+saleor/warehouse/models.py
+saleor/graphql/warehouse/schema.py
+saleor/warehouse/tasks.py
+```

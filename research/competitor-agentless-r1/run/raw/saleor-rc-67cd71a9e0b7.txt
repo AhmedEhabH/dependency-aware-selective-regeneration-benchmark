@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Raise 404 when the image for thumbnail creation cannot be open (#15644)", I need to identify files related to thumbnail creation and image handling.
+
+Based on the repository structure, the most relevant files would be in the `thumbnail/` directory and potentially related image processing utilities:
+
+```
+saleor/thumbnail/utils.py
+saleor/thumbnail/views.py
+saleor/product/product_images.py
+saleor/core/storages.py
+saleor/thumbnail/models.py
+```

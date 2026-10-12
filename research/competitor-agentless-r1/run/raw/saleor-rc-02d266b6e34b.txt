@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Print import error when plugin import fails (#6748)", this appears to be about improving error handling when plugins fail to import. Based on the repository structure, this would likely involve the plugin management system.
+
+The most relevant files to edit would be:
+
+```
+saleor/plugins/manager.py
+saleor/plugins/base_plugin.py
+saleor/plugins/__init__.py
+saleor/plugins/models.py
+saleor/plugins/checks.py
+```

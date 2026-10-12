@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Handle sendgrid bad request (#10949) * Handle sendgrid bad request * Change loglevel", this appears to be about handling SendGrid API bad requests and adjusting log levels in the SendGrid integration.
+
+Based on the repository structure, I can see there's a SendGrid plugin in the plugins directory. Here are the files that would need to be edited:
+
+```
+saleor/plugins/sendgrid/plugin.py
+saleor/plugins/sendgrid/tasks.py
+saleor/plugins/email_common.py
+saleor/core/logging.py
+saleor/plugins/base_plugin.py
+```

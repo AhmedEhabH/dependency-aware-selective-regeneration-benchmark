@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding new fields `totalAuthorized` and `totalCharged` to the Order type to show authorize/charge statuses. Based on the repository structure and the nature of the changes, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/migrations/0148_auto_20220518_0732.py
+saleor/graphql/order/types.py
+saleor/graphql/order/schema.py
+saleor/order/migrations/0149_auto_20220519_1029.py
+```

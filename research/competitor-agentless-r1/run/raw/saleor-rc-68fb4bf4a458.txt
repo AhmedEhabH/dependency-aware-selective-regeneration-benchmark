@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding a dataloader for FulfillmentLines and fixing missing replica usage on DataLoader. Based on the repository structure and the nature of the issue, I need to identify where fulfillment-related code exists and where dataloaders are typically implemented.
+
+From the repository structure, I can see there's an `order` app which likely contains fulfillment-related models, and there's a `graphql` directory with various dataloader implementations.
+
+```
+saleor/graphql/order/dataloaders.py
+saleor/order/models.py
+saleor/graphql/core/dataloaders.py
+saleor/graphql/checkout/dataloaders.py
+saleor/graphql/product/dataloaders/products.py
+```

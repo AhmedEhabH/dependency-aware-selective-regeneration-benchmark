@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files related to stock quantity checking that would need to be modified to use `channel_slug` for checking stocks only in available warehouses for a given channel.
+
+Based on the repository structure and the nature of the problem, here are the files that would likely need to be edited:
+
+```
+saleor/warehouse/availability.py
+saleor/product/utils/availability.py
+saleor/checkout/utils.py
+saleor/warehouse/models.py
+saleor/channel/utils.py
+```

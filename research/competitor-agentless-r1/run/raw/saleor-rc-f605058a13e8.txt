@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix mypy and formatting", this appears to be a request to fix type checking issues (mypy) and code formatting problems. Based on the repository structure, I need to identify the most likely files that would need editing for such fixes.
+
+Since this is a general maintenance task rather than a specific feature bug, the files most likely to need mypy and formatting fixes would be:
+
+```
+saleor/settings.py
+conftest.py
+manage.py
+saleor/core/utils/json_serializer.py
+saleor/graphql/api.py
+```

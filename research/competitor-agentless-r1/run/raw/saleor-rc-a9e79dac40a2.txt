@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about supporting NEW_TAB for extension target and adding new mounting points. Based on the repository structure and the nature of the changes, I need to identify files related to app extensions and their mounting points.
+
+The key areas that would need modification are:
+1. App extension models and migrations
+2. App-related GraphQL schema and types
+3. Extension target enumerations and mounting point definitions
+
+```
+saleor/app/models.py
+saleor/app/migrations/0013_alter_appextension_mount.py
+saleor/graphql/app/types.py
+saleor/app/migrations/0016_alter_appextension_mount.py
+saleor/graphql/app/enums.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to deprecate `external_url` in Invoice in favour of `url`. This involves finding the Invoice model and related files that would need to be updated.
+
+Based on the repository structure, I can see there's an `invoice/` directory which likely contains the Invoice model. Let me identify the key files that would need to be modified:
+
+```
+saleor/invoice/models.py
+saleor/invoice/migrations/0009_alter_invoice_options.py
+saleor/graphql/invoice/types.py
+saleor/graphql/invoice/schema.py
+saleor/invoice/migrations/__init__.py
+```

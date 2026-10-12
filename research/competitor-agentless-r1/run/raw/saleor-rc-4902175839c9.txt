@@ -1,0 +1,11 @@
+Looking at the GitHub problem description about "Order line thumbnail performance" and the repository structure, I need to identify files related to order line thumbnails that would need optimization.
+
+Based on the repository structure and the specific mention of order line thumbnails, here are the most relevant files that would need to be edited:
+
+```
+saleor/order/templatetags/order_lines.py
+saleor/order/models.py
+saleor/product/thumbnails.py
+saleor/account/thumbnails.py
+saleor/core/management/commands/create_thumbnails.py
+```

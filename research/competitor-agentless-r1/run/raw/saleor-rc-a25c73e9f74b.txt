@@ -1,0 +1,9 @@
+Looking at the GitHub problem description "Add allow_writer_in_context in resolvers (#15730)", this appears to be about adding a new parameter or functionality to GraphQL resolvers. Based on the repository structure, this would likely involve modifying resolver files in the GraphQL module.
+
+```
+saleor/graphql/core/utils/resolvers.py
+saleor/graphql/core/context.py
+saleor/graphql/core/__init__.py
+saleor/graphql/account/resolvers.py
+saleor/graphql/app/resolvers.py
+```

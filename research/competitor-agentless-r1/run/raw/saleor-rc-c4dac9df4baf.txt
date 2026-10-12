@@ -1,0 +1,15 @@
+Looking at the GitHub problem description for "Idempotency key for transaction API", I need to identify the files that would need to be edited to implement this feature. The description mentions:
+
+1. Adding migrations for idempotency field and index
+2. Adding logic for idempotency key in transaction API
+3. Removing unneeded app_id list
+
+Based on the repository structure and the nature of the feature, here are the files that would need to be edited:
+
+```
+saleor/payment/migrations/0054_add_idempotency_key_indexes.py
+saleor/payment/models.py
+saleor/graphql/payment/mutations/transaction_create.py
+saleor/payment/utils.py
+saleor/graphql/payment/types.py
+```

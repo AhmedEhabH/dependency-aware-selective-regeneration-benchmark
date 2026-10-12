@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about adding missing payload fields including:
+- Adding `saleId` to `OrderLine` type
+- Adding `OrderLine.voucherCode`, `Payment.partial` and `Payment.pspReference` fields
+- Fixing failing tests
+
+Based on the repository structure and the fields mentioned, I need to identify the files that would need to be modified:
+
+```
+saleor/order/models.py
+saleor/payment/models.py
+saleor/graphql/order/types.py
+saleor/graphql/payment/types.py
+saleor/webhook/payload_serializers.py
+```

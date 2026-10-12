@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Fix send invoice logic and linked unit tests (#7872)", I need to identify files related to invoice sending functionality and their corresponding tests.
+
+Based on the repository structure, the main areas related to invoices are:
+
+1. The `invoice/` directory which contains invoice-related models and notifications
+2. The `graphql/invoice/` directory which likely contains GraphQL mutations for sending invoices
+3. The `plugins/invoicing/` directory which probably contains the actual invoicing logic
+4. Test files (though not explicitly shown in the structure, they would typically be in test directories)
+
+```
+saleor/plugins/invoicing/plugin.py
+saleor/graphql/invoice/mutations.py
+saleor/invoice/models.py
+saleor/invoice/notifications.py
+saleor/plugins/invoicing/utils.py
+```

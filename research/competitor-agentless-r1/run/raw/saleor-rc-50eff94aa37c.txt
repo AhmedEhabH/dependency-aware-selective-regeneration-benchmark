@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Update product search by name/clean up (#6783)", this appears to be related to improving product search functionality, specifically searching by product name, and cleaning up the implementation.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/product/models.py
+saleor/graphql/product/filters.py
+saleor/graphql/product/resolvers.py
+saleor/product/migrations/0139_description_vector_search.py
+saleor/graphql/product/schema.py
+```

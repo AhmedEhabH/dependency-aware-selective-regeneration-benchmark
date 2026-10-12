@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Unnecessary database lock in checkout complete mutation (#8182)", I need to identify files related to the checkout completion process that might involve database locking issues.
+
+Based on the repository structure, the most relevant files would be in the checkout and GraphQL checkout modules:
+
+```
+saleor/checkout/complete_checkout.py
+saleor/graphql/checkout/mutations.py
+saleor/checkout/models.py
+saleor/core/transactions.py
+saleor/order/actions.py
+```

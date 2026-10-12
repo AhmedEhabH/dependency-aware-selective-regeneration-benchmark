@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add voucherCodeCreated and voucherCodeDeleted webhooks (#14652)", I need to identify the files that would need to be modified to implement these new webhook events.
+
+Based on the repository structure and the nature of the request, here are the files that would need to be edited:
+
+```
+saleor/webhook/event_types.py
+saleor/webhook/models.py
+saleor/discount/models.py
+saleor/webhook/payloads.py
+saleor/graphql/discount/mutations/voucher/voucher_create.py
+```

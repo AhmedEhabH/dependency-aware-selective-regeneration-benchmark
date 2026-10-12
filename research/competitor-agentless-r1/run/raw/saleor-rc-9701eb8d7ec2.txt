@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Set OrderFulfillStockInput fields as required", I need to find files related to order fulfillment and stock input handling in the GraphQL API.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform. The issue is likely about making fields required in the `OrderFulfillStockInput` GraphQL input type.
+
+```
+saleor/graphql/order/types.py
+saleor/graphql/order/mutations/orders.py
+saleor/order/models.py
+saleor/graphql/warehouse/types.py
+saleor/warehouse/models.py
+```

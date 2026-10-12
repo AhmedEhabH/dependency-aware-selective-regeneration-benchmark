@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to add two new webhook events: `ACCOUNT_EMAIL_CHANGED` and `ACCOUNT_CHANGE_EMAIL_CONFIRMED`, along with tests.
+
+Based on the repository structure, I can see there's a webhook system in place, and the account-related functionality is in the `saleor/account/` directory. Here are the files that would need to be edited:
+
+```
+saleor/webhook/event_types.py
+saleor/account/events.py
+saleor/webhook/models.py
+saleor/graphql/account/mutations/account/confirm_email_change.py
+saleor/account/signals.py
+```

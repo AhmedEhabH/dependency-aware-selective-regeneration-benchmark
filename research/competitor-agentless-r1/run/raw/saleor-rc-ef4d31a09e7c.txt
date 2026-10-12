@@ -1,0 +1,9 @@
+Looking at the GitHub problem description "Handle allocations when editing order (#6984)", this appears to be related to inventory allocation management when orders are modified. Based on the repository structure and the nature of the issue, here are the most relevant files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/warehouse/models.py
+saleor/order/actions.py
+saleor/graphql/order/mutations/orders.py
+saleor/warehouse/availability.py
+```

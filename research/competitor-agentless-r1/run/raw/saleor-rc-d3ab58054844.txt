@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Update gift card and create events when using card in order", I need to identify the files that handle gift card usage in orders and event creation.
+
+Based on the repository structure, the key areas would be:
+1. Gift card functionality and events
+2. Order processing and events
+3. The integration between orders and gift cards
+
+Here are the files that would need to be edited:
+
+```
+saleor/giftcard/models.py
+saleor/order/models.py
+saleor/giftcard/events.py
+saleor/order/events.py
+saleor/checkout/models.py
+```

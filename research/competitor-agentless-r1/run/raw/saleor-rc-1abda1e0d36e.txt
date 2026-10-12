@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding cache for the `SHIPPING_LIST_METHODS_FOR_CHECKOUT` event, which relates to webhook listing shipping methods for checkout. Based on the repository structure and the nature of the issue, I need to identify files related to shipping methods, webhooks, and caching.
+
+```
+saleor/webhook/models.py
+saleor/shipping/utils.py
+saleor/plugins/webhook/shipping.py
+saleor/checkout/utils.py
+saleor/core/utils/events.py
+```

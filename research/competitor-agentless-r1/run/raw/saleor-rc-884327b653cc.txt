@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Add TAG_UPDATED event", I need to identify where tag-related functionality exists in this Saleor e-commerce platform codebase.
+
+Based on the repository structure, I can see there's an `attribute` module which likely handles tags (as tags are typically implemented as attributes in e-commerce systems). The event system appears to be distributed across different modules, with events files in several directories.
+
+Here are the files that would need to be edited to add a TAG_UPDATED event:
+
+```
+saleor/attribute/events.py
+saleor/webhook/event_types.py
+saleor/core/notify_events.py
+saleor/graphql/attribute/mutations.py
+saleor/attribute/models.py
+```

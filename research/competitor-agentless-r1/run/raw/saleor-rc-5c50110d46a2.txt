@@ -1,0 +1,19 @@
+Looking at the GitHub problem description "Fix incorrect tax codes" and the repository structure, I need to identify files most likely related to tax code functionality.
+
+Based on the repository structure, I can see there are several areas that would handle tax-related functionality:
+
+1. Core taxes module
+2. Plugins for tax services
+3. Product tax handling
+4. Order tax calculations
+5. Site settings for tax configuration
+
+Here are the files that would most likely need to be edited to fix incorrect tax codes:
+
+```
+saleor/core/taxes.py
+saleor/plugins/vatlayer/plugin.py
+saleor/plugins/avatax/plugin.py
+saleor/product/models.py
+saleor/site/models.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Decrease the memory use of product dataloaders (#9046)", I need to identify the files related to product dataloaders that would need to be optimized for memory usage.
+
+Based on the repository structure, the most relevant files would be in the GraphQL product module, specifically the dataloaders:
+
+```
+saleor/graphql/product/dataloaders/products.py
+saleor/graphql/product/dataloaders/attributes.py
+saleor/graphql/product/dataloaders/__init__.py
+saleor/graphql/product/resolvers.py
+saleor/product/models.py
+```

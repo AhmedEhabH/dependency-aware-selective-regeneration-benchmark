@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about updating method for setting filter descriptions, specifically adding descriptions for Product.minimal_price and Product.stock_availability, along with tests and changelog updates.
+
+Based on the repository structure and the nature of the changes described, here are the files that would need to be edited:
+
+```
+saleor/graphql/product/filters.py
+saleor/graphql/product/types/products.py
+saleor/graphql/product/descriptions.py
+saleor/product/models.py
+saleor/graphql/product/tests/test_filters.py
+```

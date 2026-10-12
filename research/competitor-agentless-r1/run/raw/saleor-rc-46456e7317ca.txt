@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add validation for incorrect cursor shape (#19153)", this appears to be related to GraphQL cursor validation. In GraphQL, cursors are used for pagination and typically follow a specific format (often base64 encoded strings).
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/graphql/core/connection.py
+saleor/graphql/core/fields.py
+saleor/graphql/core/utils/validators.py
+saleor/graphql/core/types/base.py
+saleor/graphql/core/filters/filters.py
+```

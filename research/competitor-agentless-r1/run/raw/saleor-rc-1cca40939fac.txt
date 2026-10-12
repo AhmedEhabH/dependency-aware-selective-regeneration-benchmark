@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add external service event to OrderEvent", I need to identify the files that would need to be modified to add a new event type for external services to the OrderEvent model.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/order/events.py
+saleor/order/models.py
+saleor/order/migrations/
+saleor/webhook/event_types.py
+saleor/order/actions.py
+```

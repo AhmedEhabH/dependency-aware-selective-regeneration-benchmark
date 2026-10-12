@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix trackInventory not being applied in productBulkCreate (#18875) (#18877)", I need to identify files related to product bulk creation and inventory tracking functionality.
+
+Based on the repository structure and the issue description, here are the most relevant files that would need to be edited:
+
+```
+saleor/graphql/product/bulk_mutations/product_bulk_create.py
+saleor/product/models.py
+saleor/graphql/product/mutations/product/product_create.py
+saleor/warehouse/models.py
+saleor/site/models.py
+```

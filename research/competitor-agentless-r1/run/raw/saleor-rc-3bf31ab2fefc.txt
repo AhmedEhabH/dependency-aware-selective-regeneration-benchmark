@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Clear and prevent duplicated gift lines (#18610)", I need to identify files related to gift card/line functionality that would need to be modified to fix duplication issues.
+
+Based on the repository structure, this appears to be related to gift cards and gift lines in the checkout/order system. Let me identify the most relevant files:
+
+```
+saleor/giftcard/models.py
+saleor/checkout/models.py
+saleor/order/models.py
+saleor/checkout/mutations/checkout_lines_add.py
+saleor/graphql/checkout/mutations/checkout_lines_add.py
+```

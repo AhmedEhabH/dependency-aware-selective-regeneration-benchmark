@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix missing psp references for some adyen payments (#11674)", I need to identify files related to Adyen payment processing and PSP (Payment Service Provider) references.
+
+Based on the repository structure, I can see there's an Adyen gateway implementation in the payment gateways section. The issue likely involves missing PSP reference assignments for Adyen payments.
+
+```
+saleor/payment/gateways/adyen/plugin.py
+saleor/payment/gateways/adyen/webhooks.py
+saleor/payment/gateways/adyen/utils/common.py
+saleor/payment/models.py
+saleor/payment/migrations/0026_payment_psp_reference.py
+```

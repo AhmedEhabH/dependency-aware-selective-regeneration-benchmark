@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this appears to be about fixing country fetching for flat rates, removing an address parameter from fetch_checkout_data, and fixing tests. Based on the repository structure and the nature of the issue, here are the most relevant files that would need to be edited:
+
+```
+saleor/checkout/fetch.py
+saleor/shipping/models.py
+saleor/checkout/models.py
+saleor/core/utils/country.py
+saleor/checkout/tests/test_fetch.py
+```

@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding a separate event for admin reset emails. Based on the repository structure and the nature of the change, I need to identify files related to email notifications and events, particularly in the account and plugins modules.
+
+```
+saleor/account/events.py
+saleor/plugins/admin_email/notify_events.py
+saleor/account/notifications.py
+saleor/plugins/admin_email/plugin.py
+saleor/core/notify_events.py
+```

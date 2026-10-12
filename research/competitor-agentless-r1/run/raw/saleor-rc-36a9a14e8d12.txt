@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Allow to change custom templates back to default (#17563)", this appears to be about managing email templates in the system. Based on the repository structure, I can see there are email-related components in the plugins section.
+
+Let me identify the most relevant files:
+
+```
+saleor/plugins/models.py
+saleor/plugins/migrations/0009_emailtemplate.py
+saleor/plugins/admin_email/plugin.py
+saleor/plugins/user_email/plugin.py
+saleor/plugins/email_common.py
+```

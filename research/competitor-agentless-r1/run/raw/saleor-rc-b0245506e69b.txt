@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding two new events: `ACCOUNT_CONFIRMATION_REQUESTED` and `ACCOUNT_DELETE_REQUESTED`. Based on the repository structure, these events would likely be added to the account events system.
+
+The most relevant files to edit would be:
+
+```
+saleor/account/events.py
+saleor/account/notifications.py
+saleor/graphql/account/mutations/account/account_request_deletion.py
+saleor/graphql/account/mutations/account/confirm_account.py
+saleor/core/notify_events.py
+```

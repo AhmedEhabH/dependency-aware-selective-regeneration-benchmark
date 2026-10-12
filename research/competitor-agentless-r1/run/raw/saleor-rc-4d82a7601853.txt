@@ -1,0 +1,19 @@
+Looking at the GitHub problem description "Fix review remarks and changelog", this typically involves addressing feedback from code reviews and updating documentation. Based on the repository structure, the most likely files that would need to be edited are:
+
+```
+CHANGELOG.md
+README.md
+CONTRIBUTING.md
+docs/
+.github/
+```
+
+However, since I don't see these documentation files explicitly listed in the repository structure provided, and the problem description is quite general, I'll identify the most likely core files that would be subject to review remarks:
+
+```
+saleor/settings.py
+saleor/core/models.py
+saleor/graphql/api.py
+saleor/account/models.py
+saleor/product/models.py
+```

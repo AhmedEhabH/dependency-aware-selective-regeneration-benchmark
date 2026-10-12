@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about triggering a `product_updated` event when `ProductMedia` is modified. Based on the repository structure and the nature of the issue, I need to identify files related to product media handling and event triggering.
+
+```
+saleor/product/models.py
+saleor/product/signals.py
+saleor/product/app.py
+saleor/core/notify_events.py
+saleor/webhook/event_types.py
+```

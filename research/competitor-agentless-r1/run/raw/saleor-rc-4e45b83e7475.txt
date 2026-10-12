@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Recalculate order prices on marking as paid mutations (#10260)", this appears to be about ensuring order prices are recalculated when an order is marked as paid through GraphQL mutations.
+
+Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/graphql/order/mutations/order_mark_as_paid.py
+saleor/order/actions.py
+saleor/order/models.py
+saleor/order/calculations.py
+saleor/graphql/order/mutations/utils.py
+```

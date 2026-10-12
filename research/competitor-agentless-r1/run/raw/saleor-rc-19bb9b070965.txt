@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding a `TaxableObjectDiscountType` to inform tax apps how to distribute discounts. Based on the repository structure and the nature of the changes mentioned, here are the files that would need to be edited:
+
+```
+saleor/tax/models.py
+saleor/discount/utils/manual_discount.py
+saleor/graphql/discount/types.py
+saleor/discount/models.py
+docs/changelog.rst
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about removing obsolete extension validation for app extensions. Based on the repository structure and the nature of the changes mentioned (removing extension validation, fixing tests, marking legacy enums deprecated), I need to identify the most relevant files.
+
+The key areas that would be affected by removing obsolete extension validation for app extensions are:
+
+```
+saleor/app/manifest_validations.py
+saleor/app/models.py
+saleor/app/validators.py
+saleor/graphql/app/mutations/app_fetch_manifest.py
+saleor/app/migrations/0005_appextension.py
+```

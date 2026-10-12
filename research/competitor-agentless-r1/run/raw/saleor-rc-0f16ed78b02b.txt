@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix fulfillment cancel (#18137) (#18139)", I need to identify files related to fulfillment cancellation functionality.
+
+Based on the repository structure and the nature of the issue, the most relevant files would be:
+
+```
+saleor/graphql/order/mutations/fulfillment_cancel.py
+saleor/order/models.py
+saleor/order/actions.py
+saleor/graphql/order/mutations/__init__.py
+saleor/order/events.py
+```

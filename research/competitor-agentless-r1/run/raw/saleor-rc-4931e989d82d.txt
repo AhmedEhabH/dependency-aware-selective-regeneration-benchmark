@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing parameters in Stripe update payment method and switching to global Stripe version. Based on the repository structure, I need to identify the files related to Stripe payment integration.
+
+The key files that would need to be edited are:
+
+```
+saleor/payment/gateways/stripe/plugin.py
+saleor/payment/gateways/stripe/stripe_api.py
+saleor/payment/gateways/stripe/__init__.py
+saleor/payment/gateways/stripe/consts.py
+saleor/payment/gateways/stripe/webhooks.py
+```

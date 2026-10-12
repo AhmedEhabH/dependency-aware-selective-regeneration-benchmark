@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix TypeError when resolving default channel slug on product types (#19251)", I need to identify files related to channel slug resolution and product types.
+
+Based on the repository structure and the error description, the most relevant files would be:
+
+```
+saleor/channel/models.py
+saleor/product/models.py
+saleor/graphql/product/types/products.py
+saleor/channel/utils.py
+saleor/graphql/channel/types.py
+```

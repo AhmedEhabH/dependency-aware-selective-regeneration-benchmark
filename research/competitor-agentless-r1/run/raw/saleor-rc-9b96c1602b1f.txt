@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Use discount code if provided (#11015)" and examining the repository structure, this appears to be about implementing functionality to apply discount codes in the checkout process.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/checkout/models.py
+saleor/checkout/utils.py
+saleor/graphql/checkout/mutations/checkout_add_promo_code.py
+saleor/discount/models.py
+saleor/checkout/calculations.py
+```

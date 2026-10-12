@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "#6987" which mentions "Apply small changes related to the expected behaviour", I need to identify files that would likely need modifications for behavioral changes.
+
+Without access to the specific issue details, I'll make educated guesses based on common patterns in Saleor where behavioral changes are typically implemented:
+
+```
+saleor/core/models.py
+saleor/graphql/core/types/common.py
+saleor/core/utils/__init__.py
+saleor/graphql/utils/__init__.py
+saleor/core/permissions.py
+```

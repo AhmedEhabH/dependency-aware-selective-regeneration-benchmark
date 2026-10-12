@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Remove old app enums (#18618) * Remove DeprecatedAppExtensionTarget * DeprecatedAppExtensionMount removal * fix test", I need to identify files related to app extensions and their enums/mounts.
+
+Based on the repository structure and the specific mentions of `DeprecatedAppExtensionTarget` and `DeprecatedAppExtensionMount`, these would be enum/model definitions in the app module that need to be removed.
+
+```
+saleor/app/models.py
+saleor/graphql/app/enums.py
+saleor/app/migrations/0031_alter_appextension_mount_alter_appextension_target.py
+saleor/app/migrations/0013_alter_appextension_mount.py
+saleor/app/migrations/0008_appextension_target.py
+```

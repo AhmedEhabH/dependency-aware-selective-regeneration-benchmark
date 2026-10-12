@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a typo where `checkoutLineDelete` should be `checkoutLinesDelete` (adding an 's' to make it plural).
+
+Based on the repository structure, this appears to be related to GraphQL mutations in the checkout functionality. The most likely files that would need to be edited are:
+
+```
+saleor/graphql/checkout/mutations/checkout_line_delete.py
+saleor/graphql/checkout/mutations/__init__.py
+saleor/graphql/checkout/schema.py
+saleor/graphql/checkout/mutations/checkout_lines_delete.py
+saleor/checkout/models.py
+```

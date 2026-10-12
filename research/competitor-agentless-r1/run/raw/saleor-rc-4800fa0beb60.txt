@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding pre-generated payload for transaction sync webhooks, specifically for `TRANSACTION_INITIALIZE_SESSION` and `TRANSACTION_PROCESS_SESSION` events. Based on the repository structure and the nature of the changes, here are the files that would need to be edited:
+
+```
+saleor/webhook/payloads.py
+saleor/webhook/transport/synchronous/transport.py
+saleor/graphql/payment/mutations/transaction/transaction_process.py
+saleor/webhook/models.py
+saleor/webhook/event_types.py
+```

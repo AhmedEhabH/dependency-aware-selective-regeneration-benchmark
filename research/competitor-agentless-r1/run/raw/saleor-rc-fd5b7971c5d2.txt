@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Make channel_slug in StockQuerySet.for_country required", I need to find files related to StockQuerySet and its for_country method.
+
+Based on the repository structure, this appears to be related to warehouse/stock functionality. The StockQuerySet would likely be defined in the warehouse models, and the for_country method would be a custom queryset method.
+
+Let me identify the most relevant files:
+
+```
+saleor/warehouse/models.py
+saleor/warehouse/migrations/0001_initial.py
+saleor/warehouse/availability.py
+saleor/product/models.py
+saleor/channel/models.py
+```

@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about fixing the payload for `send_user_change_email_notification`. Based on the repository structure and the nature of the issue, I need to identify files related to user account notifications and email handling.
+
+The issue mentions fixing a payload for sending user change email notifications, which would likely involve:
+1. Notification/email sending functionality
+2. User account related code
+3. Payload generation/handling
+
+```
+saleor/account/notifications.py
+saleor/plugins/user_email/plugin.py
+saleor/plugins/user_email/tasks.py
+saleor/account/models.py
+saleor/webhook/payloads.py
+```

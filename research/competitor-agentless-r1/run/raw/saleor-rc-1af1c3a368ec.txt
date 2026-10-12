@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about changing the default behavior to serve 4K thumbnails instead of original images. This would likely involve image handling and thumbnail generation functionality.
+
+Based on the repository structure, the most relevant files would be in the thumbnail module and potentially product image handling:
+
+```
+saleor/thumbnail/views.py
+saleor/product/product_images.py
+saleor/thumbnail/utils.py
+saleor/graphql/core/types/upload.py
+saleor/core/storages.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files related to removing the deprecated `orderAddNote` mutation and renaming test functions from `test_order_add_note_*` to `test_order_note_add_*`.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/graphql/order/mutations/__init__.py
+saleor/graphql/order/mutations/order_note_add.py
+saleor/graphql/order/schema.py
+saleor/graphql/order/tests/test_order_mutations.py
+schema.graphql
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding fractional amount support to the Money type to help payment gateway implementers. Based on the repository structure and the nature of the request, I need to identify where the Money type is defined and used.
+
+The most relevant files would be:
+
+```
+saleor/core/prices.py
+saleor/graphql/core/types/money.py
+saleor/payment/models.py
+saleor/order/models.py
+saleor/checkout/models.py
+```

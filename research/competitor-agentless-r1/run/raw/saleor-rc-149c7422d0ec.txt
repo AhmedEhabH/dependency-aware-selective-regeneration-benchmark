@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about removing an obsolete comment related to App instance mutations and webhook mutations. The comment mentions that "All mutations that update the App instance fetch it independently. Webhook mutations use it but don't write back to the App instance."
+
+Based on the repository structure and the nature of the issue, I need to identify files that would contain GraphQL mutations related to Apps and webhooks, particularly where this comment might exist.
+
+```
+saleor/graphql/app/mutations/__init__.py
+saleor/graphql/webhook/mutations/__init__.py
+saleor/app/models.py
+saleor/graphql/app/types.py
+saleor/webhook/models.py
+```

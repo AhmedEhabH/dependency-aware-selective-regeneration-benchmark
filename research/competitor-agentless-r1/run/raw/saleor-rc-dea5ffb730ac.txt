@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about enabling PYI lint rules in Ruff, which requires typing named tuples. This is a static analysis/code quality improvement task that would primarily affect Python files with type annotations.
+
+Based on the repository structure and the nature of the issue (enabling stricter type checking for named tuples), here are the files that would most likely need to be edited:
+
+```
+saleor/core/utils/json_serializer.py
+saleor/graphql/core/types/base.py
+saleor/core/models.py
+saleor/graphql/core/types/common.py
+saleor/core/db/fields.py
+```

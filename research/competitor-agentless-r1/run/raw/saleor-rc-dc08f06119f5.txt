@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix usage of replica in get_webhooks_for_event (#14171)", I need to identify files related to webhooks and event handling that might involve database replica usage.
+
+Based on the repository structure and the problem description, here are the most relevant files that would likely need to be edited:
+
+```
+saleor/webhook/models.py
+saleor/webhook/utils.py
+saleor/core/db_routers.py
+saleor/webhook/tasks.py
+saleor/core/models.py
+```

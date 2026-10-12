@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding a threshold when updating the `user.last_login` field. This would typically involve modifying the authentication logic to only update the last_login field when a certain time threshold has passed since the last login.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/account/models.py
+saleor/graphql/account/mutations/authentication/create_token.py
+saleor/core/auth_backend.py
+saleor/graphql/account/mutations/authentication/refresh_token.py
+saleor/account/utils.py
+```

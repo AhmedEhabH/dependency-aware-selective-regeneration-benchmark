@@ -1,0 +1,17 @@
+Looking at the GitHub problem description, I need to add a doc category to the `voucherCodeBulkDelete` mutation. Based on the repository structure, this mutation would be located in the discount/voucher section of the GraphQL API.
+
+Let me trace through the relevant files:
+
+1. The mutation is likely in `saleor/graphql/discount/mutations/voucher/voucher_code_bulk_delete.py` (based on the naming pattern I can see in the directory structure)
+2. The schema definition would be in `saleor/graphql/discount/schema.py` 
+3. The doc category definitions would be in `saleor/graphql/core/doc_category.py`
+4. The mutations base structure would be in `saleor/graphql/core/mutations.py`
+5. The voucher mutations init file would be `saleor/graphql/discount/mutations/voucher/__init__.py`
+
+```
+saleor/graphql/discount/mutations/voucher/voucher_code_bulk_delete.py
+saleor/graphql/discount/schema.py
+saleor/graphql/core/doc_category.py
+saleor/graphql/discount/mutations/voucher/__init__.py
+saleor/graphql/core/mutations.py
+```

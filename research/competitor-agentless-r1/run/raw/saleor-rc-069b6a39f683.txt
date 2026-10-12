@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Remove dataloader finalizer (#15939)", I need to identify files related to dataloaders and finalizers in the GraphQL implementation.
+
+Based on the repository structure, I can see there are multiple dataloader files in the GraphQL module. The term "finalizer" typically refers to cleanup code that runs when objects are destroyed, which might be related to dataloader cleanup or resource management.
+
+```
+saleor/graphql/core/dataloaders.py
+saleor/graphql/context.py
+saleor/graphql/core/context.py
+saleor/graphql/account/dataloaders.py
+saleor/graphql/product/dataloaders/__init__.py
+```

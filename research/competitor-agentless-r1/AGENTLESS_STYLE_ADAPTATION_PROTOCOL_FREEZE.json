@@ -1,0 +1,146 @@
+{
+  "protocol_id": "M17_AGENTLESS_STYLE_MAIN297_PROTOCOL_FREEZE_AND_EXECUTION",
+  "adaptation_label": "AGENTLESS_STYLE_ADAPTATION",
+  "adaptation_note": "File-level localization comparator adapted to the frozen MAIN_297 population. NOT claimed to be an exact reproduction of every stage of the published Agentless system. Scope is ONLY the file-level localization stage. Published-metric numbers from the Agentless README are PUBLISHED_CONTEXT_ONLY and are NOT compared numerically with our MAIN_297 micro-F1.",
+  "mission": "M17_AGENTLESS_STYLE_MAIN297_PROTOCOL_FREEZE_AND_EXECUTION",
+  "status": "FROZEN_BEFORE_ANY_MAIN297_AGENTLESS_OUTCOME",
+  "created_utc": "2026-10-12T00:00:00Z",
+  "created_on_head": "6c2f698154ddcba22ff7d9a85656753a6eaee5ff",
+  "official_source_identity": {
+    "repository": "https://github.com/OpenAutoCoder/Agentless",
+    "commit_sha_inspected": "5ce5888b9f149beaace393957a55ea8ee46c9f71",
+    "no_silent_commit_switch": true,
+    "source_files_inspected": {
+      "file_level_stage": "agentless/fl/localize.py (localize_instance; LLMFL.localize)",
+      "localization_prompt": "agentless/fl/FL.py (LLMFL.obtain_relevant_files_prompt)",
+      "structure_helpers": "agentless/util/preprocess_data.py (show_project_structure, filter_none_python, filter_out_test_files, correct_file_paths, get_full_file_paths_and_classes_and_functions)",
+      "structure_builder": "get_repo_structure/get_repo_structure.py (create_structure, parse_python_file)"
+    },
+    "verification_note": "Source re-inspected read-only at the exact frozen commit via the official GitHub raw URLs during this mission; prompt template and parser semantics below are transcribed from that exact commit."
+  },
+
+  "population": {
+    "identity": "frozen MAIN_297",
+    "manifest_artifact": "research/wp1b/wp1b_main_297_manifest.json",
+    "manifest_sha256": "6bc5980fde694c1d8818389a8a8cdbf8d0acb410866806b74b404f19a90fccde",
+    "task_ids_sha256": "1678dbaa3793588df4b82dce7d7b2d29586b612698e12a1c4d52ce32f4ccbceb",
+    "n_tasks": 297,
+    "selection_rule": "all 300 in frozen order minus the 3 Calibration-3 tasks",
+    "task_order_for_execution": "exact ordered ids from the manifest (not re-sorted); the manifest order is the execution order",
+    "directory": "benchmark_data/real_commit_impact_saleor/scientific/<task_id>/public/"
+  },
+
+  "inputs": {
+    "problem_statement_source": "public/intent.json intent_text (same parent-visible text already used by SIP / RM-CSS / the repository Agent on MAIN_297); problem_statement == intent_text exactly",
+    "repository_structure_source": "frozen upstream cache repo dist/pilot-repo-cache/saleor (22,615 commits; HEAD 2c48391b6) at the per-task parent_commit from case_manifest.json, enumerated with git ls-tree -r -z; identical cache the frozen MAIN_297 agent materialization and the R2 baselines used",
+    "gold_never_read_for_inputs": true,
+    "no_RM_CSS_conditioning": "prediction top-N and k are fixed constants; nothing is conditioned on RM-CSS output size or any other arm"
+  },
+
+  "structure_filtering": {
+    "builder": "create_structure semantics: walk the parent-commit tree; keep every path; leaves that are .py files become {classes, functions, text} nodes; other leaves become {}",
+    "filter_none_python": "drop leaves whose key is not a .py file (official filter_none_python); drop empty directories after removal",
+    "filter_out_test_files": "drop any tree key whose name starts with 'test' (official filter_out_test_files), recursively",
+    "rendering": "official show_project_structure: directories rendered as '<name>/', .py files as '<name>', 4-space indentation per depth level; text = show_project_structure(structure).strip()",
+    "file_set_for_path_correction": "get_full_file_paths_and_classes_and_functions set over the filtered structure = all exact full repository-relative paths (forward slashes) of the surviving .py files; this is the ONLY set against which model-returned lines are validated"
+  },
+
+  "prompt": {
+    "template_source": "agentless/fl/FL.py LLMFL.obtain_relevant_files_prompt at the frozen commit",
+    "template_verbatim": "\nPlease look through the following GitHub problem description and Repository structure and provide a list of files that one would need to edit to fix the problem.\n\n### GitHub Problem Description ###\n{problem_statement}\n\n###\n\n### Repository Structure ###\n{structure}\n\n###\n\nPlease only provide the full path and return at most 5 files.\nThe returned files should be separated by new lines ordered by most to least important and wrapped with ```\nFor example:\n```\nfile1.py\nfile2.py\n```\n",
+    "construction": "message = template.format(problem_statement=problem_statement, structure=show_project_structure(structure).strip()).strip()  (exact official FL.localize message construction)",
+    "context_limit_constant": "end-to-end prompt length is measured per task in the offline manifest; official MAX_CONTEXT_LENGTH = 128000 is recorded as a diagnostic threshold (expected never violated; checked in manifest)"
+  },
+
+  "decoding_and_model": {
+    "llm": "qwen/qwen3-coder",
+    "provider_route": "deepinfra/turbo",
+    "full_model_identity": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+    "temperature": 0.0,
+    "max_completion_tokens": 1024,
+    "response_format": "none (plain text; the prompt requests a fenced newline-separated list, not JSON)",
+    "provider_pinning": {"allow_fallbacks": false, "require_parameters": true},
+    "model_route_rationale": "same model/route family as the frozen MAIN_297 SIP / RM-CSS / Agent comparative evidence so the AGENTLESS_STYLE_ADAPTATION is a same-model comparator on the same frozen population"
+  },
+
+  "output_parser": {
+    "official_parser": "LLMFL._parse_model_return_lines(content) = content.strip().split('\\n')",
+    "pipe_stage_1_split": "split the raw assistant content into lines with content.strip().split('\\n')",
+    "pipe_stage_2_correct": "keep only lines that EXACTLY equal a path in the file_set_for_path_correction, preserving order of first appearance (official correct_file_paths); non-matching lines (fences, prose, nonexistent paths) are dropped and counted",
+    "pipe_stage_3_top_n": "found_files[:top_n] with top_n = 3 (official --top_n default)",
+    "pipe_stage_4_set": "prediction set = deduplicated set of the top-3 corrected paths (R2 duplicate_prediction_policy: duplicates deduplicated before set scoring; count recorded)",
+    "empty_output": "classification EMPTY; prediction set = {} ; recorded",
+    "malformed_output": "classification MALFORMED; prediction set = {} ; recorded (fail-closed deterministic)",
+    "nonexistent_path": "dropped at stage 2 (does not match file_set); each dropped line recorded in dropped_line_count",
+    "more_than_top_n": "sliced to first 3 in stage 3; behavior frozen and documented (F3)"
+  },
+
+  "path_normalization": {
+    "prediction_paths": "exact strings validated against the filtered-structure file set; forward slashes; repository-relative",
+    "universe_policy": "R2 candidate-universe policy unchanged: a validated prediction path that is NOT in the per-task frozen candidate_universe is never silently dropped; it is counted in invalid_prediction_count and evaluated as a normal (likely FP) prediction; record per task",
+    "duplicate_policy": "duplicates deduplicated before set scoring; count recorded in duplicate_prediction_count"
+  },
+
+  "evaluator": {
+    "identity": "benchmark.wp1a.scorer.per_task_confusion / ArmConfusion and benchmark.wp1b.main_scoring pooled() - the exact same file-level evaluator already used for RM-CSS / SIP / Agent on MAIN_297 and by R2",
+    "micro_definition": "pooled confusion TP=sum(tp_t), FP=sum(fp_t), FN=sum(fn_t) over the 297 tasks; precision=TP/(TP+FP) (0 if denom 0), recall=TP/(TP+FN) (0 if denom 0), fnr=FN/(TP+FN) (0 if denom 0), f1=2*TP/(2*TP+FP+FN) (0 if denom 0)",
+    "macro_definition": "mean over tasks of per-task metrics with the frozen per-task convention (per-task P/R/F1 = 0 when denom 0)"
+  },
+
+  "efficiency_and_cost": {
+    "price_source": "frozen MAIN_297 accounting: qwen/qwen3-coder @ deepinfra/turbo listing $0.30 / 1M input tokens, $1.00 / 1M output tokens (identical to the frozen SIP run accounting; verified in frozen run artifacts)",
+    "price_source_sha_note": "price identity taken from the frozen R2 estimate and the frozen SIP run records; no new price lookup",
+    "cost_formula": "api_cost_usd = prompt_tokens * 0.30 / 1_000_000 + completion_tokens * 1.00 / 1_000_000 (round 6)",
+    "calls_per_task": 1,
+    "cost_ceiling_usd_hard": 2.0,
+    "budget_stop": "if cumulative api_cost_usd exceeds the hard ceiling, execution STOPS before any further call and reports",
+    "token_ceiling": "no separate token ceiling; context-limit violation check per task (128k) before call"
+  },
+
+  "retry_and_timeout": {
+    "max_transient_retries": 4,
+    "retry_backoff_seconds": 20.0,
+    "timeout_seconds_per_call": 300.0,
+    "retryable": "transient only (HTTP 429, 5xx, URLError, Timeout); 4xx content/auth errors are NOT retried (frozen OpenRouterBackend policy)",
+    "exhaustion_policy": "if all retries fail: classification INFRASTRUCTURE_FAILURE; prediction = {} analyzed as EMPTY under frozen protocol; recorded; execution continues to next task unless budget/systemic-failure stop triggers",
+    "systemic_failure_stop": "if more than 10 consecutive tasks end INFRASTRUCTURE_FAILURE -> STOP and report (systemic protocol failure)"
+  },
+
+  "gold_isolation": {
+    "rule": "NO gold may be read by prompt construction, model execution, parsing, retry logic, or selection. Gold (research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json) is loaded ONLY after the full 297-task prediction artifact is frozen and SHA-256 sidecarred.",
+    "gold_read_before_prediction_freeze": false,
+    "assertion_test": "a unit test (F1 / gold-isolation) proves prompt construction never imports or reads the proxies artifact"
+  },
+
+  "statistics": {
+    "bootstrap": {
+      "method": "paired cluster bootstrap over TASKS (task is the resampling unit; identical mechanics to the frozen R2 / MAIN_297 analyses)",
+      "n_resamples": 10000,
+      "seed": 20261012,
+      "seed_recorded_before_run": true,
+      "statistics_per_comparison": "DeltaF1_micro and DeltaRecall vs frozen RM-CSS, plus 95% percentile CIs [q025, q975]"
+    }
+  },
+
+  "no_adaptation_after_outputs": {
+    "rule": "no adaptive protocol changes after seeing any MAIN_297 Agentless output; no patch-and-continue; frozen protocol applies to every task in the execution"
+  },
+
+  "scientific_boundaries": {
+    "rmcss_agent_boundary": "Frozen MAIN_297 reference result boundary is unchanged: RM-CSS micro-F1 ~= 0.3568, AGENT ~= 0.3631, SIP ~= 0.2652. NEVER claim 'RM-CSS beats the Agent' or 'RM-CSS has the highest F1'.",
+    "agentless_empirical_status": "Agentless-style has NOT been empirically run on MAIN_297 before; research/competitor-baselines-r2/AGENTLESS_STYLE_EXECUTION_ESTIMATE.md is planning evidence only and its numbers are NOT inserted into empirical result tables.",
+    "same_population_same_model": true
+  },
+
+  "ambiguity_labels": ["AGENTLESS_PROTOCOL_AMBIGUITY", "BASELINE_PROTOCOL_AMBIGUITY", "BLOCKED_DOWNLOAD", "MISSING_ARTIFACT", "EVALUATOR_MISMATCH", "NOT_REPRODUCIBLE_WITHOUT_NEW_PROTOCOL"],
+  "stop_conditions": [
+    "AGENTLESS_PROTOCOL_AMBIGUITY (a method detail that cannot be established from frozen artifacts or the frozen official source)",
+    "MAIN_297 authority mismatch",
+    "gold/evaluator corruption",
+    "accidental paid API call",
+    "cost ceiling exceeded",
+    "systemic protocol failure (>10 consecutive INFRASTRUCTURE_FAILURE)",
+    "unexpected modification of frozen R2 / MAIN_297 evidence",
+    "M17_ENV_CANON_D7_R3_CALIBRATION_12 still actively running at the A7 gate"
+  ]
+}

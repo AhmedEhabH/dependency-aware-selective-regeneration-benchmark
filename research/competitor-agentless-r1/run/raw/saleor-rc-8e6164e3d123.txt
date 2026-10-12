@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a crash in `appCreate`/`appUpdate` mutations when `permissions` input is null. The issue is in the GraphQL mutations for app management where null permissions were causing a TypeError.
+
+Based on the repository structure and the problem description, here are the files that need to be edited:
+
+```
+saleor/graphql/app/mutations/app_create.py
+saleor/graphql/app/mutations/app_update.py
+saleor/graphql/app/mutations/app_install.py
+saleor/app/models.py
+saleor/graphql/app/tests/test_app_mutations.py
+```

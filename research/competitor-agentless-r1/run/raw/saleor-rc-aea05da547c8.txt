@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix productVariantBulkUpdate not saved fields to DB (#17342)", I need to identify the files related to the product variant bulk update functionality that aren't properly saving fields to the database.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py
+saleor/graphql/product/mutations/product_variant/product_variant_update.py
+saleor/product/models.py
+saleor/graphql/product/types/products.py
+saleor/graphql/product/mutations/utils.py
+```

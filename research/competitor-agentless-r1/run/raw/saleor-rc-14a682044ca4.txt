@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding an `undiscounted_base_shipping_price` field to the `Order` model. Based on the repository structure and the typical Django project patterns, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/migrations/0157_order_base_shipping_price_amount.py
+saleor/checkout/complete_checkout.py
+saleor/order/calculations.py
+saleor/graphql/order/types.py
+```

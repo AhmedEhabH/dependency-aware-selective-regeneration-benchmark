@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about refactoring app tokens to save the last 4 characters and store hashes, along with updating related mutations, commands, and tests.
+
+Based on the repository structure and the nature of the changes, here are the files that would need to be edited:
+
+```
+saleor/app/models.py
+saleor/graphql/app/mutations.py
+saleor/app/management/commands/create_app.py
+saleor/core/tokens.py
+saleor/app/migrations/0008_appextension_target.py
+```

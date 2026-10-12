@@ -1,0 +1,17 @@
+Looking at the GitHub problem description "Make sure to always set a correct default value for discount propagation flag (#17658)", I need to identify files related to discount propagation functionality.
+
+Based on the repository structure, this appears to be related to channel settings and discount/voucher functionality. The key files would likely involve:
+
+1. Channel models and migrations - since channels have settings related to discount propagation
+2. Discount models and utilities - where discount propagation logic would be implemented
+3. Checkout/order calculation logic - where discount propagation is applied
+
+Let me identify the most relevant files:
+
+```
+saleor/channel/models.py
+saleor/discount/models.py
+saleor/checkout/calculations.py
+saleor/channel/migrations/0020_channel_use_legacy_line_voucher_propagation_for_order.py
+saleor/discount/utils/promotion.py
+```

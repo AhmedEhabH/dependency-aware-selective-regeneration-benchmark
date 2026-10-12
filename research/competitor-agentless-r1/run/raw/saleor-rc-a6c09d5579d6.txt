@@ -1,0 +1,15 @@
+Looking at the GitHub problem description, this is about recalculate prices with celery beat, involving migrations and improvements for compatibility between versions 3.18-3.19. The key points are:
+
+1. Moving migration data from 0076 to 0072
+2. Adding improvements to price recalculations
+3. Simplifying migration
+
+Based on the repository structure and the nature of the problem, here are the files that would need to be edited:
+
+```
+saleor/product/migrations/0072_auto_20220414_1025.py
+saleor/product/migrations/0076_fill_empty_passwords.py
+saleor/product/tasks.py
+saleor/core/tasks.py
+saleor/celeryconf.py
+```

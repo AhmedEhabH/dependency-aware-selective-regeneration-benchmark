@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about allowing external references for attributes in product mutations. Based on the repository structure and the nature of the issue, I need to identify files related to product mutations and attribute handling in the GraphQL layer.
+
+```
+saleor/graphql/product/mutations/attributes.py
+saleor/graphql/product/mutations/product/product_create.py
+saleor/graphql/product/mutations/product/product_update.py
+saleor/attribute/models/product.py
+saleor/graphql/attribute/mutations/attribute_value_create.py
+```

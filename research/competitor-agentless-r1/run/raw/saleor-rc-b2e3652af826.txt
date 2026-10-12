@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Checkout discount amount should be decimal (#10663)" and the repository structure, this appears to be about ensuring discount amounts in checkout are handled as decimal values rather than integers or floats.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/checkout/models.py
+saleor/checkout/calculations.py
+saleor/checkout/base_calculations.py
+saleor/graphql/checkout/types.py
+saleor/discount/models.py
+```

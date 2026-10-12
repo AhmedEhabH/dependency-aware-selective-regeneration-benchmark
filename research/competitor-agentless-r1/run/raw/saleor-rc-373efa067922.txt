@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "add proper event_type when locking webhooks (#14454)", I need to identify files related to webhooks and event types.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/webhook/event_types.py
+saleor/webhook/models.py
+saleor/webhook/payloads.py
+saleor/webhook/const.py
+saleor/webhook/deprecated_event_types.py
+```

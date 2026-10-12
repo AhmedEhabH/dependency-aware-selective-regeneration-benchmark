@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about processing the `handle-promotion-toggle` task in batches. Based on the repository structure and the requirements mentioned (fetching product IDs in batches, using `queryset_in_batches` function, processing tasks in batches), I need to identify the files that would handle promotion-related tasks and batch processing.
+
+```
+saleor/discount/tasks.py
+saleor/product/tasks.py
+saleor/core/tasks.py
+saleor/discount/models.py
+saleor/product/models.py
+```

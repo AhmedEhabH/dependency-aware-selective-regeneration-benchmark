@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "[main] Use UNIQUE error when installing app with the same identifier (#18339)", this appears to be about ensuring that when installing an app with a duplicate identifier, a UNIQUE constraint error is properly handled.
+
+Based on the repository structure and the nature of the issue, I need to identify files related to app installation and handling of unique identifiers in the app system.
+
+```
+saleor/app/models.py
+saleor/app/management/commands/install_app.py
+saleor/app/installation_utils.py
+saleor/app/migrations/0029_alter_app_identifier.py
+saleor/graphql/app/mutations/app_install.py
+```

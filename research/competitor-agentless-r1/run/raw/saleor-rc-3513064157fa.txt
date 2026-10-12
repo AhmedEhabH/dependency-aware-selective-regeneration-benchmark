@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about allowing `checkoutCustomerAttach.customerID` to be used by customer and changing `customerID` to `customerId` in field descriptions. This relates to the checkout customer attach functionality in GraphQL.
+
+Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/graphql/checkout/mutations/checkout_customer_attach.py
+saleor/graphql/checkout/types.py
+saleor/graphql/checkout/schema.py
+saleor/checkout/models.py
+saleor/graphql/checkout/dataloaders.py
+```

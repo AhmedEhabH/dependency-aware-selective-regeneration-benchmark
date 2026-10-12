@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about preventing sending sync webhook if the previous one failed recently. This involves webhook functionality and likely circuit breaker patterns to prevent repeated failures.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/webhook/transport/synchronous/transport.py
+saleor/webhook/circuit_breaker/breaker_board.py
+saleor/webhook/circuit_breaker/storage.py
+saleor/webhook/models.py
+saleor/webhook/utils.py
+```

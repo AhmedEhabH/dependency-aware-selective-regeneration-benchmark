@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this appears to be about implementing bulk create functionality for attribute values, with specific mentions of conflicts in `saleor/attribute/models/base.py` and `saleor/graphql/attribute/utils.py`, and adding an `ignore_conflicts` option in `AttributeValueManager`.
+
+Based on the commit message and repository structure, here are the files that would need to be edited:
+
+```
+saleor/attribute/models/base.py
+saleor/graphql/attribute/utils.py
+saleor/attribute/models/product.py
+saleor/graphql/attribute/mutations/attribute_value_create.py
+saleor/attribute/managers.py
+```

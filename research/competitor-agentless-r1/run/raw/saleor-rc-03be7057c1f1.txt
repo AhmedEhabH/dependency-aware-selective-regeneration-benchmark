@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing failing Saleor autocapture and improving the webhook handler for authorization, specifically handling cases when payment is already voided or still active.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/payment/gateways/adyen/webhooks.py
+saleor/payment/models.py
+saleor/payment/gateway.py
+saleor/webhook/models.py
+saleor/payment/utils.py
+```

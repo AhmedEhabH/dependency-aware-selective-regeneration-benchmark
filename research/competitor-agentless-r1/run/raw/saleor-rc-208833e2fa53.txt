@@ -1,0 +1,6 @@
+Looking at the GitHub problem description "Update dummy tests - remove parts that are not reached", this appears to be about cleaning up unreachable code in dummy payment tests. Based on the repository structure, I can see there's a dummy payment implementation in the payment gateways section.
+
+```
+saleor/payment/gateways/dummy/plugin.py
+saleor/payment/gateways/dummy/__init__.py
+```

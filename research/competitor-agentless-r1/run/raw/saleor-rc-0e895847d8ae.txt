@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing `TelemetryTaskContext` serialization in the telemetry system. Based on the repository structure, I can see there's a telemetry module in the core directory.
+
+Let me identify the most relevant files that would need to be edited:
+
+```
+saleor/core/telemetry/__init__.py
+saleor/core/telemetry/trace.py
+saleor/core/telemetry/utils.py
+saleor/asgi/telemetry.py
+saleor/core/tasks.py
+```

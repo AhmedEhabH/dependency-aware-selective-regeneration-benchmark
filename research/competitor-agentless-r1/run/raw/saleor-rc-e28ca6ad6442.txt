@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix max_sort_order calculations when value was None (#14762)", I need to identify files related to sort order calculations, particularly where `max_sort_order` is handled and where None values might cause issues.
+
+Based on the repository structure and the nature of the problem, this appears to be related to attribute management and sorting functionality. The most relevant files would be:
+
+```
+saleor/attribute/models/base.py
+saleor/attribute/utils.py
+saleor/attribute/models/product.py
+saleor/attribute/models/page.py
+saleor/graphql/attribute/mutations/attribute_reorder_values.py
+```

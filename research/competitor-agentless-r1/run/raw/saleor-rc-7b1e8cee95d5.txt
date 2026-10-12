@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files that would need to be edited to extend the `Attribute` type with a `values` field, use a list with limit instead of ConnectionField, move limit validation to dataloader, and use settings variable.
+
+Based on the repository structure and the requirements, here are the files that would need to be edited:
+
+```
+saleor/attribute/models/product.py
+saleor/graphql/attribute/types.py
+saleor/graphql/attribute/dataloaders.py
+saleor/graphql/attribute/resolvers.py
+saleor/settings.py
+```

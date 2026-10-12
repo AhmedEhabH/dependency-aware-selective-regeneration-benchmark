@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about allowing gift cards to be added to checkout without requiring an email, and modifying gift card `used_by` and `used_by_email` fields when users use them.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/giftcard/models.py
+saleor/checkout/models.py
+saleor/graphql/checkout/mutations/checkout_add_promo_code.py
+saleor/giftcard/utils.py
+saleor/checkout/utils.py
+```

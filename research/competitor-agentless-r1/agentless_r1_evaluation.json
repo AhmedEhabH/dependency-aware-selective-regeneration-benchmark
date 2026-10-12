@@ -1,0 +1,6127 @@
+{
+ "aggregates": {
+  "AGENT": {
+   "empty_set_count": 2,
+   "macro": {
+    "f1": 0.39708253429678203,
+    "precision": 0.4932075186977148,
+    "recall": 0.3983767448413913
+   },
+   "micro": {
+    "f1": 0.363069245165315,
+    "fn": 624,
+    "fnr": 0.6819672131147541,
+    "fp": 397,
+    "precision": 0.42296511627906974,
+    "recall": 0.3180327868852459,
+    "tp": 291
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 17,
+    "mean": 2.3164983164983166,
+    "median": 2,
+    "min": 0
+   }
+  },
+  "AGENTLESS_STYLE_ADAPTATION": {
+   "empty_set_count": 1,
+   "macro": {
+    "f1": 0.27474769899012325,
+    "precision": 0.2760942760942761,
+    "recall": 0.3556116722783389
+   },
+   "micro": {
+    "f1": 0.27363737486095663,
+    "fn": 669,
+    "fnr": 0.7311475409836066,
+    "fp": 637,
+    "precision": 0.2785956964892412,
+    "recall": 0.26885245901639343,
+    "tp": 246
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 3,
+    "mean": 2.973063973063973,
+    "median": 3,
+    "min": 0
+   }
+  },
+  "BM25@1": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.2041787804414067,
+    "precision": 0.3501683501683502,
+    "recall": 0.1664706225312286
+   },
+   "micro": {
+    "f1": 0.1716171617161716,
+    "fn": 811,
+    "fnr": 0.8863387978142077,
+    "fp": 193,
+    "precision": 0.3501683501683502,
+    "recall": 0.11366120218579236,
+    "tp": 104
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 1,
+    "mean": 1.0,
+    "median": 1,
+    "min": 1
+   }
+  },
+  "BM25@10": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.20011174096219597,
+    "precision": 0.13939393939393938,
+    "recall": 0.5290434406596023
+   },
+   "micro": {
+    "f1": 0.21312741312741312,
+    "fn": 501,
+    "fnr": 0.5475409836065573,
+    "fp": 2556,
+    "precision": 0.1393939393939394,
+    "recall": 0.4524590163934426,
+    "tp": 414
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 10,
+    "mean": 10.0,
+    "median": 10,
+    "min": 10
+   }
+  },
+  "BM25@3": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.23449816177088903,
+    "precision": 0.23681257014590346,
+    "recall": 0.30209332381049553
+   },
+   "micro": {
+    "f1": 0.2336655592469546,
+    "fn": 704,
+    "fnr": 0.7693989071038252,
+    "fp": 680,
+    "precision": 0.23681257014590348,
+    "recall": 0.23060109289617486,
+    "tp": 211
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 3,
+    "mean": 3.0,
+    "median": 3,
+    "min": 3
+   }
+  },
+  "BM25@5": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.23177991546975502,
+    "precision": 0.19461279461279463,
+    "recall": 0.39443654923452903
+   },
+   "micro": {
+    "f1": 0.24083333333333334,
+    "fn": 626,
+    "fnr": 0.6841530054644809,
+    "fp": 1196,
+    "precision": 0.19461279461279463,
+    "recall": 0.3158469945355191,
+    "tp": 289
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 5,
+    "mean": 5.0,
+    "median": 5,
+    "min": 5
+   }
+  },
+  "BM25_SIZE_MATCHED": {
+   "empty_set_count": 29,
+   "macro": {
+    "f1": 0.2237762309212101,
+    "precision": 0.2524651274651275,
+    "recall": 0.2528550293701809
+   },
+   "micro": {
+    "f1": 0.2361904761904762,
+    "fn": 729,
+    "fnr": 0.7967213114754098,
+    "fp": 474,
+    "precision": 0.2818181818181818,
+    "recall": 0.20327868852459016,
+    "tp": 186
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 10,
+    "mean": 2.2222222222222223,
+    "median": 2,
+    "min": 0
+   }
+  },
+  "BM25_TO_CIA_1HOP": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.10624124770354577,
+    "precision": 0.07219118725192135,
+    "recall": 0.42003099780877556
+   },
+   "micro": {
+    "f1": 0.08156529938708157,
+    "fn": 569,
+    "fnr": 0.6218579234972678,
+    "fp": 7223,
+    "precision": 0.04571277579601004,
+    "recall": 0.37814207650273224,
+    "tp": 346
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 276,
+    "mean": 25.484848484848484,
+    "median": 17,
+    "min": 1
+   }
+  },
+  "BM25_TO_CIA_2HOP": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.024483339893139635,
+    "precision": 0.0132282746965397,
+    "recall": 0.813812973408933
+   },
+   "micro": {
+    "f1": 0.014576710931542933,
+    "fn": 179,
+    "fnr": 0.19562841530054645,
+    "fp": 99332,
+    "precision": 0.007354998600951353,
+    "recall": 0.8043715846994536,
+    "tp": 736
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 833,
+    "mean": 336.92929292929296,
+    "median": 299,
+    "min": 1
+   }
+  },
+  "C_ORACLE_1HOP": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.19135021804905727,
+    "precision": 0.12784080333563483,
+    "recall": 0.7813192045515278
+   },
+   "micro": {
+    "f1": 0.12709326827104359,
+    "fn": 342,
+    "fnr": 0.3737704918032787,
+    "fp": 7529,
+    "precision": 0.07072327820291287,
+    "recall": 0.6262295081967213,
+    "tp": 573
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 197,
+    "mean": 27.27946127946128,
+    "median": 19,
+    "min": 1
+   }
+  },
+  "C_ORACLE_2HOP": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.031067548888812923,
+    "precision": 0.019536252477583872,
+    "recall": 0.9645141895141895
+   },
+   "micro": {
+    "f1": 0.015288083708523912,
+    "fn": 61,
+    "fnr": 0.06666666666666667,
+    "fp": 109952,
+    "precision": 0.007707163871992492,
+    "recall": 0.9333333333333333,
+    "tp": 854
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 843,
+    "mean": 373.08417508417506,
+    "median": 324,
+    "min": 1
+   }
+  },
+  "DENSE@1": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.22394790021052646,
+    "precision": 0.39730639730639733,
+    "recall": 0.1771651094883418
+   },
+   "micro": {
+    "f1": 0.19471947194719472,
+    "fn": 797,
+    "fnr": 0.8710382513661202,
+    "fp": 179,
+    "precision": 0.39730639730639733,
+    "recall": 0.12896174863387977,
+    "tp": 118
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 1,
+    "mean": 1.0,
+    "median": 1,
+    "min": 1
+   }
+  },
+  "DENSE@10": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.21358352675158504,
+    "precision": 0.14713804713804715,
+    "recall": 0.5729959527939326
+   },
+   "micro": {
+    "f1": 0.22496782496782497,
+    "fn": 478,
+    "fnr": 0.5224043715846994,
+    "fp": 2533,
+    "precision": 0.14713804713804715,
+    "recall": 0.47759562841530057,
+    "tp": 437
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 10,
+    "mean": 10.0,
+    "median": 10,
+    "min": 10
+   }
+  },
+  "DENSE@3": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.27821875094602366,
+    "precision": 0.2783389450056116,
+    "recall": 0.3560699588477366
+   },
+   "micro": {
+    "f1": 0.27464008859357697,
+    "fn": 667,
+    "fnr": 0.7289617486338797,
+    "fp": 643,
+    "precision": 0.2783389450056117,
+    "recall": 0.2710382513661202,
+    "tp": 248
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 3,
+    "mean": 3.0,
+    "median": 3,
+    "min": 3
+   }
+  },
+  "DENSE@5": {
+   "empty_set_count": 0,
+   "macro": {
+    "f1": 0.2600282636973071,
+    "precision": 0.21683501683501685,
+    "recall": 0.4453374534182615
+   },
+   "micro": {
+    "f1": 0.2683333333333333,
+    "fn": 593,
+    "fnr": 0.6480874316939891,
+    "fp": 1163,
+    "precision": 0.21683501683501682,
+    "recall": 0.3519125683060109,
+    "tp": 322
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 5,
+    "mean": 5.0,
+    "median": 5,
+    "min": 5
+   }
+  },
+  "DENSE_SIZE_MATCHED": {
+   "empty_set_count": 29,
+   "macro": {
+    "f1": 0.2616782757305633,
+    "precision": 0.3038119288119288,
+    "recall": 0.2880914726874323
+   },
+   "micro": {
+    "f1": 0.2780952380952381,
+    "fn": 696,
+    "fnr": 0.760655737704918,
+    "fp": 441,
+    "precision": 0.33181818181818185,
+    "recall": 0.23934426229508196,
+    "tp": 219
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 10,
+    "mean": 2.2222222222222223,
+    "median": 2,
+    "min": 0
+   }
+  },
+  "RM-CSS": {
+   "empty_set_count": 29,
+   "macro": {
+    "f1": 0.3426937183324587,
+    "precision": 0.39242825076158405,
+    "recall": 0.37963145160114853
+   },
+   "micro": {
+    "f1": 0.3568253968253968,
+    "fn": 634,
+    "fnr": 0.692896174863388,
+    "fp": 379,
+    "precision": 0.4257575757575758,
+    "recall": 0.307103825136612,
+    "tp": 281
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 10,
+    "mean": 2.2222222222222223,
+    "median": 2,
+    "min": 0
+   }
+  },
+  "SIP": {
+   "empty_set_count": 71,
+   "macro": {
+    "f1": 0.25620667211576303,
+    "precision": 0.3311049407009003,
+    "recall": 0.2619738753577137
+   },
+   "micro": {
+    "f1": 0.26519337016574585,
+    "fn": 723,
+    "fnr": 0.7901639344262295,
+    "fp": 341,
+    "precision": 0.3602251407129456,
+    "recall": 0.2098360655737705,
+    "tp": 192
+   },
+   "n_tasks": 297,
+   "size": {
+    "max": 21,
+    "mean": 1.7946127946127945,
+    "median": 1,
+    "min": 0
+   }
+  }
+ },
+ "bootstrap": {
+  "method": "paired cluster bootstrap over tasks",
+  "n_resamples": 10000,
+  "per_comparison_delta_f1": {
+   "AGENTLESS_vs_AGENT": -0.0894318703043584,
+   "AGENTLESS_vs_RM-CSS": -0.0831880219644402,
+   "AGENTLESS_vs_SIP": 0.008444004695210783
+  },
+  "seed": 20261012
+ },
+ "bootstrap_details": {
+  "AGENTLESS_vs_AGENT": {
+   "delta_f1_point": -0.0894318703043584,
+   "delta_f1_q025": -0.12603898071804037,
+   "delta_f1_q975": -0.05522597446153775,
+   "delta_recall_point": -0.04918032786885246,
+   "delta_recall_q025": -0.08286127921504821,
+   "delta_recall_q975": -0.017481501057082485,
+   "n_resamples": 10000,
+   "seed": 20261012
+  },
+  "AGENTLESS_vs_RM-CSS": {
+   "delta_f1_point": -0.0831880219644402,
+   "delta_f1_q025": -0.11478342085311452,
+   "delta_f1_q975": -0.051050277493217174,
+   "delta_recall_point": -0.038251366120218566,
+   "delta_recall_q025": -0.07045454545454544,
+   "delta_recall_q975": -0.0057735055712273,
+   "n_resamples": 10000,
+   "seed": 20261012
+  },
+  "AGENTLESS_vs_SIP": {
+   "delta_f1_point": 0.008444004695210783,
+   "delta_f1_q025": -0.020398844151968812,
+   "delta_f1_q975": 0.03765053281037258,
+   "delta_recall_point": 0.05901639344262294,
+   "delta_recall_q025": 0.03209095891320955,
+   "delta_recall_q975": 0.08657110262355126,
+   "n_resamples": 10000,
+   "seed": 20261012
+  }
+ },
+ "efficiency": {
+  "api_cost_usd": 2.002373,
+  "completion_tokens": 35628,
+  "empty_and_malfunction_count": 1,
+  "failure_rate": 0.0,
+  "failures": 0,
+  "llm_calls": 297,
+  "price_source": "frozen deepinfra/turbo $0.30/$1.00 per 1M",
+  "prompt_tokens": 6555810,
+  "wall_latency_seconds": 1065.162
+ },
+ "gold_loaded_after_prediction_freeze": true,
+ "label": "AGENTLESS_STYLE_ADAPTATION (file-level localization comparator; NOT an exact published-Agentless reproduction)",
+ "per_task_call_level": {
+  "saleor-rc-0179b331be38": {
+   "api_cost_usd": 0.009097,
+   "classification": "VALID",
+   "completion_tokens": 128,
+   "latency_seconds": 3.203,
+   "parsed_files": [
+    "saleor/page/models.py",
+    "saleor/graphql/page/resolvers.py",
+    "saleor/graphql/page/dataloaders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/page/dataloaders.py",
+    "saleor/graphql/page/resolvers.py",
+    "saleor/page/models.py"
+   ],
+   "prompt_tokens": 29897,
+   "raw_output_sha256": "3d3370568d1fac624e1db77da0120330ed93e8fa13e491c0143f5f6d78d95416",
+   "retry_count": 0
+  },
+  "saleor-rc-02d266b6e34b": {
+   "api_cost_usd": 0.003941,
+   "classification": "VALID",
+   "completion_tokens": 97,
+   "latency_seconds": 3.907,
+   "parsed_files": [
+    "saleor/plugins/manager.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/__init__.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py"
+   ],
+   "prompt_tokens": 12812,
+   "raw_output_sha256": "93d328e5b46b210a911bfec26a6df8a8a83a08ac5269843e8c67bf045fb4f985",
+   "retry_count": 0
+  },
+  "saleor-rc-02dfdad9985b": {
+   "api_cost_usd": 0.008222,
+   "classification": "VALID",
+   "completion_tokens": 127,
+   "latency_seconds": 3.671,
+   "parsed_files": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/tax/dataloaders.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/tax/dataloaders.py"
+   ],
+   "prompt_tokens": 26984,
+   "raw_output_sha256": "67605f124c472c00478b0c528e7336018f310be8a0a31d07840fdbf24f4d9f14",
+   "retry_count": 0
+  },
+  "saleor-rc-032b98afff20": {
+   "api_cost_usd": 0.009124,
+   "classification": "VALID",
+   "completion_tokens": 77,
+   "latency_seconds": 2.485,
+   "parsed_files": [
+    "saleor/core/sqs.py"
+   ],
+   "prediction_set": [
+    "saleor/core/sqs.py"
+   ],
+   "prompt_tokens": 30156,
+   "raw_output_sha256": "93cb12cffc397b79c20016432ec85f0b439ed4bf4d03de6aceb47e7e5c39ff89",
+   "retry_count": 0
+  },
+  "saleor-rc-03be7057c1f1": {
+   "api_cost_usd": 0.003712,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 1.39,
+   "parsed_files": [
+    "saleor/payment/gateways/adyen/webhooks.py",
+    "saleor/payment/models.py",
+    "saleor/payment/gateway.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/gateways/adyen/webhooks.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 12036,
+   "raw_output_sha256": "91f540c27ebf5a1341635016bf202608ac653655d8e28e6a4712d984e15d48ec",
+   "retry_count": 0
+  },
+  "saleor-rc-03c5a9916858": {
+   "api_cost_usd": 0.004319,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.11,
+   "parsed_files": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 14043,
+   "raw_output_sha256": "96736ea720baff21df276cfc94f05f5812ab8e0615177c0b013dec076f95995e",
+   "retry_count": 0
+  },
+  "saleor-rc-05bdc7feb9ac": {
+   "api_cost_usd": 0.003924,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 2.328,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/models.py",
+    "saleor/graphql/order/mutations/orders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 12730,
+   "raw_output_sha256": "b512beec6d04325b9cafd7684761c6e2637cda4e1927920dfcc2b86810e7974e",
+   "retry_count": 0
+  },
+  "saleor-rc-069b6a39f683": {
+   "api_cost_usd": 0.007953,
+   "classification": "VALID",
+   "completion_tokens": 140,
+   "latency_seconds": 4.328,
+   "parsed_files": [
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/graphql/context.py",
+    "saleor/graphql/core/context.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/context.py",
+    "saleor/graphql/core/context.py",
+    "saleor/graphql/core/dataloaders.py"
+   ],
+   "prompt_tokens": 26045,
+   "raw_output_sha256": "22be57515e896ebb3d781f27b2e3fee8356ea8a2dff27b66468c48b8bd257887",
+   "retry_count": 0
+  },
+  "saleor-rc-070f4bd7c042": {
+   "api_cost_usd": 0.004649,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 1.656,
+   "parsed_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/payload_serializers.py",
+    "saleor/payment/models.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/models.py",
+    "saleor/webhook/payload_serializers.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prompt_tokens": 15096,
+   "raw_output_sha256": "5d66e58a30c7449a1fe041b7c288e93350a6b50fe1f84f3729a1adcaa901eb50",
+   "retry_count": 0
+  },
+  "saleor-rc-0713acb0f004": {
+   "api_cost_usd": 0.004018,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 2.485,
+   "parsed_files": [
+    "saleor/graphql/core/mutations.py",
+    "saleor/core/models.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/graphql/core/mutations.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prompt_tokens": 13010,
+   "raw_output_sha256": "ca331552a580065a39335a4d873aea44befa79b4f175208a882b0eebd803ead1",
+   "retry_count": 0
+  },
+  "saleor-rc-07c8859c0ac3": {
+   "api_cost_usd": 0.009661,
+   "classification": "VALID",
+   "completion_tokens": 131,
+   "latency_seconds": 3.313,
+   "parsed_files": [
+    "saleor/graphql/shop/mutations/shop_settings_update.py",
+    "saleor/graphql/shop/types.py",
+    "saleor/site/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/shop/mutations/shop_settings_update.py",
+    "saleor/graphql/shop/types.py",
+    "saleor/site/models.py"
+   ],
+   "prompt_tokens": 31768,
+   "raw_output_sha256": "8522e35a7eacecb1ec4ab00be3ce652e0e3f452782ad6485edc220b3e273a5da",
+   "retry_count": 0
+  },
+  "saleor-rc-07f02e2c40ae": {
+   "api_cost_usd": 0.008767,
+   "classification": "VALID",
+   "completion_tokens": 88,
+   "latency_seconds": 2.453,
+   "parsed_files": [
+    "saleor/shipping/models.py",
+    "saleor/tax/models.py",
+    "saleor/plugins/avatax/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/shipping/models.py",
+    "saleor/tax/models.py"
+   ],
+   "prompt_tokens": 28930,
+   "raw_output_sha256": "b55736137348c4cacca1e3e3f6687b56f6664e2329c802533156046f3d29db2e",
+   "retry_count": 0
+  },
+  "saleor-rc-094b1ec0f610": {
+   "api_cost_usd": 0.005627,
+   "classification": "VALID",
+   "completion_tokens": 135,
+   "latency_seconds": 2.812,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/graphql/order/types.py",
+    "saleor/graphql/order/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/schema.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 18307,
+   "raw_output_sha256": "6700a6869facb92a98e9e97f3ef898e8dfd63ef84ddafb9eb3c82c291be935ca",
+   "retry_count": 0
+  },
+  "saleor-rc-0ad61b3f0096": {
+   "api_cost_usd": 0.009423,
+   "classification": "VALID",
+   "completion_tokens": 161,
+   "latency_seconds": 2.891,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/enums.py",
+    "saleor/app/migrations/0031_alter_appextension_mount_alter_appextension_target.py"
+   ],
+   "prediction_set": [
+    "saleor/app/migrations/0031_alter_appextension_mount_alter_appextension_target.py",
+    "saleor/app/models.py",
+    "saleor/graphql/app/enums.py"
+   ],
+   "prompt_tokens": 30873,
+   "raw_output_sha256": "c5e601ec61a9d48bd36d881f3b96aa2f669692c33f3c64d1f57b2e99cdef050b",
+   "retry_count": 0
+  },
+  "saleor-rc-0b46c89dfd9e": {
+   "api_cost_usd": 0.005897,
+   "classification": "VALID",
+   "completion_tokens": 103,
+   "latency_seconds": 1.984,
+   "parsed_files": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/warehouse/mutations.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/warehouse/mutations.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 19315,
+   "raw_output_sha256": "d954f62ac06aea7a9a7e2be9f266c27fd87d7e0673fa14f58fd131473e916fb5",
+   "retry_count": 0
+  },
+  "saleor-rc-0c1062eb0da6": {
+   "api_cost_usd": 0.007924,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 2.438,
+   "parsed_files": [
+    "saleor/webhook/validators.py",
+    "saleor/webhook/models.py",
+    "saleor/app/headers.py"
+   ],
+   "prediction_set": [
+    "saleor/app/headers.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/validators.py"
+   ],
+   "prompt_tokens": 26047,
+   "raw_output_sha256": "674a160b177e10525f5d5c09ec79cb1ef2f8c7f720b699b95452f2bee954f954",
+   "retry_count": 0
+  },
+  "saleor-rc-0df62b3144b0": {
+   "api_cost_usd": 0.007667,
+   "classification": "VALID",
+   "completion_tokens": 168,
+   "latency_seconds": 3.547,
+   "parsed_files": [
+    "saleor/webhook/observability/payloads.py",
+    "saleor/webhook/observability/buffers.py",
+    "saleor/webhook/transport/asynchronous/transport.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/observability/buffers.py",
+    "saleor/webhook/observability/payloads.py",
+    "saleor/webhook/transport/asynchronous/transport.py"
+   ],
+   "prompt_tokens": 24996,
+   "raw_output_sha256": "c5acbb181474d44f076730a9f1a9c1b651de7703a507c4ed84ddf12110749fcc",
+   "retry_count": 0
+  },
+  "saleor-rc-0e895847d8ae": {
+   "api_cost_usd": 0.008522,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 3.438,
+   "parsed_files": [
+    "saleor/core/telemetry/__init__.py",
+    "saleor/core/telemetry/trace.py",
+    "saleor/core/telemetry/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/core/telemetry/__init__.py",
+    "saleor/core/telemetry/trace.py",
+    "saleor/core/telemetry/utils.py"
+   ],
+   "prompt_tokens": 28057,
+   "raw_output_sha256": "ad90eed4316af314e30eb7585ed583b61848bd007f15c718b6a0fe686cdc8572",
+   "retry_count": 0
+  },
+  "saleor-rc-0f16ed78b02b": {
+   "api_cost_usd": 0.009082,
+   "classification": "VALID",
+   "completion_tokens": 100,
+   "latency_seconds": 2.516,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/fulfillment_cancel.py",
+    "saleor/order/models.py",
+    "saleor/order/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/fulfillment_cancel.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 29941,
+   "raw_output_sha256": "f5a5a2d90fa9d4d0c836f0e957815aa7e70b00ebe497cdabcc9dd3f632c3c624",
+   "retry_count": 0
+  },
+  "saleor-rc-0fd3a4d986a0": {
+   "api_cost_usd": 0.006423,
+   "classification": "VALID",
+   "completion_tokens": 129,
+   "latency_seconds": 2.344,
+   "parsed_files": [
+    "saleor/account/notifications.py",
+    "saleor/plugins/user_email/plugin.py",
+    "saleor/plugins/user_email/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/account/notifications.py",
+    "saleor/plugins/user_email/plugin.py",
+    "saleor/plugins/user_email/tasks.py"
+   ],
+   "prompt_tokens": 20979,
+   "raw_output_sha256": "f2cc9cc8bc66177d24a3f0f7eacb2cdff1640306d38176e7eff53aa07a0d2b84",
+   "retry_count": 0
+  },
+  "saleor-rc-1075496c64dd": {
+   "api_cost_usd": 0.008324,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 5.391,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/migrations/0054_add_idempotency_key_indexes.py",
+    "saleor/payment/migrations/0055_add_constraints_from_indexes.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/migrations/0054_add_idempotency_key_indexes.py",
+    "saleor/payment/migrations/0055_add_constraints_from_indexes.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 27337,
+   "raw_output_sha256": "7ade1b465ef8f36d73793ac4891078f265a034717df9d2d5a6574952be8ac538",
+   "retry_count": 0
+  },
+  "saleor-rc-10889526d151": {
+   "api_cost_usd": 0.004532,
+   "classification": "VALID",
+   "completion_tokens": 172,
+   "latency_seconds": 3.609,
+   "parsed_files": [
+    "saleor/plugins/invoicing/plugin.py",
+    "saleor/graphql/invoice/mutations.py",
+    "saleor/invoice/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/invoice/mutations.py",
+    "saleor/invoice/models.py",
+    "saleor/plugins/invoicing/plugin.py"
+   ],
+   "prompt_tokens": 14532,
+   "raw_output_sha256": "8a26c11c2ac1e365b67f2da683944ad37dd40a32cf05e3b099c49ab3bb8a5cab",
+   "retry_count": 0
+  },
+  "saleor-rc-11756ee6b65a": {
+   "api_cost_usd": 0.009524,
+   "classification": "VALID",
+   "completion_tokens": 93,
+   "latency_seconds": 5.0,
+   "parsed_files": [
+    "saleor/account/events.py",
+    "saleor/channel/utils.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/account/models.py",
+    "saleor/channel/utils.py"
+   ],
+   "prompt_tokens": 31436,
+   "raw_output_sha256": "9a69e638b3101b7032d6f228a76da0bbd0f0f7a28380d717297719721b25a821",
+   "retry_count": 0
+  },
+  "saleor-rc-12007c00e480": {
+   "api_cost_usd": 0.003861,
+   "classification": "VALID",
+   "completion_tokens": 91,
+   "latency_seconds": 1.437,
+   "parsed_files": [
+    "saleor/graphql/shipping/mutations/shippings.py",
+    "saleor/graphql/shipping/types.py",
+    "saleor/graphql/shipping/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/shipping/mutations/shippings.py",
+    "saleor/graphql/shipping/schema.py",
+    "saleor/graphql/shipping/types.py"
+   ],
+   "prompt_tokens": 12567,
+   "raw_output_sha256": "6f20d3625d07feb90b54f0ffda4deb8ed8412d5c0ef906627250e280bee6892f",
+   "retry_count": 0
+  },
+  "saleor-rc-12b7ff7a4d0f": {
+   "api_cost_usd": 0.008121,
+   "classification": "VALID",
+   "completion_tokens": 85,
+   "latency_seconds": 2.813,
+   "parsed_files": [
+    "saleor/core/utils/translations.py",
+    "saleor/graphql/core/types/common.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/core/utils/translations.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prompt_tokens": 26787,
+   "raw_output_sha256": "6df0fef19130f0122b83235750f76f88a2146f8f5db80eb7f0e8f605426130ee",
+   "retry_count": 0
+  },
+  "saleor-rc-138ee68c3818": {
+   "api_cost_usd": 0.009162,
+   "classification": "VALID",
+   "completion_tokens": 145,
+   "latency_seconds": 3.062,
+   "parsed_files": [
+    "saleor/invoice/models.py",
+    "saleor/core/search_tasks.py",
+    "saleor/core/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/core/search_tasks.py",
+    "saleor/core/tasks.py",
+    "saleor/invoice/models.py"
+   ],
+   "prompt_tokens": 30057,
+   "raw_output_sha256": "1cd0cb5a7497502b3f49c5bbba9ce4bfdb01fc9e32f24073bc10bd6023f6285b",
+   "retry_count": 0
+  },
+  "saleor-rc-149c7422d0ec": {
+   "api_cost_usd": 0.007519,
+   "classification": "VALID",
+   "completion_tokens": 137,
+   "latency_seconds": 3.672,
+   "parsed_files": [
+    "saleor/graphql/app/mutations/__init__.py",
+    "saleor/graphql/webhook/mutations/__init__.py",
+    "saleor/app/models.py"
+   ],
+   "prediction_set": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations/__init__.py",
+    "saleor/graphql/webhook/mutations/__init__.py"
+   ],
+   "prompt_tokens": 24606,
+   "raw_output_sha256": "25815ba9c83c5b0ff2f5cfd9f38577ad68b5ff64a863593bb32f41469137cbac",
+   "retry_count": 0
+  },
+  "saleor-rc-14a682044ca4": {
+   "api_cost_usd": 0.008204,
+   "classification": "VALID",
+   "completion_tokens": 103,
+   "latency_seconds": 2.657,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/order/migrations/0157_order_base_shipping_price_amount.py",
+    "saleor/checkout/complete_checkout.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/order/migrations/0157_order_base_shipping_price_amount.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 27003,
+   "raw_output_sha256": "070f0932d945d28976bba5e7d13d71a65c996b93c248dd8bcb16bdbd96b5b1af",
+   "retry_count": 0
+  },
+  "saleor-rc-14f2176b5d8c": {
+   "api_cost_usd": 0.006133,
+   "classification": "VALID",
+   "completion_tokens": 104,
+   "latency_seconds": 1.828,
+   "parsed_files": [
+    "saleor/graphql/product/types/categories.py",
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/types/categories.py"
+   ],
+   "prompt_tokens": 20097,
+   "raw_output_sha256": "425c542ac9b2202a83d8b44cd361a322b615036dea30595d556f69a9d84da8a2",
+   "retry_count": 0
+  },
+  "saleor-rc-17c8d807b3d1": {
+   "api_cost_usd": 0.006626,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.093,
+   "parsed_files": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/mutations/attribute_create.py",
+    "saleor/graphql/attribute/mutations/validators.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/mutations/attribute_create.py",
+    "saleor/graphql/attribute/mutations/validators.py"
+   ],
+   "prompt_tokens": 21735,
+   "raw_output_sha256": "a403a013aa43c29f6582f1a2e036f062501214db1156c85bd329cf8448342f93",
+   "retry_count": 0
+  },
+  "saleor-rc-18430f2a7a16": {
+   "api_cost_usd": 0.006714,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 1.875,
+   "parsed_files": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py",
+    "saleor/plugins/models.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py",
+    "saleor/plugins/models.py"
+   ],
+   "prompt_tokens": 22007,
+   "raw_output_sha256": "158b706fba0d6d653c1d354bfc9f5b5cdc349e65bed3ee7b7ff0ab56bdf9470f",
+   "retry_count": 0
+  },
+  "saleor-rc-18e25b92e0bd": {
+   "api_cost_usd": 0.004205,
+   "classification": "VALID",
+   "completion_tokens": 93,
+   "latency_seconds": 1.516,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/graphql/order/resolvers.py",
+    "saleor/payment/dataloaders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/resolvers.py",
+    "saleor/order/models.py",
+    "saleor/payment/dataloaders.py"
+   ],
+   "prompt_tokens": 13707,
+   "raw_output_sha256": "7706a1e45d1582b19cee88aa82e65085b783e369a7fec120fd707802d770f6fc",
+   "retry_count": 0
+  },
+  "saleor-rc-19bb9b070965": {
+   "api_cost_usd": 0.008717,
+   "classification": "VALID",
+   "completion_tokens": 92,
+   "latency_seconds": 2.203,
+   "parsed_files": [
+    "saleor/tax/models.py",
+    "saleor/discount/utils/manual_discount.py",
+    "saleor/discount/models.py"
+   ],
+   "prediction_set": [
+    "saleor/discount/models.py",
+    "saleor/discount/utils/manual_discount.py",
+    "saleor/tax/models.py"
+   ],
+   "prompt_tokens": 28750,
+   "raw_output_sha256": "6facc5fb98248b56dd5b486fa5a876d984d0371c110d345dc7e033a172248ee9",
+   "retry_count": 0
+  },
+  "saleor-rc-1a8b592913a0": {
+   "api_cost_usd": 0.008506,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 2.719,
+   "parsed_files": [
+    "saleor/shipping/models.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/actions.py",
+    "saleor/checkout/calculations.py",
+    "saleor/shipping/models.py"
+   ],
+   "prompt_tokens": 27950,
+   "raw_output_sha256": "ad2a17653e61d9e7abf6fed4e16d5fb328c6ed2135461bd117471e5a95155d29",
+   "retry_count": 0
+  },
+  "saleor-rc-1abda1e0d36e": {
+   "api_cost_usd": 0.006709,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 1.938,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/shipping/utils.py",
+    "saleor/plugins/webhook/shipping.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/webhook/shipping.py",
+    "saleor/shipping/utils.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 22012,
+   "raw_output_sha256": "40b66337331ab6f818525583c67c6e6a576906b5fdf391d1fae7a79c251a4cf2",
+   "retry_count": 0
+  },
+  "saleor-rc-1af1c3a368ec": {
+   "api_cost_usd": 0.006433,
+   "classification": "VALID",
+   "completion_tokens": 99,
+   "latency_seconds": 4.672,
+   "parsed_files": [
+    "saleor/thumbnail/views.py",
+    "saleor/product/product_images.py",
+    "saleor/thumbnail/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/product/product_images.py",
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "prompt_tokens": 21112,
+   "raw_output_sha256": "83cca6ae10f7748fc507e7ca43f29598f07979b1abeaa75afe6e93e3af16f688",
+   "retry_count": 0
+  },
+  "saleor-rc-1b4da5a88d08": {
+   "api_cost_usd": 0.004867,
+   "classification": "VALID",
+   "completion_tokens": 141,
+   "latency_seconds": 2.359,
+   "parsed_files": [
+    "saleor/graphql/payment/mutations.py",
+    "saleor/graphql/payment/schema.py",
+    "saleor/graphql/core/types/money.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/types/money.py",
+    "saleor/graphql/payment/mutations.py",
+    "saleor/graphql/payment/schema.py"
+   ],
+   "prompt_tokens": 15754,
+   "raw_output_sha256": "e0025bd062b3f83426bf1b036e2760b165796b6354d681056ee777dca4081d5b",
+   "retry_count": 0
+  },
+  "saleor-rc-1cc263035113": {
+   "api_cost_usd": 0.009465,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 2.828,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prompt_tokens": 31199,
+   "raw_output_sha256": "04eb024ed3a0f833e5c662a4ed0fea0ca49b48e442b75cfe055fb1440533d313",
+   "retry_count": 0
+  },
+  "saleor-rc-1cca40939fac": {
+   "api_cost_usd": 0.003492,
+   "classification": "VALID",
+   "completion_tokens": 91,
+   "latency_seconds": 2.078,
+   "parsed_files": [
+    "saleor/order/events.py",
+    "saleor/order/models.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "prediction_set": [
+    "saleor/order/events.py",
+    "saleor/order/models.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "prompt_tokens": 11338,
+   "raw_output_sha256": "6a2acdba2b330bff3a2780601b494b8ef50e2978bbc184c33a689015aacee56d",
+   "retry_count": 0
+  },
+  "saleor-rc-1f47b503f69e": {
+   "api_cost_usd": 0.004856,
+   "classification": "VALID",
+   "completion_tokens": 104,
+   "latency_seconds": 2.078,
+   "parsed_files": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/payment/gateway.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/payment/gateway.py",
+    "saleor/payment/gateways/stripe/plugin.py"
+   ],
+   "prompt_tokens": 15839,
+   "raw_output_sha256": "837e69388e395f5d3ed751ca1a07816b54960533f00558942f326cd9dc9cbf1d",
+   "retry_count": 0
+  },
+  "saleor-rc-1f6fbe2ebf9b": {
+   "api_cost_usd": 0.003521,
+   "classification": "VALID",
+   "completion_tokens": 113,
+   "latency_seconds": 1.734,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/gateway.py",
+    "saleor/graphql/payment/mutations.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/payment/mutations.py",
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 11360,
+   "raw_output_sha256": "2e745543a328bb06aa25514302fbd20f72505aebc945e9e18c5a1184db5563eb",
+   "retry_count": 0
+  },
+  "saleor-rc-1f9b5c53a63a": {
+   "api_cost_usd": 0.006867,
+   "classification": "VALID",
+   "completion_tokens": 126,
+   "latency_seconds": 2.312,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/graphql/webhook/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/webhook/schema.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 22469,
+   "raw_output_sha256": "f61a3c5986a93412bdd1c1f87f09460eb595af009209824fda66f3239e4112bf",
+   "retry_count": 0
+  },
+  "saleor-rc-1fa6a637c7fc": {
+   "api_cost_usd": 0.003706,
+   "classification": "VALID",
+   "completion_tokens": 131,
+   "latency_seconds": 1.797,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/product/migrations/0126_productvariant_default.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/migrations/0126_productvariant_default.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 11917,
+   "raw_output_sha256": "7b094d0ac88e298b06c1911fbd7e4a249f561ffb31f26ddf0aa60efb54ad5995",
+   "retry_count": 0
+  },
+  "saleor-rc-208833e2fa53": {
+   "api_cost_usd": 0.003431,
+   "classification": "VALID",
+   "completion_tokens": 82,
+   "latency_seconds": 1.5,
+   "parsed_files": [
+    "saleor/payment/gateways/dummy/plugin.py",
+    "saleor/payment/gateways/dummy/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateways/dummy/__init__.py",
+    "saleor/payment/gateways/dummy/plugin.py"
+   ],
+   "prompt_tokens": 11163,
+   "raw_output_sha256": "42f231e5effdaf6c7b6b7550e3ab1f8f6c53170deec0e354d6c50ba61ea1b795",
+   "retry_count": 0
+  },
+  "saleor-rc-224bf29fb39f": {
+   "api_cost_usd": 0.009707,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 3.109,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/__init__.py",
+    "saleor/graphql/order/mutations/order_note_add.py",
+    "saleor/graphql/order/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/__init__.py",
+    "saleor/graphql/order/mutations/order_note_add.py",
+    "saleor/graphql/order/schema.py"
+   ],
+   "prompt_tokens": 31983,
+   "raw_output_sha256": "e7120c60f41c8871b4eaef497e688aa323a03b3e77a62f620aea2d4cf80e63a4",
+   "retry_count": 0
+  },
+  "saleor-rc-22a30bf2e4cc": {
+   "api_cost_usd": 0.009467,
+   "classification": "VALID",
+   "completion_tokens": 109,
+   "latency_seconds": 4.359,
+   "parsed_files": [
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/graphql/context.py",
+    "saleor/graphql/core/context.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/context.py",
+    "saleor/graphql/core/context.py",
+    "saleor/graphql/core/dataloaders.py"
+   ],
+   "prompt_tokens": 31193,
+   "raw_output_sha256": "08b683233b0d1c294da338feb80e72727ea032d0b0e62e166f620997e4634ff8",
+   "retry_count": 0
+  },
+  "saleor-rc-24f9b244d6bc": {
+   "api_cost_usd": 0.004113,
+   "classification": "VALID",
+   "completion_tokens": 117,
+   "latency_seconds": 4.516,
+   "parsed_files": [
+    "saleor/settings.py",
+    "manage.py",
+    "conftest.py"
+   ],
+   "prediction_set": [
+    "conftest.py",
+    "manage.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 13321,
+   "raw_output_sha256": "f5cc987802b3dce610f0c79fc706afa70ba36b401783df8245ccd28d7fb17553",
+   "retry_count": 0
+  },
+  "saleor-rc-255d39da978a": {
+   "api_cost_usd": 0.008135,
+   "classification": "VALID",
+   "completion_tokens": 139,
+   "latency_seconds": 3.343,
+   "parsed_files": [
+    "saleor/graphql/attribute/bulk_mutations.py",
+    "saleor/graphql/attribute/mutations/attribute_bulk_create.py",
+    "saleor/graphql/attribute/mutations/attribute_bulk_update.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/attribute/bulk_mutations.py",
+    "saleor/graphql/attribute/mutations/attribute_bulk_create.py",
+    "saleor/graphql/attribute/mutations/attribute_bulk_update.py"
+   ],
+   "prompt_tokens": 26653,
+   "raw_output_sha256": "09ec2007d6b2952d085699bd6ef1e2dc9ffb452b805ec6811a4385bffb11ff23",
+   "retry_count": 0
+  },
+  "saleor-rc-27b65eae2a9a": {
+   "api_cost_usd": 0.005017,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 1.953,
+   "parsed_files": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/models.py"
+   ],
+   "prompt_tokens": 16344,
+   "raw_output_sha256": "1ff436c19d2ea779ee811d7cf33abfca718507895f1f162abb493cd15ff5980b",
+   "retry_count": 0
+  },
+  "saleor-rc-28799575c518": {
+   "api_cost_usd": 0.004104,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 1.641,
+   "parsed_files": [
+    "saleor/plugins/manager.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/graphql/plugins/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/plugins/resolvers.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py"
+   ],
+   "prompt_tokens": 13325,
+   "raw_output_sha256": "3a53bfc8b5a51af7b0d0de470b33f8b241a83ee7c1d55528687242e2af966573",
+   "retry_count": 0
+  },
+  "saleor-rc-29c2d1abdce0": {
+   "api_cost_usd": 0.00415,
+   "classification": "VALID",
+   "completion_tokens": 136,
+   "latency_seconds": 1.75,
+   "parsed_files": [
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/base_calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/plugins/avatax/plugin.py"
+   ],
+   "prompt_tokens": 13381,
+   "raw_output_sha256": "fb8f258b57eb23bc5339c9416dfd5d5d26e603c6c1facaa7ea18e464493958f2",
+   "retry_count": 0
+  },
+  "saleor-rc-2a59d31fc839": {
+   "api_cost_usd": 0.005879,
+   "classification": "VALID",
+   "completion_tokens": 82,
+   "latency_seconds": 1.922,
+   "parsed_files": [
+    "saleor/core/jwt_manager.py",
+    "saleor/core/jwt.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/core/jwt.py",
+    "saleor/core/jwt_manager.py"
+   ],
+   "prompt_tokens": 19323,
+   "raw_output_sha256": "84d959200ea8d5a51cf3606cab9a932f7422e1af3967c028b167b2031512c0f9",
+   "retry_count": 0
+  },
+  "saleor-rc-2a740b36af0a": {
+   "api_cost_usd": 0.007182,
+   "classification": "VALID",
+   "completion_tokens": 125,
+   "latency_seconds": 2.328,
+   "parsed_files": [
+    "saleor/graphql/checkout/mutations/checkout_line_delete.py",
+    "saleor/graphql/checkout/mutations/__init__.py",
+    "saleor/graphql/checkout/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/checkout/mutations/__init__.py",
+    "saleor/graphql/checkout/mutations/checkout_line_delete.py",
+    "saleor/graphql/checkout/schema.py"
+   ],
+   "prompt_tokens": 23525,
+   "raw_output_sha256": "b6954e153859b27d32a8588dc78ffb686a57219f16bad81fdc50277160904cff",
+   "retry_count": 0
+  },
+  "saleor-rc-2c218aadc9b7": {
+   "api_cost_usd": 0.003866,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 1.907,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/order/events.py",
+    "saleor/graphql/order/mutations/orders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/events.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 12532,
+   "raw_output_sha256": "17f0bfa4151aeb76b95c465348dbb14cc39936adabf50b2e2dca6f67966b4dc4",
+   "retry_count": 0
+  },
+  "saleor-rc-2c44b8eccc2c": {
+   "api_cost_usd": 0.006853,
+   "classification": "VALID",
+   "completion_tokens": 113,
+   "latency_seconds": 2.64,
+   "parsed_files": [
+    "saleor/giftcard/models.py",
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/giftcard/models.py",
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py"
+   ],
+   "prompt_tokens": 22465,
+   "raw_output_sha256": "e99e0c58ce04e78d37401815a336a42526e2291e98a656f2f99310743eea907c",
+   "retry_count": 0
+  },
+  "saleor-rc-2c770c685a57": {
+   "api_cost_usd": 0.009154,
+   "classification": "VALID",
+   "completion_tokens": 100,
+   "latency_seconds": 2.313,
+   "parsed_files": [
+    "saleor/checkout/fetch.py",
+    "saleor/shipping/models.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/fetch.py",
+    "saleor/checkout/models.py",
+    "saleor/shipping/models.py"
+   ],
+   "prompt_tokens": 30180,
+   "raw_output_sha256": "d100b1c3f84b89dd1b226390912865848d521baace8d05c42d42e3db38ba6e41",
+   "retry_count": 0
+  },
+  "saleor-rc-2d1599f1f8e2": {
+   "api_cost_usd": 0.005727,
+   "classification": "VALID",
+   "completion_tokens": 126,
+   "latency_seconds": 4.609,
+   "parsed_files": [
+    "saleor/__init__.py",
+    "saleor/settings.py",
+    "saleor/core/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/__init__.py",
+    "saleor/core/__init__.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 18669,
+   "raw_output_sha256": "e3988075981ab5aab07ca755f4f4f96e89cd145591faf1aa621c2f709ab07b74",
+   "retry_count": 0
+  },
+  "saleor-rc-305415e0f8b7": {
+   "api_cost_usd": 0.003942,
+   "classification": "VALID",
+   "completion_tokens": 133,
+   "latency_seconds": 1.641,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/resolvers.py",
+    "saleor/graphql/order/dataloaders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/dataloaders.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "prompt_tokens": 12698,
+   "raw_output_sha256": "8f00fcee05773c9f50c8725c62428dce8993ff00032342656a3e2df50d465dd4",
+   "retry_count": 0
+  },
+  "saleor-rc-308413ed9c19": {
+   "api_cost_usd": 0.004899,
+   "classification": "VALID",
+   "completion_tokens": 97,
+   "latency_seconds": 1.734,
+   "parsed_files": [
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/graphql/checkout/schema.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/graphql/checkout/schema.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prompt_tokens": 16005,
+   "raw_output_sha256": "4379f991d0f19389cd806c43145676b7b6084889e400feaf36932d4d36fda23d",
+   "retry_count": 0
+  },
+  "saleor-rc-30b4edece5aa": {
+   "api_cost_usd": 0.009542,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 3.672,
+   "parsed_files": [
+    "saleor/graphql/app/mutations/app_update.py",
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/mutations/app_update.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "prompt_tokens": 31426,
+   "raw_output_sha256": "25af2dead8a7d16dd2f67a6e99bdf4356daf127df95713dad79f9664e610445d",
+   "retry_count": 0
+  },
+  "saleor-rc-30cb9d338235": {
+   "api_cost_usd": 0.00763,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 3.969,
+   "parsed_files": [
+    "saleor/discount/tasks.py",
+    "saleor/product/tasks.py",
+    "saleor/core/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/core/tasks.py",
+    "saleor/discount/tasks.py",
+    "saleor/product/tasks.py"
+   ],
+   "prompt_tokens": 25082,
+   "raw_output_sha256": "460798e13b7fc5c0d0efa31c91767a3696ec5b486ab21a05eb4220c439818826",
+   "retry_count": 0
+  },
+  "saleor-rc-30fe250747ae": {
+   "api_cost_usd": 0.003971,
+   "classification": "VALID",
+   "completion_tokens": 192,
+   "latency_seconds": 4.328,
+   "parsed_files": [
+    "saleor/attribute/models.py",
+    "saleor/graphql/attribute/resolvers.py",
+    "saleor/graphql/attribute/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models.py",
+    "saleor/graphql/attribute/resolvers.py",
+    "saleor/graphql/attribute/schema.py"
+   ],
+   "prompt_tokens": 12595,
+   "raw_output_sha256": "e5e6ef07c261ba08e759e5f852df74bac9a6ec845a7d3e7bbc3e6dd3d60dcd83",
+   "retry_count": 0
+  },
+  "saleor-rc-32f73ff32b2b": {
+   "api_cost_usd": 0.003677,
+   "classification": "VALID",
+   "completion_tokens": 194,
+   "latency_seconds": 2.156,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/draft_orders.py",
+    "saleor/order/utils.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/draft_orders.py",
+    "saleor/order/utils.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 11611,
+   "raw_output_sha256": "4d0e47fc58c721faedb94ffb88353484ba342f37d7726a99e95434a5ce893447",
+   "retry_count": 0
+  },
+  "saleor-rc-33010c0d5f7f": {
+   "api_cost_usd": 0.006188,
+   "classification": "VALID",
+   "completion_tokens": 127,
+   "latency_seconds": 4.719,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py",
+    "saleor/graphql/webhook/subscription_payload.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py"
+   ],
+   "prompt_tokens": 20203,
+   "raw_output_sha256": "67e3df2cfa6a027d78154522a0d4a3987d42513a0ba18f3e596b18102b225a69",
+   "retry_count": 0
+  },
+  "saleor-rc-333febd35223": {
+   "api_cost_usd": 0.009485,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 2.625,
+   "parsed_files": [
+    "saleor/checkout/models.py",
+    "saleor/order/models.py",
+    "saleor/shipping/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/order/models.py",
+    "saleor/shipping/models.py"
+   ],
+   "prompt_tokens": 31218,
+   "raw_output_sha256": "91694e35b227a379550c9a1422bf7c232abe63359c58608cfe4742272c6cafa0",
+   "retry_count": 0
+  },
+  "saleor-rc-349d88efcfec": {
+   "api_cost_usd": 0.005971,
+   "classification": "VALID",
+   "completion_tokens": 102,
+   "latency_seconds": 1.719,
+   "parsed_files": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py"
+   ],
+   "prompt_tokens": 19564,
+   "raw_output_sha256": "7730e7a4dca89db109a8562748fcbcdc47f70243c8826b3e2a59b9393d4dfc75",
+   "retry_count": 0
+  },
+  "saleor-rc-349fe0c194a1": {
+   "api_cost_usd": 0.007182,
+   "classification": "VALID",
+   "completion_tokens": 122,
+   "latency_seconds": 2.125,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/account/events.py",
+    "saleor/webhook/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 23534,
+   "raw_output_sha256": "2b05d77389595afc9d4db571ca74a4b0d8afba00cd8a486db37815a313c6ecbb",
+   "retry_count": 0
+  },
+  "saleor-rc-3513064157fa": {
+   "api_cost_usd": 0.005889,
+   "classification": "VALID",
+   "completion_tokens": 122,
+   "latency_seconds": 4.094,
+   "parsed_files": [
+    "saleor/graphql/checkout/mutations/checkout_customer_attach.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/checkout/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/checkout/mutations/checkout_customer_attach.py",
+    "saleor/graphql/checkout/schema.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prompt_tokens": 19223,
+   "raw_output_sha256": "aca745fb27bbf0d548b743ee319cf95ec601718872b5781a95748406a74a7e00",
+   "retry_count": 0
+  },
+  "saleor-rc-367b8038f6b9": {
+   "api_cost_usd": 0.003337,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 1.421,
+   "parsed_files": [
+    "saleor/csv/models.py",
+    "saleor/graphql/csv/filters.py",
+    "saleor/core/filters.py"
+   ],
+   "prediction_set": [
+    "saleor/core/filters.py",
+    "saleor/csv/models.py",
+    "saleor/graphql/csv/filters.py"
+   ],
+   "prompt_tokens": 10713,
+   "raw_output_sha256": "2f11480b9cca31533e66dd3d48a6d3c8fd223b198287c6bf15a89a289c5bbc78",
+   "retry_count": 0
+  },
+  "saleor-rc-36a9a14e8d12": {
+   "api_cost_usd": 0.00849,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 2.329,
+   "parsed_files": [
+    "saleor/plugins/models.py",
+    "saleor/plugins/migrations/0009_emailtemplate.py",
+    "saleor/plugins/admin_email/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/admin_email/plugin.py",
+    "saleor/plugins/migrations/0009_emailtemplate.py",
+    "saleor/plugins/models.py"
+   ],
+   "prompt_tokens": 27939,
+   "raw_output_sha256": "c1dfc40219d22cf9e1ae171e2cbd59891e27c9c3c48d709db44e2baaacc4ae89",
+   "retry_count": 0
+  },
+  "saleor-rc-36c0a2029b60": {
+   "api_cost_usd": 0.006184,
+   "classification": "VALID",
+   "completion_tokens": 97,
+   "latency_seconds": 1.75,
+   "parsed_files": [
+    "saleor/discount/models.py",
+    "saleor/core/db_routers.py",
+    "saleor/settings.py"
+   ],
+   "prediction_set": [
+    "saleor/core/db_routers.py",
+    "saleor/discount/models.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 20291,
+   "raw_output_sha256": "c85c219ce8847199d8b4d7473b4f662ddface4af6ca1db2318cab9823af1daf3",
+   "retry_count": 0
+  },
+  "saleor-rc-373efa067922": {
+   "api_cost_usd": 0.007346,
+   "classification": "VALID",
+   "completion_tokens": 94,
+   "latency_seconds": 4.203,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prompt_tokens": 24172,
+   "raw_output_sha256": "6cb22b80279ea25f9aa79566eaa31226140628205349595240c3aa2c83f781e1",
+   "retry_count": 0
+  },
+  "saleor-rc-37a3a7bbec31": {
+   "api_cost_usd": 0.003864,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 1.468,
+   "parsed_files": [
+    "saleor/order/emails.py",
+    "saleor/order/models.py",
+    "saleor/graphql/order/mutations/fulfillments.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/emails.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 12501,
+   "raw_output_sha256": "c3503a91e4db7a4472f91bcb3515bccda4ed623a7fe69720010221bdd465aec3",
+   "retry_count": 0
+  },
+  "saleor-rc-381d4354ead1": {
+   "api_cost_usd": 0.006682,
+   "classification": "VALID",
+   "completion_tokens": 98,
+   "latency_seconds": 2.61,
+   "parsed_files": [
+    "saleor/channel/models.py",
+    "saleor/channel/migrations/0001_initial.py",
+    "saleor/graphql/channel/types.py"
+   ],
+   "prediction_set": [
+    "saleor/channel/migrations/0001_initial.py",
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/types.py"
+   ],
+   "prompt_tokens": 21946,
+   "raw_output_sha256": "0481554f01f687d993cd0ca2597dd3b56dfe977289c34b5628336c9853e87eee",
+   "retry_count": 0
+  },
+  "saleor-rc-39ef77fc9bcb": {
+   "api_cost_usd": 0.006697,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 2.094,
+   "parsed_files": [
+    "saleor/graphql/account/mutations/authentication.py",
+    "saleor/graphql/account/mutations/__init__.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/account/mutations/__init__.py",
+    "saleor/graphql/account/mutations/authentication.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "prompt_tokens": 21920,
+   "raw_output_sha256": "af1e795ccb9ae6e1389435ee25ea76e94080a5739a74ff37c87ab2d82c8fd59d",
+   "retry_count": 0
+  },
+  "saleor-rc-3bf31ab2fefc": {
+   "api_cost_usd": 0.009272,
+   "classification": "VALID",
+   "completion_tokens": 124,
+   "latency_seconds": 5.093,
+   "parsed_files": [
+    "saleor/giftcard/models.py",
+    "saleor/checkout/models.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/giftcard/models.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 30494,
+   "raw_output_sha256": "9230dcbe3d7cb2b419ffffa290dd39394d839d64c9efd038ecdaa65322d2fb75",
+   "retry_count": 0
+  },
+  "saleor-rc-3cac33590b90": {
+   "api_cost_usd": 0.009692,
+   "classification": "VALID",
+   "completion_tokens": 144,
+   "latency_seconds": 2.828,
+   "parsed_files": [
+    "saleor/graphql/core/filters/where_filters.py",
+    "saleor/graphql/product/filters/product_attributes.py",
+    "saleor/graphql/page/filters.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/filters/where_filters.py",
+    "saleor/graphql/page/filters.py",
+    "saleor/graphql/product/filters/product_attributes.py"
+   ],
+   "prompt_tokens": 31827,
+   "raw_output_sha256": "492e06477278c7869bb841f7795238ed620c5633596acbfcf2daf65a935564ee",
+   "retry_count": 0
+  },
+  "saleor-rc-3d304a30a5bc": {
+   "api_cost_usd": 0.008483,
+   "classification": "VALID",
+   "completion_tokens": 155,
+   "latency_seconds": 2.547,
+   "parsed_files": [
+    "saleor/checkout/actions.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/actions.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py"
+   ],
+   "prompt_tokens": 27759,
+   "raw_output_sha256": "1bf54d454d69332af5435cfcae233101c451f6564572c5e88b44446a0b52f7ec",
+   "retry_count": 0
+  },
+  "saleor-rc-3f8a4320b1c9": {
+   "api_cost_usd": 0.004182,
+   "classification": "VALID",
+   "completion_tokens": 176,
+   "latency_seconds": 3.672,
+   "parsed_files": [
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/types.py",
+    "saleor/shipping/models.py"
+   ],
+   "prediction_set": [
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/types.py",
+    "saleor/shipping/models.py"
+   ],
+   "prompt_tokens": 13355,
+   "raw_output_sha256": "784ca007d083b2129b47ebfb2ee0c52339612bbe63c722cf9f8b1feba78fac4f",
+   "retry_count": 0
+  },
+  "saleor-rc-4086a98fdc78": {
+   "api_cost_usd": 0.009637,
+   "classification": "VALID",
+   "completion_tokens": 145,
+   "latency_seconds": 3.406,
+   "parsed_files": [
+    "saleor/app/installation_utils.py",
+    "saleor/graphql/app/mutations/app_fetch_manifest.py",
+    "saleor/graphql/app/mutations/app_retry_install.py"
+   ],
+   "prediction_set": [
+    "saleor/app/installation_utils.py",
+    "saleor/graphql/app/mutations/app_fetch_manifest.py",
+    "saleor/graphql/app/mutations/app_retry_install.py"
+   ],
+   "prompt_tokens": 31640,
+   "raw_output_sha256": "4faafc304b8fa67645bedcd0707fb4f2008883cc34d04ea945caa208e61baac8",
+   "retry_count": 0
+  },
+  "saleor-rc-43262efc09bb": {
+   "api_cost_usd": 0.00357,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 1.453,
+   "parsed_files": [
+    "saleor/core/db/fields.py",
+    "saleor/product/models.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/core/db/fields.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 11518,
+   "raw_output_sha256": "650043b8640da0485e7f4b0c35bf16801af83a5c8280f0fa73f555e2c12532e9",
+   "retry_count": 0
+  },
+  "saleor-rc-438595033c60": {
+   "api_cost_usd": 0.008422,
+   "classification": "VALID",
+   "completion_tokens": 104,
+   "latency_seconds": 4.0,
+   "parsed_files": [
+    "saleor/core/tracing.py",
+    "saleor/graphql/core/tracing.py",
+    "saleor/core/middleware.py"
+   ],
+   "prediction_set": [
+    "saleor/core/middleware.py",
+    "saleor/core/tracing.py",
+    "saleor/graphql/core/tracing.py"
+   ],
+   "prompt_tokens": 27725,
+   "raw_output_sha256": "533a84e7a9935c7d4c600e294d0c2cb71556a620cddb99f6ee5614c4a454202c",
+   "retry_count": 0
+  },
+  "saleor-rc-4386f322f659": {
+   "api_cost_usd": 0.007959,
+   "classification": "VALID",
+   "completion_tokens": 111,
+   "latency_seconds": 4.313,
+   "parsed_files": [
+    "saleor/attribute/utils.py",
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py",
+    "saleor/attribute/utils.py"
+   ],
+   "prompt_tokens": 26161,
+   "raw_output_sha256": "5a6cf8258a4ca202188692bd9bba8e6af1babe7ea27feb14992e9e6ab6b6f9e1",
+   "retry_count": 0
+  },
+  "saleor-rc-45301d74fb45": {
+   "api_cost_usd": 0.004986,
+   "classification": "VALID",
+   "completion_tokens": 90,
+   "latency_seconds": 1.609,
+   "parsed_files": [
+    "saleor/checkout/utils.py",
+    "saleor/shipping/utils.py",
+    "saleor/checkout/calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py",
+    "saleor/shipping/utils.py"
+   ],
+   "prompt_tokens": 16319,
+   "raw_output_sha256": "238f76032d66d0005674cec574cf7d7fdd852a79ef3effe500c1c89fdaf927bf",
+   "retry_count": 0
+  },
+  "saleor-rc-45cfb26218c8": {
+   "api_cost_usd": 0.007134,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.219,
+   "parsed_files": [
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/types.py",
+    "saleor/graphql/channel/mutations/base_channel_listing.py"
+   ],
+   "prediction_set": [
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/mutations/base_channel_listing.py",
+    "saleor/graphql/channel/types.py"
+   ],
+   "prompt_tokens": 23427,
+   "raw_output_sha256": "b1a36070ba2382eda104a141c14e6937e7dbfa5680755d47c3af9dd0c7abd68c",
+   "retry_count": 0
+  },
+  "saleor-rc-46456e7317ca": {
+   "api_cost_usd": 0.009546,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 2.75,
+   "parsed_files": [
+    "saleor/graphql/core/connection.py",
+    "saleor/graphql/core/fields.py",
+    "saleor/graphql/core/types/base.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/connection.py",
+    "saleor/graphql/core/fields.py",
+    "saleor/graphql/core/types/base.py"
+   ],
+   "prompt_tokens": 31409,
+   "raw_output_sha256": "370973ceb2ffc56d325f33836baeed4e1f24ad3870b65e16eeff7583c2e2b66c",
+   "retry_count": 0
+  },
+  "saleor-rc-477f7178142c": {
+   "api_cost_usd": 0.004644,
+   "classification": "VALID",
+   "completion_tokens": 146,
+   "latency_seconds": 5.031,
+   "parsed_files": [
+    "saleor/plugins/manager.py",
+    "saleor/core/tracing.py",
+    "saleor/plugins/base_plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/core/tracing.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py"
+   ],
+   "prompt_tokens": 14992,
+   "raw_output_sha256": "0533d9d3235b4430f0aaf1ce0ac2fe8bd9aa65719243423da79c3be53c0dd6c2",
+   "retry_count": 0
+  },
+  "saleor-rc-4800fa0beb60": {
+   "api_cost_usd": 0.008436,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 3.25,
+   "parsed_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/transport/synchronous/transport.py",
+    "saleor/graphql/payment/mutations/transaction/transaction_process.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_process.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "prompt_tokens": 27739,
+   "raw_output_sha256": "efa6d1d9d033df85e59805e8ae0d3c0418584a9c615e7ed239da4b56fa3c31af",
+   "retry_count": 0
+  },
+  "saleor-rc-481c2d367c6f": {
+   "api_cost_usd": 0.009752,
+   "classification": "VALID",
+   "completion_tokens": 151,
+   "latency_seconds": 3.016,
+   "parsed_files": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/graphql/product/mutations/product_type/product_type_create.py",
+    "saleor/graphql/product/mutations/product_type/product_type_update.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/product_type/product_type_create.py",
+    "saleor/graphql/product/mutations/product_type/product_type_update.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prompt_tokens": 32003,
+   "raw_output_sha256": "915d0c3cdd21a0fd5688a44ceeedd948f02177036b95d435c266106b77d4c45a",
+   "retry_count": 0
+  },
+  "saleor-rc-484ce8815cf4": {
+   "api_cost_usd": 0.005043,
+   "classification": "VALID",
+   "completion_tokens": 111,
+   "latency_seconds": 4.593,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/order/actions.py",
+    "saleor/payment/models.py"
+   ],
+   "prediction_set": [
+    "saleor/order/actions.py",
+    "saleor/order/models.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 16440,
+   "raw_output_sha256": "9317bf8e3fccebc646935caa06be3543002d12477f270c40129d3104a849d617",
+   "retry_count": 0
+  },
+  "saleor-rc-4902175839c9": {
+   "api_cost_usd": 0.004209,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 1.922,
+   "parsed_files": [
+    "saleor/order/templatetags/order_lines.py",
+    "saleor/order/models.py",
+    "saleor/product/thumbnails.py"
+   ],
+   "prediction_set": [
+    "saleor/order/models.py",
+    "saleor/order/templatetags/order_lines.py",
+    "saleor/product/thumbnails.py"
+   ],
+   "prompt_tokens": 13669,
+   "raw_output_sha256": "f84a005400b192991edc210795a54ffdd1ec28c56d7c01c4971a296e422c6006",
+   "retry_count": 0
+  },
+  "saleor-rc-4931e989d82d": {
+   "api_cost_usd": 0.00638,
+   "classification": "VALID",
+   "completion_tokens": 118,
+   "latency_seconds": 2.0,
+   "parsed_files": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py",
+    "saleor/payment/gateways/stripe/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateways/stripe/__init__.py",
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py"
+   ],
+   "prompt_tokens": 20873,
+   "raw_output_sha256": "fbac469696e7c62fa7e86412776ffb2b08bb7c49c4f9cc96709ada1f42d0275f",
+   "retry_count": 0
+  },
+  "saleor-rc-4adf36dfdbe7": {
+   "api_cost_usd": 0.005841,
+   "classification": "VALID",
+   "completion_tokens": 148,
+   "latency_seconds": 1.953,
+   "parsed_files": [
+    "saleor/thumbnail/models.py",
+    "saleor/thumbnail/views.py",
+    "saleor/thumbnail/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/thumbnail/models.py",
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "prompt_tokens": 18976,
+   "raw_output_sha256": "8945de1d98a0d27d16bc9ab9983d2033444bb7047ba5dd23de54b9d7f0cce93d",
+   "retry_count": 0
+  },
+  "saleor-rc-4d82a7601853": {
+   "api_cost_usd": 0.003714,
+   "classification": "VALID",
+   "completion_tokens": 140,
+   "latency_seconds": 3.829,
+   "parsed_files": [
+    "saleor/settings.py",
+    "saleor/core/models.py",
+    "saleor/graphql/api.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/graphql/api.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 11914,
+   "raw_output_sha256": "0acf0af3113385ac8e2742750c4f83546e03a3d6ec3896ce7ffa4e1e867053b7",
+   "retry_count": 0
+  },
+  "saleor-rc-4e45b83e7475": {
+   "api_cost_usd": 0.005773,
+   "classification": "VALID",
+   "completion_tokens": 113,
+   "latency_seconds": 3.609,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/order_mark_as_paid.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/order_mark_as_paid.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 18866,
+   "raw_output_sha256": "fc8e3e4485e061e4f78447ceb558c6d145a5dc82632c10fda52370eac5d1e1ec",
+   "retry_count": 0
+  },
+  "saleor-rc-4fa88efe7c69": {
+   "api_cost_usd": 0.009133,
+   "classification": "MALFORMED",
+   "completion_tokens": 164,
+   "latency_seconds": 3.891,
+   "parsed_files": [],
+   "prediction_set": [],
+   "prompt_tokens": 29898,
+   "raw_output_sha256": "25ac57bd252e67f69653ad734a3468d72fc26d62f48d1237b5f112ce2837359e",
+   "retry_count": 0
+  },
+  "saleor-rc-4fc702179851": {
+   "api_cost_usd": 0.004894,
+   "classification": "VALID",
+   "completion_tokens": 124,
+   "latency_seconds": 2.187,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/warehouse/models.py",
+    "saleor/graphql/product/filters.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/product/models.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 15901,
+   "raw_output_sha256": "5b5112b36c3b4243c83cb5d83824921e780a6e86327e9d37c92a378697aaa041",
+   "retry_count": 0
+  },
+  "saleor-rc-506cd1157e9c": {
+   "api_cost_usd": 0.007371,
+   "classification": "VALID",
+   "completion_tokens": 133,
+   "latency_seconds": 7.328,
+   "parsed_files": [
+    "saleor/invoice/models.py",
+    "saleor/invoice/migrations/0009_alter_invoice_options.py",
+    "saleor/graphql/invoice/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/invoice/types.py",
+    "saleor/invoice/migrations/0009_alter_invoice_options.py",
+    "saleor/invoice/models.py"
+   ],
+   "prompt_tokens": 24128,
+   "raw_output_sha256": "d3c60b08d1110943b56b5f40fbdc839294ed19009c9d317e936cc026ffb24412",
+   "retry_count": 0
+  },
+  "saleor-rc-50eff94aa37c": {
+   "api_cost_usd": 0.003963,
+   "classification": "VALID",
+   "completion_tokens": 116,
+   "latency_seconds": 3.422,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 12824,
+   "raw_output_sha256": "f67cff581a530e29772166d6f5202c7cfa48c3bda71fc3ddfb961a382bcb84da",
+   "retry_count": 0
+  },
+  "saleor-rc-5144ee6bd55f": {
+   "api_cost_usd": 0.00893,
+   "classification": "VALID",
+   "completion_tokens": 99,
+   "latency_seconds": 3.594,
+   "parsed_files": [
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/core/filters/filter_input.py",
+    "saleor/graphql/account/filters.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/core/filters/filter_input.py",
+    "saleor/graphql/order/filters.py"
+   ],
+   "prompt_tokens": 29437,
+   "raw_output_sha256": "200f946504659ca9af5104cf7c6e594b578dc0b6b06308a6a75c906774765a0b",
+   "retry_count": 0
+  },
+  "saleor-rc-52a797b00af3": {
+   "api_cost_usd": 0.004018,
+   "classification": "VALID",
+   "completion_tokens": 119,
+   "latency_seconds": 2.656,
+   "parsed_files": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 12998,
+   "raw_output_sha256": "285d1790b344d6e3588181c42a43762846336991e8e3c91fe717c8ccb9c0c9c6",
+   "retry_count": 0
+  },
+  "saleor-rc-5477b7dd3867": {
+   "api_cost_usd": 0.008509,
+   "classification": "VALID",
+   "completion_tokens": 122,
+   "latency_seconds": 2.563,
+   "parsed_files": [
+    "saleor/graphql/checkout/mutations/checkout_lines_update.py",
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/mutations/checkout_lines_update.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prompt_tokens": 27956,
+   "raw_output_sha256": "3ba908396db1ec2e634eebf53f775e758961b14ae00b500a0a549aeb04cb068f",
+   "retry_count": 0
+  },
+  "saleor-rc-54b2e510c366": {
+   "api_cost_usd": 0.004477,
+   "classification": "VALID",
+   "completion_tokens": 111,
+   "latency_seconds": 2.641,
+   "parsed_files": [
+    "saleor/warehouse/models.py",
+    "saleor/warehouse/availability.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/product/models.py",
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 14555,
+   "raw_output_sha256": "1721c3207676f0d66ea6ef8cedbe1a441f80d412125aba95879079997210a9a8",
+   "retry_count": 0
+  },
+  "saleor-rc-54bbb04b8954": {
+   "api_cost_usd": 0.004724,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 1.859,
+   "parsed_files": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/mutations.py"
+   ],
+   "prompt_tokens": 15409,
+   "raw_output_sha256": "a66e18bfddba0a7cee72281db01250529166e3925a1de36030591650dff57ea7",
+   "retry_count": 0
+  },
+  "saleor-rc-55ff6b5b2b65": {
+   "api_cost_usd": 0.006431,
+   "classification": "VALID",
+   "completion_tokens": 117,
+   "latency_seconds": 4.313,
+   "parsed_files": [
+    "saleor/asgi/cors_handler.py",
+    "saleor/asgi/__init__.py",
+    "saleor/settings.py"
+   ],
+   "prediction_set": [
+    "saleor/asgi/__init__.py",
+    "saleor/asgi/cors_handler.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 21046,
+   "raw_output_sha256": "7bb5de8fdbd27c06e1945ac27b0fec3b62c4a487fa58a83bfe24c92eda0b301e",
+   "retry_count": 0
+  },
+  "saleor-rc-571a3b145aea": {
+   "api_cost_usd": 0.004967,
+   "classification": "VALID",
+   "completion_tokens": 124,
+   "latency_seconds": 6.922,
+   "parsed_files": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/calculations.py",
+    "saleor/payment/gateway.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/payment/gateway.py"
+   ],
+   "prompt_tokens": 16142,
+   "raw_output_sha256": "5593281935cb5e4efaeb4c682e17d11ad59ec2a12bce0f87d191eb4b156e9f8f",
+   "retry_count": 0
+  },
+  "saleor-rc-57441a31a14b": {
+   "api_cost_usd": 0.00333,
+   "classification": "VALID",
+   "completion_tokens": 86,
+   "latency_seconds": 2.265,
+   "parsed_files": [
+    "saleor/invoice/events.py",
+    "saleor/invoice/emails.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/invoice/emails.py",
+    "saleor/invoice/events.py"
+   ],
+   "prompt_tokens": 10812,
+   "raw_output_sha256": "955a47e055416fc9a795c6efb3dc47585be18f746cb2265126cec2e14817f62f",
+   "retry_count": 0
+  },
+  "saleor-rc-5821309aed09": {
+   "api_cost_usd": 0.004116,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 4.75,
+   "parsed_files": [
+    "saleor/warehouse/availability.py",
+    "saleor/product/utils/availability.py",
+    "saleor/checkout/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/utils.py",
+    "saleor/product/utils/availability.py",
+    "saleor/warehouse/availability.py"
+   ],
+   "prompt_tokens": 13369,
+   "raw_output_sha256": "bef8fb16566fabbf6f29f1bbecc8dc7396f63e27f02bbe8ba926d8537e442187",
+   "retry_count": 0
+  },
+  "saleor-rc-585562cf1cec": {
+   "api_cost_usd": 0.004464,
+   "classification": "VALID",
+   "completion_tokens": 133,
+   "latency_seconds": 5.11,
+   "parsed_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/payload_serializers.py",
+    "saleor/attribute/models/base.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/webhook/payload_serializers.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prompt_tokens": 14436,
+   "raw_output_sha256": "5d941aa7a764775f5d7574d8227cedf7cbe9a7b4c8d7808877e35f5a69667396",
+   "retry_count": 0
+  },
+  "saleor-rc-598aca390888": {
+   "api_cost_usd": 0.005283,
+   "classification": "VALID",
+   "completion_tokens": 131,
+   "latency_seconds": 4.484,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/core/migrations/0003_eventdeliveryattempt_response_status_code.py",
+    "saleor/core/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/migrations/0003_eventdeliveryattempt_response_status_code.py",
+    "saleor/core/models.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 17174,
+   "raw_output_sha256": "c4c27596a36594eb0569cf18ded3fd129d57c16d25d9360ce6dbe1ee24d82e4c",
+   "retry_count": 0
+  },
+  "saleor-rc-5adf2a55d3e7": {
+   "api_cost_usd": 0.003458,
+   "classification": "VALID",
+   "completion_tokens": 76,
+   "latency_seconds": 3.594,
+   "parsed_files": [
+    "saleor/celeryconf.py",
+    "saleor/core/management/commands/populatedb.py",
+    "saleor/settings.py"
+   ],
+   "prediction_set": [
+    "saleor/celeryconf.py",
+    "saleor/core/management/commands/populatedb.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 11275,
+   "raw_output_sha256": "f447bd38050ccd764af70bf950c76b1a14082fc7ebb6758d33828767b2e3b011",
+   "retry_count": 0
+  },
+  "saleor-rc-5af4a7b5656e": {
+   "api_cost_usd": 0.008401,
+   "classification": "VALID",
+   "completion_tokens": 92,
+   "latency_seconds": 3.094,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/order/models.py",
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py"
+   ],
+   "prompt_tokens": 27698,
+   "raw_output_sha256": "b5bd0e328c982c3bc9cdc6ff4a788767495032e88488c109030c8d46b98a59be",
+   "retry_count": 0
+  },
+  "saleor-rc-5c458f26276d": {
+   "api_cost_usd": 0.00428,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 3.438,
+   "parsed_files": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "prompt_tokens": 13900,
+   "raw_output_sha256": "363f48a94c1048c9e0fd091594af4ccad4adffd17731e0c95a3364526d1cf3d9",
+   "retry_count": 0
+  },
+  "saleor-rc-5c50110d46a2": {
+   "api_cost_usd": 0.003713,
+   "classification": "VALID",
+   "completion_tokens": 143,
+   "latency_seconds": 7.843,
+   "parsed_files": [
+    "saleor/core/taxes.py",
+    "saleor/plugins/vatlayer/plugin.py",
+    "saleor/plugins/avatax/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/core/taxes.py",
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/vatlayer/plugin.py"
+   ],
+   "prompt_tokens": 11901,
+   "raw_output_sha256": "5aa4133a2e1f3dd46d8f3a4a95a6f2aeee3a9e48cc599d9add135421a44c8e9f",
+   "retry_count": 0
+  },
+  "saleor-rc-5d2721a36364": {
+   "api_cost_usd": 0.007664,
+   "classification": "VALID",
+   "completion_tokens": 88,
+   "latency_seconds": 2.594,
+   "parsed_files": [
+    "saleor/core/weight.py",
+    "saleor/core/units.py",
+    "saleor/site/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/units.py",
+    "saleor/core/weight.py",
+    "saleor/site/models.py"
+   ],
+   "prompt_tokens": 25253,
+   "raw_output_sha256": "abfc15a8aac011664dfa51f95ad7ee64a84f2a57de438b52f78eed8ad7d7f095",
+   "retry_count": 0
+  },
+  "saleor-rc-5ed60eba096a": {
+   "api_cost_usd": 0.009373,
+   "classification": "VALID",
+   "completion_tokens": 124,
+   "latency_seconds": 16.0,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations/app_install.py",
+    "saleor/graphql/app/mutations/app_create.py"
+   ],
+   "prediction_set": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/mutations/app_install.py"
+   ],
+   "prompt_tokens": 30831,
+   "raw_output_sha256": "44e604b6396a52c1696f4499593c0930e40a11fd627e58f469d743d4f71a9333",
+   "retry_count": 0
+  },
+  "saleor-rc-5f78ba7b1647": {
+   "api_cost_usd": 0.003961,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 4.484,
+   "parsed_files": [
+    "saleor/shipping/utils.py",
+    "saleor/shipping/models.py",
+    "saleor/checkout/calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/shipping/models.py",
+    "saleor/shipping/utils.py"
+   ],
+   "prompt_tokens": 12838,
+   "raw_output_sha256": "5de19649ac9fd5950b7ef83acf98e2ee183ac0ea110ed0d7eeba4702c3784d6a",
+   "retry_count": 0
+  },
+  "saleor-rc-5f8b1cc4db2d": {
+   "api_cost_usd": 0.008418,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 8.204,
+   "parsed_files": [
+    "saleor/graphql/core/connection.py",
+    "saleor/graphql/core/utils/resolvers.py",
+    "saleor/graphql/product/filters.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/connection.py",
+    "saleor/graphql/core/utils/resolvers.py",
+    "saleor/graphql/product/filters.py"
+   ],
+   "prompt_tokens": 27701,
+   "raw_output_sha256": "333fc3f749682b28c25c4eb8b84bec4319e9b6ebb774c81a0cf731ea74d596d8",
+   "retry_count": 0
+  },
+  "saleor-rc-6370f4a6b8a5": {
+   "api_cost_usd": 0.003837,
+   "classification": "VALID",
+   "completion_tokens": 89,
+   "latency_seconds": 2.734,
+   "parsed_files": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/menu/resolvers.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/menu/resolvers.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 12495,
+   "raw_output_sha256": "1149936c2385533851dcb7f91def6bbef02d8b37fb1314901ea14945f4572cd6",
+   "retry_count": 0
+  },
+  "saleor-rc-63a25a0c46d5": {
+   "api_cost_usd": 0.008306,
+   "classification": "VALID",
+   "completion_tokens": 116,
+   "latency_seconds": 4.687,
+   "parsed_files": [
+    "saleor/webhook/transport/synchronous/transport.py",
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/models.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "prompt_tokens": 27299,
+   "raw_output_sha256": "a4595f4cd242bcf42b26b9aaf1a6a2cbf66c0627747f05ab9b12af5430a6249b",
+   "retry_count": 0
+  },
+  "saleor-rc-63a31dd3c8ca": {
+   "api_cost_usd": 0.003418,
+   "classification": "VALID",
+   "completion_tokens": 119,
+   "latency_seconds": 3.735,
+   "parsed_files": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/core/models.py",
+    "saleor/graphql/core/mutations.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/graphql/core/mutations.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prompt_tokens": 10996,
+   "raw_output_sha256": "1925749e1b2bd4e15bba53b5e5cc990defc0d47b095224fd422aa56aa21a5858",
+   "retry_count": 0
+  },
+  "saleor-rc-65643ec7c37f": {
+   "api_cost_usd": 0.005788,
+   "classification": "VALID",
+   "completion_tokens": 107,
+   "latency_seconds": 3.39,
+   "parsed_files": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 18937,
+   "raw_output_sha256": "90a5ac7fe604bf0a77a7d5684802243cd2919a77fde5398774829d933107f099",
+   "retry_count": 0
+  },
+  "saleor-rc-659af1b19239": {
+   "api_cost_usd": 0.008492,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 2.938,
+   "parsed_files": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py"
+   ],
+   "prompt_tokens": 27971,
+   "raw_output_sha256": "f8e50880f907a892adebf5f9df6a5ec77c2892286e16f6f113dff6bec25345dd",
+   "retry_count": 0
+  },
+  "saleor-rc-65a07d9986ec": {
+   "api_cost_usd": 0.006949,
+   "classification": "VALID",
+   "completion_tokens": 140,
+   "latency_seconds": 2.734,
+   "parsed_files": [
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/graphql/account/dataloaders.py",
+    "saleor/graphql/product/dataloaders/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/account/dataloaders.py",
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/graphql/product/dataloaders/__init__.py"
+   ],
+   "prompt_tokens": 22698,
+   "raw_output_sha256": "394ddd30d290a553442c6babd99e8b98a2243dd853c8889d4e0403427dab9380",
+   "retry_count": 0
+  },
+  "saleor-rc-65dfc61ec9fc": {
+   "api_cost_usd": 0.00808,
+   "classification": "VALID",
+   "completion_tokens": 187,
+   "latency_seconds": 5.39,
+   "parsed_files": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/migrations/0064_checkout_is_voucher_usage_increased.py",
+    "saleor/payment/gateways/np_atobarai/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/migrations/0064_checkout_is_voucher_usage_increased.py",
+    "saleor/checkout/models.py",
+    "saleor/payment/gateways/np_atobarai/plugin.py"
+   ],
+   "prompt_tokens": 26309,
+   "raw_output_sha256": "7dd4cf6162dcf2d37f7add3a343ecae7c7f156046cfe1b87553e2600d3555ca7",
+   "retry_count": 0
+  },
+  "saleor-rc-663543eaf563": {
+   "api_cost_usd": 0.008842,
+   "classification": "VALID",
+   "completion_tokens": 111,
+   "latency_seconds": 2.938,
+   "parsed_files": [
+    "saleor/webhook/payload_serializers.py",
+    "saleor/webhook/serializers.py",
+    "saleor/webhook/models.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/payload_serializers.py",
+    "saleor/webhook/serializers.py"
+   ],
+   "prompt_tokens": 29104,
+   "raw_output_sha256": "878557242c93153d9337f1af8ab44649f7a191e26b37d57657819021a7c1d76d",
+   "retry_count": 0
+  },
+  "saleor-rc-66907b149076": {
+   "api_cost_usd": 0.006835,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 2.391,
+   "parsed_files": [
+    "saleor/graphql/product/mutations/attributes.py",
+    "saleor/graphql/product/mutations/product/product_create.py",
+    "saleor/graphql/product/mutations/product/product_update.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/attributes.py",
+    "saleor/graphql/product/mutations/product/product_create.py",
+    "saleor/graphql/product/mutations/product/product_update.py"
+   ],
+   "prompt_tokens": 22435,
+   "raw_output_sha256": "5fe34b5a4e5411ada78e3c2762529735f1a6c665abce81b3ee123aaa4d4b21f5",
+   "retry_count": 0
+  },
+  "saleor-rc-67cd71a9e0b7": {
+   "api_cost_usd": 0.007776,
+   "classification": "VALID",
+   "completion_tokens": 107,
+   "latency_seconds": 2.359,
+   "parsed_files": [
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py",
+    "saleor/product/product_images.py"
+   ],
+   "prediction_set": [
+    "saleor/product/product_images.py",
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "prompt_tokens": 25562,
+   "raw_output_sha256": "a3ef8a62ed30112dc6cbda09bf939e0ea4c8aac68074f7fc3231555e399abc71",
+   "retry_count": 0
+  },
+  "saleor-rc-68777a15d2a4": {
+   "api_cost_usd": 0.008455,
+   "classification": "VALID",
+   "completion_tokens": 129,
+   "latency_seconds": 3.344,
+   "parsed_files": [
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/checkout/fetch.py",
+    "saleor/order/fetch.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/fetch.py",
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/order/fetch.py"
+   ],
+   "prompt_tokens": 27755,
+   "raw_output_sha256": "c4a1a6c6fef43a3b195f2bcfde4399a6b0ab5c3fd1819e12f021898691ce15dd",
+   "retry_count": 0
+  },
+  "saleor-rc-68fb4bf4a458": {
+   "api_cost_usd": 0.005398,
+   "classification": "VALID",
+   "completion_tokens": 147,
+   "latency_seconds": 2.531,
+   "parsed_files": [
+    "saleor/graphql/order/dataloaders.py",
+    "saleor/order/models.py",
+    "saleor/graphql/core/dataloaders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/graphql/order/dataloaders.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 17502,
+   "raw_output_sha256": "4e2f215ecbea7e4bf93f8cca9d97a2516103e2348b40b1cc31a74369dd9dfccb",
+   "retry_count": 0
+  },
+  "saleor-rc-693eb302968c": {
+   "api_cost_usd": 0.003918,
+   "classification": "VALID",
+   "completion_tokens": 86,
+   "latency_seconds": 1.703,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/vatlayer/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/order/models.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/vatlayer/plugin.py"
+   ],
+   "prompt_tokens": 12773,
+   "raw_output_sha256": "ea54cb5429957c563168b5ff591524546c1f4d5286f40221f7fb1dd70ef9bbe8",
+   "retry_count": 0
+  },
+  "saleor-rc-697cbdc85b4a": {
+   "api_cost_usd": 0.009073,
+   "classification": "VALID",
+   "completion_tokens": 96,
+   "latency_seconds": 5.172,
+   "parsed_files": [
+    "saleor/core/prices.py",
+    "saleor/graphql/core/types/money.py",
+    "saleor/payment/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/prices.py",
+    "saleor/graphql/core/types/money.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 29922,
+   "raw_output_sha256": "2fec3b6b7a1a7b3c8418945f3916240cae78f2678e85f597f4d89143ed86a6bc",
+   "retry_count": 0
+  },
+  "saleor-rc-6a1f884168d2": {
+   "api_cost_usd": 0.004146,
+   "classification": "VALID",
+   "completion_tokens": 138,
+   "latency_seconds": 1.844,
+   "parsed_files": [
+    "saleor/shipping/models.py",
+    "saleor/shipping/migrations/0022_shipping_method_channel_listing.py",
+    "saleor/graphql/shipping/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/shipping/types.py",
+    "saleor/shipping/migrations/0022_shipping_method_channel_listing.py",
+    "saleor/shipping/models.py"
+   ],
+   "prompt_tokens": 13360,
+   "raw_output_sha256": "601fac16e12e6a82b608100968ee18d6b077f569e9a46bd02529b3415d896c56",
+   "retry_count": 0
+  },
+  "saleor-rc-6c928b72daa4": {
+   "api_cost_usd": 0.004488,
+   "classification": "VALID",
+   "completion_tokens": 129,
+   "latency_seconds": 1.828,
+   "parsed_files": [
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/attribute/resolvers.py",
+    "saleor/attribute/migrations/0014_auto_20210619_1836.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/migrations/0014_auto_20210619_1836.py",
+    "saleor/graphql/attribute/resolvers.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prompt_tokens": 14529,
+   "raw_output_sha256": "cc05c8778e5713b037dd56956dc4e22dcc38c8e061b2fe719c8ee76a131c5629",
+   "retry_count": 0
+  },
+  "saleor-rc-73b8f4c2a451": {
+   "api_cost_usd": 0.00477,
+   "classification": "VALID",
+   "completion_tokens": 245,
+   "latency_seconds": 4.547,
+   "parsed_files": [
+    "saleor/account/models.py",
+    "saleor/csv/models.py",
+    "saleor/invoice/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/csv/models.py",
+    "saleor/invoice/models.py"
+   ],
+   "prompt_tokens": 15083,
+   "raw_output_sha256": "29d48c7640a3d699fdd01e079faa5098e4633fea2acca11cd550b0a547ab3ae8",
+   "retry_count": 0
+  },
+  "saleor-rc-74fbba6d0734": {
+   "api_cost_usd": 0.008159,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 7.359,
+   "parsed_files": [
+    "saleor/account/models.py",
+    "saleor/graphql/account/mutations/authentication/create_token.py",
+    "saleor/core/auth_backend.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/core/auth_backend.py",
+    "saleor/graphql/account/mutations/authentication/create_token.py"
+   ],
+   "prompt_tokens": 26797,
+   "raw_output_sha256": "2b0014c2c05d5fe1de5eb26bed45141ad5fba309fd7d0429e1edf2e22dede4df",
+   "retry_count": 0
+  },
+  "saleor-rc-7691de1ea22e": {
+   "api_cost_usd": 0.007157,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 3.407,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/graphql/order/sorters.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/sorters.py",
+    "saleor/order/models.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 23446,
+   "raw_output_sha256": "e2ed83dd2b8fb93872ab81f71324287bbc3c7600957ffba7587e6e7ae2122d8e",
+   "retry_count": 0
+  },
+  "saleor-rc-78c9081e2731": {
+   "api_cost_usd": 0.008431,
+   "classification": "VALID",
+   "completion_tokens": 122,
+   "latency_seconds": 3.375,
+   "parsed_files": [
+    "saleor/graphql/product/sorters.py",
+    "saleor/product/models.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/sorters.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 27696,
+   "raw_output_sha256": "9c3d8c64f7d8a70125441fe9eebe576e15eb2b45f1ea11e3c995347e37711901",
+   "retry_count": 0
+  },
+  "saleor-rc-78d985111cd9": {
+   "api_cost_usd": 0.005585,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 2.782,
+   "parsed_files": [
+    "saleor/graphql/context.py",
+    "saleor/graphql/views.py",
+    "saleor/graphql/api.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/api.py",
+    "saleor/graphql/context.py",
+    "saleor/graphql/views.py"
+   ],
+   "prompt_tokens": 18207,
+   "raw_output_sha256": "94be840afaafdf39159d0c5316934ed60a4ca6c0401b09a78a2edd1a82ae0208",
+   "retry_count": 0
+  },
+  "saleor-rc-796f4a0fd969": {
+   "api_cost_usd": 0.009477,
+   "classification": "VALID",
+   "completion_tokens": 116,
+   "latency_seconds": 2.875,
+   "parsed_files": [
+    "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+    "saleor/product/models.py",
+    "saleor/graphql/product/mutations/product/product_create.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+    "saleor/graphql/product/mutations/product/product_create.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 31205,
+   "raw_output_sha256": "53c19828fa3a8dc7dab2e663f5453e26d95aaa24d5d2b3a2f9eb263f405f6a90",
+   "retry_count": 0
+  },
+  "saleor-rc-799a9f1c915a": {
+   "api_cost_usd": 0.005604,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 3.86,
+   "parsed_files": [
+    "saleor/graphql/payment/dataloaders.py",
+    "saleor/payment/models.py",
+    "saleor/graphql/payment/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/payment/dataloaders.py",
+    "saleor/graphql/payment/types.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 18312,
+   "raw_output_sha256": "f3fc4e8221f498435a2497296339f98e46cf0c50d4abea86dfbb2b887d59d76d",
+   "retry_count": 0
+  },
+  "saleor-rc-7b1e8cee95d5": {
+   "api_cost_usd": 0.009018,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 3.421,
+   "parsed_files": [
+    "saleor/attribute/models/product.py",
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/attribute/dataloaders.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/product.py",
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prompt_tokens": 29659,
+   "raw_output_sha256": "c31e732cdbe4829aec44b069fd30d76ea806743f9389d77da7db101f3185245e",
+   "retry_count": 0
+  },
+  "saleor-rc-7b3fbb77c331": {
+   "api_cost_usd": 0.004662,
+   "classification": "VALID",
+   "completion_tokens": 138,
+   "latency_seconds": 2.407,
+   "parsed_files": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "prompt_tokens": 15079,
+   "raw_output_sha256": "e68b291cf0ab157997754b2b389e7e954aaa3aca49c6b8850a3b5c014016a871",
+   "retry_count": 0
+  },
+  "saleor-rc-7bbeb193b718": {
+   "api_cost_usd": 0.00499,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 2.406,
+   "parsed_files": [
+    "saleor/graphql/product/dataloaders/products.py",
+    "saleor/graphql/product/dataloaders/attributes.py",
+    "saleor/graphql/product/dataloaders/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/dataloaders/__init__.py",
+    "saleor/graphql/product/dataloaders/attributes.py",
+    "saleor/graphql/product/dataloaders/products.py"
+   ],
+   "prompt_tokens": 16222,
+   "raw_output_sha256": "6c9b3526564420971899d4647d41184ff707fd3aa3e2798abfebe4c07edeb2fd",
+   "retry_count": 0
+  },
+  "saleor-rc-7e42fc67ce72": {
+   "api_cost_usd": 0.009411,
+   "classification": "VALID",
+   "completion_tokens": 95,
+   "latency_seconds": 4.266,
+   "parsed_files": [
+    "saleor/app/manifest_validations.py",
+    "saleor/app/models.py",
+    "saleor/app/installation_utils.py"
+   ],
+   "prediction_set": [
+    "saleor/app/installation_utils.py",
+    "saleor/app/manifest_validations.py",
+    "saleor/app/models.py"
+   ],
+   "prompt_tokens": 31054,
+   "raw_output_sha256": "d401e02d97bc0f2314ccf38aa3ae165fcdbfc555e3f2ca2c7bd78c6566037485",
+   "retry_count": 0
+  },
+  "saleor-rc-7f841e468194": {
+   "api_cost_usd": 0.003601,
+   "classification": "VALID",
+   "completion_tokens": 119,
+   "latency_seconds": 7.703,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/product/utils/availability.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py",
+    "saleor/product/utils/availability.py"
+   ],
+   "prompt_tokens": 11608,
+   "raw_output_sha256": "c4821a44b63d553a131c0971cc02b3308aee2cdca5495112d1a9200924b0c350",
+   "retry_count": 0
+  },
+  "saleor-rc-80a33b28b80d": {
+   "api_cost_usd": 0.008455,
+   "classification": "VALID",
+   "completion_tokens": 125,
+   "latency_seconds": 3.828,
+   "parsed_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+    "saleor/webhook/transport/shipping.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/transport/shipping.py"
+   ],
+   "prompt_tokens": 27765,
+   "raw_output_sha256": "8dc69f8b7a31b4426f6c9a0db161d0f94b72aee5bb15d91b3db8b8521cbb1859",
+   "retry_count": 0
+  },
+  "saleor-rc-81d02e76b22e": {
+   "api_cost_usd": 0.005258,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 12.781,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations.py",
+    "saleor/app/management/commands/create_app.py"
+   ],
+   "prediction_set": [
+    "saleor/app/management/commands/create_app.py",
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations.py"
+   ],
+   "prompt_tokens": 17159,
+   "raw_output_sha256": "95e7c3dda4ff0e9c486a54186de9ba08e04869930410576c896b6a1fbb64ff4f",
+   "retry_count": 0
+  },
+  "saleor-rc-8220a53473bb": {
+   "api_cost_usd": 0.003317,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 3.437,
+   "parsed_files": [
+    "saleor/graphql/csv/mutations.py",
+    "saleor/graphql/csv/types.py",
+    "saleor/csv/models.py"
+   ],
+   "prediction_set": [
+    "saleor/csv/models.py",
+    "saleor/graphql/csv/mutations.py",
+    "saleor/graphql/csv/types.py"
+   ],
+   "prompt_tokens": 10677,
+   "raw_output_sha256": "9a11f4fd87e9561775cba68ca1257046589d59986592f8a87f655d53f5cfbdbf",
+   "retry_count": 0
+  },
+  "saleor-rc-82cc17adedba": {
+   "api_cost_usd": 0.007363,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 3.64,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py",
+    "saleor/payment/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py",
+    "saleor/payment/utils.py"
+   ],
+   "prompt_tokens": 24177,
+   "raw_output_sha256": "95cee5b241d060d51821adf2cb568916e7a8cd93cc42dd37451d28b81ebcc41e",
+   "retry_count": 0
+  },
+  "saleor-rc-8406dce8d1b7": {
+   "api_cost_usd": 0.005877,
+   "classification": "VALID",
+   "completion_tokens": 94,
+   "latency_seconds": 2.813,
+   "parsed_files": [
+    "saleor/graphql/product/mutations/product_type_update.py",
+    "saleor/product/models.py",
+    "saleor/product/search.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/product_type_update.py",
+    "saleor/product/models.py",
+    "saleor/product/search.py"
+   ],
+   "prompt_tokens": 19277,
+   "raw_output_sha256": "1ee8004a98429bd9e3afc1127faa843cd185a11b3af4559b10da0b88734eeab9",
+   "retry_count": 0
+  },
+  "saleor-rc-843a2c1905ad": {
+   "api_cost_usd": 0.00738,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 4.375,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/payment/models.py",
+    "saleor/graphql/order/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 24199,
+   "raw_output_sha256": "800fb71575beb33871ebef9878d9a9c88f20ebf85aae86ebfe51d2b83910230c",
+   "retry_count": 0
+  },
+  "saleor-rc-85d416c024e1": {
+   "api_cost_usd": 0.003862,
+   "classification": "VALID",
+   "completion_tokens": 126,
+   "latency_seconds": 3.172,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/graphql/order/types.py",
+    "saleor/graphql/order/mutations/orders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 12453,
+   "raw_output_sha256": "b0630d1664e0b7068e079fb85b04d85b0442d017b177651dc662c1e158005728",
+   "retry_count": 0
+  },
+  "saleor-rc-884327b653cc": {
+   "api_cost_usd": 0.004665,
+   "classification": "VALID",
+   "completion_tokens": 142,
+   "latency_seconds": 3.953,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/core/notify_events.py",
+    "saleor/graphql/attribute/mutations.py"
+   ],
+   "prediction_set": [
+    "saleor/core/notify_events.py",
+    "saleor/graphql/attribute/mutations.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "prompt_tokens": 15077,
+   "raw_output_sha256": "168994160bff3aef3934173030ad450aca37fb33c67cd757dc613c9cc56618f5",
+   "retry_count": 0
+  },
+  "saleor-rc-897f9e7d6766": {
+   "api_cost_usd": 0.008204,
+   "classification": "VALID",
+   "completion_tokens": 109,
+   "latency_seconds": 3.625,
+   "parsed_files": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/core/dataloaders.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/core/dataloaders.py"
+   ],
+   "prompt_tokens": 26985,
+   "raw_output_sha256": "19b8f1b4732379bb47164b4db5d29da72e13d54a1b96873cd6f8f2762b38badd",
+   "retry_count": 0
+  },
+  "saleor-rc-8a03c74411d7": {
+   "api_cost_usd": 0.009077,
+   "classification": "VALID",
+   "completion_tokens": 119,
+   "latency_seconds": 3.516,
+   "parsed_files": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py"
+   ],
+   "prompt_tokens": 29860,
+   "raw_output_sha256": "b1d0552be7a5796504ab14451f186053cf030ed6fb485f0ad93500105224dd4e",
+   "retry_count": 0
+  },
+  "saleor-rc-8b0cbe2fb72f": {
+   "api_cost_usd": 0.004966,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 3.359,
+   "parsed_files": [
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/adyen/webhooks.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/adyen/webhooks.py",
+    "saleor/payment/gateways/stripe/plugin.py"
+   ],
+   "prompt_tokens": 16142,
+   "raw_output_sha256": "d89a21610ce5c3689fa4b0bcaf49e247e99c7d06f47d50db4f7fe90bd25671a9",
+   "retry_count": 0
+  },
+  "saleor-rc-8c8d9db54d63": {
+   "api_cost_usd": 0.007271,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 4.437,
+   "parsed_files": [
+    "saleor/account/search.py",
+    "saleor/product/search.py",
+    "saleor/order/search.py"
+   ],
+   "prediction_set": [
+    "saleor/account/search.py",
+    "saleor/order/search.py",
+    "saleor/product/search.py"
+   ],
+   "prompt_tokens": 23838,
+   "raw_output_sha256": "817bcc40163a2a4301c31e3c132a6482e5a85774dd4798c28624b7cb168c9428",
+   "retry_count": 0
+  },
+  "saleor-rc-8d911cb27289": {
+   "api_cost_usd": 0.005879,
+   "classification": "VALID",
+   "completion_tokens": 127,
+   "latency_seconds": 3.891,
+   "parsed_files": [
+    "saleor/graphql/attribute/sorters.py",
+    "saleor/graphql/attribute/enums.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/attribute/enums.py",
+    "saleor/graphql/attribute/sorters.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prompt_tokens": 19172,
+   "raw_output_sha256": "d24476e71756b8152cbce885a5ac0e78aa2b84dc91c5959e00e6e5afea948aab",
+   "retry_count": 0
+  },
+  "saleor-rc-8e6164e3d123": {
+   "api_cost_usd": 0.009812,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 25.063,
+   "parsed_files": [
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/mutations/app_update.py",
+    "saleor/graphql/app/mutations/app_install.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/mutations/app_install.py",
+    "saleor/graphql/app/mutations/app_update.py"
+   ],
+   "prompt_tokens": 32302,
+   "raw_output_sha256": "fe964d87b1c612c805588124f9ddd48dbd25ba058b187dbe67eba4acd685da19",
+   "retry_count": 1
+  },
+  "saleor-rc-8eb11da07f09": {
+   "api_cost_usd": 0.0091,
+   "classification": "VALID",
+   "completion_tokens": 135,
+   "latency_seconds": 4.172,
+   "parsed_files": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/attribute/mutations/attribute_create.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/mutations/attribute_create.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prompt_tokens": 29884,
+   "raw_output_sha256": "3f3b2404a9a62bde3964dd249d972f0a832d992eec3d1c407189fece8f04844a",
+   "retry_count": 0
+  },
+  "saleor-rc-8f99df03562b": {
+   "api_cost_usd": 0.00396,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 4.235,
+   "parsed_files": [
+    "saleor/checkout/calculations.py",
+    "saleor/product/utils/variant_prices.py",
+    "saleor/checkout/base_calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/product/utils/variant_prices.py"
+   ],
+   "prompt_tokens": 12798,
+   "raw_output_sha256": "e1cf6144437422ec916de7daeae21cbc42fdc31c8833b4f63180b8af02a2c7db",
+   "retry_count": 0
+  },
+  "saleor-rc-9057e82cea23": {
+   "api_cost_usd": 0.003937,
+   "classification": "VALID",
+   "completion_tokens": 137,
+   "latency_seconds": 4.828,
+   "parsed_files": [
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/order/resolvers.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "prompt_tokens": 12666,
+   "raw_output_sha256": "df553a3e33a6f6346d8adb8f0755a094ce099c976f1e5f209171a1f3f5fdc1bb",
+   "retry_count": 0
+  },
+  "saleor-rc-940b759d6c6f": {
+   "api_cost_usd": 0.006468,
+   "classification": "VALID",
+   "completion_tokens": 100,
+   "latency_seconds": 2.781,
+   "parsed_files": [
+    "saleor/core/db_routers.py",
+    "saleor/order/models.py",
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/core/db_routers.py",
+    "saleor/graphql/order/resolvers.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 21228,
+   "raw_output_sha256": "f7c3f7b32409e98018e94387006f26415e051a84a3af71436a631cb4f820616d",
+   "retry_count": 0
+  },
+  "saleor-rc-940b8d83ec5c": {
+   "api_cost_usd": 0.009163,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 3.625,
+   "parsed_files": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/models.py"
+   ],
+   "prompt_tokens": 30143,
+   "raw_output_sha256": "ef98b9f8b87883d4886e30d62496cda3d4f20b7ce286e54e414207ecd542cb07",
+   "retry_count": 0
+  },
+  "saleor-rc-954887b39f13": {
+   "api_cost_usd": 0.00909,
+   "classification": "VALID",
+   "completion_tokens": 111,
+   "latency_seconds": 5.312,
+   "parsed_files": [
+    "saleor/webhook/transport/synchronous/transport.py",
+    "saleor/webhook/circuit_breaker/breaker_board.py",
+    "saleor/webhook/circuit_breaker/storage.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/circuit_breaker/breaker_board.py",
+    "saleor/webhook/circuit_breaker/storage.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "prompt_tokens": 29929,
+   "raw_output_sha256": "49dc6a91d3765d141f9496f215fa0f8fb16dc546e0d24c51f6843d225ded0b45",
+   "retry_count": 0
+  },
+  "saleor-rc-95db464ad4ea": {
+   "api_cost_usd": 0.006705,
+   "classification": "VALID",
+   "completion_tokens": 125,
+   "latency_seconds": 3.219,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/app/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/app/models.py",
+    "saleor/app/tasks.py",
+    "saleor/graphql/app/mutations/app_create.py"
+   ],
+   "prompt_tokens": 21932,
+   "raw_output_sha256": "b39113e4b26c9a71a512e04942f968447e986eb96cc1bd6a3472ebdc2647f33d",
+   "retry_count": 0
+  },
+  "saleor-rc-95dbffbc523a": {
+   "api_cost_usd": 0.009207,
+   "classification": "VALID",
+   "completion_tokens": 137,
+   "latency_seconds": 3.672,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/order/models.py",
+    "saleor/payment/models.py"
+   ],
+   "prediction_set": [
+    "saleor/order/models.py",
+    "saleor/payment/models.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 30232,
+   "raw_output_sha256": "0d8c5c46b3f61dd50bcc31272f7339962ab2f0e5a7c3ce94a0d05e96219ecbf8",
+   "retry_count": 0
+  },
+  "saleor-rc-9701eb8d7ec2": {
+   "api_cost_usd": 0.003696,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 2.406,
+   "parsed_files": [
+    "saleor/graphql/order/types.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 11940,
+   "raw_output_sha256": "6fe245b33a0a0ec91cf85d826beba04558044f082b56bb61cfc8a45ea643008c",
+   "retry_count": 0
+  },
+  "saleor-rc-99041211cf9e": {
+   "api_cost_usd": 0.003632,
+   "classification": "VALID",
+   "completion_tokens": 154,
+   "latency_seconds": 2.719,
+   "parsed_files": [
+    "saleor/order/emails.py",
+    "saleor/core/emails.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/emails.py",
+    "saleor/order/emails.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 11593,
+   "raw_output_sha256": "4a588f9dc9b8d91292a2b0a157f8563d15d5ff1cb6369c15847243aec72d3ee3",
+   "retry_count": 0
+  },
+  "saleor-rc-99f9e28f8b6f": {
+   "api_cost_usd": 0.008383,
+   "classification": "VALID",
+   "completion_tokens": 138,
+   "latency_seconds": 10.484,
+   "parsed_files": [
+    "saleor/core/utils/draftjs.py",
+    "saleor/core/utils/editorjs.py",
+    "saleor/product/migrations/0045_md_to_html.py"
+   ],
+   "prediction_set": [
+    "saleor/core/utils/draftjs.py",
+    "saleor/core/utils/editorjs.py",
+    "saleor/product/migrations/0045_md_to_html.py"
+   ],
+   "prompt_tokens": 27485,
+   "raw_output_sha256": "d9c147f7d59e049c8e3a642486f064ffbf57a18fb69016152c4ebcd5a2f9847a",
+   "retry_count": 0
+  },
+  "saleor-rc-9abf7176cfdc": {
+   "api_cost_usd": 0.003951,
+   "classification": "VALID",
+   "completion_tokens": 113,
+   "latency_seconds": 4.047,
+   "parsed_files": [
+    "saleor/plugins/manager.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/manager.py"
+   ],
+   "prompt_tokens": 12793,
+   "raw_output_sha256": "39fb7dacbfdf9a2b1c37d9cc68bdbdda2c48bb8f81e66107fda4109946494bbf",
+   "retry_count": 0
+  },
+  "saleor-rc-9b88221ba8c2": {
+   "api_cost_usd": 0.005521,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 4.688,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/account/events.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/app/models.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "prompt_tokens": 18065,
+   "raw_output_sha256": "83c65b837425135175ba9ad8e030dba743842902e68e5f84af7cc1c19ffee7ae",
+   "retry_count": 0
+  },
+  "saleor-rc-9b96c1602b1f": {
+   "api_cost_usd": 0.006346,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 4.593,
+   "parsed_files": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py"
+   ],
+   "prompt_tokens": 20774,
+   "raw_output_sha256": "0b9e76ce39f9f50c8096634c7e834689265b6203db49a828ef4c727b1da11333",
+   "retry_count": 0
+  },
+  "saleor-rc-9bc1b1134cc3": {
+   "api_cost_usd": 0.008783,
+   "classification": "VALID",
+   "completion_tokens": 117,
+   "latency_seconds": 9.25,
+   "parsed_files": [
+    "saleor/graphql/metrics.py",
+    "saleor/webhook/metrics.py",
+    "saleor/core/telemetry/metric.py"
+   ],
+   "prediction_set": [
+    "saleor/core/telemetry/metric.py",
+    "saleor/graphql/metrics.py",
+    "saleor/webhook/metrics.py"
+   ],
+   "prompt_tokens": 28888,
+   "raw_output_sha256": "e4883b6468ac513f204b342319651bd3294e8c1374937107398226b4d86379b1",
+   "retry_count": 0
+  },
+  "saleor-rc-9c032845e29b": {
+   "api_cost_usd": 0.008464,
+   "classification": "VALID",
+   "completion_tokens": 140,
+   "latency_seconds": 8.141,
+   "parsed_files": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prompt_tokens": 27746,
+   "raw_output_sha256": "db917e6b95a689bc665c91c4c86209cb850705ff50e35a641efca094d8ed93ef",
+   "retry_count": 0
+  },
+  "saleor-rc-a11ed9984b87": {
+   "api_cost_usd": 0.009159,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 3.828,
+   "parsed_files": [
+    "saleor/checkout/tasks.py",
+    "saleor/core/db/connection.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/tasks.py",
+    "saleor/core/db/connection.py"
+   ],
+   "prompt_tokens": 30170,
+   "raw_output_sha256": "c57f525f9f033d1b091281782ae60718abebd932c5dbea4f9e9603d7f3516e2e",
+   "retry_count": 0
+  },
+  "saleor-rc-a17f11cf7e87": {
+   "api_cost_usd": 0.004727,
+   "classification": "VALID",
+   "completion_tokens": 98,
+   "latency_seconds": 2.672,
+   "parsed_files": [
+    "saleor/giftcard/utils.py",
+    "saleor/order/models.py",
+    "saleor/giftcard/models.py"
+   ],
+   "prediction_set": [
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 15431,
+   "raw_output_sha256": "6b44ef9fbbf6337445245d836831ec700a12c23aa8ba32b3b36d2ee66b5aee35",
+   "retry_count": 0
+  },
+  "saleor-rc-a1e1e2554327": {
+   "api_cost_usd": 0.008875,
+   "classification": "VALID",
+   "completion_tokens": 109,
+   "latency_seconds": 3.484,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/types.py",
+    "saleor/graphql/app/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/resolvers.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "prompt_tokens": 29219,
+   "raw_output_sha256": "11b87de941781dbe344c2038a4288feb2072c8d46a3aad3b8eac925062a6e818",
+   "retry_count": 0
+  },
+  "saleor-rc-a25c73e9f74b": {
+   "api_cost_usd": 0.007814,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 5.375,
+   "parsed_files": [
+    "saleor/graphql/core/utils/resolvers.py",
+    "saleor/graphql/core/context.py",
+    "saleor/graphql/core/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/__init__.py",
+    "saleor/graphql/core/context.py",
+    "saleor/graphql/core/utils/resolvers.py"
+   ],
+   "prompt_tokens": 25710,
+   "raw_output_sha256": "56d7618a936c9d74431a434ff05db9ca44c41499f9fdd580e80ee27b644854e8",
+   "retry_count": 0
+  },
+  "saleor-rc-a36d8a8d0c0c": {
+   "api_cost_usd": 0.007491,
+   "classification": "VALID",
+   "completion_tokens": 95,
+   "latency_seconds": 9.906,
+   "parsed_files": [
+    "saleor/warehouse/models.py",
+    "saleor/product/models.py",
+    "saleor/warehouse/error_codes.py"
+   ],
+   "prediction_set": [
+    "saleor/product/models.py",
+    "saleor/warehouse/error_codes.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 24653,
+   "raw_output_sha256": "96624da699ab545db48306e3333b82d024f065e63eb6cb03a13cc6c11f851962",
+   "retry_count": 0
+  },
+  "saleor-rc-a576e993bab7": {
+   "api_cost_usd": 0.006997,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 3.25,
+   "parsed_files": [
+    "saleor/giftcard/models.py",
+    "saleor/graphql/giftcard/filters.py",
+    "saleor/graphql/giftcard/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/giftcard/models.py",
+    "saleor/graphql/giftcard/filters.py",
+    "saleor/graphql/giftcard/schema.py"
+   ],
+   "prompt_tokens": 22973,
+   "raw_output_sha256": "bd7e02a0060230bdb667a8e2e84ee4c5beacf14142e207915f28ebc7852f8649",
+   "retry_count": 0
+  },
+  "saleor-rc-a5e831779345": {
+   "api_cost_usd": 0.00423,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 4.891,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 13696,
+   "raw_output_sha256": "4398b41f34ae86d20e4687579df0850b8d9685df0518503657305aef14b3b308",
+   "retry_count": 0
+  },
+  "saleor-rc-a650f8f05c02": {
+   "api_cost_usd": 0.007235,
+   "classification": "VALID",
+   "completion_tokens": 125,
+   "latency_seconds": 3.516,
+   "parsed_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/utils.py"
+   ],
+   "prompt_tokens": 23699,
+   "raw_output_sha256": "195875fe00aa1bdfe680bed74c84d84e7fb84d72a5bc4669ba9179a25cca4714",
+   "retry_count": 0
+  },
+  "saleor-rc-a6c09d5579d6": {
+   "api_cost_usd": 0.007968,
+   "classification": "VALID",
+   "completion_tokens": 165,
+   "latency_seconds": 6.297,
+   "parsed_files": [
+    "saleor/product/tasks.py",
+    "saleor/core/tasks.py",
+    "saleor/celeryconf.py"
+   ],
+   "prediction_set": [
+    "saleor/celeryconf.py",
+    "saleor/core/tasks.py",
+    "saleor/product/tasks.py"
+   ],
+   "prompt_tokens": 26011,
+   "raw_output_sha256": "ed9409717eb0a8020c7739d1f3dd95f6a93c03c50ba076cdd7ef80890c745658",
+   "retry_count": 0
+  },
+  "saleor-rc-a7a2bf4146ba": {
+   "api_cost_usd": 0.005912,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 2.969,
+   "parsed_files": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py",
+    "saleor/attribute/models/product_variant.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py",
+    "saleor/attribute/models/product_variant.py"
+   ],
+   "prompt_tokens": 19333,
+   "raw_output_sha256": "6be41d2663f231fb2075b2302d7f765464a0c58b602d466ad9655070f2a65b2c",
+   "retry_count": 0
+  },
+  "saleor-rc-a9121e630814": {
+   "api_cost_usd": 0.005869,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 3.422,
+   "parsed_files": [
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/account/schema.py",
+    "saleor/graphql/account/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/account/schema.py",
+    "saleor/graphql/account/types.py"
+   ],
+   "prompt_tokens": 19211,
+   "raw_output_sha256": "4bc0b85b96c83e4fc8a30ba23b5c2f5753dbb1f8f6b24ddfe9d7c21659cdbac6",
+   "retry_count": 0
+  },
+  "saleor-rc-a93a877388ae": {
+   "api_cost_usd": 0.004179,
+   "classification": "VALID",
+   "completion_tokens": 90,
+   "latency_seconds": 1.968,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/product/signals.py",
+    "saleor/product/app.py"
+   ],
+   "prediction_set": [
+    "saleor/product/app.py",
+    "saleor/product/models.py",
+    "saleor/product/signals.py"
+   ],
+   "prompt_tokens": 13629,
+   "raw_output_sha256": "64914bf03644377670921566c95a0d56f83a836b4d16b9b545e31ba76c2923c1",
+   "retry_count": 0
+  },
+  "saleor-rc-a9e79dac40a2": {
+   "api_cost_usd": 0.008847,
+   "classification": "VALID",
+   "completion_tokens": 144,
+   "latency_seconds": 3.828,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/app/migrations/0013_alter_appextension_mount.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "prediction_set": [
+    "saleor/app/migrations/0013_alter_appextension_mount.py",
+    "saleor/app/models.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "prompt_tokens": 29011,
+   "raw_output_sha256": "fc159c71146c9a1f3faf7fb82f7aec44e73c82c01a51e2000a52dbad9fcaac04",
+   "retry_count": 0
+  },
+  "saleor-rc-aa2bcdd0c218": {
+   "api_cost_usd": 0.004311,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 3.485,
+   "parsed_files": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/types.py",
+    "saleor/attribute/models/product.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prompt_tokens": 14019,
+   "raw_output_sha256": "c194ab37bc6869d5764001b38d5a86d7f762675663946cd1a3cfb0cf0017116f",
+   "retry_count": 0
+  },
+  "saleor-rc-aa814bd5f355": {
+   "api_cost_usd": 0.00845,
+   "classification": "VALID",
+   "completion_tokens": 98,
+   "latency_seconds": 3.937,
+   "parsed_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/models.py",
+    "saleor/checkout/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/actions.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prompt_tokens": 27839,
+   "raw_output_sha256": "049cbbdd74b662400755dca7af1963d4613c21e003be330fd6786a60e8cb213b",
+   "retry_count": 0
+  },
+  "saleor-rc-ab6c29ba265d": {
+   "api_cost_usd": 0.003711,
+   "classification": "VALID",
+   "completion_tokens": 137,
+   "latency_seconds": 2.391,
+   "parsed_files": [
+    "saleor/product/error_codes.py",
+    "saleor/core/exceptions.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prediction_set": [
+    "saleor/core/exceptions.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/error_codes.py"
+   ],
+   "prompt_tokens": 11913,
+   "raw_output_sha256": "3ae1fe68ce01df129bcf783ace2924adc0859392ec95e530b2933fc50167201d",
+   "retry_count": 0
+  },
+  "saleor-rc-add4064d238e": {
+   "api_cost_usd": 0.004,
+   "classification": "VALID",
+   "completion_tokens": 94,
+   "latency_seconds": 4.266,
+   "parsed_files": [
+    "saleor/account/events.py",
+    "saleor/plugins/admin_email/notify_events.py",
+    "saleor/account/notifications.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/account/notifications.py",
+    "saleor/plugins/admin_email/notify_events.py"
+   ],
+   "prompt_tokens": 13019,
+   "raw_output_sha256": "3a39379e60ad089b1b0027ff41184ebca61a3278abe7490153a11ec684e972e9",
+   "retry_count": 0
+  },
+  "saleor-rc-aea05da547c8": {
+   "api_cost_usd": 0.008431,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 4.0,
+   "parsed_files": [
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py",
+    "saleor/graphql/product/mutations/product_variant/product_variant_update.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py",
+    "saleor/graphql/product/mutations/product_variant/product_variant_update.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 27721,
+   "raw_output_sha256": "129f5c203ad6747f1cc3b919e7c4e12265a019220eb4d2a557510b2928e0f261",
+   "retry_count": 0
+  },
+  "saleor-rc-b0245506e69b": {
+   "api_cost_usd": 0.007065,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.687,
+   "parsed_files": [
+    "saleor/account/events.py",
+    "saleor/account/notifications.py",
+    "saleor/graphql/account/mutations/account/account_request_deletion.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/account/notifications.py",
+    "saleor/graphql/account/mutations/account/account_request_deletion.py"
+   ],
+   "prompt_tokens": 23197,
+   "raw_output_sha256": "d0e0994a3c7ffdd4ab9f42765291b87ff66432efdf60267a2b366a8861ddb4d3",
+   "retry_count": 0
+  },
+  "saleor-rc-b0672eea0422": {
+   "api_cost_usd": 0.005263,
+   "classification": "VALID",
+   "completion_tokens": 130,
+   "latency_seconds": 2.563,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/product/error_codes.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/product/error_codes.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 17109,
+   "raw_output_sha256": "e66bb0f474c94bf82504486eecf700db3f0b7800490010b65ae580976c61f2bd",
+   "retry_count": 0
+  },
+  "saleor-rc-b2622810adf1": {
+   "api_cost_usd": 0.004358,
+   "classification": "VALID",
+   "completion_tokens": 104,
+   "latency_seconds": 2.875,
+   "parsed_files": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "prompt_tokens": 14179,
+   "raw_output_sha256": "d305759eca4aee68c96757aac4f25077312108cbb476c77fb3bd0e58c4291d3e",
+   "retry_count": 0
+  },
+  "saleor-rc-b2e3652af826": {
+   "api_cost_usd": 0.005843,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 2.719,
+   "parsed_files": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/base_calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/models.py"
+   ],
+   "prompt_tokens": 19092,
+   "raw_output_sha256": "30f9d0f38df238c0f7b931ee47a1c93a7c69fb69e5825ff65377723c74278401",
+   "retry_count": 0
+  },
+  "saleor-rc-b356a525ba2a": {
+   "api_cost_usd": 0.009266,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 3.953,
+   "parsed_files": [
+    "saleor/app/manifest_validations.py",
+    "saleor/app/models.py",
+    "saleor/app/validators.py"
+   ],
+   "prediction_set": [
+    "saleor/app/manifest_validations.py",
+    "saleor/app/models.py",
+    "saleor/app/validators.py"
+   ],
+   "prompt_tokens": 30485,
+   "raw_output_sha256": "de1d4d8033dded9741cf80be70ae3178baa6f1f3544969872b9008d504bde12b",
+   "retry_count": 0
+  },
+  "saleor-rc-b35783838e51": {
+   "api_cost_usd": 0.009098,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 2.797,
+   "parsed_files": [
+    "saleor/account/models.py",
+    "saleor/account/migrations/0060_user_updated_at.py",
+    "saleor/graphql/account/types.py"
+   ],
+   "prediction_set": [
+    "saleor/account/migrations/0060_user_updated_at.py",
+    "saleor/account/models.py",
+    "saleor/graphql/account/types.py"
+   ],
+   "prompt_tokens": 29927,
+   "raw_output_sha256": "e450ff1af811d223c4124c8f70f6f42561503e45e7d0fd3a7e187ae989567891",
+   "retry_count": 0
+  },
+  "saleor-rc-b41168d9077d": {
+   "api_cost_usd": 0.008034,
+   "classification": "VALID",
+   "completion_tokens": 128,
+   "latency_seconds": 2.469,
+   "parsed_files": [
+    "saleor/core/utils/events.py",
+    "saleor/account/events.py",
+    "saleor/order/events.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/core/utils/events.py",
+    "saleor/order/events.py"
+   ],
+   "prompt_tokens": 26353,
+   "raw_output_sha256": "6258d103910e4669b5a82d4e93a8fd8ba7ebae94765ee68fdaced332ca9e0e03",
+   "retry_count": 0
+  },
+  "saleor-rc-b60266933f7a": {
+   "api_cost_usd": 0.004433,
+   "classification": "VALID",
+   "completion_tokens": 92,
+   "latency_seconds": 1.656,
+   "parsed_files": [
+    "saleor/site/models.py",
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/mutations.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/site/models.py"
+   ],
+   "prompt_tokens": 14471,
+   "raw_output_sha256": "10d9f5a630ffdb2f09a1dac97c5f406a7a4e5e9177a2768359bbb8c6a9ee9862",
+   "retry_count": 0
+  },
+  "saleor-rc-b79cf8f91f04": {
+   "api_cost_usd": 0.008527,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.437,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/graphql/webhook/schema.py",
+    "saleor/graphql/webhook/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/webhook/schema.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 28070,
+   "raw_output_sha256": "64f4ca3fb915aca07d015411fee051ef3bda2822d2684a9b53ace971bd2eff8b",
+   "retry_count": 0
+  },
+  "saleor-rc-b84bf6595f49": {
+   "api_cost_usd": 0.008139,
+   "classification": "VALID",
+   "completion_tokens": 137,
+   "latency_seconds": 2.547,
+   "parsed_files": [
+    "saleor/graphql/order/dataloaders.py",
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/channel/dataloaders.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/channel/dataloaders.py",
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/order/dataloaders.py"
+   ],
+   "prompt_tokens": 26675,
+   "raw_output_sha256": "b34b7fe24646e3c108a42406208cb5f8d237968cdc796d8484ed2e3c843c98af",
+   "retry_count": 0
+  },
+  "saleor-rc-b8786c1bf4d3": {
+   "api_cost_usd": 0.006382,
+   "classification": "VALID",
+   "completion_tokens": 144,
+   "latency_seconds": 4.719,
+   "parsed_files": [
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/adyen/webhooks.py",
+    "saleor/payment/gateways/adyen/utils/common.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/adyen/utils/common.py",
+    "saleor/payment/gateways/adyen/webhooks.py"
+   ],
+   "prompt_tokens": 20792,
+   "raw_output_sha256": "7f1d41f83eaa701f5629dbae85d34e0ef094ad515284d438c3cb5b30f6d5a1fc",
+   "retry_count": 0
+  },
+  "saleor-rc-b97d1d9c7064": {
+   "api_cost_usd": 0.008979,
+   "classification": "VALID",
+   "completion_tokens": 88,
+   "latency_seconds": 2.484,
+   "parsed_files": [
+    "saleor/graphql/account/filters.py",
+    "saleor/account/search.py",
+    "saleor/graphql/account/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/account/search.py",
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/account/resolvers.py"
+   ],
+   "prompt_tokens": 29637,
+   "raw_output_sha256": "fc4520e235d9d2655c88df88b04e12f536b491f11528ad04edb652f5a9d568c3",
+   "retry_count": 0
+  },
+  "saleor-rc-ba0f225cc7d3": {
+   "api_cost_usd": 0.008,
+   "classification": "VALID",
+   "completion_tokens": 96,
+   "latency_seconds": 2.156,
+   "parsed_files": [
+    "saleor/graphql/core/validators/query_cost.py",
+    "saleor/graphql/core/schema.py",
+    "saleor/graphql/schema_printer.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/schema.py",
+    "saleor/graphql/core/validators/query_cost.py",
+    "saleor/graphql/schema_printer.py"
+   ],
+   "prompt_tokens": 26347,
+   "raw_output_sha256": "33e25c867976045e60c2c932ed01f7594f02b9ce0b0f6eb8ee992f0d476fa9b7",
+   "retry_count": 0
+  },
+  "saleor-rc-ba4ff17faab4": {
+   "api_cost_usd": 0.00413,
+   "classification": "VALID",
+   "completion_tokens": 128,
+   "latency_seconds": 1.578,
+   "parsed_files": [
+    "saleor/graphql/core/schema.py",
+    "saleor/core/utils/__init__.py",
+    "saleor/product/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/utils/__init__.py",
+    "saleor/graphql/core/schema.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 13339,
+   "raw_output_sha256": "e2d619ae3b89213c371787c2bff492a9cffe38ff1f413096e33e55068389708c",
+   "retry_count": 0
+  },
+  "saleor-rc-bcd9f60d2aef": {
+   "api_cost_usd": 0.005952,
+   "classification": "VALID",
+   "completion_tokens": 110,
+   "latency_seconds": 3.219,
+   "parsed_files": [
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/attribute/models/base.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "prompt_tokens": 19472,
+   "raw_output_sha256": "6d27a71eea8935eed8d66a742d4ad3eaffd6186c64aba843cbc9f4b080014da9",
+   "retry_count": 0
+  },
+  "saleor-rc-bd0c56fc787e": {
+   "api_cost_usd": 0.004586,
+   "classification": "VALID",
+   "completion_tokens": 76,
+   "latency_seconds": 1.594,
+   "parsed_files": [
+    "saleor/settings.py",
+    "saleor/site/models.py",
+    "saleor/core/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/settings.py",
+    "saleor/site/models.py"
+   ],
+   "prompt_tokens": 15034,
+   "raw_output_sha256": "2d506ee874e185e54726f0cd768d4112f7f7cd4dfc4be25eade8f8dde18c52ce",
+   "retry_count": 0
+  },
+  "saleor-rc-bd11af3ea0a4": {
+   "api_cost_usd": 0.008779,
+   "classification": "VALID",
+   "completion_tokens": 103,
+   "latency_seconds": 2.187,
+   "parsed_files": [
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/dataloaders/models.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/checkout/dataloaders/models.py",
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prompt_tokens": 28920,
+   "raw_output_sha256": "78cf4c2d1e6ea3c7f958dbb16c25025f91540c60fa2fdd8ec3b57de61012b27c",
+   "retry_count": 0
+  },
+  "saleor-rc-bd64d6fdbe4b": {
+   "api_cost_usd": 0.006832,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 3.828,
+   "parsed_files": [
+    "saleor/core/transactions.py",
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/core/transactions.py",
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py"
+   ],
+   "prompt_tokens": 22389,
+   "raw_output_sha256": "f0fae0166b281d3da343b5926a31ec84bb2cc8b906ee1d70704093a0c7846ca7",
+   "retry_count": 0
+  },
+  "saleor-rc-bdb2f9d05d33": {
+   "api_cost_usd": 0.00912,
+   "classification": "VALID",
+   "completion_tokens": 155,
+   "latency_seconds": 2.985,
+   "parsed_files": [
+    "saleor/attribute/models/product.py",
+    "saleor/product/models.py",
+    "saleor/attribute/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/product.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 29884,
+   "raw_output_sha256": "8ffdc053f56598bcd20b9eee1c461ac07d17d511c37ebc67b253b4d831754a9b",
+   "retry_count": 0
+  },
+  "saleor-rc-bf938e731bd8": {
+   "api_cost_usd": 0.004208,
+   "classification": "VALID",
+   "completion_tokens": 168,
+   "latency_seconds": 2.281,
+   "parsed_files": [
+    "saleor/core/utils/json_serializer.py",
+    "saleor/account/i18n.py",
+    "saleor/core/utils/draftjs.py"
+   ],
+   "prediction_set": [
+    "saleor/account/i18n.py",
+    "saleor/core/utils/draftjs.py",
+    "saleor/core/utils/json_serializer.py"
+   ],
+   "prompt_tokens": 13467,
+   "raw_output_sha256": "072afb1cee9fc91a0b36b4459c6aa5dccee5cde42357438b194df8b80df388c9",
+   "retry_count": 0
+  },
+  "saleor-rc-c0d4785abd74": {
+   "api_cost_usd": 0.007195,
+   "classification": "VALID",
+   "completion_tokens": 93,
+   "latency_seconds": 2.516,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py",
+    "saleor/core/transactions.py"
+   ],
+   "prediction_set": [
+    "saleor/core/transactions.py",
+    "saleor/payment/models.py",
+    "saleor/payment/transaction_item_calculations.py"
+   ],
+   "prompt_tokens": 23675,
+   "raw_output_sha256": "d57e90e9919911c693e192094280289a43b216297b8dc8a148f80b65ed66ad19",
+   "retry_count": 0
+  },
+  "saleor-rc-c12e83aac8f6": {
+   "api_cost_usd": 0.008174,
+   "classification": "VALID",
+   "completion_tokens": 155,
+   "latency_seconds": 5.016,
+   "parsed_files": [
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py",
+    "saleor/discount/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/discount/utils.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 26730,
+   "raw_output_sha256": "db17b55c6c070971771defe3d7adae436d4627165dff1519f295d5a82eeb24b8",
+   "retry_count": 0
+  },
+  "saleor-rc-c18e40f5b6f3": {
+   "api_cost_usd": 0.0081,
+   "classification": "VALID",
+   "completion_tokens": 76,
+   "latency_seconds": 2.203,
+   "parsed_files": [
+    "saleor/settings.py",
+    "manage.py",
+    "conftest.py"
+   ],
+   "prediction_set": [
+    "conftest.py",
+    "manage.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 26747,
+   "raw_output_sha256": "78b7656b03799d51b9471bc157ca47e8936bc97a36d7fa5bfd3bfedb177010cc",
+   "retry_count": 0
+  },
+  "saleor-rc-c27cc94d06ff": {
+   "api_cost_usd": 0.005907,
+   "classification": "VALID",
+   "completion_tokens": 122,
+   "latency_seconds": 2.11,
+   "parsed_files": [
+    "saleor/plugins/sendgrid/plugin.py",
+    "saleor/plugins/sendgrid/tasks.py",
+    "saleor/plugins/email_common.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/email_common.py",
+    "saleor/plugins/sendgrid/plugin.py",
+    "saleor/plugins/sendgrid/tasks.py"
+   ],
+   "prompt_tokens": 19284,
+   "raw_output_sha256": "d383aa8cfff609d192704fc17cfd1d9563b906b639307a7fc58a0fb1fbb871a8",
+   "retry_count": 0
+  },
+  "saleor-rc-c31fb4cfd08f": {
+   "api_cost_usd": 0.009182,
+   "classification": "VALID",
+   "completion_tokens": 136,
+   "latency_seconds": 3.094,
+   "parsed_files": [
+    "saleor/app/models.py",
+    "saleor/app/management/commands/install_app.py",
+    "saleor/app/installation_utils.py"
+   ],
+   "prediction_set": [
+    "saleor/app/installation_utils.py",
+    "saleor/app/management/commands/install_app.py",
+    "saleor/app/models.py"
+   ],
+   "prompt_tokens": 30154,
+   "raw_output_sha256": "8750e67a80712ba38b3d8db51918ca0974c9463794cbd221f34388796564a950",
+   "retry_count": 0
+  },
+  "saleor-rc-c38263743e9e": {
+   "api_cost_usd": 0.007364,
+   "classification": "VALID",
+   "completion_tokens": 136,
+   "latency_seconds": 4.156,
+   "parsed_files": [
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/transport/synchronous/transport.py",
+    "saleor/webhook/transport/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/transport/synchronous/transport.py",
+    "saleor/webhook/transport/utils.py"
+   ],
+   "prompt_tokens": 24094,
+   "raw_output_sha256": "d6633c849eb6d6bf1cab8cf9bc043d391ea8f975593860d4915753ea360281e6",
+   "retry_count": 0
+  },
+  "saleor-rc-c428b47bddc5": {
+   "api_cost_usd": 0.005914,
+   "classification": "VALID",
+   "completion_tokens": 118,
+   "latency_seconds": 2.907,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/draft_order_create.py",
+    "saleor/order/models.py",
+    "saleor/graphql/order/mutations/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/__init__.py",
+    "saleor/graphql/order/mutations/draft_order_create.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 19321,
+   "raw_output_sha256": "abd0328a3999e473ac4638207a363589aeb29ae9ed1deb9ad30809a5cb1d3649",
+   "retry_count": 0
+  },
+  "saleor-rc-c4dac9df4baf": {
+   "api_cost_usd": 0.00771,
+   "classification": "VALID",
+   "completion_tokens": 150,
+   "latency_seconds": 2.437,
+   "parsed_files": [
+    "saleor/payment/migrations/0054_add_idempotency_key_indexes.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/migrations/0054_add_idempotency_key_indexes.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "prompt_tokens": 25201,
+   "raw_output_sha256": "15cc57fe024616dde8e03da9a2f08aafa6958f3fd346c4f26270eb3b66cdc403",
+   "retry_count": 0
+  },
+  "saleor-rc-c6220233ccb1": {
+   "api_cost_usd": 0.005239,
+   "classification": "VALID",
+   "completion_tokens": 98,
+   "latency_seconds": 2.312,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 17138,
+   "raw_output_sha256": "5ffe0e4da5bd379104bb6fa103befdf82a21c380929f53c61a22f91d137a7104",
+   "retry_count": 0
+  },
+  "saleor-rc-c7207e71e0d3": {
+   "api_cost_usd": 0.005835,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 2.0,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/order/events.py",
+    "saleor/webhook/models.py"
+   ],
+   "prediction_set": [
+    "saleor/order/events.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 19089,
+   "raw_output_sha256": "cb31e254d23c57a75ab0d7a3f844259ed37dea72c287822ab9dc6b2e03bcd21e",
+   "retry_count": 0
+  },
+  "saleor-rc-c74d62286403": {
+   "api_cost_usd": 0.009234,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 5.282,
+   "parsed_files": [
+    "saleor/graphql/webhook/subscription_query.py",
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/graphql/webhook/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/graphql/webhook/subscription_query.py",
+    "saleor/graphql/webhook/utils.py"
+   ],
+   "prompt_tokens": 30445,
+   "raw_output_sha256": "214c1aa54915eaec61c8241b8724fb4d8539f6766dd9bdd69cfe13a86a56ba49",
+   "retry_count": 0
+  },
+  "saleor-rc-c87441bb1464": {
+   "api_cost_usd": 0.004622,
+   "classification": "VALID",
+   "completion_tokens": 99,
+   "latency_seconds": 2.063,
+   "parsed_files": [
+    "saleor/account/validators.py",
+    "saleor/giftcard/models.py",
+    "saleor/payment/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/validators.py",
+    "saleor/giftcard/models.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 15077,
+   "raw_output_sha256": "88e284d2e22183627c22793c9333ac071f2507f75473ab5267fbb3397cb3a63b",
+   "retry_count": 0
+  },
+  "saleor-rc-c8d4cb2844e6": {
+   "api_cost_usd": 0.008901,
+   "classification": "VALID",
+   "completion_tokens": 125,
+   "latency_seconds": 3.14,
+   "parsed_files": [
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/types.py",
+    "saleor/graphql/core/filters/where_input.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/filters/where_input.py",
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/types.py"
+   ],
+   "prompt_tokens": 29252,
+   "raw_output_sha256": "411708741015ad4f9ab57f2c163afb25ce364736dd676f77d911c69bca129d67",
+   "retry_count": 0
+  },
+  "saleor-rc-c9c1cc0968d3": {
+   "api_cost_usd": 0.004586,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 2.062,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 14905,
+   "raw_output_sha256": "7c8414d30d3083db17a7ceabda36a1a77f98079ba0b4b9e163bdceb3b74af369",
+   "retry_count": 0
+  },
+  "saleor-rc-cae629dc4166": {
+   "api_cost_usd": 0.007785,
+   "classification": "VALID",
+   "completion_tokens": 128,
+   "latency_seconds": 3.563,
+   "parsed_files": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/utils.py",
+    "saleor/attribute/models/product.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py",
+    "saleor/graphql/attribute/utils.py"
+   ],
+   "prompt_tokens": 25523,
+   "raw_output_sha256": "de415893d5b7f5d3bc799ec2cdff206d3e45adbc5b1171e50051c25f13bafd16",
+   "retry_count": 0
+  },
+  "saleor-rc-cbd7310268c6": {
+   "api_cost_usd": 0.007782,
+   "classification": "VALID",
+   "completion_tokens": 158,
+   "latency_seconds": 2.718,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prediction_set": [
+    "saleor/product/models.py",
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 25415,
+   "raw_output_sha256": "d12f9a42b8a8fd2d1aae56b097a35e5089bfe693660d875d18a95a0a19d9f450",
+   "retry_count": 0
+  },
+  "saleor-rc-ccd3960acd1d": {
+   "api_cost_usd": 0.0088,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 26.0,
+   "parsed_files": [
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/order/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py",
+    "saleor/order/actions.py"
+   ],
+   "prompt_tokens": 28975,
+   "raw_output_sha256": "409354af98953b430d4444330e7a966853b911b151217ceb88d72966e54a5d36",
+   "retry_count": 1
+  },
+  "saleor-rc-cd076fed6118": {
+   "api_cost_usd": 0.003706,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 1.532,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/product/migrations/0126_product_default_variant.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/migrations/0126_product_default_variant.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 12003,
+   "raw_output_sha256": "561759071fc821ec6fdbe834b22d6fd656af02f7c4699c38b92fcbd6b4b97b28",
+   "retry_count": 0
+  },
+  "saleor-rc-cdcbd5cda46e": {
+   "api_cost_usd": 0.009479,
+   "classification": "VALID",
+   "completion_tokens": 121,
+   "latency_seconds": 3.859,
+   "parsed_files": [
+    "saleor/shipping/utils.py",
+    "saleor/shipping/models.py",
+    "saleor/core/utils/cache.py"
+   ],
+   "prediction_set": [
+    "saleor/core/utils/cache.py",
+    "saleor/shipping/models.py",
+    "saleor/shipping/utils.py"
+   ],
+   "prompt_tokens": 31195,
+   "raw_output_sha256": "46de5d8d3a81c1c33eec2e93692086f421638edf746a1415c82d39c9a6b14660",
+   "retry_count": 0
+  },
+  "saleor-rc-ce3b63edecef": {
+   "api_cost_usd": 0.009334,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 2.375,
+   "parsed_files": [
+    "saleor/core/sqs.py",
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prediction_set": [
+    "saleor/core/sqs.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/transport/asynchronous/transport.py"
+   ],
+   "prompt_tokens": 30762,
+   "raw_output_sha256": "f48a2f87c153ae8d7fa401928943aa5df1f93e3d8166b90405fafdc8f7172519",
+   "retry_count": 0
+  },
+  "saleor-rc-cff241afc8d7": {
+   "api_cost_usd": 0.007555,
+   "classification": "VALID",
+   "completion_tokens": 228,
+   "latency_seconds": 4.046,
+   "parsed_files": [
+    "saleor/graphql/discount/mutations/voucher/voucher_code_bulk_delete.py",
+    "saleor/graphql/discount/schema.py",
+    "saleor/graphql/core/doc_category.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/doc_category.py",
+    "saleor/graphql/discount/mutations/voucher/voucher_code_bulk_delete.py",
+    "saleor/graphql/discount/schema.py"
+   ],
+   "prompt_tokens": 24425,
+   "raw_output_sha256": "1d19d819e07afa12f8d33dddd60b3735d15f0ac414a59af83b73c10398a9fea4",
+   "retry_count": 0
+  },
+  "saleor-rc-d24336188b88": {
+   "api_cost_usd": 0.009275,
+   "classification": "VALID",
+   "completion_tokens": 126,
+   "latency_seconds": 4.234,
+   "parsed_files": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/graphql/core/types/model.py",
+    "saleor/graphql/core/types/base.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/core/types/base.py",
+    "saleor/graphql/core/types/model.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prompt_tokens": 30496,
+   "raw_output_sha256": "99a9a688122bfdee765092580239e3d0306d601fca093c74b72c7c01cfa3ea1d",
+   "retry_count": 0
+  },
+  "saleor-rc-d299e27e5f04": {
+   "api_cost_usd": 0.007102,
+   "classification": "VALID",
+   "completion_tokens": 116,
+   "latency_seconds": 3.657,
+   "parsed_files": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "prompt_tokens": 23288,
+   "raw_output_sha256": "02ef8d66faef66eaabe9685faa6d9d7ec8e368ce3f3511a53dc5e1dfdc4555fb",
+   "retry_count": 0
+  },
+  "saleor-rc-d361479ab7da": {
+   "api_cost_usd": 0.009458,
+   "classification": "VALID",
+   "completion_tokens": 100,
+   "latency_seconds": 2.641,
+   "parsed_files": [
+    "saleor/thumbnail/__init__.py",
+    "saleor/core/utils/validators.py",
+    "saleor/graphql/core/types/upload.py"
+   ],
+   "prediction_set": [
+    "saleor/core/utils/validators.py",
+    "saleor/graphql/core/types/upload.py",
+    "saleor/thumbnail/__init__.py"
+   ],
+   "prompt_tokens": 31193,
+   "raw_output_sha256": "5554de5de38779600d32a9b2820d7cdb89e76df83133f1cfcf7634de7d87b5db",
+   "retry_count": 0
+  },
+  "saleor-rc-d3ab58054844": {
+   "api_cost_usd": 0.004635,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 1.562,
+   "parsed_files": [
+    "saleor/giftcard/models.py",
+    "saleor/order/models.py",
+    "saleor/giftcard/events.py"
+   ],
+   "prediction_set": [
+    "saleor/giftcard/events.py",
+    "saleor/giftcard/models.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 15041,
+   "raw_output_sha256": "440d80565b14484eda5b3077d7e8a378acd101e472a85dd7ebd063c8e6feeca7",
+   "retry_count": 0
+  },
+  "saleor-rc-d498167dcd30": {
+   "api_cost_usd": 0.009616,
+   "classification": "VALID",
+   "completion_tokens": 198,
+   "latency_seconds": 2.844,
+   "parsed_files": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/migrations/0073_checkout_external_shipping_method_id_and_more.py",
+    "saleor/checkout/migrations/0080_alter_checkout_external_shipping_method_id.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/migrations/0073_checkout_external_shipping_method_id_and_more.py",
+    "saleor/checkout/migrations/0080_alter_checkout_external_shipping_method_id.py",
+    "saleor/checkout/models.py"
+   ],
+   "prompt_tokens": 31392,
+   "raw_output_sha256": "d6a486781c11ca9e62448c7caef71b27f5d598e1c54bb4590aeb0dc10dec1949",
+   "retry_count": 0
+  },
+  "saleor-rc-d4fcbd22a853": {
+   "api_cost_usd": 0.008557,
+   "classification": "VALID",
+   "completion_tokens": 174,
+   "latency_seconds": 6.938,
+   "parsed_files": [
+    "saleor/core/logging.py",
+    "saleor/graphql/middleware.py",
+    "saleor/core/auth_backend.py"
+   ],
+   "prediction_set": [
+    "saleor/core/auth_backend.py",
+    "saleor/core/logging.py",
+    "saleor/graphql/middleware.py"
+   ],
+   "prompt_tokens": 27944,
+   "raw_output_sha256": "de8891300918b30050a174f271a31f0ec8e4c8f1ed1a9c036e6b1412bc9bd0ec",
+   "retry_count": 0
+  },
+  "saleor-rc-d6656e0f2a1d": {
+   "api_cost_usd": 0.009522,
+   "classification": "VALID",
+   "completion_tokens": 92,
+   "latency_seconds": 3.297,
+   "parsed_files": [
+    "saleor/channel/models.py",
+    "saleor/product/models.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "prediction_set": [
+    "saleor/channel/models.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 31435,
+   "raw_output_sha256": "4d3d6355a48350ede5057352d5d2023493a82e3f97785e3c6b7dfab37fa98f02",
+   "retry_count": 0
+  },
+  "saleor-rc-d78378d275dd": {
+   "api_cost_usd": 0.008019,
+   "classification": "VALID",
+   "completion_tokens": 209,
+   "latency_seconds": 7.469,
+   "parsed_files": [
+    "saleor/channel/migrations/0002_channel_default_country.py",
+    "saleor/checkout/migrations/0023_checkout_country.py",
+    "saleor/shipping/migrations/0018_default_zones_countries.py"
+   ],
+   "prediction_set": [
+    "saleor/channel/migrations/0002_channel_default_country.py",
+    "saleor/checkout/migrations/0023_checkout_country.py",
+    "saleor/shipping/migrations/0018_default_zones_countries.py"
+   ],
+   "prompt_tokens": 26032,
+   "raw_output_sha256": "d5f5afcaea4d5117912ca12de3a45c52d669422c32ea46b1d61432fdacaae5c2",
+   "retry_count": 0
+  },
+  "saleor-rc-d7b03a3eeec0": {
+   "api_cost_usd": 0.008535,
+   "classification": "VALID",
+   "completion_tokens": 118,
+   "latency_seconds": 4.547,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/order/utils.py",
+    "saleor/graphql/order/mutations/order_line_discount_update.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/order_line_discount_update.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "prompt_tokens": 28057,
+   "raw_output_sha256": "9a216c6a6c33da1ef05e83d1633f3409257f3c3655d33fcddd665ed2f8cf019d",
+   "retry_count": 0
+  },
+  "saleor-rc-d8a4cd122bf0": {
+   "api_cost_usd": 0.004326,
+   "classification": "VALID",
+   "completion_tokens": 95,
+   "latency_seconds": 3.515,
+   "parsed_files": [
+    "saleor/discount/models.py",
+    "saleor/giftcard/models.py",
+    "saleor/discount/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/discount/models.py",
+    "saleor/discount/utils.py",
+    "saleor/giftcard/models.py"
+   ],
+   "prompt_tokens": 14102,
+   "raw_output_sha256": "119e1880323677f3ce3ce578ac6bd50f9cf3095e54b9148325e233741510abfb",
+   "retry_count": 0
+  },
+  "saleor-rc-dacded922b1f": {
+   "api_cost_usd": 0.0084,
+   "classification": "VALID",
+   "completion_tokens": 107,
+   "latency_seconds": 3.891,
+   "parsed_files": [
+    "saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py",
+    "saleor/graphql/warehouse/mutations/__init__.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py",
+    "saleor/graphql/warehouse/mutations/__init__.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 27643,
+   "raw_output_sha256": "9bcbbc79209baed4548a53e9c9b4c912658f68932aaa77531f8b518f0152565e",
+   "retry_count": 0
+  },
+  "saleor-rc-db5440f7994f": {
+   "api_cost_usd": 0.009578,
+   "classification": "VALID",
+   "completion_tokens": 130,
+   "latency_seconds": 3.656,
+   "parsed_files": [
+    "saleor/attribute/models/product.py",
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/migrations/0055_assignedvariantattributevalue_variant.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/migrations/0055_assignedvariantattributevalue_variant.py",
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py"
+   ],
+   "prompt_tokens": 31494,
+   "raw_output_sha256": "2c39c2a9ee0ca3ad994e7c28b7e753f9c5abb2487da17082c20afc17816adb93",
+   "retry_count": 0
+  },
+  "saleor-rc-dc08f06119f5": {
+   "api_cost_usd": 0.007335,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 4.078,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py",
+    "saleor/core/db_routers.py"
+   ],
+   "prediction_set": [
+    "saleor/core/db_routers.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py"
+   ],
+   "prompt_tokens": 24096,
+   "raw_output_sha256": "1796be952e95ab3c83d35901bf38d9f0a205f9dcdf5b9f51074b5816f04e715a",
+   "retry_count": 0
+  },
+  "saleor-rc-dd8ead382526": {
+   "api_cost_usd": 0.006446,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 7.0,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py",
+    "saleor/app/headers.py"
+   ],
+   "prediction_set": [
+    "saleor/app/headers.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/utils.py"
+   ],
+   "prompt_tokens": 21108,
+   "raw_output_sha256": "effb6dcd0c49b8ed9d026bf4ea8647661cad65d78cef679b72fa5be9903c1a66",
+   "retry_count": 0
+  },
+  "saleor-rc-ddb8921a6744": {
+   "api_cost_usd": 0.007692,
+   "classification": "VALID",
+   "completion_tokens": 115,
+   "latency_seconds": 3.266,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/discount/models.py"
+   ],
+   "prediction_set": [
+    "saleor/discount/models.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 25258,
+   "raw_output_sha256": "db3defa4935d51d52de208f34dd8effd95f5b9e7bb7ff8b21d15fd7242e0c982",
+   "retry_count": 0
+  },
+  "saleor-rc-dea5ffb730ac": {
+   "api_cost_usd": 0.008368,
+   "classification": "VALID",
+   "completion_tokens": 120,
+   "latency_seconds": 5.266,
+   "parsed_files": [
+    "saleor/core/utils/json_serializer.py",
+    "saleor/graphql/core/types/base.py",
+    "saleor/core/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/core/utils/json_serializer.py",
+    "saleor/graphql/core/types/base.py"
+   ],
+   "prompt_tokens": 27493,
+   "raw_output_sha256": "f837a245c7b6308ecd67852a12c39dfd627ea2e45687c4f1593206d95e28ce3b",
+   "retry_count": 0
+  },
+  "saleor-rc-deb12c0433a5": {
+   "api_cost_usd": 0.004147,
+   "classification": "VALID",
+   "completion_tokens": 98,
+   "latency_seconds": 2.25,
+   "parsed_files": [
+    "saleor/settings.py",
+    "conftest.py",
+    "manage.py"
+   ],
+   "prediction_set": [
+    "conftest.py",
+    "manage.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 13496,
+   "raw_output_sha256": "a954b44a1a377df27f43d97ea4a54d397b0860171c55ab8a7f49f3b203de3c4e",
+   "retry_count": 0
+  },
+  "saleor-rc-def20fe86d03": {
+   "api_cost_usd": 0.005029,
+   "classification": "VALID",
+   "completion_tokens": 122,
+   "latency_seconds": 2.547,
+   "parsed_files": [
+    "saleor/settings.py",
+    "saleor/celeryconf.py",
+    "saleor/payment/gateways/stripe/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/celeryconf.py",
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 16356,
+   "raw_output_sha256": "0dfd8640ec95d8502aa00aa7c2a758c50f967951d50fc596c104e37a1d8977ba",
+   "retry_count": 0
+  },
+  "saleor-rc-df270700f16e": {
+   "api_cost_usd": 0.008628,
+   "classification": "VALID",
+   "completion_tokens": 123,
+   "latency_seconds": 2.953,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/draft_order_update.py",
+    "saleor/graphql/order/mutations/__init__.py",
+    "saleor/graphql/order/mutations/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/__init__.py",
+    "saleor/graphql/order/mutations/draft_order_update.py",
+    "saleor/graphql/order/mutations/utils.py"
+   ],
+   "prompt_tokens": 28351,
+   "raw_output_sha256": "de2fdc723382e835e7b1427343908d3784fb428e46ccd31c6ee0b6d2853fef1a",
+   "retry_count": 0
+  },
+  "saleor-rc-df7c7d4e8466": {
+   "api_cost_usd": 0.005648,
+   "classification": "VALID",
+   "completion_tokens": 97,
+   "latency_seconds": 2.063,
+   "parsed_files": [
+    "saleor/webhook/utils.py",
+    "saleor/core/jwt.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "prediction_set": [
+    "saleor/core/jwt.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/utils.py"
+   ],
+   "prompt_tokens": 18502,
+   "raw_output_sha256": "6a8ef3da3845e37f7f2c3e03943a298d1df44caab86bb9f4de2142f802160e43",
+   "retry_count": 0
+  },
+  "saleor-rc-e0890780bf56": {
+   "api_cost_usd": 0.009605,
+   "classification": "VALID",
+   "completion_tokens": 186,
+   "latency_seconds": 9.719,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/graphql/product/mutations/collection/collection_add_products.py",
+    "saleor/graphql/product/mutations/collection/collection_remove_products.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/collection/collection_add_products.py",
+    "saleor/graphql/product/mutations/collection/collection_remove_products.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 31398,
+   "raw_output_sha256": "8d753d932f00dac3fd006c4d5775e37e6c03574e3828d06841d7b8b87bbb7e6d",
+   "retry_count": 0
+  },
+  "saleor-rc-e089e93419bf": {
+   "api_cost_usd": 0.004025,
+   "classification": "VALID",
+   "completion_tokens": 149,
+   "latency_seconds": 5.093,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 12920,
+   "raw_output_sha256": "9a327071eff2da8f3509fcee01549cfc69ebc9efe784e39a2948cde6f48c4606",
+   "retry_count": 0
+  },
+  "saleor-rc-e0f2933d58b9": {
+   "api_cost_usd": 0.009564,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 7.516,
+   "parsed_files": [
+    "saleor/core/utils/json_serializer.py",
+    "saleor/core/editorjs/utils.py",
+    "saleor/graphql/core/types/base.py"
+   ],
+   "prediction_set": [
+    "saleor/core/editorjs/utils.py",
+    "saleor/core/utils/json_serializer.py",
+    "saleor/graphql/core/types/base.py"
+   ],
+   "prompt_tokens": 31529,
+   "raw_output_sha256": "c9697e7f247d154e8fc6ef8a0edcdbcf6585fc4a51e0b171056a9b07a3987876",
+   "retry_count": 0
+  },
+  "saleor-rc-e12689231d3b": {
+   "api_cost_usd": 0.009312,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 3.922,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/order/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/order/actions.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 30702,
+   "raw_output_sha256": "e163aa3806911a8a419f66e8103983b119e849fa014f4f60bfa6827c78064399",
+   "retry_count": 0
+  },
+  "saleor-rc-e129a4d6f9b1": {
+   "api_cost_usd": 0.007739,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 3.531,
+   "parsed_files": [
+    "saleor/graphql/product/mutations/product_variant/product_variant_create.py",
+    "saleor/graphql/product/mutations/product_variant/__init__.py",
+    "saleor/graphql/product/mutations/utils.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/mutations/product_variant/__init__.py",
+    "saleor/graphql/product/mutations/product_variant/product_variant_create.py",
+    "saleor/graphql/product/mutations/utils.py"
+   ],
+   "prompt_tokens": 25416,
+   "raw_output_sha256": "449276f47c7ac11b33d4098a0781f659e57a91d1bb807271b87daf7ddfa514a6",
+   "retry_count": 0
+  },
+  "saleor-rc-e2031f0dc458": {
+   "api_cost_usd": 0.007578,
+   "classification": "VALID",
+   "completion_tokens": 151,
+   "latency_seconds": 3.516,
+   "parsed_files": [
+    "saleor/discount/migrations/0055_vouchercode.py",
+    "saleor/discount/models.py",
+    "saleor/discount/migrations/0056_voucher_code_indexes.py"
+   ],
+   "prediction_set": [
+    "saleor/discount/migrations/0055_vouchercode.py",
+    "saleor/discount/migrations/0056_voucher_code_indexes.py",
+    "saleor/discount/models.py"
+   ],
+   "prompt_tokens": 24755,
+   "raw_output_sha256": "e42b22641ee69bd0faa75232f81a7f08ba436195eb607135fb427b72109ffb45",
+   "retry_count": 0
+  },
+  "saleor-rc-e28ca6ad6442": {
+   "api_cost_usd": 0.007543,
+   "classification": "VALID",
+   "completion_tokens": 131,
+   "latency_seconds": 6.859,
+   "parsed_files": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/utils.py",
+    "saleor/attribute/models/product.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/product.py",
+    "saleor/attribute/utils.py"
+   ],
+   "prompt_tokens": 24706,
+   "raw_output_sha256": "1ec791ec883f79ce30f87fca7064cd1cf65716e949de2c5d69b5e38ab916d7fe",
+   "retry_count": 0
+  },
+  "saleor-rc-e429b8be07fd": {
+   "api_cost_usd": 0.007694,
+   "classification": "VALID",
+   "completion_tokens": 129,
+   "latency_seconds": 4.25,
+   "parsed_files": [
+    "saleor/warehouse/models.py",
+    "saleor/graphql/warehouse/bulk_mutations/__init__.py",
+    "saleor/warehouse/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/warehouse/bulk_mutations/__init__.py",
+    "saleor/warehouse/models.py",
+    "saleor/warehouse/tasks.py"
+   ],
+   "prompt_tokens": 25218,
+   "raw_output_sha256": "8e418f1450f7c146204a6931cb37530f874bb9fbb370f3122e33f57be1a79a60",
+   "retry_count": 0
+  },
+  "saleor-rc-e6198146186d": {
+   "api_cost_usd": 0.008752,
+   "classification": "VALID",
+   "completion_tokens": 125,
+   "latency_seconds": 3.766,
+   "parsed_files": [
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py",
+    "saleor/payment/utils.py",
+    "saleor/graphql/payment/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py",
+    "saleor/graphql/payment/types.py",
+    "saleor/payment/utils.py"
+   ],
+   "prompt_tokens": 28756,
+   "raw_output_sha256": "b8118011ce8597a5189ba41881672732ba4295cba5c419a6c940455897dcce7a",
+   "retry_count": 0
+  },
+  "saleor-rc-e7175003a542": {
+   "api_cost_usd": 0.009389,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 7.89,
+   "parsed_files": [
+    "saleor/csv/utils/products_data.py",
+    "saleor/graphql/product/filters/product.py",
+    "saleor/csv/utils/export.py"
+   ],
+   "prediction_set": [
+    "saleor/csv/utils/export.py",
+    "saleor/csv/utils/products_data.py",
+    "saleor/graphql/product/filters/product.py"
+   ],
+   "prompt_tokens": 30936,
+   "raw_output_sha256": "7d288e7ae7f54b8ffda8ff8fa0c0bb88ff75b23944c74602e50225a47654d23e",
+   "retry_count": 0
+  },
+  "saleor-rc-e71c1f4caef7": {
+   "api_cost_usd": 0.008433,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 2.813,
+   "parsed_files": [
+    "saleor/core/jwt.py",
+    "saleor/core/jwt_manager.py",
+    "saleor/plugins/openid_connect/plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/core/jwt.py",
+    "saleor/core/jwt_manager.py",
+    "saleor/plugins/openid_connect/plugin.py"
+   ],
+   "prompt_tokens": 27737,
+   "raw_output_sha256": "47fb4b172192bea29848f150b155c38829b9d6c25b3072bddd7286d11c14ad73",
+   "retry_count": 0
+  },
+  "saleor-rc-e8733aee630a": {
+   "api_cost_usd": 0.009545,
+   "classification": "VALID",
+   "completion_tokens": 127,
+   "latency_seconds": 3.047,
+   "parsed_files": [
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/avatax/tasks.py",
+    "saleor/plugins/base_plugin.py"
+   ],
+   "prediction_set": [
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/avatax/tasks.py",
+    "saleor/plugins/base_plugin.py"
+   ],
+   "prompt_tokens": 31394,
+   "raw_output_sha256": "936372028542aab7e79d10eb535a7ea5808079d229ddc60371fc59e30ef24ba6",
+   "retry_count": 0
+  },
+  "saleor-rc-ea98ffa79753": {
+   "api_cost_usd": 0.006476,
+   "classification": "VALID",
+   "completion_tokens": 162,
+   "latency_seconds": 4.312,
+   "parsed_files": [
+    "saleor/thumbnail/utils.py",
+    "saleor/product/product_images.py",
+    "saleor/core/storages.py"
+   ],
+   "prediction_set": [
+    "saleor/core/storages.py",
+    "saleor/product/product_images.py",
+    "saleor/thumbnail/utils.py"
+   ],
+   "prompt_tokens": 21046,
+   "raw_output_sha256": "bf4b7053ae0894bee8abdd6657c4f06182b2dd19379f3530905f2a8c67f66a3f",
+   "retry_count": 0
+  },
+  "saleor-rc-eaf1577585a2": {
+   "api_cost_usd": 0.004631,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.563,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/gateways/__init__.py",
+    "saleor/plugins/models.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateways/__init__.py",
+    "saleor/payment/models.py",
+    "saleor/plugins/models.py"
+   ],
+   "prompt_tokens": 15084,
+   "raw_output_sha256": "609521a17003d4f5755ab6249c56915f6e9207ce4ba9347b65f7e33e31a55eba",
+   "retry_count": 0
+  },
+  "saleor-rc-eb61406cecc5": {
+   "api_cost_usd": 0.008387,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 3.282,
+   "parsed_files": [
+    "saleor/product/models.py",
+    "saleor/graphql/product/filters.py",
+    "saleor/warehouse/availability.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/product/models.py",
+    "saleor/warehouse/availability.py"
+   ],
+   "prompt_tokens": 27583,
+   "raw_output_sha256": "c7c2e2161fc2fec87cd76f030538bdd32129117ef47c2bb8744c669921d143cf",
+   "retry_count": 0
+  },
+  "saleor-rc-ee2b248d8076": {
+   "api_cost_usd": 0.006181,
+   "classification": "VALID",
+   "completion_tokens": 124,
+   "latency_seconds": 3.14,
+   "parsed_files": [
+    "saleor/core/models.py",
+    "saleor/product/models.py",
+    "saleor/order/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/order/models.py",
+    "saleor/product/models.py"
+   ],
+   "prompt_tokens": 20189,
+   "raw_output_sha256": "b8cd73c5bb37d5910692078ed463572997aa9076acd0fd52ab5962634a674139",
+   "retry_count": 0
+  },
+  "saleor-rc-ef4d31a09e7c": {
+   "api_cost_usd": 0.004103,
+   "classification": "VALID",
+   "completion_tokens": 97,
+   "latency_seconds": 2.188,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/warehouse/models.py",
+    "saleor/order/actions.py"
+   ],
+   "prediction_set": [
+    "saleor/order/actions.py",
+    "saleor/order/models.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 13353,
+   "raw_output_sha256": "a1798b455da7aa1765d78bb6042e252da3c569895f7c7355653371528627157f",
+   "retry_count": 0
+  },
+  "saleor-rc-f1d4e82c1dea": {
+   "api_cost_usd": 0.004447,
+   "classification": "VALID",
+   "completion_tokens": 105,
+   "latency_seconds": 2.359,
+   "parsed_files": [
+    "saleor/graphql/meta/resolvers.py",
+    "saleor/graphql/meta/schema.py",
+    "saleor/graphql/meta/types.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/meta/resolvers.py",
+    "saleor/graphql/meta/schema.py",
+    "saleor/graphql/meta/types.py"
+   ],
+   "prompt_tokens": 14474,
+   "raw_output_sha256": "cc5f4e65760eabca17e32970f24f805f69f9be16ca920237d6ec782c3841879d",
+   "retry_count": 0
+  },
+  "saleor-rc-f2207c408917": {
+   "api_cost_usd": 0.005586,
+   "classification": "VALID",
+   "completion_tokens": 167,
+   "latency_seconds": 5.734,
+   "parsed_files": [
+    "saleor/core/utils/editorjs.py",
+    "saleor/core/utils/draftjs.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prediction_set": [
+    "saleor/core/utils/draftjs.py",
+    "saleor/core/utils/editorjs.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prompt_tokens": 18062,
+   "raw_output_sha256": "a669ecc79e844fd8ec1a272e2df76129a82e62a1179c5b9e7e997e8638a6b6e7",
+   "retry_count": 0
+  },
+  "saleor-rc-f3a0bc28797b": {
+   "api_cost_usd": 0.008316,
+   "classification": "VALID",
+   "completion_tokens": 103,
+   "latency_seconds": 3.454,
+   "parsed_files": [
+    "saleor/webhook/models.py",
+    "saleor/graphql/webhook/subscription_query.py",
+    "saleor/graphql/webhook/subscription_payload.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/graphql/webhook/subscription_query.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 27378,
+   "raw_output_sha256": "f44fd6d1282bdbf5a0368634da4009b03c4ce356a4644246a24b5aba56da1113",
+   "retry_count": 0
+  },
+  "saleor-rc-f3a111394d43": {
+   "api_cost_usd": 0.008152,
+   "classification": "VALID",
+   "completion_tokens": 106,
+   "latency_seconds": 2.14,
+   "parsed_files": [
+    "saleor/product/managers.py",
+    "saleor/product/models.py",
+    "saleor/product/utils/variants.py"
+   ],
+   "prediction_set": [
+    "saleor/product/managers.py",
+    "saleor/product/models.py",
+    "saleor/product/utils/variants.py"
+   ],
+   "prompt_tokens": 26819,
+   "raw_output_sha256": "b56b7441fffed276b5ba5a5a826f591c02f58bbf47c0ca0fd4427045562058d6",
+   "retry_count": 0
+  },
+  "saleor-rc-f3a1ec65571f": {
+   "api_cost_usd": 0.003569,
+   "classification": "VALID",
+   "completion_tokens": 83,
+   "latency_seconds": 1.281,
+   "parsed_files": [
+    "saleor/settings.py",
+    "saleor/core/models.py",
+    "saleor/graphql/api.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/graphql/api.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 11620,
+   "raw_output_sha256": "c75dcf27dce2f9af51660bb9b297ff766e26c413d41ba98007c404b3c21bcfd6",
+   "retry_count": 0
+  },
+  "saleor-rc-f46a0a307197": {
+   "api_cost_usd": 0.005895,
+   "classification": "VALID",
+   "completion_tokens": 143,
+   "latency_seconds": 2.203,
+   "parsed_files": [
+    "saleor/graphql/tax/mutations/tax_exemption_manage.py",
+    "saleor/graphql/tax/schema.py",
+    "saleor/checkout/models.py"
+   ],
+   "prediction_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/tax/mutations/tax_exemption_manage.py",
+    "saleor/graphql/tax/schema.py"
+   ],
+   "prompt_tokens": 19172,
+   "raw_output_sha256": "870f3f2e31219ac5703749372c4e128ce96ad2601513ed630cecda2916bebaac",
+   "retry_count": 0
+  },
+  "saleor-rc-f4cf223ac3f6": {
+   "api_cost_usd": 0.009079,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 2.61,
+   "parsed_files": [
+    "saleor/attribute/models/page.py",
+    "saleor/page/models.py",
+    "saleor/graphql/page/types.py"
+   ],
+   "prediction_set": [
+    "saleor/attribute/models/page.py",
+    "saleor/graphql/page/types.py",
+    "saleor/page/models.py"
+   ],
+   "prompt_tokens": 29884,
+   "raw_output_sha256": "5bc7af9aeb7abc8220e2618a3c8f9af6480fdab055072ecd8a3d94a237d74ce1",
+   "retry_count": 0
+  },
+  "saleor-rc-f4eeba7fab16": {
+   "api_cost_usd": 0.007654,
+   "classification": "VALID",
+   "completion_tokens": 101,
+   "latency_seconds": 2.453,
+   "parsed_files": [
+    "saleor/order/models.py",
+    "saleor/order/migrations/0179_merge_20231122_1348.py",
+    "saleor/order/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/order/migrations/0179_merge_20231122_1348.py",
+    "saleor/order/models.py",
+    "saleor/order/tasks.py"
+   ],
+   "prompt_tokens": 25178,
+   "raw_output_sha256": "33789827cfcdcca0f5ece9b39c8e6fea9dff343d7ebd691ac1581c3d2372cc86",
+   "retry_count": 0
+  },
+  "saleor-rc-f5d2c47e47c3": {
+   "api_cost_usd": 0.008417,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 3.219,
+   "parsed_files": [
+    "saleor/core/taxes.py",
+    "saleor/core/prices.py",
+    "saleor/product/utils/variant_prices.py"
+   ],
+   "prediction_set": [
+    "saleor/core/prices.py",
+    "saleor/core/taxes.py",
+    "saleor/product/utils/variant_prices.py"
+   ],
+   "prompt_tokens": 27684,
+   "raw_output_sha256": "921147e29f91c520630878f4c61df3ca9aeea90b96df87003e65c1dcea88dac9",
+   "retry_count": 0
+  },
+  "saleor-rc-f605058a13e8": {
+   "api_cost_usd": 0.008151,
+   "classification": "VALID",
+   "completion_tokens": 114,
+   "latency_seconds": 5.609,
+   "parsed_files": [
+    "saleor/settings.py",
+    "conftest.py",
+    "manage.py"
+   ],
+   "prediction_set": [
+    "conftest.py",
+    "manage.py",
+    "saleor/settings.py"
+   ],
+   "prompt_tokens": 26790,
+   "raw_output_sha256": "2bffc5026a8b8084edc8043f99309650d5266d194f6692a02251263a2233b8a4",
+   "retry_count": 0
+  },
+  "saleor-rc-f623ab428821": {
+   "api_cost_usd": 0.008891,
+   "classification": "VALID",
+   "completion_tokens": 140,
+   "latency_seconds": 2.859,
+   "parsed_files": [
+    "saleor/graphql/order/filters.py",
+    "saleor/order/models.py",
+    "saleor/graphql/order/schema.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/schema.py",
+    "saleor/order/models.py"
+   ],
+   "prompt_tokens": 29169,
+   "raw_output_sha256": "99ce5013c2bd023f96ac31883e1446c05717ac8050081056d345d1162087b8d9",
+   "retry_count": 0
+  },
+  "saleor-rc-f6a3751a8bc2": {
+   "api_cost_usd": 0.008586,
+   "classification": "VALID",
+   "completion_tokens": 174,
+   "latency_seconds": 2.672,
+   "parsed_files": [
+    "saleor/channel/models.py",
+    "saleor/discount/models.py",
+    "saleor/checkout/calculations.py"
+   ],
+   "prediction_set": [
+    "saleor/channel/models.py",
+    "saleor/checkout/calculations.py",
+    "saleor/discount/models.py"
+   ],
+   "prompt_tokens": 28040,
+   "raw_output_sha256": "52476b842fa3821f55658d35e4f63e629fe2444a53ae9bc9540b01fd75f02fc7",
+   "retry_count": 0
+  },
+  "saleor-rc-f74a5394c7f1": {
+   "api_cost_usd": 0.00862,
+   "classification": "VALID",
+   "completion_tokens": 116,
+   "latency_seconds": 2.719,
+   "parsed_files": [
+    "saleor/core/tokens.py",
+    "saleor/core/jwt.py",
+    "saleor/account/models.py"
+   ],
+   "prediction_set": [
+    "saleor/account/models.py",
+    "saleor/core/jwt.py",
+    "saleor/core/tokens.py"
+   ],
+   "prompt_tokens": 28347,
+   "raw_output_sha256": "eb596719185b60c9d9b9bb38992515e1e058037a33c513748e80464ff5cfef19",
+   "retry_count": 0
+  },
+  "saleor-rc-f76d0093b450": {
+   "api_cost_usd": 0.004053,
+   "classification": "VALID",
+   "completion_tokens": 108,
+   "latency_seconds": 1.578,
+   "parsed_files": [
+    "saleor/core/models.py",
+    "saleor/graphql/core/types/common.py",
+    "saleor/core/utils/__init__.py"
+   ],
+   "prediction_set": [
+    "saleor/core/models.py",
+    "saleor/core/utils/__init__.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "prompt_tokens": 13149,
+   "raw_output_sha256": "9b3151fdbf6ba2117c93d2f95b441f79e78fa65e937a4709af6c4dd1fec07ff3",
+   "retry_count": 0
+  },
+  "saleor-rc-f953990d221b": {
+   "api_cost_usd": 0.004622,
+   "classification": "VALID",
+   "completion_tokens": 98,
+   "latency_seconds": 1.672,
+   "parsed_files": [
+    "saleor/payment/models.py",
+    "saleor/payment/interface.py",
+    "saleor/payment/gateway.py"
+   ],
+   "prediction_set": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/interface.py",
+    "saleor/payment/models.py"
+   ],
+   "prompt_tokens": 15079,
+   "raw_output_sha256": "89aebf0d7a8056650f3b69d6cfd5b9b61189eb4798186ed60d1b437c6dd00c70",
+   "retry_count": 0
+  },
+  "saleor-rc-fa113018cb83": {
+   "api_cost_usd": 0.007818,
+   "classification": "VALID",
+   "completion_tokens": 135,
+   "latency_seconds": 2.422,
+   "parsed_files": [
+    "saleor/core/db_routers.py",
+    "saleor/graphql/account/resolvers.py",
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "prediction_set": [
+    "saleor/core/db_routers.py",
+    "saleor/graphql/account/resolvers.py",
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "prompt_tokens": 25609,
+   "raw_output_sha256": "ef6be147ca45fc22af3f1a1d1394aced4f84e5bedf35deaf031881bbfbe40d04",
+   "retry_count": 0
+  },
+  "saleor-rc-fa1ed1794a8a": {
+   "api_cost_usd": 0.008477,
+   "classification": "VALID",
+   "completion_tokens": 168,
+   "latency_seconds": 2.609,
+   "parsed_files": [
+    "saleor/account/models.py",
+    "saleor/account/migrations/0043_rename_service_account_to_app.py",
+    "saleor/graphql/account/types.py"
+   ],
+   "prediction_set": [
+    "saleor/account/migrations/0043_rename_service_account_to_app.py",
+    "saleor/account/models.py",
+    "saleor/graphql/account/types.py"
+   ],
+   "prompt_tokens": 27696,
+   "raw_output_sha256": "58438d14186058dfe837e6ff10408c9333762b6302e9451c3b5d957e8f8610a0",
+   "retry_count": 0
+  },
+  "saleor-rc-fbfc66e3a46b": {
+   "api_cost_usd": 0.003999,
+   "classification": "VALID",
+   "completion_tokens": 136,
+   "latency_seconds": 1.875,
+   "parsed_files": [
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/page/models.py"
+   ],
+   "prediction_set": [
+    "saleor/page/models.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "prompt_tokens": 12878,
+   "raw_output_sha256": "c31e2ef3b6d2c5bcaf5548e1fcab10c24d97f72a339c5e1e0461962a586e904b",
+   "retry_count": 0
+  },
+  "saleor-rc-fc4883ed7da4": {
+   "api_cost_usd": 0.004407,
+   "classification": "VALID",
+   "completion_tokens": 154,
+   "latency_seconds": 1.828,
+   "parsed_files": [
+    "saleor/celeryconf.py",
+    "saleor/core/tasks.py",
+    "saleor/order/tasks.py"
+   ],
+   "prediction_set": [
+    "saleor/celeryconf.py",
+    "saleor/core/tasks.py",
+    "saleor/order/tasks.py"
+   ],
+   "prompt_tokens": 14177,
+   "raw_output_sha256": "4a14364767bf44aac13ab1109fb2365e559fc270b14e49c878c326948a7611d7",
+   "retry_count": 0
+  },
+  "saleor-rc-fd463c8aae38": {
+   "api_cost_usd": 0.009476,
+   "classification": "VALID",
+   "completion_tokens": 107,
+   "latency_seconds": 2.547,
+   "parsed_files": [
+    "saleor/core/utils/events.py",
+    "saleor/account/events.py",
+    "saleor/order/events.py"
+   ],
+   "prediction_set": [
+    "saleor/account/events.py",
+    "saleor/core/utils/events.py",
+    "saleor/order/events.py"
+   ],
+   "prompt_tokens": 31230,
+   "raw_output_sha256": "3df84230347aa6396847b6e91f223c0495d377fd78117d2fc035f020ce0fd779",
+   "retry_count": 0
+  },
+  "saleor-rc-fd5b7971c5d2": {
+   "api_cost_usd": 0.004138,
+   "classification": "VALID",
+   "completion_tokens": 129,
+   "latency_seconds": 1.516,
+   "parsed_files": [
+    "saleor/warehouse/models.py",
+    "saleor/warehouse/migrations/0001_initial.py",
+    "saleor/warehouse/availability.py"
+   ],
+   "prediction_set": [
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/migrations/0001_initial.py",
+    "saleor/warehouse/models.py"
+   ],
+   "prompt_tokens": 13362,
+   "raw_output_sha256": "aad3b2efd6b97b67247bf937cfb7778142f29162e4ab75bc9edc0a39a4a933af",
+   "retry_count": 0
+  },
+  "saleor-rc-fdca49f190e2": {
+   "api_cost_usd": 0.008483,
+   "classification": "VALID",
+   "completion_tokens": 100,
+   "latency_seconds": 2.218,
+   "parsed_files": [
+    "saleor/graphql/webhook/mutations/webhook_trigger.py",
+    "saleor/graphql/webhook/mutations/__init__.py",
+    "saleor/graphql/context.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/context.py",
+    "saleor/graphql/webhook/mutations/__init__.py",
+    "saleor/graphql/webhook/mutations/webhook_trigger.py"
+   ],
+   "prompt_tokens": 27942,
+   "raw_output_sha256": "7ab9b7a2e1ec483c754a41381919c2668efb91590e066f70d07a3e2f6b29d2ea",
+   "retry_count": 0
+  },
+  "saleor-rc-fe6e46266e81": {
+   "api_cost_usd": 0.00837,
+   "classification": "VALID",
+   "completion_tokens": 96,
+   "latency_seconds": 2.188,
+   "parsed_files": [
+    "saleor/core/schedules.py",
+    "saleor/discount/models.py",
+    "saleor/discount/utils/promotion.py"
+   ],
+   "prediction_set": [
+    "saleor/core/schedules.py",
+    "saleor/discount/models.py",
+    "saleor/discount/utils/promotion.py"
+   ],
+   "prompt_tokens": 27580,
+   "raw_output_sha256": "92333307b962a6953a64afc1d8fee42a3bcc6166b6472b10f56bfcef89215ba5",
+   "retry_count": 0
+  },
+  "saleor-rc-ff0d35878a50": {
+   "api_cost_usd": 0.00826,
+   "classification": "VALID",
+   "completion_tokens": 112,
+   "latency_seconds": 2.328,
+   "parsed_files": [
+    "saleor/core/db/connection.py",
+    "saleor/core/management/commands/delete_event_payloads.py",
+    "saleor/core/models.py"
+   ],
+   "prediction_set": [
+    "saleor/core/db/connection.py",
+    "saleor/core/management/commands/delete_event_payloads.py",
+    "saleor/core/models.py"
+   ],
+   "prompt_tokens": 27161,
+   "raw_output_sha256": "b1b26ba8dbfbefc6f90e3e7b81ac28b9fd725afb6c4f0870ded59eb5660f4d0c",
+   "retry_count": 0
+  },
+  "saleor-rc-ffe3a3ece0fb": {
+   "api_cost_usd": 0.009242,
+   "classification": "VALID",
+   "completion_tokens": 166,
+   "latency_seconds": 3.344,
+   "parsed_files": [
+    "saleor/graphql/order/mutations/order_grant_refund_create.py",
+    "saleor/graphql/order/mutations/order_grant_refund_update.py",
+    "saleor/graphql/order/mutations/order_refund.py"
+   ],
+   "prediction_set": [
+    "saleor/graphql/order/mutations/order_grant_refund_create.py",
+    "saleor/graphql/order/mutations/order_grant_refund_update.py",
+    "saleor/graphql/order/mutations/order_refund.py"
+   ],
+   "prompt_tokens": 30252,
+   "raw_output_sha256": "0f3b095f93f3423dfaaf24e14b6d0f9e3f5c976ea1f9683477e4c37f768825fd",
+   "retry_count": 0
+  }
+ },
+ "population": {
+  "manifest_sha256": "6bc5980fde694c1d8818389a8a8cdbf8d0acb410866806b74b404f19a90fccde",
+  "n_tasks": 297
+ },
+ "prediction_freeze_artifact": "research/competitor-agentless-r1/agentless_r1_prediction_freeze.json",
+ "prediction_freeze_sha256": "90495bbb2c8d66a2c9a079cb2dfcd6e1cbf929c01972f1331df4242cdabd9815",
+ "protocol_changed_after_first_output": false,
+ "protocol_freeze": "research/competitor-agentless-r1/AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json",
+ "scientific_predictions_frozen": true
+}

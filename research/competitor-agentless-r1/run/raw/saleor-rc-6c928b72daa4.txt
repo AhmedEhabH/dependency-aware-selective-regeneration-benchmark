@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding a "with choice field to attribute" in Saleor, which appears to be adding a new field to the attribute system. Based on the repository structure and the nature of the change (adding an Attribute field, resolver, and description), here are the files that would need to be edited:
+
+```
+saleor/attribute/models.py
+saleor/graphql/attribute/types.py
+saleor/graphql/attribute/resolvers.py
+saleor/attribute/migrations/0014_auto_20210619_1836.py
+CHANGELOG.md
+```

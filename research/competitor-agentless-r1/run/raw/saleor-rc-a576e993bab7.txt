@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding a `createdByEmail` filter to GiftCard functionality. Based on the repository structure and the nature of the change, I need to identify the files that would be modified to implement this filter.
+
+```
+saleor/giftcard/models.py
+saleor/graphql/giftcard/filters.py
+saleor/graphql/giftcard/schema.py
+saleor/giftcard/migrations/0018_metadata_index.py
+saleor/graphql/giftcard/types.py
+```

@@ -1,0 +1,7 @@
+Looking at the GitHub problem description "Slugify MessageGroupId used for AWS SQS queues (#18415)", I need to identify files related to AWS SQS queue handling and MessageGroupId implementation.
+
+Based on the repository structure, the most relevant file would be in the core module where AWS SQS functionality is likely implemented:
+
+```
+saleor/core/sqs.py
+```

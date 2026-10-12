@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Add added in 31 msg to new fields", this appears to be related to adding a message field to some model or form that was added in migration 31.
+
+Based on the repository structure, I can see there are several migration files with "31" in their names:
+- `saleor/account/migrations/0031_auto_20190719_0745.py`
+- `saleor/product/migrations/0031_auto_20190719_0745.py`
+- `saleor/shipping/migrations/0031_auto_20190719_0745.py`
+
+However, the most likely candidate for adding a message field would be related to models that typically have message/comment fields. Looking at the structure, the most relevant files would be:
+
+```
+saleor/account/models.py
+saleor/csv/models.py
+saleor/invoice/models.py
+saleor/account/migrations/0031_auto_20190719_0745.py
+saleor/graphql/account/types.py
+```

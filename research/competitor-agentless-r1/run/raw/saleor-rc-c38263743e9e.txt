@@ -1,0 +1,13 @@
+Looking at the GitHub problem description, I need to find where the `User-Agent` header for webhooks is set and change it to `Saleor/version`.
+
+Based on the repository structure, the webhook functionality is primarily located in the `saleor/webhook/` directory. The `User-Agent` header would likely be set in the HTTP transport layer when making requests to webhook endpoints.
+
+Let me identify the most relevant files:
+
+```
+saleor/webhook/transport/asynchronous/transport.py
+saleor/webhook/transport/synchronous/transport.py
+saleor/webhook/transport/utils.py
+saleor/app/headers.py
+saleor/core/http_client.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add missing webhook event info structure (#18892)", I need to identify files related to webhook event structures and information.
+
+Based on the repository structure, the most relevant files would be in the webhook-related directories and modules that handle webhook event definitions and structures.
+
+```
+saleor/webhook/event_types.py
+saleor/webhook/models.py
+saleor/webhook/payloads.py
+saleor/graphql/webhook/types.py
+saleor/webhook/serializers.py
+```

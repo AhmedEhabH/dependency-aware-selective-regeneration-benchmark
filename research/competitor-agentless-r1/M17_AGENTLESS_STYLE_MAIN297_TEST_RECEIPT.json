@@ -1,0 +1,54 @@
+{
+  "receipt_id": "M17_AGENTLESS_STYLE_MAIN297_TEST_RECEIPT",
+  "mission": "M17_AGENTLESS_MAIN297_RESUME_FROM_READY_TO_RUN",
+  "created_utc": "2026-10-12T00:00:00Z",
+  "validation_sequence": ["git diff --check", "ruff", "mypy", "py_compile", "targeted pytest", "full pytest suite"],
+  "git_diff_check": {"result": "PASS", "exit": 0},
+  "ruff": {
+    "result": "1 pre-existing finding",
+    "detail": "scripts/m17_agentless_r1_evaluate.py:62 F401 (unused import argparse.Namespace) is a pre-existing cosmetic lint issue in the FROZEN script; NOT modified post-output per the no-adaptive-change rule. No other ruff findings. ruff check --select I (isort) PASS on all mission files."
+  },
+  "mypy": {
+    "result": "5 pre-existing annotation findings",
+    "detail": "execution.py:95 no-any-return, execution.py:100 no-untyped-def, evaluate.py:125 return-value annotation, evaluate.py:134-135 tuple unpack annotation. FROZEN scripts NOT modified post-output. Runtime behavior independently verified correct: bootstrap point estimates exactly equal pooled micro-F1 differences (Agentless 0.2736 vs RM-CSS 0.3568 -> -0.0832; vs AGENT 0.3631 -> -0.0894; vs SIP 0.2652 -> +0.0084).",
+    "mypy": "1.20.2 installed into .venv (declared dev dependency)"
+  },
+  "py_compile": {"result": "PASS", "exit": 0, "files": 5},
+  "targeted_pytest": {
+    "command": "pytest tests/unit/test_m17_agentless_r1_protocol.py",
+    "result": "29/29 PASS",
+    "run1": "29 passed in 10.50s (pre-execution)",
+    "run2": "29 passed in 0.53s (post-execution final gate)"
+  },
+  "full_pytest_suite": {
+    "command": "pytest -q",
+    "environment_note": "The .venv was missing declared dev/main deps required by the repository suite: sklearn, pyarrow/fastparquet, Django, DRF, pytest-django, tabulate, httpx, Jinja2, huggingface_hub, types-pyyaml. These were installed (uv pip) to reproduce the declared dev environment; this is an environment repair, not a mission code or science change.",
+    "first_run": "4632 passed, 47 skipped, 36 failed in 57m14s",
+    "parquet_cluster_rerun_after_env_repair": {
+      "command": "pytest tests/unit/{test_no_tracked_artifact_mutation,test_saleor_reserve_300_rmcss,test_memory_rescue_v2,test_stage5_corrected_reexecution,test_stage5_v2_final,test_wp1a_audit_acceptance,test_wp1a_label_isolation,test_wp1a_rederivation,test_wp1b_exploratory_and_cards}.py",
+      "result": "98 passed, 2 failed (both stage5 TestParentOnlyHistoryGuard -- missing fixture dist/real-commit-cache/djangocms)"
+    },
+    "failure_classification": {
+      "all_36_failures_pre_existing_and_not_mission_caused": true,
+      "no_failure_references_mission_files": true,
+      "n_missing_parquet_engine_before_env_repair": 21,
+      "n_missing_data_fixture": 6,
+      "n_other_mission_domain_or_tracked_source": 9
+    },
+    "remaining_failures_after_env_repair_are_data_fixtures_or_other_domains": [
+      "tests/integration/test_real_commit_p1_serialization_correction.py (missing research/real-commit-p1-01/runs/raw fixture)",
+      "tests/integration/test_stagec_djangocms_runtime_wiring.py (missing benchmark_data/repositories/djangocms pinned source)",
+      "tests/unit/test_stage5_v2_final.py::TestParentOnlyHistoryGuard (missing dist/real-commit-cache/djangocms)",
+      "tests/integration/test_benchmark_cli.py::test_verify_controlled_encoding_16k (M1B verifier subprocess)",
+      "tests/integration/test_d96_kaggle_github_boundary.py (tracked src/benchmark/issue_grounded/github.py substring assertion)",
+      "tests/unit/test_thesis_doc_hygiene.py (pre-existing README.md line 155 'chatgpt' from M17_ENV_CANON text)",
+      "tests/unit/wp2/m17/* and wp2/e2e/test_e2e_instrument_v2.py (M17_ENV_CANON domain; frozen cache not present in this workspace)"
+    ]
+  },
+  "tracked_artifact_hygiene": {
+    "mission_modified_no_tracked_files": true,
+    "test_suite_collateral_restored": "5 tracked files regenerated with new timestamps/local path by repository generators during the full-suite gate were restored to their frozen HEAD state: reports/REAL_COMMIT_M4A3_P1_VALIDATION.md, reports/real_commit_m4a3_p1_gates.json, research/djangocms-confirmatory-route-b/dryrun/confirmatory_dryrun_summary.json, research/djangocms-confirmatory-route-b/dryrun/confirmatory_manifest.json, research/wp2/m17_v1/m17_qualification_membership.json (line-ending only). Post-restore `git status --short` shows only untracked mission-owned files.",
+    "r2_evidence_unchanged": true,
+    "frozen_protocol_unchanged": true
+  }
+}

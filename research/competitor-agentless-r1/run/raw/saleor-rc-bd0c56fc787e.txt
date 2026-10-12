@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Make settings fields optional", I need to identify files related to settings configuration in the Saleor repository.
+
+Based on the repository structure, the most relevant files for settings would be:
+
+```
+saleor/settings.py
+saleor/site/models.py
+saleor/core/models.py
+saleor/graphql/shop/types.py
+saleor/site/migrations/
+```

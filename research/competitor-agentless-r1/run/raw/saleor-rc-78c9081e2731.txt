@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix product sorting over collection order (#17189)", this appears to be related to how products are sorted when displayed within a collection. Based on the repository structure, I need to identify files that handle product sorting and collection ordering functionality.
+
+The most relevant files would be in the product and GraphQL sections, particularly those dealing with sorting logic and collection-related operations.
+
+```
+saleor/graphql/product/sorters.py
+saleor/product/models.py
+saleor/graphql/product/types/products.py
+saleor/graphql/product/resolvers.py
+saleor/product/utils/product.py
+```

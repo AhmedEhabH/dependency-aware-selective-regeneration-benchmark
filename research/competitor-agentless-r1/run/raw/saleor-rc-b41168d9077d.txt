@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix KeyError when event_type was not present in the event dict. (#16035)", this appears to be related to event handling where code is trying to access an 'event_type' key that doesn't exist in an event dictionary.
+
+Based on the repository structure and the nature of the error, I need to identify files that likely handle event processing, particularly where event_type might be accessed without proper checking.
+
+```
+saleor/core/utils/events.py
+saleor/account/events.py
+saleor/order/events.py
+saleor/webhook/event_types.py
+saleor/core/notification/utils.py
+```

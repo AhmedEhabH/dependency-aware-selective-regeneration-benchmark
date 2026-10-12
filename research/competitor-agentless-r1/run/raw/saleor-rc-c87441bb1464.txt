@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Update expiry date validation", I need to identify files that would likely contain expiry date validation logic. Based on the repository structure, this could relate to various domains like accounts, payments, gift cards, or other time-sensitive features.
+
+Let me analyze the most likely candidates:
+
+```
+saleor/account/validators.py
+saleor/giftcard/models.py
+saleor/payment/models.py
+saleor/core/utils/validators.py
+saleor/account/models.py
+```

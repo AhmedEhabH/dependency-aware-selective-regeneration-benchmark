@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add ShippingMethodQueryset.for_channel method", I need to identify where shipping method querysets are defined and where this new method should be added.
+
+Based on the repository structure, the shipping-related code is in the `saleor/shipping/` directory. The models file would contain the ShippingMethod model and its queryset, and this is where the new `for_channel` method needs to be implemented.
+
+```
+saleor/shipping/models.py
+saleor/shipping/migrations/0022_shipping_method_channel_listing.py
+saleor/graphql/shipping/types.py
+saleor/graphql/shipping/filters.py
+saleor/channel/models.py
+```

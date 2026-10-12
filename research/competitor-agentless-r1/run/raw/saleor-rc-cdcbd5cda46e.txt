@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Drop unneeded flag for shipping cache (#18869)", I need to identify files related to shipping cache functionality that might contain an unnecessary flag.
+
+Based on the repository structure, the most relevant files would be in the shipping module and potentially related webhook or cache utilities. Here are the files that would likely need to be edited:
+
+```
+saleor/shipping/utils.py
+saleor/shipping/models.py
+saleor/core/utils/cache.py
+saleor/webhook/transport/shipping_helpers.py
+saleor/checkout/webhooks/list_shipping_methods.py
+```

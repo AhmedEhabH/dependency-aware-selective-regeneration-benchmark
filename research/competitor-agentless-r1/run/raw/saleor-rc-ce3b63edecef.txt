@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this appears to be about waiting for read replica synchronization before building deferred payloads, with mentions of SQS transport layer and replica lag checking. Based on the repository structure and the problem description, here are the most relevant files that would need to be edited:
+
+```
+saleor/core/sqs.py
+saleor/webhook/transport/asynchronous/transport.py
+saleor/webhook/payloads.py
+saleor/core/db/connection.py
+saleor/webhook/transport/utils.py
+```

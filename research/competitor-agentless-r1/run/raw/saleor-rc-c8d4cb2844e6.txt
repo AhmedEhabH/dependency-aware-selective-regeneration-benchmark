@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Drop unneded draft word from OrderWhereInput filter (#17847)", I need to find files related to GraphQL order filtering, specifically the `OrderWhereInput` type.
+
+Based on the repository structure, this is likely in the GraphQL order module. The `OrderWhereInput` would be a GraphQL filter input type used for querying orders.
+
+```
+saleor/graphql/order/filters.py
+saleor/graphql/order/types.py
+saleor/graphql/core/filters/where_input.py
+saleor/graphql/order/schema.py
+saleor/graphql/core/filters/where_filters.py
+```

@@ -1,0 +1,13 @@
+Looking at the GitHub problem description, it simply says "Rename". This is very brief, but based on the repository structure, I can see this is a Saleor e-commerce platform codebase.
+
+Given the context of a "Rename" task in a large Django/Python project like Saleor, this likely refers to renaming a model, field, or component. Without more specific details, I'll focus on the most common rename operations that would require changes across multiple files.
+
+Based on the repository structure and typical Django project patterns, here are the files that would most likely need to be edited for a rename operation:
+
+```
+saleor/account/models.py
+saleor/account/migrations/0043_rename_service_account_to_app.py
+saleor/graphql/account/types.py
+saleor/app/models.py
+saleor/account/admin.py
+```

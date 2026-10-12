@@ -1,0 +1,16 @@
+Looking at the GitHub problem description, this is about adding a "customer updated webhook" feature. Based on the repository structure and the nature of the change, I need to identify the key files that would need to be modified to implement this webhook functionality.
+
+The main areas that would need to be touched are:
+1. Webhook models and event types
+2. Webhook payload handling
+3. Account/customer related files where the webhook trigger would be implemented
+4. GraphQL webhook schema and mutations
+5. Webhook event types enumeration
+
+```
+saleor/webhook/event_types.py
+saleor/webhook/models.py
+saleor/account/models.py
+saleor/graphql/webhook/schema.py
+saleor/webhook/payloads.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Stop sending regular payload to subscription webhooks (#11504) * Add test * Fix sending regular payload to subscription webhooks", this appears to be about fixing an issue where regular payloads are being sent to subscription webhooks when they shouldn't be.
+
+Based on the repository structure and the nature of the problem, here are the files that would likely need to be edited:
+
+```
+saleor/webhook/models.py
+saleor/webhook/utils.py
+saleor/graphql/webhook/subscription_payload.py
+saleor/webhook/payloads.py
+saleor/webhook/tasks.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a bug where a task that deletes expired checkouts ends prematurely due to stale data being read from a database replica. This suggests the issue is related to database replication lag and checkout cleanup tasks.
+
+Based on the repository structure and the nature of the problem, here are the files that would need to be edited:
+
+```
+saleor/checkout/tasks.py
+saleor/core/db/connection.py
+saleor/checkout/models.py
+saleor/core/tasks.py
+saleor/settings.py
+```

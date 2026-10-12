@@ -1,0 +1,13 @@
+Looking at the GitHub problem description, I need to find files related to:
+1. Refactoring `checkout_total` function to `calculate_checkout_total`
+2. Adding comments about the logic of `calculate_checkout_total_with_gift_cards` function
+
+Based on the repository structure and the nature of the task (checkout calculations), the most relevant files would be in the checkout module:
+
+```
+saleor/checkout/calculations.py
+saleor/checkout/base_calculations.py
+saleor/checkout/utils.py
+saleor/graphql/checkout/utils.py
+saleor/checkout/models.py
+```

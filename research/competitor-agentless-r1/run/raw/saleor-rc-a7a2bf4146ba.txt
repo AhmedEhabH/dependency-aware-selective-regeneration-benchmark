@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing attribute value matching during attribute update, specifically changing `get_or_create` to `update_or_create` in a `pre_save_values` function and adding proper tests.
+
+Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/attribute/models/base.py
+saleor/attribute/models/product.py
+saleor/attribute/models/product_variant.py
+saleor/attribute/utils.py
+saleor/graphql/attribute/mutations.py
+```

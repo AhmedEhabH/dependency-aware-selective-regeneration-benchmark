@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Use replicas on order queries (#12339)", this appears to be about configuring database read replicas for order-related queries to improve performance and scalability.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/core/db_routers.py
+saleor/order/models.py
+saleor/graphql/order/resolvers.py
+saleor/order/fetch.py
+saleor/settings.py
+```

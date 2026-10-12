@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding filterable subscriptions for order webhooks. Based on the repository structure and the requirements mentioned (filterable subscription, webhook events, draft orders, denormalize channel slugs), I need to identify the key files that would be modified.
+
+```
+saleor/webhook/models.py
+saleor/graphql/webhook/subscription_query.py
+saleor/graphql/webhook/subscription_payload.py
+saleor/order/models.py
+saleor/graphql/webhook/types.py
+```

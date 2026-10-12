@@ -1,0 +1,14 @@
+Looking at the GitHub problem description, this is about fixing a migration issue from version 3.17, specifically:
+
+1. Adding a default for `created_at` on VoucherCode model
+2. Adding Coalesce function to return first non-null value while annotate vouchers
+
+Based on the repository structure and the nature of the fixes, here are the files that would need to be edited:
+
+```
+saleor/discount/migrations/0055_vouchercode.py
+saleor/discount/models.py
+saleor/discount/migrations/0056_voucher_code_indexes.py
+saleor/discount/migrations/0057_move_codes_to_new_model.py
+saleor/graphql/discount/types/vouchers.py
+```

@@ -1,0 +1,9 @@
+Based on the request to add AWS SQS support and the repository structure, here are the most relevant files that would need to be modified, ordered by importance:
+
+```
+saleor/celeryconf.py
+saleor/core/management/commands/populatedb.py
+saleor/settings.py
+saleor/webhook/models.py
+saleor/plugins/webhook/plugin.py
+```

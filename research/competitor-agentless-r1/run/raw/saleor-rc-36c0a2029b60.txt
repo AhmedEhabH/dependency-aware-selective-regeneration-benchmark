@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Use replicas to fetching discount info", this appears to be about configuring database read replicas for discount-related queries to improve performance.
+
+Based on the repository structure and the nature of the problem, here are the files that would likely need to be edited:
+
+```
+saleor/discount/models.py
+saleor/core/db_routers.py
+saleor/settings.py
+saleor/discount/utils.py
+saleor/graphql/discount/dataloaders.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about enabling list client sources in production environment. The issue mentions that "get client sources is not adapted to production environment, and always set to the default: sandbox environment" and references updating `__init__.py`.
+
+Based on the repository structure and the nature of the problem (client sources configuration for production vs sandbox environments), here are the files that would likely need to be edited:
+
+```
+saleor/__init__.py
+saleor/settings.py
+saleor/core/__init__.py
+saleor/app/__init__.py
+saleor/graphql/app/__init__.py
+```

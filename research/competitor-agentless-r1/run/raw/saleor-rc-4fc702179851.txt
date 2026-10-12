@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Optimize products stocks filter in 3 1 (#8756) * Optimize products stocks filter * Merge migrations after move change from 3.0 to 3.1", this appears to be about optimizing stock filtering functionality and handling migration changes between versions.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/product/models.py
+saleor/warehouse/models.py
+saleor/graphql/product/filters.py
+saleor/product/migrations/
+saleor/warehouse/migrations/
+```

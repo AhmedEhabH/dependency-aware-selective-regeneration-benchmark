@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Drop html2text library (#16845)", I need to identify files that would reference or use the html2text library that needs to be removed.
+
+Based on the repository structure, I need to search for files that might import or use html2text. This would typically be in utility functions, content processing, or text conversion modules.
+
+```
+saleor/core/utils/draftjs.py
+saleor/core/utils/editorjs.py
+saleor/product/migrations/0045_md_to_html.py
+saleor/page/migrations/0008_raw_html_to_json.py
+saleor/core/utils/__init__.py
+```

@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about extending MIME type validation by adding `image/jpg` to the `MIME_TYPE_TO_PIL_IDENTIFIER` mapping and updating related files. Based on the repository structure and the description, here are the files that would need to be edited:
+
+```
+saleor/thumbnail/__init__.py
+saleor/core/utils/validators.py
+saleor/graphql/core/types/upload.py
+saleor/product/product_images.py
+saleor/account/models.py
+```

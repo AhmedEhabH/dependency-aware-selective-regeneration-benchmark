@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files related to adding an `attribute` field to the `AttributeValueTranslatableContent` type. This involves GraphQL schema changes, dataloader implementation, and likely translation-related code.
+
+Based on the repository structure and the requirements, here are the files that would need to be edited:
+
+```
+saleor/graphql/attribute/types.py
+saleor/graphql/attribute/dataloaders.py
+saleor/attribute/models/base.py
+saleor/graphql/translations/types.py
+CHANGELOG.md
+```

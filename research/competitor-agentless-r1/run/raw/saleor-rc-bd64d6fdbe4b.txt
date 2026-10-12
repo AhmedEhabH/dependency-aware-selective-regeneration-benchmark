@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Assign app as a transaction owner if missing (#13085)", this appears to be related to transaction handling in the Saleor e-commerce platform, specifically ensuring that apps are assigned as owners when they're missing.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/core/transactions.py
+saleor/payment/models.py
+saleor/payment/transaction_item_calculations.py
+saleor/order/models.py
+saleor/app/models.py
+```

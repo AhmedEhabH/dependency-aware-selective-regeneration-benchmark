@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Ignore mypy in JSONField imports", I need to identify files that likely contain JSONField imports that might be causing mypy issues.
+
+Based on the repository structure, this appears to be a Django project (Saleor), and JSONField imports are commonly used in model definitions. The most likely files to need mypy ignore comments for JSONField imports would be:
+
+```
+saleor/core/db/fields.py
+saleor/product/models.py
+saleor/account/models.py
+saleor/order/models.py
+saleor/page/models.py
+```

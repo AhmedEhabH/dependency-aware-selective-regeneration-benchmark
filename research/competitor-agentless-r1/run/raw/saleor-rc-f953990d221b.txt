@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Remove metadata from PaymentMethodInfo", I need to identify files related to PaymentMethodInfo and metadata handling.
+
+Based on the repository structure, the payment-related files are in the `saleor/payment/` directory. The PaymentMethodInfo would likely be defined in the payment models or interface files.
+
+```
+saleor/payment/models.py
+saleor/payment/interface.py
+saleor/payment/gateway.py
+saleor/graphql/payment/types.py
+saleor/payment/utils.py
+```

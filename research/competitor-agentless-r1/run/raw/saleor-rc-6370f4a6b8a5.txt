@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about updating product resolvers that are using default channel and adding channel slug to menu item context. Based on the repository structure and the issue description, here are the files that would need to be edited:
+
+```
+saleor/graphql/product/resolvers.py
+saleor/graphql/menu/resolvers.py
+saleor/product/models.py
+saleor/graphql/product/types/products.py
+saleor/menu/models.py
+```

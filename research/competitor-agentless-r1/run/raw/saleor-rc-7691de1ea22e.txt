@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix resolving order by non-existing external reference (#13466)", I need to identify files related to ordering functionality and external references.
+
+Based on the repository structure, I can see there are external reference fields in several models (order, product, warehouse, etc.) and GraphQL sorting functionality. The issue likely involves fixing how external references are resolved when ordering/sorting data.
+
+```
+saleor/graphql/core/utils/sorting.py
+saleor/order/models.py
+saleor/graphql/order/sorters.py
+saleor/product/models.py
+saleor/warehouse/models.py
+```

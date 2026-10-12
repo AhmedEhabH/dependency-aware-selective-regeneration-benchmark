@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add comment about longer than usual timeout period", I need to identify files that would likely contain timeout configurations or settings where such a comment would be relevant.
+
+Based on the repository structure, this appears to be a Django-based e-commerce platform (Saleor). Timeout-related configurations would typically be found in settings files, configuration files, or files dealing with external service integrations.
+
+```
+saleor/settings.py
+saleor/celeryconf.py
+saleor/payment/gateways/stripe/plugin.py
+saleor/plugins/webhook/plugin.py
+saleor/core/tasks.py
+```

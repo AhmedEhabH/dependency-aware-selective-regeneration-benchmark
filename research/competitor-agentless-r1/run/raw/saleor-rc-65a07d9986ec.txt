@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "remove redundant dataloader (#13161)", I need to identify files related to dataloader implementations that might be redundant in the GraphQL layer.
+
+Based on the repository structure, I can see there are multiple dataloader files across different GraphQL modules. The most likely candidates for redundant dataloaders would be in the GraphQL dataloaders directory and related core files.
+
+```
+saleor/graphql/core/dataloaders.py
+saleor/graphql/account/dataloaders.py
+saleor/graphql/product/dataloaders/__init__.py
+saleor/graphql/order/dataloaders.py
+saleor/graphql/app/dataloaders.py
+```

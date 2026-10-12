@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fixes tax class not clearing when selecting a shipping method without a tax class (#17560)", this appears to be related to shipping methods and tax classes in the checkout process.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/shipping/models.py
+saleor/checkout/calculations.py
+saleor/checkout/actions.py
+saleor/tax/calculations/checkout.py
+saleor/graphql/checkout/mutations/checkout_shipping_method_update.py
+```

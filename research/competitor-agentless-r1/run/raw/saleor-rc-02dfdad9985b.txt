@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Refactor PregeneratedCheckoutTaxPayloadsByCheckoutTokenLoader", I need to find files related to this loader class.
+
+Based on the repository structure and the naming convention, this appears to be a DataLoader class likely used in GraphQL operations for loading pregenerated tax payloads by checkout token. This would typically be found in the GraphQL checkout or tax modules.
+
+```
+saleor/graphql/checkout/dataloaders.py
+saleor/graphql/tax/dataloaders.py
+saleor/checkout/models.py
+saleor/graphql/core/dataloaders.py
+saleor/tax/models.py
+```

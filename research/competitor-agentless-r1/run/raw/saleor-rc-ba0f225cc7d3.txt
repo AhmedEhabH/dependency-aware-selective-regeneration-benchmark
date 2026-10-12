@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix introspection query validator" and the repository structure, this appears to be related to GraphQL introspection query validation. Based on the repository structure, this would likely be in the GraphQL-related files.
+
+The most relevant files to edit would be:
+
+```
+saleor/graphql/core/validators/query_cost.py
+saleor/graphql/core/schema.py
+saleor/graphql/schema_printer.py
+saleor/graphql/api.py
+saleor/graphql/middleware.py
+```

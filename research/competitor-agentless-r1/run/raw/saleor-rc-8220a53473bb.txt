@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add fileType to ExportProducts mutation", I need to identify the files related to the ExportProducts mutation in the GraphQL CSV functionality.
+
+Based on the repository structure, the CSV-related functionality is in the `csv/` directory, and GraphQL mutations are typically found in the `graphql/csv/mutations.py` file. Let me trace the relevant files:
+
+```
+saleor/graphql/csv/mutations.py
+saleor/graphql/csv/types.py
+saleor/csv/models.py
+saleor/graphql/csv/schema.py
+saleor/csv/utils/export.py
+```

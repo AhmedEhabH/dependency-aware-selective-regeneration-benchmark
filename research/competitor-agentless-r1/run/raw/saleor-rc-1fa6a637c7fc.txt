@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Default variant field on product level, data migration", this appears to be about adding a default variant field to products and migrating existing data.
+
+Based on the repository structure, I can see there's already a migration file `0126_productvariant_default.py` in the product migrations, which suggests this feature is being implemented. Here are the files that would need to be edited:
+
+```
+saleor/product/models.py
+saleor/product/migrations/0126_productvariant_default.py
+saleor/graphql/product/types/products.py
+saleor/graphql/product/mutations/products.py
+saleor/product/admin.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to find files where `plugin_manager/plugins` parameter names are used and rename them to `manager` for consistency.
+
+Based on the repository structure, this appears to be related to the plugins system in Saleor. The main files that would likely contain plugin manager references and need to be updated are:
+
+```
+saleor/plugins/manager.py
+saleor/plugins/base_plugin.py
+saleor/graphql/plugins/resolvers.py
+saleor/plugins/models.py
+saleor/plugins/apps.py
+```

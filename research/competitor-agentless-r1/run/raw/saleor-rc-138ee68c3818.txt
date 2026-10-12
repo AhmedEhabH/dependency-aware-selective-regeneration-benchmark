@@ -1,0 +1,15 @@
+Looking at the GitHub problem description "Rebuild search index when new invoice object has been created (#18280)", I need to identify files related to invoice creation and search indexing.
+
+Based on the repository structure, I can see there's an `invoice/` directory with models and other components. The issue is about triggering a search index rebuild when a new invoice is created, which typically involves:
+
+1. Invoice model signals/handlers
+2. Search indexing functionality
+3. Signal handlers that trigger reindexing
+
+```
+saleor/invoice/models.py
+saleor/invoice/signals.py
+saleor/core/search_tasks.py
+saleor/invoice/tasks.py
+saleor/core/tasks.py
+```

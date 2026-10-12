@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Use uuid instead of User id in thumbnails (#10437)", I need to identify files related to thumbnails and User ID handling.
+
+Based on the repository structure, I can see there's a `thumbnail/` directory which would be the primary location for thumbnail-related code. The issue mentions replacing User ID with UUID, which suggests this is part of a larger migration effort to use UUIDs instead of sequential IDs.
+
+Here are the files that would likely need to be edited:
+
+```
+saleor/thumbnail/models.py
+saleor/thumbnail/views.py
+saleor/thumbnail/utils.py
+saleor/account/models.py
+saleor/thumbnail/migrations/0001_initial.py
+```

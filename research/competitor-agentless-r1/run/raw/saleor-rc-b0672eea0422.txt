@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Raise formatted error when trying to assign assigned media to variant (#9496)", this appears to be related to product media assignment in the product/variant system.
+
+Based on the repository structure and the issue description, I need to identify files related to:
+1. Product media handling
+2. Variant assignment logic
+3. Error handling for media assignments
+
+Here are the most relevant files to edit:
+
+```
+saleor/product/models.py
+saleor/graphql/product/mutations/products.py
+saleor/product/error_codes.py
+saleor/graphql/product/types/products.py
+saleor/product/utils/__init__.py
+```

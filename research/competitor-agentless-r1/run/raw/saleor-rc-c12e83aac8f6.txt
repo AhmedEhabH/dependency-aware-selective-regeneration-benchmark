@@ -1,0 +1,18 @@
+Looking at the GitHub problem description, this appears to be about cleaning up order discounts functionality. The key areas mentioned are:
+
+1. Fixing shipping voucher application on orders
+2. Updating TaxableObject.shipping_price resolver 
+3. Adding is_order_level_voucher utilities
+4. Updating TaxableObject.discounts resolver for Order
+5. Adding tests for create_deliveries_for_taxes
+6. Adjusting TaxableObject.discounts for apply_once_per_order vouchers
+
+Based on these requirements and the repository structure, here are the files that would need to be edited:
+
+```
+saleor/graphql/order/types.py
+saleor/order/models.py
+saleor/discount/utils.py
+saleor/tax/calculations/order.py
+saleor/order/calculations.py
+```

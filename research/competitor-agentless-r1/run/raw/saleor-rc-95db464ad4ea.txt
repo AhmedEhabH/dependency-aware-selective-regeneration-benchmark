@@ -1,0 +1,15 @@
+Looking at the GitHub problem description, I need to identify files that would be edited to:
+1. Add `uuid` field to App and AppInstallation models
+2. Create migrations with celery tasks
+3. Update appCreate mutation to set uuid
+4. Make uuid fields non-nullable
+
+Based on the repository structure and the requirements, here are the files that would need to be edited:
+
+```
+saleor/app/models.py
+saleor/app/migrations/0022_app_uuid.py
+saleor/graphql/app/mutations/app_create.py
+saleor/app/tasks.py
+saleor/account/models.py
+```

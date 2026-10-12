@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files related to adding a `redirect_url` parameter to the `send_fulfilment_email` function and adding an order default URL to an email template.
+
+Based on the repository structure and the nature of the task, here are the files that would need to be edited:
+
+```
+saleor/order/emails.py
+saleor/order/models.py
+saleor/templates/emails/fulfillment_confirmation.html
+saleor/graphql/order/mutations/fulfillments.py
+saleor/core/emails.py
+```

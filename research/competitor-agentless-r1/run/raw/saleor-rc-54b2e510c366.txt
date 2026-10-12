@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about optimizing the available quantity loader and stock queries in version 3.1. The issue mentions optimizing channel and country filters in stock queries and specifically optimizing `StockQuerySet.annotate_available_quantity`.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/warehouse/models.py
+saleor/warehouse/availability.py
+saleor/product/models.py
+saleor/graphql/warehouse/dataloaders.py
+saleor/checkout/utils.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix incorrect cursor returned when making a query with search input (#17222)", this appears to be related to GraphQL cursor-based pagination issues when search functionality is involved.
+
+Based on the repository structure and the nature of the problem, the most likely files that would need to be edited are:
+
+```
+saleor/graphql/core/connection.py
+saleor/graphql/core/utils/resolvers.py
+saleor/graphql/product/filters.py
+saleor/graphql/core/filters.py
+saleor/product/search.py
+```

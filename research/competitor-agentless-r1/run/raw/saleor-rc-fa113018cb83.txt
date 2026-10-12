@@ -1,0 +1,17 @@
+Looking at the GitHub problem description, this is about adding replica usage to various queries and replacing `manager._allow_replica` with `database_connection_name`. The key areas mentioned are:
+
+1. Permissions related queries
+2. Order related queries  
+3. Checkout and shipping related queries
+4. Sites
+5. User group resolvers
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/core/db_routers.py
+saleor/graphql/account/resolvers.py
+saleor/graphql/order/resolvers.py
+saleor/graphql/checkout/resolvers.py
+saleor/graphql/shipping/resolvers.py
+```

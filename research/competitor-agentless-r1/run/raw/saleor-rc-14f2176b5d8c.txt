@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding `filter` and `sortBy` arguments to `category.products` in GraphQL. Based on the repository structure and the nature of the change, I need to identify the files that would handle GraphQL category product queries and their associated filtering/sorting functionality.
+
+```
+saleor/graphql/product/types/categories.py
+saleor/graphql/product/filters.py
+saleor/graphql/product/resolvers.py
+saleor/graphql/product/schema.py
+saleor/graphql/product/sorters.py
+```

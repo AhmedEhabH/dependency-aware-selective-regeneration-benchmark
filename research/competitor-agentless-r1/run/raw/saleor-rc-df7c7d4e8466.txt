@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about signing webhook payloads using RS256 and a private key that leverages the existing JWT infrastructure. Based on the repository structure and the nature of the change, I need to identify files related to webhooks and JWT functionality.
+
+```
+saleor/webhook/utils.py
+saleor/core/jwt.py
+saleor/webhook/payloads.py
+saleor/core/jwt_manager.py
+saleor/webhook/models.py
+```

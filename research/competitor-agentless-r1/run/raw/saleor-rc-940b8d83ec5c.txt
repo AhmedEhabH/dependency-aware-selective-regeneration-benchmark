@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a bug where Checkout with Transaction and Gift Card couldn't be completed due to incorrectly raised `CHECKOUT_NOT_FULLY_PAID` error. The issue involves checkout completion logic, gift card balance calculation, and order status determination.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/checkout/complete_checkout.py
+saleor/checkout/calculations.py
+saleor/checkout/models.py
+saleor/order/actions.py
+saleor/giftcard/utils.py
+```

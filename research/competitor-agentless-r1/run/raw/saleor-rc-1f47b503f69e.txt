@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about fixing refund payment when cannot create an order in Stripe, handling validation errors in checkout logic, and adding logging. Based on the repository structure and the nature of the issue, here are the most relevant files that would need to be edited:
+
+```
+saleor/payment/gateways/stripe/plugin.py
+saleor/checkout/complete_checkout.py
+saleor/payment/gateway.py
+saleor/checkout/checkout_cleaner.py
+saleor/payment/models.py
+```

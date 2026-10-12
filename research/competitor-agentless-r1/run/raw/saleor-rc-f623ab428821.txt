@@ -1,0 +1,16 @@
+Looking at the GitHub problem description, this is about adding filtering capabilities for orders by total gross and net amount. Based on the repository structure and the nature of the feature, I need to identify the key files that would need to be modified.
+
+The main areas that would need changes are:
+1. Order filtering logic (GraphQL filters)
+2. Order model (potentially for indexing)
+3. GraphQL schema/resolvers
+4. Database migrations for indexes
+5. Changelog updates
+
+```
+saleor/graphql/order/filters.py
+saleor/order/models.py
+saleor/graphql/order/schema.py
+saleor/order/migrations/0203_order_lines_count.py
+CHANGELOG.md
+```

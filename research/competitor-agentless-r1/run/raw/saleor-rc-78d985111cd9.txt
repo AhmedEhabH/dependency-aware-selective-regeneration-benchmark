@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Rename initialize_context and remove get_response. (#9845)", I need to find files that likely contain these functions.
+
+Based on the repository structure, this appears to be related to GraphQL functionality since there's a `graphql/` directory with a `context.py` file. The `initialize_context` and `get_response` functions are typically used in GraphQL implementations for setting up execution contexts.
+
+```
+saleor/graphql/context.py
+saleor/graphql/core/middleware.py
+saleor/graphql/views.py
+saleor/graphql/api.py
+saleor/graphql/middleware.py
+```

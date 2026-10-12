@@ -1,0 +1,9 @@
+Looking at the GitHub problem description "Default variant improvements (#6360)" and examining the repository structure, this appears to be related to product variant functionality in an e-commerce platform. The most relevant files to edit would likely be:
+
+```
+saleor/product/models.py
+saleor/product/migrations/0126_product_default_variant.py
+saleor/graphql/product/types/products.py
+saleor/product/utils/variant_prices.py
+saleor/product/management/commands/update_all_products_minimal_variant_prices.py
+```

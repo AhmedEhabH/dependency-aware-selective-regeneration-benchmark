@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding filterable subscriptions for async checkout webhooks. Based on the repository structure and the nature of the feature, I need to identify files related to webhooks, checkout functionality, and GraphQL subscriptions.
+
+```
+saleor/webhook/models.py
+saleor/graphql/webhook/schema.py
+saleor/graphql/webhook/types.py
+saleor/webhook/migrations/0011_webhook_filterable_channel_slugs.py
+saleor/graphql/webhook/subscription_types.py
+```

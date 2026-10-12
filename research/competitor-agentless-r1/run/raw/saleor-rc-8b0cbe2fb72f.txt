@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this issue is about preventing order creation in payment gateways (Adyen and Stripe) when a checkout line variant is deleted, and removing duplicated refund/void action calls in the Adyen plugin.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/payment/gateways/adyen/plugin.py
+saleor/payment/gateways/stripe/plugin.py
+saleor/payment/gateways/adyen/webhooks.py
+saleor/checkout/complete_checkout.py
+saleor/payment/gateway.py
+```

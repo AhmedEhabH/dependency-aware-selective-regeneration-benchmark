@@ -1,0 +1,9 @@
+Looking at the GitHub problem description "Merge commit from fork * Fix user enumeration * Cover updated_at", I can see this relates to fixing user enumeration issues and handling `updated_at` fields. Based on the repository structure and the nature of these fixes, here are the most relevant files that would need to be edited:
+
+```
+saleor/account/models.py
+saleor/account/migrations/0060_user_updated_at.py
+saleor/graphql/account/types.py
+saleor/account/migrations/0061_populate_user_updated_at.py
+saleor/graphql/account/filters.py
+```

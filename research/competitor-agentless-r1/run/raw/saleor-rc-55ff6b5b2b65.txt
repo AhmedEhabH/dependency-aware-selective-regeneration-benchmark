@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add missing support for simple requests in the CORS flow (#12000)", I need to identify files related to CORS handling in this Saleor repository.
+
+Based on the repository structure, I can see there's an `asgi/` directory which likely contains CORS-related functionality. The most relevant files for fixing CORS simple requests support would be:
+
+```
+saleor/asgi/cors_handler.py
+saleor/asgi/__init__.py
+saleor/settings.py
+saleor/middleware.py
+saleor/core/middleware.py
+```

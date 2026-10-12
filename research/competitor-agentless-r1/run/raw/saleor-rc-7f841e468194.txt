@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add is_available_for_purchase product method", I need to identify where product-related methods are defined and where this new method should be added.
+
+Based on the repository structure, the most relevant files for product methods would be in the `product/` directory, particularly in the models file where product logic is implemented.
+
+```
+saleor/product/models.py
+saleor/product/utils/availability.py
+saleor/graphql/product/types/products.py
+saleor/product/migrations/0122_product_available_for_purchase.py
+saleor/product/utils/__init__.py
+```

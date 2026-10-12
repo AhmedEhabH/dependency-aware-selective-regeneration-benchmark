@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add redirect url to order (#6500)", I need to identify the files that would need to be modified to add a redirect URL field to the order model and related functionality.
+
+Based on the repository structure and the nature of the change, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/migrations/0091_auto_20201112_0904.py
+saleor/graphql/order/types.py
+saleor/graphql/order/mutations/orders.py
+saleor/order/utils.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding an `alg` parameter to JWKS (JSON Web Key Set). JWKS is typically used in JWT (JSON Web Token) implementations for OAuth/OpenID Connect.
+
+Based on the repository structure and the nature of the change, I need to identify files related to JWT/JWKS functionality:
+
+```
+saleor/core/jwt.py
+saleor/core/jwt_manager.py
+saleor/plugins/openid_connect/plugin.py
+saleor/plugins/openid_connect/client.py
+saleor/account/models.py
+```

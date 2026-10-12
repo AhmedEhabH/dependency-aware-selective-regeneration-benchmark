@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a memory leak for cached states and adding an extra comment to `_clear_dataloaders_fields_cache`. Based on the repository structure and the nature of the issue, this likely involves GraphQL dataloader caching functionality.
+
+The most relevant files to edit would be:
+
+```
+saleor/graphql/core/dataloaders.py
+saleor/graphql/context.py
+saleor/graphql/core/context.py
+saleor/checkout/dataloaders.py
+saleor/product/dataloaders.py
+```

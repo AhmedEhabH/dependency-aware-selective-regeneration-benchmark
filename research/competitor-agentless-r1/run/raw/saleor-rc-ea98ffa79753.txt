@@ -1,0 +1,17 @@
+Looking at the GitHub problem description "Add support for AVIF and ORIGINAL format to images (#11998)", this appears to be about adding support for new image formats in the Saleor e-commerce platform.
+
+Based on the repository structure and the nature of the issue, I need to identify files related to image handling, particularly around image processing, storage, and format support. The key areas would be:
+
+1. Image/thumbnail processing utilities
+2. Product media handling
+3. File validation and processing
+4. Storage configurations
+5. GraphQL mutations for media uploads
+
+```
+saleor/thumbnail/utils.py
+saleor/product/product_images.py
+saleor/core/storages.py
+saleor/graphql/product/mutations/product/product_media_create.py
+saleor/core/utils/validators.py
+```

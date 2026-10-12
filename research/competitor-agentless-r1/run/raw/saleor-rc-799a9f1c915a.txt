@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add Payment Transactions DataLoader (#9940)" and the repository structure, I need to identify files related to adding a DataLoader for payment transactions in the GraphQL layer.
+
+Based on the repository structure and the typical pattern for implementing DataLoaders in GraphQL, here are the files that would need to be edited:
+
+```
+saleor/graphql/payment/dataloaders.py
+saleor/payment/models.py
+saleor/graphql/payment/types.py
+saleor/graphql/payment/resolvers.py
+saleor/core/transactions.py
+```

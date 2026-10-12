@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this appears to be about implementing a "Return Products" feature with mutations for refunding products, validation, fulfillment handling, and related changes. Based on the repository structure and the nature of the changes described, here are the most important files that would need to be edited:
+
+```
+saleor/graphql/order/mutations/fulfillments.py
+saleor/order/models.py
+saleor/graphql/order/mutations/orders.py
+saleor/order/migrations/
+saleor/graphql/order/schema.py
+```

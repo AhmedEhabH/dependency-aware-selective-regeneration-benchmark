@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Use replica to fetch files to delete", this appears to be about using a database replica for fetching data that needs to be deleted. Based on the repository structure, this likely relates to database operations, possibly in the core database functionality or management commands.
+
+Here are the files that would most likely need to be edited:
+
+```
+saleor/core/db/connection.py
+saleor/core/management/commands/delete_event_payloads.py
+saleor/core/models.py
+saleor/core/db_routers.py
+saleor/settings.py
+```

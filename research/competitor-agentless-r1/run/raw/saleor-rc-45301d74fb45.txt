@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix invalid available shipping methods calculation for checkout (#9135)", I need to identify files related to shipping methods calculation in the checkout process.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/checkout/utils.py
+saleor/shipping/utils.py
+saleor/checkout/calculations.py
+saleor/shipping/models.py
+saleor/checkout/models.py
+```

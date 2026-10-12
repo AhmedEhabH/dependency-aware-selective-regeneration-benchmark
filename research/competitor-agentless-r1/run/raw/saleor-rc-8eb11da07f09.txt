@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Remove valueNames from AttributeInput (#18016)", I need to identify files related to attribute input functionality, particularly focusing on the `valueNames` field that needs to be removed.
+
+Based on the repository structure and the nature of the issue, this appears to be related to product attributes functionality. The most relevant files would be in the attribute-related modules and GraphQL API.
+
+```
+saleor/attribute/models/base.py
+saleor/graphql/attribute/types.py
+saleor/graphql/attribute/mutations/attribute_create.py
+saleor/graphql/attribute/mutations/attribute_update.py
+saleor/attribute/models/product.py
+```

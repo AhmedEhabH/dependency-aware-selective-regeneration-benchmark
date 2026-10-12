@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix passing incorrect email to payment gateway (#7486)", I need to identify files related to payment processing and email handling in the payment gateway integration.
+
+Based on the repository structure, the most relevant files would be in the payment module, specifically those dealing with payment gateway integrations and customer data handling.
+
+```
+saleor/payment/gateway.py
+saleor/payment/models.py
+saleor/payment/utils.py
+saleor/checkout/models.py
+saleor/order/models.py
+```

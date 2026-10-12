@@ -1,0 +1,15 @@
+Looking at the GitHub problem description "Add page_type_id to AttributeValue translated webhook", I need to identify files related to webhooks and AttributeValue handling.
+
+Based on the repository structure, this appears to be about adding page_type_id to webhook payloads for AttributeValue translations. The key areas would be:
+
+1. Webhook payload generation/serialization
+2. AttributeValue models and their webhooks
+3. Page type integration with attributes
+
+```
+saleor/webhook/payloads.py
+saleor/webhook/payload_serializers.py
+saleor/attribute/models/base.py
+saleor/page/models.py
+saleor/webhook/serializers.py
+```

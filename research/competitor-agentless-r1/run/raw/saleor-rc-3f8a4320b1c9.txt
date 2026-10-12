@@ -1,0 +1,18 @@
+Looking at the GitHub problem description "Extend channel type with shippingZones", I need to identify the files that would need to be modified to add shipping zones functionality to the channel type.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform, and I can see there are `channel/` and `shipping/` directories with related models and GraphQL schemas.
+
+To extend the channel type with shipping zones, I would need to:
+
+1. Modify the channel model to include shipping zones relationship
+2. Update the GraphQL channel types to expose shipping zones
+3. Potentially update shipping zone models to have channel relationships
+4. Update GraphQL resolvers and schemas
+
+```
+saleor/channel/models.py
+saleor/graphql/channel/types.py
+saleor/shipping/models.py
+saleor/graphql/shipping/types.py
+saleor/graphql/channel/schema.py
+```

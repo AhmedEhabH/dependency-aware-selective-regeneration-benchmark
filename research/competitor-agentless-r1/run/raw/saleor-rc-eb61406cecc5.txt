@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Improve performance when requesting totalCount with in-stock filter (#16904)", this appears to be related to optimizing database queries for product listings with stock filtering, particularly when calculating total counts.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/product/models.py
+saleor/graphql/product/filters.py
+saleor/warehouse/availability.py
+saleor/product/utils/availability.py
+saleor/graphql/product/resolvers.py
+```

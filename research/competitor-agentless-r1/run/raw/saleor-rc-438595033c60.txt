@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add source.service.name span tag (#17250)", this appears to be related to adding tracing functionality, specifically adding a span tag for service name identification.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/core/tracing.py
+saleor/graphql/core/tracing.py
+saleor/core/middleware.py
+saleor/settings.py
+saleor/asgi/__init__.py
+```

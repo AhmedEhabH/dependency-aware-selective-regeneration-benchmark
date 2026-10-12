@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about extending the Order model with subtotal fields and related functionality. Based on the repository structure and the requirements, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/migrations/0179_merge_20231122_1348.py
+saleor/order/tasks.py
+saleor/order/calculations.py
+saleor/order/base_calculations.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Rename foreign relation shipping-methods to deliveries (#18929)", I need to identify files that would contain references to shipping methods and deliveries in the context of foreign relations.
+
+Based on the repository structure and the nature of the change (renaming a foreign relation from "shipping-methods" to "deliveries"), the most likely files that would need to be edited are:
+
+```
+saleor/checkout/models.py
+saleor/order/models.py
+saleor/shipping/models.py
+saleor/checkout/migrations/
+saleor/order/migrations/
+```

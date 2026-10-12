@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Remove EventDeliveries without webhooks, make webhooks non-nullable for EventDeliveries (#9507)", I need to identify files related to EventDelivery and webhook models and migrations.
+
+Based on the repository structure, I can see there are webhook-related files and core migration files that would handle this change:
+
+```
+saleor/webhook/models.py
+saleor/core/migrations/0003_eventdeliveryattempt_response_status_code.py
+saleor/webhook/migrations/
+saleor/core/models.py
+saleor/webhook/migrations/0008_webhook_subscription_query.py
+```

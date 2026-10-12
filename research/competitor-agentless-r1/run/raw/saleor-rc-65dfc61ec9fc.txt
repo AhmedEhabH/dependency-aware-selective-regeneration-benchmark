@@ -1,0 +1,17 @@
+Looking at the GitHub problem description, this is about handling concurrency issues between `checkoutPaymentCreate` and `checkoutComplete` operations, specifically for the Atobarai gateway. The key requirements include:
+
+1. Adding a migration for Atobarai gateway payment fixes
+2. Handling concurrency between checkout payment creation and completion
+3. Extending Checkout model with `completing_started_at` field
+4. Adding validation in `CheckoutPaymentCreate`
+5. Various adjustments to payment processing functions
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/checkout/models.py
+saleor/checkout/migrations/0064_checkout_is_voucher_usage_increased.py
+saleor/payment/gateways/np_atobarai/plugin.py
+saleor/graphql/payment/mutations/payment/checkout_payment_create.py
+saleor/checkout/complete_checkout.py
+```

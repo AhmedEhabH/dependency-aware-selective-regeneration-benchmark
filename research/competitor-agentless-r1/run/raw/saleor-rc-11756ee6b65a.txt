@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix KeyError when resolving channel for channel-agnostic account events (#19253)", I need to identify files related to account events and channel resolution.
+
+Based on the repository structure and the problem description, here are the most relevant files to edit:
+
+```
+saleor/account/events.py
+saleor/channel/utils.py
+saleor/account/models.py
+saleor/graphql/account/types.py
+saleor/core/utils/events.py
+```

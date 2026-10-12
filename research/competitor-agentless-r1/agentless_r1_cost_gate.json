@@ -1,0 +1,30 @@
+{
+  "mission": "M17_AGENTLESS_STYLE_MAIN297_PROTOCOL_FREEZE_AND_EXECUTION",
+  "phase": "A6_COST_AND_RUNWAY_GATE",
+  "created_utc": "2026-10-12T00:00:00Z",
+  "status": "PASSED_BEFORE_ANY_REAL_API_CALL",
+  "price_source": "frozen MAIN_297 accounting: qwen/qwen3-coder @ deepinfra/turbo list pricing $0.30 / 1M input, $1.00 / 1M output (same frozen run accounting used by SIP / RM-CSS)",
+  "manifest": "research/competitor-agentless-r1/agentless_r1_prompt_manifest.json",
+
+  "projected_calls": 297,
+  "projected_prompt_tokens_deterministic_sum": 2088727,
+  "projected_prompt_tokens_deterministic_median": 7697,
+  "projected_prompt_tokens_deterministic_max": 10793,
+  "projected_input_cost_usd_deterministic": 0.6266,
+  "projected_output_tokens_per_task_estimate_p50": 80,
+  "projected_output_tokens_per_task_estimate_p90": 200,
+  "projected_output_tokens_per_task_worst_cap": 1024,
+  "projected_total_cost_usd": {
+    "p50_estimate": 0.6504,
+    "p90_estimate": 0.686,
+    "worst_case_all_at_cap": 0.9307,
+    "chars4_upper_companion": 1.496
+  },
+  "token_count_exact": false,
+  "token_count_disclosure": "exact qwen3-coder tokenizer not available offline; deterministic counts (benchmark.cheap_baselines.tokenize) are a lower bound; the approximate historical planning estimate (~$0.7-$1.7) is NOT treated as exact; worst-case recompute stays below ceiling regardless",
+
+  "hard_ceiling_usd": 2.0,
+  "ceiling_feasible": true,
+  "ceiling_margin_analysis": "worst_case_all_at_cap $0.93 is below the $2.00 ceiling by 1.07; even the chars/4 upper companion $1.50 is below ceiling; no price/evidence contradiction forces a ceiling change",
+  "budget_stop_policy": "execution STOPS before any further call if cumulative api_cost_usd > 2.00 (frozen protocol)"
+}

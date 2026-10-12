@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about preventing gift card creation for orders that are waiting for approval and refactoring the `get_gift_card_lines` method. Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/giftcard/utils.py
+saleor/order/models.py
+saleor/giftcard/models.py
+saleor/order/actions.py
+saleor/graphql/giftcard/resolvers.py
+```

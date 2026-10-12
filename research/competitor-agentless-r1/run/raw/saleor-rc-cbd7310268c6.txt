@@ -1,0 +1,17 @@
+Looking at the GitHub problem description "Don't raise InsufficientStock for track_inventory=False variants (#15475)", I need to identify files related to inventory tracking and stock validation logic.
+
+The issue is about preventing `InsufficientStock` exceptions when `track_inventory` is set to `False` for product variants. This suggests I need to look at:
+
+1. Product variant models where `track_inventory` field exists
+2. Stock/warehouse logic that handles inventory checks
+3. Exception handling for insufficient stock scenarios
+
+Based on the repository structure, here are the most relevant files:
+
+```
+saleor/product/models.py
+saleor/warehouse/availability.py
+saleor/warehouse/models.py
+saleor/core/exceptions.py
+saleor/checkout/actions.py
+```

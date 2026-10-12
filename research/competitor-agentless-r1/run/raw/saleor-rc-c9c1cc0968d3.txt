@@ -1,0 +1,14 @@
+Looking at the GitHub problem description about "waiting for approval fulfillment cancellation", this appears to be related to order fulfillment functionality. Based on the repository structure, I need to identify the most relevant files.
+
+The key areas would be:
+1. Order/fulfillment related models and logic
+2. GraphQL mutations for fulfillment operations
+3. Order-related business logic
+
+```
+saleor/order/models.py
+saleor/graphql/order/mutations/fulfillments.py
+saleor/order/actions.py
+saleor/graphql/order/mutations/orders.py
+saleor/order/utils.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Apply changes after review", this appears to be a generic task to implement feedback from a code review. Without specific details about what was reviewed, I need to identify the most commonly modified files during typical code reviews.
+
+Based on the repository structure and common patterns in Saleor development, here are the files most likely to need changes after a review:
+
+```
+saleor/graphql/core/types/common.py
+saleor/core/models.py
+saleor/graphql/core/mutations.py
+saleor/graphql/core/utils/error_codes.py
+saleor/core/utils/__init__.py
+```

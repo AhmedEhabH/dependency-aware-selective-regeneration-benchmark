@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about fixing error handling for the `orderFulfillApprove` mutation. Based on the repository structure and the nature of the issue, I need to identify files related to order fulfillment mutations and their tests.
+
+```
+saleor/graphql/order/mutations/fulfillments.py
+saleor/graphql/order/mutations/orders.py
+saleor/order/models.py
+saleor/graphql/order/mutations/__init__.py
+saleor/order/actions.py
+```

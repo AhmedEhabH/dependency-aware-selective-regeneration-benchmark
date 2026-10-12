@@ -1,0 +1,15 @@
+Looking at the GitHub problem description "Skip pre-generate payload for exclude shipping when webhooks are blocked (#17401)", I need to identify files related to:
+
+1. Webhook payload generation
+2. Shipping exclusion functionality
+3. Webhook blocking logic
+
+Based on the repository structure and the problem description, here are the most relevant files:
+
+```
+saleor/webhook/payloads.py
+saleor/graphql/shipping/mutations/shipping_price_exclude_products.py
+saleor/webhook/transport/shipping.py
+saleor/webhook/models.py
+saleor/core/notification/mutation_handler.py
+```

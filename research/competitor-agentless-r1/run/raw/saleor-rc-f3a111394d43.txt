@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about optimizing SQL queries for fetching product variants by refactoring from subqueries to joins, fixing replica DB usage, and fixing variant queryset references in manager methods.
+
+Based on the repository structure and the nature of the problem, here are the files that would need to be edited:
+
+```
+saleor/product/managers.py
+saleor/product/models.py
+saleor/product/utils/variants.py
+saleor/graphql/product/dataloaders/products.py
+saleor/product/utils/product.py
+```

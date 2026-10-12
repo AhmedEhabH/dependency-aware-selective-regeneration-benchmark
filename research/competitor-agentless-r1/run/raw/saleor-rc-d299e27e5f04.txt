@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about adding a `GiftCardsByCheckoutIdLoader` dataloader. Based on the repository structure and the typical patterns in this codebase, I need to identify where this dataloader would be implemented and used.
+
+The key files that would need to be edited are:
+
+```
+saleor/graphql/checkout/dataloaders.py
+saleor/graphql/checkout/types.py
+saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py
+saleor/checkout/models.py
+saleor/giftcard/models.py
+```

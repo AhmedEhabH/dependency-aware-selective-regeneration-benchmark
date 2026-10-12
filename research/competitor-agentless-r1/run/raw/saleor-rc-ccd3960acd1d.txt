@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a race condition between the checkout complete process and the TransactionEventReport mutation, with changes involving order locking and tests.
+
+Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/graphql/payment/mutations/transaction/transaction_event_report.py
+saleor/checkout/complete_checkout.py
+saleor/order/actions.py
+saleor/graphql/checkout/mutations/checkout_complete.py
+saleor/order/models.py
+```

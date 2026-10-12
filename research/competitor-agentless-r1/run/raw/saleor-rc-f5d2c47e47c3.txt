@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix gross prices as default values when prices entered with taxes (#16992)", this appears to be related to tax calculations and price handling in the Saleor e-commerce platform.
+
+Based on the repository structure and the nature of the issue, here are the files that would likely need to be edited:
+
+```
+saleor/core/taxes.py
+saleor/core/prices.py
+saleor/product/utils/variant_prices.py
+saleor/checkout/calculations.py
+saleor/order/calculations.py
+```

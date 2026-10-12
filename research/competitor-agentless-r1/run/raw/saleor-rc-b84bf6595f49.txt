@@ -1,0 +1,15 @@
+Looking at the GitHub problem description, this is about refactoring channel loaders related to order/checkout lines. The task involves:
+
+1. Replacing 'ChannelByOrderLineIdLoader' with 'ChannelByOrderIdLoader'
+2. Refactoring corresponding checkout dataloader
+3. Optimizing and simplifying the loaders
+
+Based on the repository structure and the nature of this refactoring task, here are the files that would need to be edited:
+
+```
+saleor/graphql/order/dataloaders.py
+saleor/graphql/checkout/dataloaders.py
+saleor/graphql/channel/dataloaders.py
+saleor/order/models.py
+saleor/checkout/models.py
+```

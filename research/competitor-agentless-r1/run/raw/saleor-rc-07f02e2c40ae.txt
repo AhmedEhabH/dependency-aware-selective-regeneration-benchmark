@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding the possibility to use weighted shipping tax rates. Based on the repository structure and the nature of the feature, I need to identify files related to shipping, taxes, and migrations.
+
+```
+saleor/shipping/models.py
+saleor/tax/models.py
+saleor/shipping/migrations/
+saleor/tax/migrations/
+saleor/plugins/avatax/plugin.py
+```

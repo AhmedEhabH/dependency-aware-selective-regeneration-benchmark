@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Handle calculate checkout total zero and negative (#9047) (#9106)", this appears to be about handling edge cases in checkout total calculations where the total might be zero or negative.
+
+Based on the repository structure and the nature of the problem, the most relevant files to edit would be:
+
+```
+saleor/checkout/calculations.py
+saleor/checkout/base_calculations.py
+saleor/checkout/models.py
+saleor/checkout/utils.py
+saleor/graphql/checkout/mutations.py
+```

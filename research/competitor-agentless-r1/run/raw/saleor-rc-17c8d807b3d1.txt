@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about fixing slug validation and generation for Attribute create operations. Based on the repository structure and the nature of the issue, I need to identify the files most likely involved in attribute creation, slug validation, and related functionality.
+
+```
+saleor/attribute/models/base.py
+saleor/graphql/attribute/mutations/attribute_create.py
+saleor/graphql/attribute/mutations/validators.py
+saleor/attribute/utils.py
+saleor/graphql/attribute/mutations/attribute_update.py
+```

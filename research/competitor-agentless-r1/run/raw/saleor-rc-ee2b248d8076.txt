@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Fix invalid default values for decimal fields (#11487)", I need to identify files that would likely contain decimal field definitions and their default values.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform. Decimal fields are commonly used for pricing, quantities, and financial data throughout the codebase.
+
+The most likely files to contain decimal field definitions with invalid defaults would be:
+
+```
+saleor/core/models.py
+saleor/product/models.py
+saleor/order/models.py
+saleor/checkout/models.py
+saleor/discount/models.py
+```

@@ -1,0 +1,13 @@
+Looking at the GitHub problem description, this is about adding the ability to filter customers by IDs. Based on the repository structure, I need to identify the files related to customer filtering in the GraphQL API.
+
+The key areas to modify would be:
+1. Customer filters in the GraphQL account module
+2. The schema definition for customer queries
+3. Potentially the changelog file
+
+```
+saleor/graphql/account/filters.py
+saleor/graphql/account/schema.py
+saleor/graphql/account/types.py
+CHANGELOG.md
+```

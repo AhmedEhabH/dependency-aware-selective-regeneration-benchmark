@@ -1,0 +1,18 @@
+Looking at the GitHub problem description about "Lazy legacy webhooks payload generation", I need to identify files related to webhooks and payload generation that would need to be modified.
+
+Based on the repository structure and the problem description mentioning:
+- Lazy legacy payload generator
+- Webhooks payload generation
+- Changing exception types
+- Adding changelog
+- Improving tests
+
+The most relevant files would be:
+
+```
+saleor/webhook/payloads.py
+saleor/webhook/models.py
+saleor/webhook/utils.py
+saleor/webhook/serializers.py
+saleor/webhook/payload_serializers.py
+```

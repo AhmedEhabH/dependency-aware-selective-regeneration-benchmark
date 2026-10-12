@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this appears to be about removing fallback logic for company address and unifying resolvers. Based on the repository structure and the specific mentions in the problem description, here are the files that would need to be edited:
+
+```
+saleor/site/models.py
+saleor/checkout/mutations.py
+saleor/graphql/checkout/resolvers.py
+saleor/graphql/checkout/mutations.py
+saleor/warehouse/models.py
+```

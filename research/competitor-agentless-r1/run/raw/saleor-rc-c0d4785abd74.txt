@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, I need to identify files that would need to be edited to add `customerIpAddress` to the transaction API. Based on the repository structure and the nature of the change, here are the most relevant files:
+
+```
+saleor/payment/models.py
+saleor/graphql/payment/mutations/transaction_create.py
+saleor/payment/transaction_item_calculations.py
+saleor/core/transactions.py
+saleor/payment/utils.py
+```

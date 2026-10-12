@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Do not return installed/created app token when not needed (#18704)", this appears to be related to app token management in the Saleor e-commerce platform. The issue is about preventing unnecessary return of app tokens after installation or creation.
+
+Based on the repository structure and the nature of the problem, here are the files that would likely need to be edited:
+
+```
+saleor/app/models.py
+saleor/graphql/app/mutations/app_install.py
+saleor/graphql/app/mutations/app_create.py
+saleor/graphql/app/types.py
+saleor/app/utils.py
+```

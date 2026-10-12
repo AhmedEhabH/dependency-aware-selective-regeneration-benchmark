@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Use search_index_dirty on ProductTypeUpdate mutation (#10973)", I need to identify files related to ProductTypeUpdate mutation and search indexing functionality.
+
+Based on the repository structure, the most relevant files would be:
+
+```
+saleor/graphql/product/mutations/product_type_update.py
+saleor/product/models.py
+saleor/product/search.py
+saleor/core/search_tasks.py
+saleor/graphql/product/types/products.py
+```

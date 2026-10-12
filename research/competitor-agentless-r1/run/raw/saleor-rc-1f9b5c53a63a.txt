@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing a GraphQL schema issue where `Webhook.name` field cannot return null for a non-nullable field. The commit mentions updating the GraphQL schema, adding test cases, and fixing permission errors.
+
+Based on the repository structure and the nature of the problem, here are the files that would need to be edited:
+
+```
+saleor/webhook/models.py
+saleor/graphql/webhook/types.py
+saleor/graphql/webhook/schema.py
+saleor/webhook/migrations/0002_webhook_name.py
+saleor/graphql/webhook/tests/test_webhook.py
+```

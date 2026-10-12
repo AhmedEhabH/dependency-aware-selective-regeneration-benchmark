@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing the description of the `checkoutShippingMethodUpdate` mutation. Based on the repository structure, this would be a GraphQL mutation related to checkout functionality.
+
+The most relevant files to edit would be:
+
+```
+saleor/graphql/checkout/mutations.py
+saleor/graphql/checkout/schema.py
+saleor/graphql/checkout/types.py
+saleor/graphql/checkout/descriptions.py
+saleor/graphql/checkout/resolvers.py
+```

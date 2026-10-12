@@ -1,0 +1,10 @@
+Looking at the GitHub problem description, I need to identify files related to adding a flag to StripePlugin to control if receipt_email should be included in the request.
+
+Based on the repository structure, I can see there's a Stripe payment gateway implementation in the `payment/gateways/stripe/` directory. The main files I would need to edit are:
+
+```
+saleor/payment/gateways/stripe/plugin.py
+saleor/payment/gateways/stripe/stripe_api.py
+saleor/plugins/models.py
+saleor/plugins/base_plugin.py
+```

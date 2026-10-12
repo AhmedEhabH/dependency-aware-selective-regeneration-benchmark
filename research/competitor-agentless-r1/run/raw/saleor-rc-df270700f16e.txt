@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Refactor draftOrderUpdate mutation (#17694)", I need to identify the files related to the draft order update functionality in the GraphQL order mutations.
+
+Based on the repository structure, the draft order update mutation would be located in the GraphQL order mutations section. Let me trace through the relevant files:
+
+```
+saleor/graphql/order/mutations/draft_order_update.py
+saleor/graphql/order/mutations/__init__.py
+saleor/graphql/order/mutations/utils.py
+saleor/graphql/order/mutations/draft_order_cleaner.py
+saleor/order/models.py
+```

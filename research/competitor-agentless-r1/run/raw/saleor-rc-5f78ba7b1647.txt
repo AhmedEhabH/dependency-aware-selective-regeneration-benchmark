@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, I need to identify files that would contain the unused `get_shipping_price_estimate` function that needs to be dropped, along with related changelog updates and import removals.
+
+Based on the repository structure and the nature of the function name, this is likely related to shipping functionality. Let me identify the most relevant files:
+
+```
+saleor/shipping/utils.py
+saleor/shipping/models.py
+CHANGELOG.md
+saleor/checkout/calculations.py
+saleor/core/utils/__init__.py
+```

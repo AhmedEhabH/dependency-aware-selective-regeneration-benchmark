@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Fix search bug: 'NoneType' object has no attribute 'strip' (#13937)", this is a common Python error where code is trying to call the `strip()` method on a `None` value.
+
+Based on the repository structure and the nature of the error, this is likely occurring in search-related functionality. The most probable locations would be:
+
+```
+saleor/account/search.py
+saleor/product/search.py
+saleor/order/search.py
+saleor/giftcard/search.py
+saleor/graphql/core/utils/filters.py
+```

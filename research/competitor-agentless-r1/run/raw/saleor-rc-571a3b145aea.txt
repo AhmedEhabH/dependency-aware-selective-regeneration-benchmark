@@ -1,0 +1,14 @@
+Looking at the GitHub problem description "Do not create and process payment for checkout total 0 in 3.1 (#8979)", this is about preventing payment creation when the checkout total is zero.
+
+Based on the repository structure and the nature of the issue, I need to identify files related to:
+1. Checkout completion process
+2. Payment processing logic
+3. Checkout calculations
+
+```
+saleor/checkout/complete_checkout.py
+saleor/checkout/calculations.py
+saleor/payment/gateway.py
+saleor/graphql/checkout/mutations.py
+saleor/checkout/models.py
+```

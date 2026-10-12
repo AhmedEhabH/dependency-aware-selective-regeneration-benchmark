@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Make token generator class configurable (#17701)" and examining the repository structure, I need to identify files related to token generation that would need to be made configurable.
+
+Based on the repository structure, the most relevant files for token generation would be in the core module, specifically related to tokens and authentication. Here are the files that would likely need to be edited:
+
+```
+saleor/core/tokens.py
+saleor/core/jwt.py
+saleor/account/models.py
+saleor/app/models.py
+saleor/settings.py
+```

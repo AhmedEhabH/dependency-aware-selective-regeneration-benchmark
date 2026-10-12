@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this appears to be about fixing an issue where sync webhooks are being called before async webhooks when a webhook's subscription query is missing. This relates to webhook processing logic.
+
+Based on the repository structure and the nature of the problem, here are the files that would likely need to be edited:
+
+```
+saleor/webhook/transport/synchronous/transport.py
+saleor/webhook/transport/asynchronous/transport.py
+saleor/webhook/models.py
+saleor/webhook/utils.py
+saleor/plugins/webhook/plugin.py
+```

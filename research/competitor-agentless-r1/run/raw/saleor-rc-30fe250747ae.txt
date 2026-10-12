@@ -1,0 +1,18 @@
+Looking at the GitHub problem description "Added support for querying attribute by slug, added a test for it (#6477)", I need to identify the files that would be involved in adding slug-based querying functionality for attributes.
+
+Based on the repository structure and the nature of the change, here are the files that would need to be edited:
+
+```
+saleor/attribute/models.py
+saleor/graphql/attribute/resolvers.py
+saleor/graphql/attribute/schema.py
+saleor/attribute/migrations/0002_auto_20201030_1141.py
+tests/test_attribute.py
+```
+
+These files represent:
+1. The attribute model where slug querying logic would be implemented
+2. GraphQL resolvers that handle attribute queries
+3. GraphQL schema definitions for attribute queries
+4. Migration file to add slug field support (based on existing pattern)
+5. Test file where the new functionality would be tested

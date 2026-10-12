@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding metadata support to CheckoutLinesUpdate functionality. Based on the repository structure and the nature of the changes mentioned (input/schema updates, reading metadata from line items, tests, validation fixes), here are the most relevant files that would need to be edited:
+
+```
+saleor/graphql/checkout/mutations/checkout_lines_update.py
+saleor/checkout/models.py
+saleor/graphql/checkout/types.py
+saleor/graphql/checkout/mutations/checkout_lines_add.py
+saleor/checkout/migrations/0055_create_checkout_metadata_model.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Add meta resolver" and examining the repository structure, I can see there's already a `meta/` directory in the GraphQL section that deals with metadata functionality.
+
+Based on the existing structure and the request to add a meta resolver, here are the files that would need to be edited:
+
+```
+saleor/graphql/meta/resolvers.py
+saleor/graphql/meta/schema.py
+saleor/graphql/meta/types.py
+saleor/graphql/meta/__init__.py
+saleor/graphql/api.py
+```

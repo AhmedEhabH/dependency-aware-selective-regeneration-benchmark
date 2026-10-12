@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Update product variant resolver" and the repository structure, I need to identify files related to product variant resolvers in the GraphQL API.
+
+Based on the repository structure, this appears to be a Saleor e-commerce platform, and the resolver would be part of the GraphQL implementation. The most relevant files would be in the product-related GraphQL resolvers.
+
+```
+saleor/graphql/product/resolvers.py
+saleor/graphql/product/types/products.py
+saleor/product/models.py
+saleor/graphql/product/dataloaders/products.py
+saleor/graphql/product/schema.py
+```

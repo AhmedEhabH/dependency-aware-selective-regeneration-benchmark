@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding an "exclude products" mutation and field, likely related to shipping methods based on the mention of shipping types. The key areas that would need to be modified are:
+
+```
+saleor/graphql/shipping/mutations/shippings.py
+saleor/graphql/shipping/types.py
+saleor/graphql/shipping/schema.py
+saleor/shipping/models.py
+saleor/graphql/product/types/products.py
+```

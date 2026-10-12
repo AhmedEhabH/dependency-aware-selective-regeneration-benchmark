@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Compress celery payload (#7445) * Compress celery tasks * Update changelog", I need to identify files related to Celery configuration and task handling in this Saleor repository.
+
+Based on the repository structure, I can see there's a `celeryconf.py` file which is likely the main Celery configuration file. I also see several `tasks.py` files in different modules (core, csv, order, product, shipping) that would handle Celery tasks. The changelog would typically be in a documentation or root file.
+
+```
+saleor/celeryconf.py
+saleor/core/tasks.py
+saleor/order/tasks.py
+saleor/product/tasks.py
+saleor/csv/tasks.py
+```

@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Add index for countries field (#15870)", I need to identify where the countries field exists and what files would need to be modified to add an index for it.
+
+Based on the repository structure, the most likely place for a countries field would be in models related to addresses, shipping, or channels. Looking at the migrations and models, I can see references to country fields in several places:
+
+1. `channel/models.py` - has a `default_country` field
+2. `checkout/models.py` - has a `country` field 
+3. `shipping/models.py` - likely has country-related fields
+4. The corresponding migration files that would need to be created
+
+```
+saleor/channel/migrations/0002_channel_default_country.py
+saleor/checkout/migrations/0023_checkout_country.py
+saleor/shipping/migrations/0018_default_zones_countries.py
+saleor/channel/models.py
+saleor/checkout/models.py
+```

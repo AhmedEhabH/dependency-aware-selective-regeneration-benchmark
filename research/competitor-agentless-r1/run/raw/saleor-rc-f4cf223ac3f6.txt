@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Move page attribute related logic to page module (#18015)" and examining the repository structure, I need to identify files that contain page attribute related logic that should be moved to the page module.
+
+Based on the repository structure and the nature of the issue, here are the files that would need to be edited:
+
+```
+saleor/attribute/models/page.py
+saleor/page/models.py
+saleor/graphql/page/types.py
+saleor/graphql/page/mutations/__init__.py
+saleor/attribute/utils.py
+```

@@ -1,0 +1,9 @@
+Looking at the GitHub problem description, this is about adding the possibility to add an external reference (transactionReference) to orders, specifically for the "mark-order-as-paid" event. Based on the repository structure and the nature of the changes described, here are the files that would need to be edited:
+
+```
+saleor/order/models.py
+saleor/order/migrations/0092_add_transaction_reference.py
+saleor/order/events.py
+saleor/graphql/order/mutations/orders.py
+saleor/payment/models.py
+```

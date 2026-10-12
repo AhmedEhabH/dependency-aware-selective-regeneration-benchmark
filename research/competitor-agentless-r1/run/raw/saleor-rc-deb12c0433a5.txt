@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Satisfy linters", this typically involves fixing code style issues, formatting problems, or other linting violations throughout the codebase. Based on the repository structure, I need to identify the most likely files that would need linting fixes.
+
+The most important files to address for linting issues would typically be:
+
+```
+saleor/settings.py
+conftest.py
+manage.py
+saleor/core/models.py
+saleor/urls.py
+```

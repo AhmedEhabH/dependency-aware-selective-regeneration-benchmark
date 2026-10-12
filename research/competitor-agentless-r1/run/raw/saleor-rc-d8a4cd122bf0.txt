@@ -1,0 +1,11 @@
+Looking at the GitHub problem description, this is about fixing invalid end dates in vouchers and adding date validation for end_date across vouchers, sales, and gift cards.
+
+Based on the repository structure and the problem description, here are the files that would need to be edited:
+
+```
+saleor/discount/models.py
+saleor/giftcard/models.py
+saleor/discount/utils.py
+saleor/core/utils/validators.py
+saleor/graphql/discount/types.py
+```

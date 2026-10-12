@@ -1,0 +1,13 @@
+Looking at the GitHub problem description "Replace poetry with uv (#18080) * Replace poetry with uv * Remove unused mypy type comments", I need to identify files that would be affected by replacing Poetry (Python dependency management tool) with uv.
+
+The key files that would need to be modified are:
+
+```
+pyproject.toml
+poetry.lock
+README.md
+Dockerfile
+.github/workflows/ci.yml
+```
+
+These files are the most likely to contain Poetry-specific configurations that would need to be updated to use uv instead. The pyproject.toml and poetry.lock files are the primary dependency management files, README.md would likely contain Poetry installation instructions, Dockerfile might have Poetry-specific build steps, and CI workflow files would reference Poetry commands that need to be replaced with uv equivalents.

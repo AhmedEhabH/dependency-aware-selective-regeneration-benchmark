@@ -1,0 +1,17 @@
+Looking at the GitHub problem description, this is about adding a "PaymentCheckBalance" mutation for checking gift card balances, with specific changes related to:
+
+1. Adding a new mutation
+2. Renaming fields and using validation utilities
+3. Changing data types (Float to PositiveDecimal)
+4. Handling JSON serialization of Decimal objects
+5. Using price conversion utilities
+
+Based on the repository structure and the nature of the changes, here are the files that would need to be edited:
+
+```
+saleor/graphql/payment/mutations.py
+saleor/graphql/payment/schema.py
+saleor/graphql/core/types/money.py
+saleor/core/utils/__init__.py
+saleor/graphql/payment/types.py
+```

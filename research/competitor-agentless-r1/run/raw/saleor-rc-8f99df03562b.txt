@@ -1,0 +1,16 @@
+Looking at the GitHub problem description "Improve checkout performance; include product collections when calculating variant price", I need to identify files related to checkout calculations and product variant pricing.
+
+Based on the repository structure, the key areas would be:
+1. Checkout calculation logic
+2. Product variant pricing logic
+3. Product collection integration
+
+Here are the files that would need to be edited:
+
+```
+saleor/checkout/calculations.py
+saleor/product/utils/variant_prices.py
+saleor/checkout/base_calculations.py
+saleor/product/models.py
+saleor/checkout/models.py
+```

@@ -1,0 +1,11 @@
+Looking at the GitHub problem description "Use separate services for external integrations" and examining the repository structure, this appears to be about separating external integration logic into dedicated service modules rather than having them mixed throughout the codebase.
+
+Based on the repository structure, I can see there are already some service-related directories and files. The key areas that would need to be modified to implement separate services for external integrations are:
+
+```
+saleor/plugins/
+saleor/payment/gateways/
+saleor/app/
+saleor/webhook/
+saleor/plugins/manager.py
+```

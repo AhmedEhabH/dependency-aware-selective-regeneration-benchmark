@@ -1,0 +1,17 @@
+Looking at the GitHub problem description "Add available for purchase validation for validate_draft_order method", I need to identify where the `validate_draft_order` method is likely located and where product availability validation would need to be added.
+
+Based on the repository structure, this appears to be related to order processing, specifically draft orders. The most relevant areas would be:
+
+1. Order-related functionality - likely in the `order/` directory
+2. GraphQL mutations for orders - likely in `graphql/order/`
+3. Product availability validation - possibly in `product/` or `warehouse/` directories
+
+The `validate_draft_order` method is most likely in the GraphQL order mutations or order utilities. For adding "available for purchase" validation, I'd need to check:
+
+```
+saleor/graphql/order/mutations/draft_orders.py
+saleor/order/utils.py
+saleor/product/models.py
+saleor/warehouse/availability.py
+saleor/graphql/order/utils.py
+```
