@@ -1,0 +1,61 @@
+{
+ "branch": "parallel/competitor-baselines-2026-10-12",
+ "candidate_universe_identity": "per-task benchmark_data/real_commit_impact_saleor/scientific/<id>/public/candidate_universe.json",
+ "dense_artifact": "research/saleor-reserve-300-rmcss/full_file_scores_saleor300.parquet (realization A; verified query_sha256 == intent_sha256)",
+ "environment": {
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.1"
+ },
+ "evaluator_identity": "benchmark.wp1a.scorer.per_task_confusion/ArmConfusion + benchmark.wp1b.main_scoring pooled() (micro P/R/F1/FNR; macro = mean of per-task values with 0 for empty denominators, recorded convention)",
+ "freeze_sha256": "881237ddef31efd66d1f437e861b6d8de9af296dc5ede0eef742b8df9ec1cef9",
+ "frozen_predictions_reused": {
+  "agent": "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json (+ .sha256)",
+  "sip_rmcss": "research/wp1a/sip_rmcss_per_task_predictions.json (+ .sha256)"
+ },
+ "gold_identity": {
+  "artifact": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+  "n_tasks": 300,
+  "opened_once": true,
+  "used_tasks": 297
+ },
+ "head": "1661ec215ede6ae96e82735148db4febffb21580",
+ "main297_manifest_identity": {
+  "artifact": "research/wp1b/wp1b_main_297_manifest.json",
+  "manifest_sha256": "6bc5980fde694c1d8818389a8a8cdbf8d0acb410866806b74b404f19a90fccde"
+ },
+ "no_paid_api": "0 new LLM/API calls; $0.00 new API cost",
+ "output_artifact_sha256": {
+  "AGENTLESS_STYLE_EXECUTION_ESTIMATE.md": "2c065ce95ce011708594415820e8400bfe9f95ab168659b82e35bf0ebdfca277",
+  "BASELINE_COMPARISON_R2.csv": "a72bff8ae805d36e265a44532554631803b8615e7046b2df4da135f055b78483",
+  "BASELINE_COMPARISON_R2.md": "1155f20cb0575cd47e4ec8bdba153b0842026c6f6250fabf1346e638322e046b",
+  "BASELINE_EXECUTION_R2.json": "5b30aa149c015b3f500d01ea6c189551e690469e56b2926021132efb69e30950",
+  "BASELINE_PROTOCOL_FREEZE_R2.json": "881237ddef31efd66d1f437e861b6d8de9af296dc5ede0eef742b8df9ec1cef9",
+  "PER_TASK_PAIRED_R2.csv": "b7eacd91ef4782896832f566adabf32d544f1b5d04e08f1dcf54acf4e6e6a61c",
+  "REPRODUCIBILITY_RECEIPT_R2.json": "2cb62a3619720227441fe33f4d0dff1c267b6fd63683e0c5aeb06701391e05c0",
+  "agentless_prompt_sizes_r2.json": "2136c2c48deaf790e4ba71470f28813cd4ca14e2d72ba67e77cea6775148791f",
+  "paired_bootstrap_r2.json": "2017733e76c454643b93aab00359949e374666695928aa808c660b511b080c37",
+  "per_task_metrics_r2.json": "fb327fcf6401f528987727f4b6b394f87a15f1a89bcc9de53a3fa7ab6f0ee800",
+  "per_task_predictions_r2.json": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed"
+ },
+ "parent_content_source": "frozen upstream cache repo dist/pilot-repo-cache/saleor (22,615 commits) via git ls-tree -r -z + git cat-file --batch",
+ "protocol_id": "M17_COMP_BASELINES_R2_PROTOCOL_FREEZE",
+ "random_seeds": {
+  "bootstrap": 20261012,
+  "sampling_seed_original": 20260920
+ },
+ "script_sha256": {
+  "scripts/m17_comp_baselines_r2_agentless_estimate.py": "b34b240f281e43d768908958367ef5db6e249b92f0a6905970aed0ff6cd2a8db",
+  "scripts/m17_comp_baselines_r2_bootstrap.py": "c3eb266ed62437014e25b0209524eb01d067d301f38a7d859769be93cdfca10c",
+  "scripts/m17_comp_baselines_r2_build_outputs.py": "861fd91659287297809691c43999664c2cb45d51d266cf5ff35f19fe88f23f27",
+  "scripts/m17_comp_baselines_r2_execute.py": "c33e1c7a153e5c9f2612ca8e63889925e0bce9da651b5d7c89069d346f0c0c91"
+ },
+ "verifications": {
+  "blob_identity": "extracted parent content LF-normalized sha256 matches frozen candidate-universe records (validated before full run; 0/506 on the git-archive-blocked parent; 0 mismatches across the mission)",
+  "missing_at_parent": "0 universe files missing at any parent commit",
+  "outside_universe": "0 selections outside the frozen candidate universe across 297 tasks x 14 baseline arms",
+  "population_identity": "300 RESERVE - 3 Calibration-3 == MAIN_297 (297)",
+  "sip_rmcss_agent_reproduction": "per-task confusion re-derived from frozen predictions exactly matches authoritative wp1b_main297_result.json (SIP 192/341/723; RM-CSS 281/379/634; Agent 291/397/624)"
+ }
+}

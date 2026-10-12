@@ -1,0 +1,42 @@
+{
+  "mission": "M17_COMP_BASELINES_R2_EVIDENCE_FREEZE_AND_DISCLOSURE",
+  "date_utc": "2026-10-12",
+  "time_utc": "2026-10-12T05:32:59Z",
+  "branch": "parallel/competitor-baselines-2026-10-12",
+  "pre_freeze_head": "1661ec215ede6ae96e82735148db4febffb21580",
+  "protocol_freeze_sha256": "881237ddef31efd66d1f437e861b6d8de9af296dc5ede0eef742b8df9ec1cef9",
+  "reproducibility_receipt_sha256": "8ffbd560a6395e86f209048dc63c6780cb028d0d403418bff0133ae04b6936a9",
+  "result_artifact_sha256": {
+    "BASELINE_PROTOCOL_FREEZE_R2.json": "881237ddef31efd66d1f437e861b6d8de9af296dc5ede0eef742b8df9ec1cef9",
+    "BASELINE_EXECUTION_R2.json": "5b30aa149c015b3f500d01ea6c189551e690469e56b2926021132efb69e30950",
+    "BASELINE_COMPARISON_R2.csv": "a72bff8ae805d36e265a44532554631803b8615e7046b2df4da135f055b78483",
+    "BASELINE_COMPARISON_R2.md": "1155f20cb0575cd47e4ec8bdba153b0842026c6f6250fabf1346e638322e046b",
+    "PER_TASK_PAIRED_R2.csv": "b7eacd91ef4782896832f566adabf32d544f1b5d04e08f1dcf54acf4e6e6a61c",
+    "AGENTLESS_STYLE_EXECUTION_ESTIMATE.md": "2c065ce95ce011708594415820e8400bfe9f95ab168659b82e35bf0ebdfca277",
+    "REPRODUCIBILITY_RECEIPT_R2.json": "8ffbd560a6395e86f209048dc63c6780cb028d0d403418bff0133ae04b6936a9",
+    "per_task_predictions_r2.json": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed",
+    "per_task_metrics_r2.json": "fb327fcf6401f528987727f4b6b394f87a15f1a89bcc9de53a3fa7ab6f0ee800",
+    "paired_bootstrap_r2.json": "2017733e76c454643b93aab00359949e374666695928aa808c660b511b080c37",
+    "agentless_prompt_sizes_r2.json": "2136c2c48deaf790e4ba71470f28813cd4ca14e2d72ba67e77cea6775148791f"
+  },
+  "script_sha256": {
+    "scripts/m17_comp_baselines_r2_execute.py": "c33e1c7a153e5c9f2612ca8e63889925e0bce9da651b5d7c89069d346f0c0c91",
+    "scripts/m17_comp_baselines_r2_bootstrap.py": "c3eb266ed62437014e25b0209524eb01d067d301f38a7d859769be93cdfca10c",
+    "scripts/m17_comp_baselines_r2_agentless_estimate.py": "b34b240f281e43d768908958367ef5db6e249b92f0a6905970aed0ff6cd2a8db",
+    "scripts/m17_comp_baselines_r2_build_outputs.py": "861fd91659287297809691c43999664c2cb45d51d266cf5ff35f19fe88f23f27"
+  },
+  "review_addendum_sha256": "19c6fb9b781e2aeca14969eeeacdd4fdd4138601732e7d6fccd3578ba3a50d82",
+  "bootstrap_input_source": "research/competitor-baselines-r2/per_task_metrics_r2.json",
+  "bootstrap_input_sha256": "fb327fcf6401f528987727f4b6b394f87a15f1a89bcc9de53a3fa7ab6f0ee800",
+  "bootstrap_script_sha256": "c3eb266ed62437014e25b0209524eb01d067d301f38a7d859769be93cdfca10c",
+  "bootstrap_seed": 20261012,
+  "bootstrap_resamples": 10000,
+  "scientific_predictions_changed": false,
+  "metrics_changed": false,
+  "bootstrap_changed": false,
+  "protocol_changed": false,
+  "new_benchmark_api_calls": 0,
+  "new_benchmark_cost_usd": 0.0,
+  "disclosure_only": true,
+  "notes": "B1 verified every recorded receipt hash against current bytes (receipt identity 8ffbd560...). B2 confirmed bootstrap input source is per_task_metrics_r2.json (bootstrap script reads only that file; PER_TASK_PAIRED_R2.csv is a derived product and independently recomputes the aggregate confusion counts). No scientific artifact was regenerated or modified."
+}

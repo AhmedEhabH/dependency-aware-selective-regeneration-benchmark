@@ -1,0 +1,4797 @@
+{
+ "agentless_style_repr": {
+  "chars": {
+   "max": 103320,
+   "median": 74276,
+   "min": 29152,
+   "p90": 96631
+  },
+  "chars4_median_tokens": 18569,
+  "frozen_deterministic_tokens": {
+   "max": 10793,
+   "median": 7697,
+   "min": 3099,
+   "p90": 10050
+  }
+ },
+ "n_tasks": 297,
+ "official_agentless_repo": "https://github.com/OpenAutoCoder/Agentless",
+ "official_commit_sha_inspected": "5ce5888b9f149beaace393957a55ea8ee46c9f71",
+ "official_context_constant": "MAX_CONTEXT_LENGTH = 128000 (agentless/fl/FL.py)",
+ "official_file_level_stage": "agentless/fl/localize.py (LLMFL.localize; top_n default 3; prompt instructs 'return at most 5 files')",
+ "official_localization_prompt_source": "agentless/fl/FL.py \u2014 LLMFL.obtain_relevant_files_prompt (file-level localization stage)",
+ "official_structure_representation": "agentless/util/preprocess_data.py show_project_structure() over get_repo_structure() (dirs + .py file names only; filter_none_python + filter_out_test_files applied)",
+ "per_task": {
+  "saleor-rc-0179b331be38": {
+   "agentless_prompt": {
+    "chars": 94278,
+    "chars3_5_heuristic_tokens": 26936,
+    "chars4_heuristic_tokens": 23569,
+    "frozen_deterministic_tokens": 9803
+   },
+   "agentless_structure_py_files": 2430,
+   "parent_commit": "d5ff468f84bd400de9a66eeaf748f12a98f6276d",
+   "sip_prompt": {
+    "chars": 68905,
+    "chars3_5_heuristic_tokens": 19687,
+    "chars4_heuristic_tokens": 17226,
+    "frozen_deterministic_tokens": 9695
+   }
+  },
+  "saleor-rc-02d266b6e34b": {
+   "agentless_prompt": {
+    "chars": 35238,
+    "chars3_5_heuristic_tokens": 10068,
+    "chars4_heuristic_tokens": 8809,
+    "frozen_deterministic_tokens": 3756
+   },
+   "agentless_structure_py_files": 1020,
+   "parent_commit": "cd6ea4e612cdc34525e8fcc1c4e51cb5daee959e",
+   "sip_prompt": {
+    "chars": 34482,
+    "chars3_5_heuristic_tokens": 9852,
+    "chars4_heuristic_tokens": 8620,
+    "frozen_deterministic_tokens": 4910
+   }
+  },
+  "saleor-rc-02dfdad9985b": {
+   "agentless_prompt": {
+    "chars": 84460,
+    "chars3_5_heuristic_tokens": 24131,
+    "chars4_heuristic_tokens": 21115,
+    "frozen_deterministic_tokens": 8752
+   },
+   "agentless_structure_py_files": 2215,
+   "parent_commit": "38b5f84f610f5ac6d4f19111480511bfa2f4332a",
+   "sip_prompt": {
+    "chars": 65619,
+    "chars3_5_heuristic_tokens": 18748,
+    "chars4_heuristic_tokens": 16404,
+    "frozen_deterministic_tokens": 9216
+   }
+  },
+  "saleor-rc-032b98afff20": {
+   "agentless_prompt": {
+    "chars": 95427,
+    "chars3_5_heuristic_tokens": 27264,
+    "chars4_heuristic_tokens": 23856,
+    "frozen_deterministic_tokens": 9927
+   },
+   "agentless_structure_py_files": 2461,
+   "parent_commit": "b093ceea356ff9a801205bfec22814daf878c1c3",
+   "sip_prompt": {
+    "chars": 69864,
+    "chars3_5_heuristic_tokens": 19961,
+    "chars4_heuristic_tokens": 17466,
+    "frozen_deterministic_tokens": 9836
+   }
+  },
+  "saleor-rc-03be7057c1f1": {
+   "agentless_prompt": {
+    "chars": 32825,
+    "chars3_5_heuristic_tokens": 9378,
+    "chars4_heuristic_tokens": 8206,
+    "frozen_deterministic_tokens": 3502
+   },
+   "agentless_structure_py_files": 950,
+   "parent_commit": "cab567b9fe5cb88172d618286f4233c8385df9b6",
+   "sip_prompt": {
+    "chars": 33299,
+    "chars3_5_heuristic_tokens": 9514,
+    "chars4_heuristic_tokens": 8324,
+    "frozen_deterministic_tokens": 4779
+   }
+  },
+  "saleor-rc-03c5a9916858": {
+   "agentless_prompt": {
+    "chars": 38307,
+    "chars3_5_heuristic_tokens": 10944,
+    "chars4_heuristic_tokens": 9576,
+    "frozen_deterministic_tokens": 4114
+   },
+   "agentless_structure_py_files": 1106,
+   "parent_commit": "4f396ca0985a2cb3d4e3f916e5a0c6f4612963a1",
+   "sip_prompt": {
+    "chars": 35414,
+    "chars3_5_heuristic_tokens": 10118,
+    "chars4_heuristic_tokens": 8853,
+    "frozen_deterministic_tokens": 5056
+   }
+  },
+  "saleor-rc-05bdc7feb9ac": {
+   "agentless_prompt": {
+    "chars": 35280,
+    "chars3_5_heuristic_tokens": 10080,
+    "chars4_heuristic_tokens": 8820,
+    "frozen_deterministic_tokens": 3759
+   },
+   "agentless_structure_py_files": 1006,
+   "parent_commit": "376da3af89b4b8c55b5596bd59f641da21128d73",
+   "sip_prompt": {
+    "chars": 34702,
+    "chars3_5_heuristic_tokens": 9914,
+    "chars4_heuristic_tokens": 8675,
+    "frozen_deterministic_tokens": 4945
+   }
+  },
+  "saleor-rc-069b6a39f683": {
+   "agentless_prompt": {
+    "chars": 82125,
+    "chars3_5_heuristic_tokens": 23464,
+    "chars4_heuristic_tokens": 20531,
+    "frozen_deterministic_tokens": 8505
+   },
+   "agentless_structure_py_files": 2161,
+   "parent_commit": "f3bf3e6f6fc9d54c356d83193d00f7cc128ab305",
+   "sip_prompt": {
+    "chars": 65236,
+    "chars3_5_heuristic_tokens": 18638,
+    "chars4_heuristic_tokens": 16309,
+    "frozen_deterministic_tokens": 9155
+   }
+  },
+  "saleor-rc-070f4bd7c042": {
+   "agentless_prompt": {
+    "chars": 41361,
+    "chars3_5_heuristic_tokens": 11817,
+    "chars4_heuristic_tokens": 10340,
+    "frozen_deterministic_tokens": 4436
+   },
+   "agentless_structure_py_files": 1186,
+   "parent_commit": "7e43b1e3588e8a8553d16d075e24fa236a04416a",
+   "sip_prompt": {
+    "chars": 36716,
+    "chars3_5_heuristic_tokens": 10490,
+    "chars4_heuristic_tokens": 9179,
+    "frozen_deterministic_tokens": 5254
+   }
+  },
+  "saleor-rc-0713acb0f004": {
+   "agentless_prompt": {
+    "chars": 35847,
+    "chars3_5_heuristic_tokens": 10242,
+    "chars4_heuristic_tokens": 8961,
+    "frozen_deterministic_tokens": 3826
+   },
+   "agentless_structure_py_files": 1037,
+   "parent_commit": "d0e187099cf330bd457940f9fc9bec000799f0fc",
+   "sip_prompt": {
+    "chars": 34805,
+    "chars3_5_heuristic_tokens": 9944,
+    "chars4_heuristic_tokens": 8701,
+    "frozen_deterministic_tokens": 4955
+   }
+  },
+  "saleor-rc-07c8859c0ac3": {
+   "agentless_prompt": {
+    "chars": 101234,
+    "chars3_5_heuristic_tokens": 28924,
+    "chars4_heuristic_tokens": 25308,
+    "frozen_deterministic_tokens": 10552
+   },
+   "agentless_structure_py_files": 2581,
+   "parent_commit": "b8f2389a0dcd891f20034001cf4b81f48d3ad786",
+   "sip_prompt": {
+    "chars": 71998,
+    "chars3_5_heuristic_tokens": 20570,
+    "chars4_heuristic_tokens": 17999,
+    "frozen_deterministic_tokens": 10146
+   }
+  },
+  "saleor-rc-07f02e2c40ae": {
+   "agentless_prompt": {
+    "chars": 90933,
+    "chars3_5_heuristic_tokens": 25980,
+    "chars4_heuristic_tokens": 22733,
+    "frozen_deterministic_tokens": 9441
+   },
+   "agentless_structure_py_files": 2351,
+   "parent_commit": "77e8e3d61a39982e813e1b757badb3d444f6dd20",
+   "sip_prompt": {
+    "chars": 67686,
+    "chars3_5_heuristic_tokens": 19338,
+    "chars4_heuristic_tokens": 16921,
+    "frozen_deterministic_tokens": 9511
+   }
+  },
+  "saleor-rc-094b1ec0f610": {
+   "agentless_prompt": {
+    "chars": 52322,
+    "chars3_5_heuristic_tokens": 14949,
+    "chars4_heuristic_tokens": 13080,
+    "frozen_deterministic_tokens": 5607
+   },
+   "agentless_structure_py_files": 1438,
+   "parent_commit": "f2f142aa3db27e35ef88418cf79bff854847925e",
+   "sip_prompt": {
+    "chars": 42489,
+    "chars3_5_heuristic_tokens": 12139,
+    "chars4_heuristic_tokens": 10622,
+    "frozen_deterministic_tokens": 6026
+   }
+  },
+  "saleor-rc-0ad61b3f0096": {
+   "agentless_prompt": {
+    "chars": 97894,
+    "chars3_5_heuristic_tokens": 27969,
+    "chars4_heuristic_tokens": 24473,
+    "frozen_deterministic_tokens": 10186
+   },
+   "agentless_structure_py_files": 2517,
+   "parent_commit": "4143432458dfe30420c025f71b492611c22b14da",
+   "sip_prompt": {
+    "chars": 70466,
+    "chars3_5_heuristic_tokens": 20133,
+    "chars4_heuristic_tokens": 17616,
+    "frozen_deterministic_tokens": 9922
+   }
+  },
+  "saleor-rc-0b46c89dfd9e": {
+   "agentless_prompt": {
+    "chars": 55847,
+    "chars3_5_heuristic_tokens": 15956,
+    "chars4_heuristic_tokens": 13961,
+    "frozen_deterministic_tokens": 5965
+   },
+   "agentless_structure_py_files": 1541,
+   "parent_commit": "c27cc94d06ff246bbef2b51968853d4336cc15ad",
+   "sip_prompt": {
+    "chars": 44749,
+    "chars3_5_heuristic_tokens": 12785,
+    "chars4_heuristic_tokens": 11187,
+    "frozen_deterministic_tokens": 6345
+   }
+  },
+  "saleor-rc-0c1062eb0da6": {
+   "agentless_prompt": {
+    "chars": 82137,
+    "chars3_5_heuristic_tokens": 23467,
+    "chars4_heuristic_tokens": 20534,
+    "frozen_deterministic_tokens": 8508
+   },
+   "agentless_structure_py_files": 2161,
+   "parent_commit": "92b559b9f451758b1b8ab0d3ff344aa013c129c5",
+   "sip_prompt": {
+    "chars": 65248,
+    "chars3_5_heuristic_tokens": 18642,
+    "chars4_heuristic_tokens": 16312,
+    "frozen_deterministic_tokens": 9158
+   }
+  },
+  "saleor-rc-0df62b3144b0": {
+   "agentless_prompt": {
+    "chars": 79784,
+    "chars3_5_heuristic_tokens": 22795,
+    "chars4_heuristic_tokens": 19946,
+    "frozen_deterministic_tokens": 8245
+   },
+   "agentless_structure_py_files": 2097,
+   "parent_commit": "e1b52de9f506aef41ce6142ecc8b5a90254c0f7c",
+   "sip_prompt": {
+    "chars": 65480,
+    "chars3_5_heuristic_tokens": 18708,
+    "chars4_heuristic_tokens": 16370,
+    "frozen_deterministic_tokens": 9165
+   }
+  },
+  "saleor-rc-0e895847d8ae": {
+   "agentless_prompt": {
+    "chars": 88040,
+    "chars3_5_heuristic_tokens": 25154,
+    "chars4_heuristic_tokens": 22010,
+    "frozen_deterministic_tokens": 9132
+   },
+   "agentless_structure_py_files": 2294,
+   "parent_commit": "4046e3c1f00ab14bf209da9f35c0576751448796",
+   "sip_prompt": {
+    "chars": 66899,
+    "chars3_5_heuristic_tokens": 19114,
+    "chars4_heuristic_tokens": 16724,
+    "frozen_deterministic_tokens": 9404
+   }
+  },
+  "saleor-rc-0f16ed78b02b": {
+   "agentless_prompt": {
+    "chars": 94419,
+    "chars3_5_heuristic_tokens": 26976,
+    "chars4_heuristic_tokens": 23604,
+    "frozen_deterministic_tokens": 9823
+   },
+   "agentless_structure_py_files": 2433,
+   "parent_commit": "f7a1563b85bc826e76513560d5223e04aafe3e86",
+   "sip_prompt": {
+    "chars": 68939,
+    "chars3_5_heuristic_tokens": 19696,
+    "chars4_heuristic_tokens": 17234,
+    "frozen_deterministic_tokens": 9703
+   }
+  },
+  "saleor-rc-0fd3a4d986a0": {
+   "agentless_prompt": {
+    "chars": 62908,
+    "chars3_5_heuristic_tokens": 17973,
+    "chars4_heuristic_tokens": 15727,
+    "frozen_deterministic_tokens": 6646
+   },
+   "agentless_structure_py_files": 1713,
+   "parent_commit": "b7b4c69d292004430ff4b9ca7ec01ab49510778d",
+   "sip_prompt": {
+    "chars": 51029,
+    "chars3_5_heuristic_tokens": 14579,
+    "chars4_heuristic_tokens": 12757,
+    "frozen_deterministic_tokens": 7216
+   }
+  },
+  "saleor-rc-1075496c64dd": {
+   "agentless_prompt": {
+    "chars": 85310,
+    "chars3_5_heuristic_tokens": 24374,
+    "chars4_heuristic_tokens": 21327,
+    "frozen_deterministic_tokens": 8844
+   },
+   "agentless_structure_py_files": 2234,
+   "parent_commit": "a76e77e495a0baa424eba9215635c3f44dad3f0d",
+   "sip_prompt": {
+    "chars": 65582,
+    "chars3_5_heuristic_tokens": 18737,
+    "chars4_heuristic_tokens": 16395,
+    "frozen_deterministic_tokens": 9212
+   }
+  },
+  "saleor-rc-10889526d151": {
+   "agentless_prompt": {
+    "chars": 39705,
+    "chars3_5_heuristic_tokens": 11344,
+    "chars4_heuristic_tokens": 9926,
+    "frozen_deterministic_tokens": 4260
+   },
+   "agentless_structure_py_files": 1145,
+   "parent_commit": "2e78fb5bcf8b83a6278af02551a104cfa555a1fb",
+   "sip_prompt": {
+    "chars": 36194,
+    "chars3_5_heuristic_tokens": 10341,
+    "chars4_heuristic_tokens": 9048,
+    "frozen_deterministic_tokens": 5172
+   }
+  },
+  "saleor-rc-11756ee6b65a": {
+   "agentless_prompt": {
+    "chars": 99936,
+    "chars3_5_heuristic_tokens": 28553,
+    "chars4_heuristic_tokens": 24984,
+    "frozen_deterministic_tokens": 10404
+   },
+   "agentless_structure_py_files": 2569,
+   "parent_commit": "85081e46f19a4241d1accec29457320ea1f8d6a2",
+   "sip_prompt": {
+    "chars": 71143,
+    "chars3_5_heuristic_tokens": 20326,
+    "chars4_heuristic_tokens": 17785,
+    "frozen_deterministic_tokens": 10038
+   }
+  },
+  "saleor-rc-12007c00e480": {
+   "agentless_prompt": {
+    "chars": 34633,
+    "chars3_5_heuristic_tokens": 9895,
+    "chars4_heuristic_tokens": 8658,
+    "frozen_deterministic_tokens": 3699
+   },
+   "agentless_structure_py_files": 995,
+   "parent_commit": "d57ac9dcdbf9e04ef04f54fef67aacbc3be38686",
+   "sip_prompt": {
+    "chars": 34310,
+    "chars3_5_heuristic_tokens": 9802,
+    "chars4_heuristic_tokens": 8577,
+    "frozen_deterministic_tokens": 4905
+   }
+  },
+  "saleor-rc-12b7ff7a4d0f": {
+   "agentless_prompt": {
+    "chars": 83932,
+    "chars3_5_heuristic_tokens": 23980,
+    "chars4_heuristic_tokens": 20983,
+    "frozen_deterministic_tokens": 8693
+   },
+   "agentless_structure_py_files": 2204,
+   "parent_commit": "caf71284bccc9f614401c30d33fb1a55a728dfae",
+   "sip_prompt": {
+    "chars": 65504,
+    "chars3_5_heuristic_tokens": 18715,
+    "chars4_heuristic_tokens": 16376,
+    "frozen_deterministic_tokens": 9197
+   }
+  },
+  "saleor-rc-138ee68c3818": {
+   "agentless_prompt": {
+    "chars": 95063,
+    "chars3_5_heuristic_tokens": 27160,
+    "chars4_heuristic_tokens": 23765,
+    "frozen_deterministic_tokens": 9879
+   },
+   "agentless_structure_py_files": 2449,
+   "parent_commit": "8d02d27fa913c0d2453408d22d16e6f255ebb60c",
+   "sip_prompt": {
+    "chars": 69598,
+    "chars3_5_heuristic_tokens": 19885,
+    "chars4_heuristic_tokens": 17399,
+    "frozen_deterministic_tokens": 9791
+   }
+  },
+  "saleor-rc-149c7422d0ec": {
+   "agentless_prompt": {
+    "chars": 78757,
+    "chars3_5_heuristic_tokens": 22502,
+    "chars4_heuristic_tokens": 19689,
+    "frozen_deterministic_tokens": 8139
+   },
+   "agentless_structure_py_files": 2082,
+   "parent_commit": "ee249610d475c45a4bfe91fd43ca9380aecca134",
+   "sip_prompt": {
+    "chars": 65509,
+    "chars3_5_heuristic_tokens": 18716,
+    "chars4_heuristic_tokens": 16377,
+    "frozen_deterministic_tokens": 9182
+   }
+  },
+  "saleor-rc-14a682044ca4": {
+   "agentless_prompt": {
+    "chars": 84968,
+    "chars3_5_heuristic_tokens": 24276,
+    "chars4_heuristic_tokens": 21242,
+    "frozen_deterministic_tokens": 8812
+   },
+   "agentless_structure_py_files": 2206,
+   "parent_commit": "7a95ee2c6ce251102d269cbcda5739f2705f5f04",
+   "sip_prompt": {
+    "chars": 66564,
+    "chars3_5_heuristic_tokens": 19018,
+    "chars4_heuristic_tokens": 16641,
+    "frozen_deterministic_tokens": 9321
+   }
+  },
+  "saleor-rc-14f2176b5d8c": {
+   "agentless_prompt": {
+    "chars": 59896,
+    "chars3_5_heuristic_tokens": 17113,
+    "chars4_heuristic_tokens": 14974,
+    "frozen_deterministic_tokens": 6323
+   },
+   "agentless_structure_py_files": 1637,
+   "parent_commit": "8cbaad3e697a8824fa7cf0671dc88bdaa415c245",
+   "sip_prompt": {
+    "chars": 49751,
+    "chars3_5_heuristic_tokens": 14214,
+    "chars4_heuristic_tokens": 12437,
+    "frozen_deterministic_tokens": 7034
+   }
+  },
+  "saleor-rc-17c8d807b3d1": {
+   "agentless_prompt": {
+    "chars": 65593,
+    "chars3_5_heuristic_tokens": 18740,
+    "chars4_heuristic_tokens": 16398,
+    "frozen_deterministic_tokens": 6925
+   },
+   "agentless_structure_py_files": 1773,
+   "parent_commit": "be06b9b569b0550a6aeb68e8137230d5d687fe58",
+   "sip_prompt": {
+    "chars": 52433,
+    "chars3_5_heuristic_tokens": 14980,
+    "chars4_heuristic_tokens": 13108,
+    "frozen_deterministic_tokens": 7405
+   }
+  },
+  "saleor-rc-18430f2a7a16": {
+   "agentless_prompt": {
+    "chars": 66441,
+    "chars3_5_heuristic_tokens": 18983,
+    "chars4_heuristic_tokens": 16610,
+    "frozen_deterministic_tokens": 7025
+   },
+   "agentless_structure_py_files": 1797,
+   "parent_commit": "dd633884b53c940415c0273c558cd7c9aee46771",
+   "sip_prompt": {
+    "chars": 52902,
+    "chars3_5_heuristic_tokens": 15114,
+    "chars4_heuristic_tokens": 13225,
+    "frozen_deterministic_tokens": 7488
+   }
+  },
+  "saleor-rc-18e25b92e0bd": {
+   "agentless_prompt": {
+    "chars": 37658,
+    "chars3_5_heuristic_tokens": 10759,
+    "chars4_heuristic_tokens": 9414,
+    "frozen_deterministic_tokens": 4037
+   },
+   "agentless_structure_py_files": 1083,
+   "parent_commit": "e3c5deb23ba198e0f2a123039bc0f9965f6bb152",
+   "sip_prompt": {
+    "chars": 35708,
+    "chars3_5_heuristic_tokens": 10202,
+    "chars4_heuristic_tokens": 8927,
+    "frozen_deterministic_tokens": 5088
+   }
+  },
+  "saleor-rc-19bb9b070965": {
+   "agentless_prompt": {
+    "chars": 92643,
+    "chars3_5_heuristic_tokens": 26469,
+    "chars4_heuristic_tokens": 23160,
+    "frozen_deterministic_tokens": 9404
+   },
+   "agentless_structure_py_files": 2440,
+   "parent_commit": "c04fd3dab1c35892748328fce34723659f3bc707",
+   "sip_prompt": {
+    "chars": 66197,
+    "chars3_5_heuristic_tokens": 18913,
+    "chars4_heuristic_tokens": 16549,
+    "frozen_deterministic_tokens": 9288
+   }
+  },
+  "saleor-rc-1a8b592913a0": {
+   "agentless_prompt": {
+    "chars": 87555,
+    "chars3_5_heuristic_tokens": 25015,
+    "chars4_heuristic_tokens": 21888,
+    "frozen_deterministic_tokens": 9081
+   },
+   "agentless_structure_py_files": 2282,
+   "parent_commit": "df451b527e115bb24383ba0d5e87ad5f03f959be",
+   "sip_prompt": {
+    "chars": 66545,
+    "chars3_5_heuristic_tokens": 19012,
+    "chars4_heuristic_tokens": 16636,
+    "frozen_deterministic_tokens": 9354
+   }
+  },
+  "saleor-rc-1abda1e0d36e": {
+   "agentless_prompt": {
+    "chars": 66444,
+    "chars3_5_heuristic_tokens": 18984,
+    "chars4_heuristic_tokens": 16611,
+    "frozen_deterministic_tokens": 7026
+   },
+   "agentless_structure_py_files": 1795,
+   "parent_commit": "54270055c39318884023254430698563d8f961dd",
+   "sip_prompt": {
+    "chars": 52940,
+    "chars3_5_heuristic_tokens": 15125,
+    "chars4_heuristic_tokens": 13235,
+    "frozen_deterministic_tokens": 7490
+   }
+  },
+  "saleor-rc-1af1c3a368ec": {
+   "agentless_prompt": {
+    "chars": 63453,
+    "chars3_5_heuristic_tokens": 18129,
+    "chars4_heuristic_tokens": 15863,
+    "frozen_deterministic_tokens": 6711
+   },
+   "agentless_structure_py_files": 1724,
+   "parent_commit": "7a1a4bdec3629ad456b926c6b6e84083224c98e3",
+   "sip_prompt": {
+    "chars": 51301,
+    "chars3_5_heuristic_tokens": 14657,
+    "chars4_heuristic_tokens": 12825,
+    "frozen_deterministic_tokens": 7258
+   }
+  },
+  "saleor-rc-1b4da5a88d08": {
+   "agentless_prompt": {
+    "chars": 43255,
+    "chars3_5_heuristic_tokens": 12358,
+    "chars4_heuristic_tokens": 10813,
+    "frozen_deterministic_tokens": 4647
+   },
+   "agentless_structure_py_files": 1227,
+   "parent_commit": "df2ee43e2d384ed5aa60ea2aace7f71308732289",
+   "sip_prompt": {
+    "chars": 37535,
+    "chars3_5_heuristic_tokens": 10724,
+    "chars4_heuristic_tokens": 9383,
+    "frozen_deterministic_tokens": 5355
+   }
+  },
+  "saleor-rc-1cc263035113": {
+   "agentless_prompt": {
+    "chars": 99117,
+    "chars3_5_heuristic_tokens": 28319,
+    "chars4_heuristic_tokens": 24779,
+    "frozen_deterministic_tokens": 10308
+   },
+   "agentless_structure_py_files": 2551,
+   "parent_commit": "5f6c4e6e9e28ce4dda81c872f39cbf03b02d2384",
+   "sip_prompt": {
+    "chars": 71243,
+    "chars3_5_heuristic_tokens": 20355,
+    "chars4_heuristic_tokens": 17810,
+    "frozen_deterministic_tokens": 10051
+   }
+  },
+  "saleor-rc-1cca40939fac": {
+   "agentless_prompt": {
+    "chars": 31216,
+    "chars3_5_heuristic_tokens": 8918,
+    "chars4_heuristic_tokens": 7804,
+    "frozen_deterministic_tokens": 3319
+   },
+   "agentless_structure_py_files": 913,
+   "parent_commit": "f8a83b0303aaf208463f2d80f35e2958c20bcd62",
+   "sip_prompt": {
+    "chars": 32411,
+    "chars3_5_heuristic_tokens": 9260,
+    "chars4_heuristic_tokens": 8102,
+    "frozen_deterministic_tokens": 4714
+   }
+  },
+  "saleor-rc-1f47b503f69e": {
+   "agentless_prompt": {
+    "chars": 43370,
+    "chars3_5_heuristic_tokens": 12391,
+    "chars4_heuristic_tokens": 10842,
+    "frozen_deterministic_tokens": 4660
+   },
+   "agentless_structure_py_files": 1232,
+   "parent_commit": "a605021fc9065527f2d648f00f327140368f3e9c",
+   "sip_prompt": {
+    "chars": 37469,
+    "chars3_5_heuristic_tokens": 10705,
+    "chars4_heuristic_tokens": 9367,
+    "frozen_deterministic_tokens": 5349
+   }
+  },
+  "saleor-rc-1f6fbe2ebf9b": {
+   "agentless_prompt": {
+    "chars": 31305,
+    "chars3_5_heuristic_tokens": 8944,
+    "chars4_heuristic_tokens": 7826,
+    "frozen_deterministic_tokens": 3329
+   },
+   "agentless_structure_py_files": 913,
+   "parent_commit": "4946aa7d4818ccc6f64bb839f67b263418f77772",
+   "sip_prompt": {
+    "chars": 32500,
+    "chars3_5_heuristic_tokens": 9285,
+    "chars4_heuristic_tokens": 8125,
+    "frozen_deterministic_tokens": 4724
+   }
+  },
+  "saleor-rc-1f9b5c53a63a": {
+   "agentless_prompt": {
+    "chars": 68458,
+    "chars3_5_heuristic_tokens": 19559,
+    "chars4_heuristic_tokens": 17114,
+    "frozen_deterministic_tokens": 7219
+   },
+   "agentless_structure_py_files": 1841,
+   "parent_commit": "d56d904f996ac92e4a6960f0ec925a29b59d2875",
+   "sip_prompt": {
+    "chars": 54738,
+    "chars3_5_heuristic_tokens": 15639,
+    "chars4_heuristic_tokens": 13684,
+    "frozen_deterministic_tokens": 7739
+   }
+  },
+  "saleor-rc-1fa6a637c7fc": {
+   "agentless_prompt": {
+    "chars": 32402,
+    "chars3_5_heuristic_tokens": 9257,
+    "chars4_heuristic_tokens": 8100,
+    "frozen_deterministic_tokens": 3461
+   },
+   "agentless_structure_py_files": 944,
+   "parent_commit": "dbbece976cc7c492aeb27b0fd3101c7d4ff510be",
+   "sip_prompt": {
+    "chars": 33125,
+    "chars3_5_heuristic_tokens": 9464,
+    "chars4_heuristic_tokens": 8281,
+    "frozen_deterministic_tokens": 4765
+   }
+  },
+  "saleor-rc-208833e2fa53": {
+   "agentless_prompt": {
+    "chars": 30715,
+    "chars3_5_heuristic_tokens": 8775,
+    "chars4_heuristic_tokens": 7678,
+    "frozen_deterministic_tokens": 3265
+   },
+   "agentless_structure_py_files": 898,
+   "parent_commit": "c8dd3f20f6b5e7fd37c72caff011d1be554772b9",
+   "sip_prompt": {
+    "chars": 32014,
+    "chars3_5_heuristic_tokens": 9146,
+    "chars4_heuristic_tokens": 8003,
+    "frozen_deterministic_tokens": 4651
+   }
+  },
+  "saleor-rc-224bf29fb39f": {
+   "agentless_prompt": {
+    "chars": 101798,
+    "chars3_5_heuristic_tokens": 29085,
+    "chars4_heuristic_tokens": 25449,
+    "frozen_deterministic_tokens": 10615
+   },
+   "agentless_structure_py_files": 2591,
+   "parent_commit": "ec664a1d32bd68e78eaef551582f3b53c7910b14",
+   "sip_prompt": {
+    "chars": 71571,
+    "chars3_5_heuristic_tokens": 20448,
+    "chars4_heuristic_tokens": 17892,
+    "frozen_deterministic_tokens": 10081
+   }
+  },
+  "saleor-rc-22a30bf2e4cc": {
+   "agentless_prompt": {
+    "chars": 98956,
+    "chars3_5_heuristic_tokens": 28273,
+    "chars4_heuristic_tokens": 24739,
+    "frozen_deterministic_tokens": 10305
+   },
+   "agentless_structure_py_files": 2541,
+   "parent_commit": "1dbb64493dd259da6441b3860cd4172dfeaa46ee",
+   "sip_prompt": {
+    "chars": 70647,
+    "chars3_5_heuristic_tokens": 20184,
+    "chars4_heuristic_tokens": 17661,
+    "frozen_deterministic_tokens": 9957
+   }
+  },
+  "saleor-rc-24f9b244d6bc": {
+   "agentless_prompt": {
+    "chars": 36272,
+    "chars3_5_heuristic_tokens": 10363,
+    "chars4_heuristic_tokens": 9068,
+    "frozen_deterministic_tokens": 3884
+   },
+   "agentless_structure_py_files": 1046,
+   "parent_commit": "4639d4c30ed2f47e2cb5b63dfb17c412ce91b2ae",
+   "sip_prompt": {
+    "chars": 34345,
+    "chars3_5_heuristic_tokens": 9812,
+    "chars4_heuristic_tokens": 8586,
+    "frozen_deterministic_tokens": 4891
+   }
+  },
+  "saleor-rc-255d39da978a": {
+   "agentless_prompt": {
+    "chars": 83520,
+    "chars3_5_heuristic_tokens": 23862,
+    "chars4_heuristic_tokens": 20880,
+    "frozen_deterministic_tokens": 8653
+   },
+   "agentless_structure_py_files": 2190,
+   "parent_commit": "69bc54b62ad59ac331caf1969448fd5ac42d89ab",
+   "sip_prompt": {
+    "chars": 65215,
+    "chars3_5_heuristic_tokens": 18632,
+    "chars4_heuristic_tokens": 16303,
+    "frozen_deterministic_tokens": 9152
+   }
+  },
+  "saleor-rc-27b65eae2a9a": {
+   "agentless_prompt": {
+    "chars": 44814,
+    "chars3_5_heuristic_tokens": 12804,
+    "chars4_heuristic_tokens": 11203,
+    "frozen_deterministic_tokens": 4820
+   },
+   "agentless_structure_py_files": 1276,
+   "parent_commit": "ecadd9c937a86aac2b4492183cd5c8dd2dab674d",
+   "sip_prompt": {
+    "chars": 38048,
+    "chars3_5_heuristic_tokens": 10870,
+    "chars4_heuristic_tokens": 9512,
+    "frozen_deterministic_tokens": 5438
+   }
+  },
+  "saleor-rc-28799575c518": {
+   "agentless_prompt": {
+    "chars": 36312,
+    "chars3_5_heuristic_tokens": 10374,
+    "chars4_heuristic_tokens": 9078,
+    "frozen_deterministic_tokens": 3892
+   },
+   "agentless_structure_py_files": 1046,
+   "parent_commit": "378b4fd95860f1e692a4acdfede37e47066b5be7",
+   "sip_prompt": {
+    "chars": 34385,
+    "chars3_5_heuristic_tokens": 9824,
+    "chars4_heuristic_tokens": 8596,
+    "frozen_deterministic_tokens": 4899
+   }
+  },
+  "saleor-rc-29c2d1abdce0": {
+   "agentless_prompt": {
+    "chars": 36550,
+    "chars3_5_heuristic_tokens": 10442,
+    "chars4_heuristic_tokens": 9137,
+    "frozen_deterministic_tokens": 3918
+   },
+   "agentless_structure_py_files": 1046,
+   "parent_commit": "221211b3275f773667b478db36e87b4c430c69ed",
+   "sip_prompt": {
+    "chars": 34623,
+    "chars3_5_heuristic_tokens": 9892,
+    "chars4_heuristic_tokens": 8655,
+    "frozen_deterministic_tokens": 4925
+   }
+  },
+  "saleor-rc-2a59d31fc839": {
+   "agentless_prompt": {
+    "chars": 55799,
+    "chars3_5_heuristic_tokens": 15942,
+    "chars4_heuristic_tokens": 13949,
+    "frozen_deterministic_tokens": 5966
+   },
+   "agentless_structure_py_files": 1541,
+   "parent_commit": "9064bf0ddea89efc529b9ebc2e4ee3f0085b132c",
+   "sip_prompt": {
+    "chars": 44701,
+    "chars3_5_heuristic_tokens": 12771,
+    "chars4_heuristic_tokens": 11175,
+    "frozen_deterministic_tokens": 6346
+   }
+  },
+  "saleor-rc-2a740b36af0a": {
+   "agentless_prompt": {
+    "chars": 74623,
+    "chars3_5_heuristic_tokens": 21320,
+    "chars4_heuristic_tokens": 18655,
+    "frozen_deterministic_tokens": 7742
+   },
+   "agentless_structure_py_files": 1990,
+   "parent_commit": "77eecc7a719b8a4689271635a9f96fdc2dc7a606",
+   "sip_prompt": {
+    "chars": 63253,
+    "chars3_5_heuristic_tokens": 18072,
+    "chars4_heuristic_tokens": 15813,
+    "frozen_deterministic_tokens": 8888
+   }
+  },
+  "saleor-rc-2c218aadc9b7": {
+   "agentless_prompt": {
+    "chars": 34570,
+    "chars3_5_heuristic_tokens": 9877,
+    "chars4_heuristic_tokens": 8642,
+    "frozen_deterministic_tokens": 3686
+   },
+   "agentless_structure_py_files": 994,
+   "parent_commit": "8d3b4a500b2664917eb0de3fd7509836a128c233",
+   "sip_prompt": {
+    "chars": 34286,
+    "chars3_5_heuristic_tokens": 9796,
+    "chars4_heuristic_tokens": 8571,
+    "frozen_deterministic_tokens": 4897
+   }
+  },
+  "saleor-rc-2c44b8eccc2c": {
+   "agentless_prompt": {
+    "chars": 68502,
+    "chars3_5_heuristic_tokens": 19572,
+    "chars4_heuristic_tokens": 17125,
+    "frozen_deterministic_tokens": 7225
+   },
+   "agentless_structure_py_files": 1840,
+   "parent_commit": "e22490efe5abb05a42451d80b476ef06cd20fa35",
+   "sip_prompt": {
+    "chars": 54823,
+    "chars3_5_heuristic_tokens": 15663,
+    "chars4_heuristic_tokens": 13705,
+    "frozen_deterministic_tokens": 7750
+   }
+  },
+  "saleor-rc-2c770c685a57": {
+   "agentless_prompt": {
+    "chars": 95550,
+    "chars3_5_heuristic_tokens": 27300,
+    "chars4_heuristic_tokens": 23887,
+    "frozen_deterministic_tokens": 9936
+   },
+   "agentless_structure_py_files": 2460,
+   "parent_commit": "c31fb4cfd08f5578c90b9109f98f662b119e208a",
+   "sip_prompt": {
+    "chars": 69975,
+    "chars3_5_heuristic_tokens": 19992,
+    "chars4_heuristic_tokens": 17493,
+    "frozen_deterministic_tokens": 9842
+   }
+  },
+  "saleor-rc-2d1599f1f8e2": {
+   "agentless_prompt": {
+    "chars": 53689,
+    "chars3_5_heuristic_tokens": 15339,
+    "chars4_heuristic_tokens": 13422,
+    "frozen_deterministic_tokens": 5734
+   },
+   "agentless_structure_py_files": 1484,
+   "parent_commit": "d1b652115b9f21242c1b8766985d5992e3c95c28",
+   "sip_prompt": {
+    "chars": 43932,
+    "chars3_5_heuristic_tokens": 12552,
+    "chars4_heuristic_tokens": 10983,
+    "frozen_deterministic_tokens": 6226
+   }
+  },
+  "saleor-rc-305415e0f8b7": {
+   "agentless_prompt": {
+    "chars": 35348,
+    "chars3_5_heuristic_tokens": 10099,
+    "chars4_heuristic_tokens": 8837,
+    "frozen_deterministic_tokens": 3761
+   },
+   "agentless_structure_py_files": 1001,
+   "parent_commit": "3e5030244ab8b38d925bd532763dcc5a369228cb",
+   "sip_prompt": {
+    "chars": 34852,
+    "chars3_5_heuristic_tokens": 9957,
+    "chars4_heuristic_tokens": 8713,
+    "frozen_deterministic_tokens": 4954
+   }
+  },
+  "saleor-rc-308413ed9c19": {
+   "agentless_prompt": {
+    "chars": 43878,
+    "chars3_5_heuristic_tokens": 12536,
+    "chars4_heuristic_tokens": 10969,
+    "frozen_deterministic_tokens": 4714
+   },
+   "agentless_structure_py_files": 1251,
+   "parent_commit": "f2cc5703766110786b0d774c170b4ce8b1203cb1",
+   "sip_prompt": {
+    "chars": 37728,
+    "chars3_5_heuristic_tokens": 10779,
+    "chars4_heuristic_tokens": 9432,
+    "frozen_deterministic_tokens": 5389
+   }
+  },
+  "saleor-rc-30b4edece5aa": {
+   "agentless_prompt": {
+    "chars": 99828,
+    "chars3_5_heuristic_tokens": 28522,
+    "chars4_heuristic_tokens": 24957,
+    "frozen_deterministic_tokens": 10393
+   },
+   "agentless_structure_py_files": 2565,
+   "parent_commit": "b40f4635e155ecfe07bd914dad53f1cd304c4c5d",
+   "sip_prompt": {
+    "chars": 70980,
+    "chars3_5_heuristic_tokens": 20280,
+    "chars4_heuristic_tokens": 17745,
+    "frozen_deterministic_tokens": 10010
+   }
+  },
+  "saleor-rc-30cb9d338235": {
+   "agentless_prompt": {
+    "chars": 79924,
+    "chars3_5_heuristic_tokens": 22835,
+    "chars4_heuristic_tokens": 19981,
+    "frozen_deterministic_tokens": 8263
+   },
+   "agentless_structure_py_files": 2100,
+   "parent_commit": "692be3196ab48b78b9580a90a7682a90cb1d5fb4",
+   "sip_prompt": {
+    "chars": 65493,
+    "chars3_5_heuristic_tokens": 18712,
+    "chars4_heuristic_tokens": 16373,
+    "frozen_deterministic_tokens": 9169
+   }
+  },
+  "saleor-rc-30fe250747ae": {
+   "agentless_prompt": {
+    "chars": 34638,
+    "chars3_5_heuristic_tokens": 9896,
+    "chars4_heuristic_tokens": 8659,
+    "frozen_deterministic_tokens": 3691
+   },
+   "agentless_structure_py_files": 1004,
+   "parent_commit": "64ce4f4ff63c4a0be206c160a12a47c7d26dc439",
+   "sip_prompt": {
+    "chars": 34079,
+    "chars3_5_heuristic_tokens": 9736,
+    "chars4_heuristic_tokens": 8519,
+    "frozen_deterministic_tokens": 4878
+   }
+  },
+  "saleor-rc-32f73ff32b2b": {
+   "agentless_prompt": {
+    "chars": 31795,
+    "chars3_5_heuristic_tokens": 9084,
+    "chars4_heuristic_tokens": 7948,
+    "frozen_deterministic_tokens": 3386
+   },
+   "agentless_structure_py_files": 927,
+   "parent_commit": "169b46ffc6e9fa9a0a79a9e66b2135429979b6c0",
+   "sip_prompt": {
+    "chars": 32719,
+    "chars3_5_heuristic_tokens": 9348,
+    "chars4_heuristic_tokens": 8179,
+    "frozen_deterministic_tokens": 4744
+   }
+  },
+  "saleor-rc-33010c0d5f7f": {
+   "agentless_prompt": {
+    "chars": 60140,
+    "chars3_5_heuristic_tokens": 17182,
+    "chars4_heuristic_tokens": 15035,
+    "frozen_deterministic_tokens": 6343
+   },
+   "agentless_structure_py_files": 1646,
+   "parent_commit": "b39d10d60bcc6c357e0c3a23c9e4bbc3c6716d63",
+   "sip_prompt": {
+    "chars": 49572,
+    "chars3_5_heuristic_tokens": 14163,
+    "chars4_heuristic_tokens": 12393,
+    "frozen_deterministic_tokens": 7010
+   }
+  },
+  "saleor-rc-333febd35223": {
+   "agentless_prompt": {
+    "chars": 99052,
+    "chars3_5_heuristic_tokens": 28300,
+    "chars4_heuristic_tokens": 24763,
+    "frozen_deterministic_tokens": 10315
+   },
+   "agentless_structure_py_files": 2545,
+   "parent_commit": "fd463c8aae38b120f3d984fa881c1c7c61817591",
+   "sip_prompt": {
+    "chars": 70619,
+    "chars3_5_heuristic_tokens": 20176,
+    "chars4_heuristic_tokens": 17654,
+    "frozen_deterministic_tokens": 9955
+   }
+  },
+  "saleor-rc-349d88efcfec": {
+   "agentless_prompt": {
+    "chars": 56695,
+    "chars3_5_heuristic_tokens": 16198,
+    "chars4_heuristic_tokens": 14173,
+    "frozen_deterministic_tokens": 6056
+   },
+   "agentless_structure_py_files": 1549,
+   "parent_commit": "adc6f7eced1307a12a0fd970bd962c8765786ec3",
+   "sip_prompt": {
+    "chars": 45206,
+    "chars3_5_heuristic_tokens": 12916,
+    "chars4_heuristic_tokens": 11301,
+    "frozen_deterministic_tokens": 6393
+   }
+  },
+  "saleor-rc-349fe0c194a1": {
+   "agentless_prompt": {
+    "chars": 74648,
+    "chars3_5_heuristic_tokens": 21328,
+    "chars4_heuristic_tokens": 18662,
+    "frozen_deterministic_tokens": 7743
+   },
+   "agentless_structure_py_files": 1989,
+   "parent_commit": "d64d8a4562212b239914950e840cc17b9ab640a6",
+   "sip_prompt": {
+    "chars": 63252,
+    "chars3_5_heuristic_tokens": 18072,
+    "chars4_heuristic_tokens": 15813,
+    "frozen_deterministic_tokens": 8884
+   }
+  },
+  "saleor-rc-3513064157fa": {
+   "agentless_prompt": {
+    "chars": 55568,
+    "chars3_5_heuristic_tokens": 15876,
+    "chars4_heuristic_tokens": 13892,
+    "frozen_deterministic_tokens": 5940
+   },
+   "agentless_structure_py_files": 1536,
+   "parent_commit": "9e060876f2dd02cb1f2685ea14ad89b6099bfdc7",
+   "sip_prompt": {
+    "chars": 44620,
+    "chars3_5_heuristic_tokens": 12748,
+    "chars4_heuristic_tokens": 11155,
+    "frozen_deterministic_tokens": 6335
+   }
+  },
+  "saleor-rc-367b8038f6b9": {
+   "agentless_prompt": {
+    "chars": 29298,
+    "chars3_5_heuristic_tokens": 8370,
+    "chars4_heuristic_tokens": 7324,
+    "frozen_deterministic_tokens": 3116
+   },
+   "agentless_structure_py_files": 853,
+   "parent_commit": "b5c97d381e92db0b5a9927cc66a54084945cf87e",
+   "sip_prompt": {
+    "chars": 31199,
+    "chars3_5_heuristic_tokens": 8914,
+    "chars4_heuristic_tokens": 7799,
+    "frozen_deterministic_tokens": 4514
+   }
+  },
+  "saleor-rc-36a9a14e8d12": {
+   "agentless_prompt": {
+    "chars": 87501,
+    "chars3_5_heuristic_tokens": 25000,
+    "chars4_heuristic_tokens": 21875,
+    "frozen_deterministic_tokens": 9074
+   },
+   "agentless_structure_py_files": 2281,
+   "parent_commit": "0e6aa7fdc976539a7b72bf142ab5594f182c8ae2",
+   "sip_prompt": {
+    "chars": 66463,
+    "chars3_5_heuristic_tokens": 18989,
+    "chars4_heuristic_tokens": 16615,
+    "frozen_deterministic_tokens": 9342
+   }
+  },
+  "saleor-rc-36c0a2029b60": {
+   "agentless_prompt": {
+    "chars": 60396,
+    "chars3_5_heuristic_tokens": 17256,
+    "chars4_heuristic_tokens": 15099,
+    "frozen_deterministic_tokens": 6371
+   },
+   "agentless_structure_py_files": 1654,
+   "parent_commit": "9e45fc88aacc86271e757adb464fdc3297999f39",
+   "sip_prompt": {
+    "chars": 49527,
+    "chars3_5_heuristic_tokens": 14150,
+    "chars4_heuristic_tokens": 12381,
+    "frozen_deterministic_tokens": 7009
+   }
+  },
+  "saleor-rc-373efa067922": {
+   "agentless_prompt": {
+    "chars": 77325,
+    "chars3_5_heuristic_tokens": 22092,
+    "chars4_heuristic_tokens": 19331,
+    "frozen_deterministic_tokens": 7992
+   },
+   "agentless_structure_py_files": 2054,
+   "parent_commit": "771406651dba053c7a0421a053a8a6b653832272",
+   "sip_prompt": {
+    "chars": 65256,
+    "chars3_5_heuristic_tokens": 18644,
+    "chars4_heuristic_tokens": 16314,
+    "frozen_deterministic_tokens": 9150
+   }
+  },
+  "saleor-rc-37a3a7bbec31": {
+   "agentless_prompt": {
+    "chars": 34354,
+    "chars3_5_heuristic_tokens": 9815,
+    "chars4_heuristic_tokens": 8588,
+    "frozen_deterministic_tokens": 3666
+   },
+   "agentless_structure_py_files": 995,
+   "parent_commit": "6370f4a6b8a5bb47949c3df4aab2c0d4ad744994",
+   "sip_prompt": {
+    "chars": 34031,
+    "chars3_5_heuristic_tokens": 9723,
+    "chars4_heuristic_tokens": 8507,
+    "frozen_deterministic_tokens": 4872
+   }
+  },
+  "saleor-rc-381d4354ead1": {
+   "agentless_prompt": {
+    "chars": 66202,
+    "chars3_5_heuristic_tokens": 18914,
+    "chars4_heuristic_tokens": 16550,
+    "frozen_deterministic_tokens": 6997
+   },
+   "agentless_structure_py_files": 1795,
+   "parent_commit": "d898408886100f032a9602f6d580d1c3657124f6",
+   "sip_prompt": {
+    "chars": 52698,
+    "chars3_5_heuristic_tokens": 15056,
+    "chars4_heuristic_tokens": 13174,
+    "frozen_deterministic_tokens": 7461
+   }
+  },
+  "saleor-rc-39ef77fc9bcb": {
+   "agentless_prompt": {
+    "chars": 66322,
+    "chars3_5_heuristic_tokens": 18949,
+    "chars4_heuristic_tokens": 16580,
+    "frozen_deterministic_tokens": 7009
+   },
+   "agentless_structure_py_files": 1789,
+   "parent_commit": "2982153a404f0bdbe39a59dd2f3a288bbf39f557",
+   "sip_prompt": {
+    "chars": 53093,
+    "chars3_5_heuristic_tokens": 15169,
+    "chars4_heuristic_tokens": 13273,
+    "frozen_deterministic_tokens": 7506
+   }
+  },
+  "saleor-rc-3bf31ab2fefc": {
+   "agentless_prompt": {
+    "chars": 96631,
+    "chars3_5_heuristic_tokens": 27608,
+    "chars4_heuristic_tokens": 24157,
+    "frozen_deterministic_tokens": 10052
+   },
+   "agentless_structure_py_files": 2487,
+   "parent_commit": "d24336188b88c0ac93712245550cccea856fc00a",
+   "sip_prompt": {
+    "chars": 70180,
+    "chars3_5_heuristic_tokens": 20051,
+    "chars4_heuristic_tokens": 17545,
+    "frozen_deterministic_tokens": 9882
+   }
+  },
+  "saleor-rc-3cac33590b90": {
+   "agentless_prompt": {
+    "chars": 101160,
+    "chars3_5_heuristic_tokens": 28902,
+    "chars4_heuristic_tokens": 25290,
+    "frozen_deterministic_tokens": 10544
+   },
+   "agentless_structure_py_files": 2591,
+   "parent_commit": "ca14a5ae26eeda06be20161f7ed9cf4c306c958f",
+   "sip_prompt": {
+    "chars": 70938,
+    "chars3_5_heuristic_tokens": 20268,
+    "chars4_heuristic_tokens": 17734,
+    "frozen_deterministic_tokens": 10010
+   }
+  },
+  "saleor-rc-3d304a30a5bc": {
+   "agentless_prompt": {
+    "chars": 86896,
+    "chars3_5_heuristic_tokens": 24827,
+    "chars4_heuristic_tokens": 21724,
+    "frozen_deterministic_tokens": 8998
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "86d4b0f2168ac85f4db1f1d3e33f65da713e7f65",
+   "sip_prompt": {
+    "chars": 66281,
+    "chars3_5_heuristic_tokens": 18937,
+    "chars4_heuristic_tokens": 16570,
+    "frozen_deterministic_tokens": 9302
+   }
+  },
+  "saleor-rc-3f8a4320b1c9": {
+   "agentless_prompt": {
+    "chars": 36356,
+    "chars3_5_heuristic_tokens": 10387,
+    "chars4_heuristic_tokens": 9089,
+    "frozen_deterministic_tokens": 3897
+   },
+   "agentless_structure_py_files": 1048,
+   "parent_commit": "5a39bbf6d782e30f47af4a4008e509d6b267a375",
+   "sip_prompt": {
+    "chars": 34348,
+    "chars3_5_heuristic_tokens": 9813,
+    "chars4_heuristic_tokens": 8587,
+    "frozen_deterministic_tokens": 4895
+   }
+  },
+  "saleor-rc-4086a98fdc78": {
+   "agentless_prompt": {
+    "chars": 100629,
+    "chars3_5_heuristic_tokens": 28751,
+    "chars4_heuristic_tokens": 25157,
+    "frozen_deterministic_tokens": 10478
+   },
+   "agentless_structure_py_files": 2582,
+   "parent_commit": "ef6d87dc7749869b1299bcab02f91c3b27bbbbb4",
+   "sip_prompt": {
+    "chars": 71194,
+    "chars3_5_heuristic_tokens": 20341,
+    "chars4_heuristic_tokens": 17798,
+    "frozen_deterministic_tokens": 10047
+   }
+  },
+  "saleor-rc-43262efc09bb": {
+   "agentless_prompt": {
+    "chars": 31450,
+    "chars3_5_heuristic_tokens": 8985,
+    "chars4_heuristic_tokens": 7862,
+    "frozen_deterministic_tokens": 3356
+   },
+   "agentless_structure_py_files": 918,
+   "parent_commit": "1e5f7caa32f4f43c6e6e57e7f9a137ef7b6821e3",
+   "sip_prompt": {
+    "chars": 32199,
+    "chars3_5_heuristic_tokens": 9199,
+    "chars4_heuristic_tokens": 8049,
+    "frozen_deterministic_tokens": 4686
+   }
+  },
+  "saleor-rc-438595033c60": {
+   "agentless_prompt": {
+    "chars": 86697,
+    "chars3_5_heuristic_tokens": 24770,
+    "chars4_heuristic_tokens": 21674,
+    "frozen_deterministic_tokens": 8984
+   },
+   "agentless_structure_py_files": 2264,
+   "parent_commit": "1cf6ef650a0cf9b668b1868dca3d134232defebe",
+   "sip_prompt": {
+    "chars": 66233,
+    "chars3_5_heuristic_tokens": 18923,
+    "chars4_heuristic_tokens": 16558,
+    "frozen_deterministic_tokens": 9309
+   }
+  },
+  "saleor-rc-4386f322f659": {
+   "agentless_prompt": {
+    "chars": 82487,
+    "chars3_5_heuristic_tokens": 23567,
+    "chars4_heuristic_tokens": 20621,
+    "frozen_deterministic_tokens": 8553
+   },
+   "agentless_structure_py_files": 2165,
+   "parent_commit": "4cbcbdb4df8595ba6dc992e184bdfaae459998f2",
+   "sip_prompt": {
+    "chars": 65399,
+    "chars3_5_heuristic_tokens": 18685,
+    "chars4_heuristic_tokens": 16349,
+    "frozen_deterministic_tokens": 9180
+   }
+  },
+  "saleor-rc-45301d74fb45": {
+   "agentless_prompt": {
+    "chars": 44718,
+    "chars3_5_heuristic_tokens": 12776,
+    "chars4_heuristic_tokens": 11179,
+    "frozen_deterministic_tokens": 4809
+   },
+   "agentless_structure_py_files": 1276,
+   "parent_commit": "69e9d82b1a85614fb959de8bc2f343ec4c28f7d2",
+   "sip_prompt": {
+    "chars": 37952,
+    "chars3_5_heuristic_tokens": 10843,
+    "chars4_heuristic_tokens": 9488,
+    "frozen_deterministic_tokens": 5427
+   }
+  },
+  "saleor-rc-45cfb26218c8": {
+   "agentless_prompt": {
+    "chars": 74284,
+    "chars3_5_heuristic_tokens": 21224,
+    "chars4_heuristic_tokens": 18571,
+    "frozen_deterministic_tokens": 7697
+   },
+   "agentless_structure_py_files": 1977,
+   "parent_commit": "0df27b1eb5b484e775bc2e8091d2a39d0dd33098",
+   "sip_prompt": {
+    "chars": 63176,
+    "chars3_5_heuristic_tokens": 18050,
+    "chars4_heuristic_tokens": 15794,
+    "frozen_deterministic_tokens": 8859
+   }
+  },
+  "saleor-rc-46456e7317ca": {
+   "agentless_prompt": {
+    "chars": 99803,
+    "chars3_5_heuristic_tokens": 28515,
+    "chars4_heuristic_tokens": 24950,
+    "frozen_deterministic_tokens": 10388
+   },
+   "agentless_structure_py_files": 2566,
+   "parent_commit": "c4457317c2f6cbe37cfc94104eb1e97ede83ffd1",
+   "sip_prompt": {
+    "chars": 70985,
+    "chars3_5_heuristic_tokens": 20281,
+    "chars4_heuristic_tokens": 17746,
+    "frozen_deterministic_tokens": 10006
+   }
+  },
+  "saleor-rc-477f7178142c": {
+   "agentless_prompt": {
+    "chars": 40903,
+    "chars3_5_heuristic_tokens": 11686,
+    "chars4_heuristic_tokens": 10225,
+    "frozen_deterministic_tokens": 4394
+   },
+   "agentless_structure_py_files": 1174,
+   "parent_commit": "d89366116a224bcea0ea5ad3013119a70c74fff3",
+   "sip_prompt": {
+    "chars": 36242,
+    "chars3_5_heuristic_tokens": 10354,
+    "chars4_heuristic_tokens": 9060,
+    "frozen_deterministic_tokens": 5193
+   }
+  },
+  "saleor-rc-4800fa0beb60": {
+   "agentless_prompt": {
+    "chars": 86792,
+    "chars3_5_heuristic_tokens": 24797,
+    "chars4_heuristic_tokens": 21698,
+    "frozen_deterministic_tokens": 8988
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "a130b8f23f70f332e563bb8c3cbd8ea9ab2cf972",
+   "sip_prompt": {
+    "chars": 66369,
+    "chars3_5_heuristic_tokens": 18962,
+    "chars4_heuristic_tokens": 16592,
+    "frozen_deterministic_tokens": 9318
+   }
+  },
+  "saleor-rc-481c2d367c6f": {
+   "agentless_prompt": {
+    "chars": 102106,
+    "chars3_5_heuristic_tokens": 29173,
+    "chars4_heuristic_tokens": 25526,
+    "frozen_deterministic_tokens": 10657
+   },
+   "agentless_structure_py_files": 2589,
+   "parent_commit": "02129de660f4158783cc03d8f4f61973ad1c75fc",
+   "sip_prompt": {
+    "chars": 72609,
+    "chars3_5_heuristic_tokens": 20745,
+    "chars4_heuristic_tokens": 18152,
+    "frozen_deterministic_tokens": 10227
+   }
+  },
+  "saleor-rc-484ce8815cf4": {
+   "agentless_prompt": {
+    "chars": 45177,
+    "chars3_5_heuristic_tokens": 12907,
+    "chars4_heuristic_tokens": 11294,
+    "frozen_deterministic_tokens": 4854
+   },
+   "agentless_structure_py_files": 1290,
+   "parent_commit": "c8462848d9c9a7bb3f209b879d924c395829394b",
+   "sip_prompt": {
+    "chars": 38488,
+    "chars3_5_heuristic_tokens": 10996,
+    "chars4_heuristic_tokens": 9622,
+    "frozen_deterministic_tokens": 5509
+   }
+  },
+  "saleor-rc-4902175839c9": {
+   "agentless_prompt": {
+    "chars": 37458,
+    "chars3_5_heuristic_tokens": 10702,
+    "chars4_heuristic_tokens": 9364,
+    "frozen_deterministic_tokens": 4013
+   },
+   "agentless_structure_py_files": 1083,
+   "parent_commit": "f00361947283ae16af92c1766e4eb63ac36fcf23",
+   "sip_prompt": {
+    "chars": 35508,
+    "chars3_5_heuristic_tokens": 10145,
+    "chars4_heuristic_tokens": 8877,
+    "frozen_deterministic_tokens": 5064
+   }
+  },
+  "saleor-rc-4931e989d82d": {
+   "agentless_prompt": {
+    "chars": 62311,
+    "chars3_5_heuristic_tokens": 17803,
+    "chars4_heuristic_tokens": 15577,
+    "frozen_deterministic_tokens": 6586
+   },
+   "agentless_structure_py_files": 1700,
+   "parent_commit": "a2aa0cf23c365d25970a7087bdd07bc47b15a30b",
+   "sip_prompt": {
+    "chars": 50260,
+    "chars3_5_heuristic_tokens": 14360,
+    "chars4_heuristic_tokens": 12565,
+    "frozen_deterministic_tokens": 7109
+   }
+  },
+  "saleor-rc-4adf36dfdbe7": {
+   "agentless_prompt": {
+    "chars": 54583,
+    "chars3_5_heuristic_tokens": 15595,
+    "chars4_heuristic_tokens": 13645,
+    "frozen_deterministic_tokens": 5832
+   },
+   "agentless_structure_py_files": 1513,
+   "parent_commit": "d189ef8ea7044526746ab9482ede7b10deb3ef34",
+   "sip_prompt": {
+    "chars": 44002,
+    "chars3_5_heuristic_tokens": 12572,
+    "chars4_heuristic_tokens": 11000,
+    "frozen_deterministic_tokens": 6245
+   }
+  },
+  "saleor-rc-4d82a7601853": {
+   "agentless_prompt": {
+    "chars": 32381,
+    "chars3_5_heuristic_tokens": 9251,
+    "chars4_heuristic_tokens": 8095,
+    "frozen_deterministic_tokens": 3458
+   },
+   "agentless_structure_py_files": 944,
+   "parent_commit": "8567a1b1bb88084f5242c2cfd46726c3e632ecd2",
+   "sip_prompt": {
+    "chars": 33103,
+    "chars3_5_heuristic_tokens": 9458,
+    "chars4_heuristic_tokens": 8275,
+    "frozen_deterministic_tokens": 4761
+   }
+  },
+  "saleor-rc-4e45b83e7475": {
+   "agentless_prompt": {
+    "chars": 54210,
+    "chars3_5_heuristic_tokens": 15488,
+    "chars4_heuristic_tokens": 13552,
+    "frozen_deterministic_tokens": 5789
+   },
+   "agentless_structure_py_files": 1504,
+   "parent_commit": "405a7038d0a7da1d342c3bb4718108265e78fa14",
+   "sip_prompt": {
+    "chars": 43985,
+    "chars3_5_heuristic_tokens": 12567,
+    "chars4_heuristic_tokens": 10996,
+    "frozen_deterministic_tokens": 6241
+   }
+  },
+  "saleor-rc-4fa88efe7c69": {
+   "agentless_prompt": {
+    "chars": 94274,
+    "chars3_5_heuristic_tokens": 26935,
+    "chars4_heuristic_tokens": 23568,
+    "frozen_deterministic_tokens": 9805
+   },
+   "agentless_structure_py_files": 2430,
+   "parent_commit": "341b8d333e6f4c3fb74b1d99fd7c49d6ea0017f6",
+   "sip_prompt": {
+    "chars": 68901,
+    "chars3_5_heuristic_tokens": 19686,
+    "chars4_heuristic_tokens": 17225,
+    "frozen_deterministic_tokens": 9697
+   }
+  },
+  "saleor-rc-4fc702179851": {
+   "agentless_prompt": {
+    "chars": 43564,
+    "chars3_5_heuristic_tokens": 12446,
+    "chars4_heuristic_tokens": 10891,
+    "frozen_deterministic_tokens": 4682
+   },
+   "agentless_structure_py_files": 1241,
+   "parent_commit": "7468c40f2e84fe1c5ff37491d690bec8a43c344f",
+   "sip_prompt": {
+    "chars": 37483,
+    "chars3_5_heuristic_tokens": 10709,
+    "chars4_heuristic_tokens": 9370,
+    "frozen_deterministic_tokens": 5355
+   }
+  },
+  "saleor-rc-506cd1157e9c": {
+   "agentless_prompt": {
+    "chars": 77182,
+    "chars3_5_heuristic_tokens": 22052,
+    "chars4_heuristic_tokens": 19295,
+    "frozen_deterministic_tokens": 7970
+   },
+   "agentless_structure_py_files": 2051,
+   "parent_commit": "17eba06ac9a7b998ab88cd88e223e6b40bc6f1a8",
+   "sip_prompt": {
+    "chars": 65243,
+    "chars3_5_heuristic_tokens": 18640,
+    "chars4_heuristic_tokens": 16310,
+    "frozen_deterministic_tokens": 9147
+   }
+  },
+  "saleor-rc-50eff94aa37c": {
+   "agentless_prompt": {
+    "chars": 35122,
+    "chars3_5_heuristic_tokens": 10034,
+    "chars4_heuristic_tokens": 8780,
+    "frozen_deterministic_tokens": 3755
+   },
+   "agentless_structure_py_files": 1016,
+   "parent_commit": "d32d5bfdf154d50e06c4f26810303b9b776db5f3",
+   "sip_prompt": {
+    "chars": 34109,
+    "chars3_5_heuristic_tokens": 9745,
+    "chars4_heuristic_tokens": 8527,
+    "frozen_deterministic_tokens": 4858
+   }
+  },
+  "saleor-rc-5144ee6bd55f": {
+   "agentless_prompt": {
+    "chars": 92702,
+    "chars3_5_heuristic_tokens": 26486,
+    "chars4_heuristic_tokens": 23175,
+    "frozen_deterministic_tokens": 9645
+   },
+   "agentless_structure_py_files": 2391,
+   "parent_commit": "20a2b1f48f34d70b4a21c9b3d66d7f744495d4cf",
+   "sip_prompt": {
+    "chars": 68159,
+    "chars3_5_heuristic_tokens": 19474,
+    "chars4_heuristic_tokens": 17039,
+    "frozen_deterministic_tokens": 9587
+   }
+  },
+  "saleor-rc-52a797b00af3": {
+   "agentless_prompt": {
+    "chars": 35608,
+    "chars3_5_heuristic_tokens": 10173,
+    "chars4_heuristic_tokens": 8902,
+    "frozen_deterministic_tokens": 3807
+   },
+   "agentless_structure_py_files": 1029,
+   "parent_commit": "72dac7b4f43f03daafdfa5c669c94d33b51b4606",
+   "sip_prompt": {
+    "chars": 34247,
+    "chars3_5_heuristic_tokens": 9784,
+    "chars4_heuristic_tokens": 8561,
+    "frozen_deterministic_tokens": 4879
+   }
+  },
+  "saleor-rc-5477b7dd3867": {
+   "agentless_prompt": {
+    "chars": 87581,
+    "chars3_5_heuristic_tokens": 25023,
+    "chars4_heuristic_tokens": 21895,
+    "frozen_deterministic_tokens": 9082
+   },
+   "agentless_structure_py_files": 2276,
+   "parent_commit": "ecca6f88c52d51e6887fd54362032b76371a5cca",
+   "sip_prompt": {
+    "chars": 66441,
+    "chars3_5_heuristic_tokens": 18983,
+    "chars4_heuristic_tokens": 16610,
+    "frozen_deterministic_tokens": 9328
+   }
+  },
+  "saleor-rc-54b2e510c366": {
+   "agentless_prompt": {
+    "chars": 39810,
+    "chars3_5_heuristic_tokens": 11374,
+    "chars4_heuristic_tokens": 9952,
+    "frozen_deterministic_tokens": 4273
+   },
+   "agentless_structure_py_files": 1145,
+   "parent_commit": "e1aa51039cf77b22f0cd2a9b2cd19349c7dd527f",
+   "sip_prompt": {
+    "chars": 36299,
+    "chars3_5_heuristic_tokens": 10371,
+    "chars4_heuristic_tokens": 9074,
+    "frozen_deterministic_tokens": 5185
+   }
+  },
+  "saleor-rc-54bbb04b8954": {
+   "agentless_prompt": {
+    "chars": 42105,
+    "chars3_5_heuristic_tokens": 12030,
+    "chars4_heuristic_tokens": 10526,
+    "frozen_deterministic_tokens": 4519
+   },
+   "agentless_structure_py_files": 1206,
+   "parent_commit": "d9c21de1c0ed33c0b09ea89ec92fed0188e10f6a",
+   "sip_prompt": {
+    "chars": 36915,
+    "chars3_5_heuristic_tokens": 10547,
+    "chars4_heuristic_tokens": 9228,
+    "frozen_deterministic_tokens": 5280
+   }
+  },
+  "saleor-rc-55ff6b5b2b65": {
+   "agentless_prompt": {
+    "chars": 63159,
+    "chars3_5_heuristic_tokens": 18045,
+    "chars4_heuristic_tokens": 15789,
+    "frozen_deterministic_tokens": 6676
+   },
+   "agentless_structure_py_files": 1721,
+   "parent_commit": "f378f31242ab4334bfcb18332a13483568a47438",
+   "sip_prompt": {
+    "chars": 51069,
+    "chars3_5_heuristic_tokens": 14591,
+    "chars4_heuristic_tokens": 12767,
+    "frozen_deterministic_tokens": 7229
+   }
+  },
+  "saleor-rc-571a3b145aea": {
+   "agentless_prompt": {
+    "chars": 44326,
+    "chars3_5_heuristic_tokens": 12664,
+    "chars4_heuristic_tokens": 11081,
+    "frozen_deterministic_tokens": 4761
+   },
+   "agentless_structure_py_files": 1266,
+   "parent_commit": "3f8a1afe77ab7e2e2ec7a315c2facd1be1729f21",
+   "sip_prompt": {
+    "chars": 37949,
+    "chars3_5_heuristic_tokens": 10842,
+    "chars4_heuristic_tokens": 9487,
+    "frozen_deterministic_tokens": 5423
+   }
+  },
+  "saleor-rc-57441a31a14b": {
+   "agentless_prompt": {
+    "chars": 29645,
+    "chars3_5_heuristic_tokens": 8470,
+    "chars4_heuristic_tokens": 7411,
+    "frozen_deterministic_tokens": 3154
+   },
+   "agentless_structure_py_files": 862,
+   "parent_commit": "ac7db9d50a714aadad360131729480ea0a95abb1",
+   "sip_prompt": {
+    "chars": 32290,
+    "chars3_5_heuristic_tokens": 9225,
+    "chars4_heuristic_tokens": 8072,
+    "frozen_deterministic_tokens": 4610
+   }
+  },
+  "saleor-rc-5821309aed09": {
+   "agentless_prompt": {
+    "chars": 36448,
+    "chars3_5_heuristic_tokens": 10413,
+    "chars4_heuristic_tokens": 9112,
+    "frozen_deterministic_tokens": 3907
+   },
+   "agentless_structure_py_files": 1049,
+   "parent_commit": "e22fa96674e379c90da3a9644218fc7cffa3a3a6",
+   "sip_prompt": {
+    "chars": 34459,
+    "chars3_5_heuristic_tokens": 9845,
+    "chars4_heuristic_tokens": 8614,
+    "frozen_deterministic_tokens": 4909
+   }
+  },
+  "saleor-rc-585562cf1cec": {
+   "agentless_prompt": {
+    "chars": 39487,
+    "chars3_5_heuristic_tokens": 11282,
+    "chars4_heuristic_tokens": 9871,
+    "frozen_deterministic_tokens": 4234
+   },
+   "agentless_structure_py_files": 1138,
+   "parent_commit": "7d9b5d25a153b0943c087e5f01fa745a68f3980a",
+   "sip_prompt": {
+    "chars": 36079,
+    "chars3_5_heuristic_tokens": 10308,
+    "chars4_heuristic_tokens": 9019,
+    "frozen_deterministic_tokens": 5155
+   }
+  },
+  "saleor-rc-598aca390888": {
+   "agentless_prompt": {
+    "chars": 47935,
+    "chars3_5_heuristic_tokens": 13695,
+    "chars4_heuristic_tokens": 11983,
+    "frozen_deterministic_tokens": 5142
+   },
+   "agentless_structure_py_files": 1351,
+   "parent_commit": "07496600832afa2a0461598d9cb9e22e133f4e56",
+   "sip_prompt": {
+    "chars": 40019,
+    "chars3_5_heuristic_tokens": 11434,
+    "chars4_heuristic_tokens": 10004,
+    "frozen_deterministic_tokens": 5704
+   }
+  },
+  "saleor-rc-5adf2a55d3e7": {
+   "agentless_prompt": {
+    "chars": 30963,
+    "chars3_5_heuristic_tokens": 8846,
+    "chars4_heuristic_tokens": 7740,
+    "frozen_deterministic_tokens": 3295
+   },
+   "agentless_structure_py_files": 906,
+   "parent_commit": "12235a227e34d889f7adb33dd87c42a4c8c99793",
+   "sip_prompt": {
+    "chars": 32165,
+    "chars3_5_heuristic_tokens": 9190,
+    "chars4_heuristic_tokens": 8041,
+    "frozen_deterministic_tokens": 4678
+   }
+  },
+  "saleor-rc-5af4a7b5656e": {
+   "agentless_prompt": {
+    "chars": 86576,
+    "chars3_5_heuristic_tokens": 24736,
+    "chars4_heuristic_tokens": 21644,
+    "frozen_deterministic_tokens": 8969
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "d7a76373f2dba062175bf4e834d1c7c56dc1dc27",
+   "sip_prompt": {
+    "chars": 66153,
+    "chars3_5_heuristic_tokens": 18900,
+    "chars4_heuristic_tokens": 16538,
+    "frozen_deterministic_tokens": 9299
+   }
+  },
+  "saleor-rc-5c458f26276d": {
+   "agentless_prompt": {
+    "chars": 37962,
+    "chars3_5_heuristic_tokens": 10846,
+    "chars4_heuristic_tokens": 9490,
+    "frozen_deterministic_tokens": 4073
+   },
+   "agentless_structure_py_files": 1094,
+   "parent_commit": "9e2b6133154744b0575692ac8018c284f0c419eb",
+   "sip_prompt": {
+    "chars": 35578,
+    "chars3_5_heuristic_tokens": 10165,
+    "chars4_heuristic_tokens": 8894,
+    "frozen_deterministic_tokens": 5075
+   }
+  },
+  "saleor-rc-5c50110d46a2": {
+   "agentless_prompt": {
+    "chars": 32328,
+    "chars3_5_heuristic_tokens": 9236,
+    "chars4_heuristic_tokens": 8082,
+    "frozen_deterministic_tokens": 3453
+   },
+   "agentless_structure_py_files": 943,
+   "parent_commit": "c68c40aaa0c1e0e9d2b8e5304e83a0277e1745d9",
+   "sip_prompt": {
+    "chars": 33094,
+    "chars3_5_heuristic_tokens": 9455,
+    "chars4_heuristic_tokens": 8273,
+    "frozen_deterministic_tokens": 4761
+   }
+  },
+  "saleor-rc-5d2721a36364": {
+   "agentless_prompt": {
+    "chars": 80167,
+    "chars3_5_heuristic_tokens": 22904,
+    "chars4_heuristic_tokens": 20041,
+    "frozen_deterministic_tokens": 8293
+   },
+   "agentless_structure_py_files": 2115,
+   "parent_commit": "be430445a2c08f707146b148a63cb3e058c4c0fe",
+   "sip_prompt": {
+    "chars": 65140,
+    "chars3_5_heuristic_tokens": 18611,
+    "chars4_heuristic_tokens": 16285,
+    "frozen_deterministic_tokens": 9136
+   }
+  },
+  "saleor-rc-5ed60eba096a": {
+   "agentless_prompt": {
+    "chars": 97708,
+    "chars3_5_heuristic_tokens": 27916,
+    "chars4_heuristic_tokens": 24427,
+    "frozen_deterministic_tokens": 10166
+   },
+   "agentless_structure_py_files": 2513,
+   "parent_commit": "bb063575d501b8ebeda0625b50fdcf779db5b82b",
+   "sip_prompt": {
+    "chars": 70416,
+    "chars3_5_heuristic_tokens": 20118,
+    "chars4_heuristic_tokens": 17604,
+    "frozen_deterministic_tokens": 9916
+   }
+  },
+  "saleor-rc-5f78ba7b1647": {
+   "agentless_prompt": {
+    "chars": 35374,
+    "chars3_5_heuristic_tokens": 10106,
+    "chars4_heuristic_tokens": 8843,
+    "frozen_deterministic_tokens": 3769
+   },
+   "agentless_structure_py_files": 1020,
+   "parent_commit": "02d266b6e34b84d4cca5bcfc05d78490a1d10dec",
+   "sip_prompt": {
+    "chars": 34618,
+    "chars3_5_heuristic_tokens": 9890,
+    "chars4_heuristic_tokens": 8654,
+    "frozen_deterministic_tokens": 4923
+   }
+  },
+  "saleor-rc-5f8b1cc4db2d": {
+   "agentless_prompt": {
+    "chars": 86598,
+    "chars3_5_heuristic_tokens": 24742,
+    "chars4_heuristic_tokens": 21649,
+    "frozen_deterministic_tokens": 8971
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "75baa5634eafa7fe0db62a6296f177ee76721058",
+   "sip_prompt": {
+    "chars": 66175,
+    "chars3_5_heuristic_tokens": 18907,
+    "chars4_heuristic_tokens": 16543,
+    "frozen_deterministic_tokens": 9301
+   }
+  },
+  "saleor-rc-6370f4a6b8a5": {
+   "agentless_prompt": {
+    "chars": 34370,
+    "chars3_5_heuristic_tokens": 9820,
+    "chars4_heuristic_tokens": 8592,
+    "frozen_deterministic_tokens": 3666
+   },
+   "agentless_structure_py_files": 995,
+   "parent_commit": "8f874dd50ceb010162e34f3ff1c738ca430e25f8",
+   "sip_prompt": {
+    "chars": 34047,
+    "chars3_5_heuristic_tokens": 9727,
+    "chars4_heuristic_tokens": 8511,
+    "frozen_deterministic_tokens": 4872
+   }
+  },
+  "saleor-rc-63a25a0c46d5": {
+   "agentless_prompt": {
+    "chars": 85224,
+    "chars3_5_heuristic_tokens": 24349,
+    "chars4_heuristic_tokens": 21306,
+    "frozen_deterministic_tokens": 8838
+   },
+   "agentless_structure_py_files": 2228,
+   "parent_commit": "bc136cc765e24131e89ef5e3292cf26a66f58641",
+   "sip_prompt": {
+    "chars": 65795,
+    "chars3_5_heuristic_tokens": 18798,
+    "chars4_heuristic_tokens": 16448,
+    "frozen_deterministic_tokens": 9239
+   }
+  },
+  "saleor-rc-63a31dd3c8ca": {
+   "agentless_prompt": {
+    "chars": 30414,
+    "chars3_5_heuristic_tokens": 8689,
+    "chars4_heuristic_tokens": 7603,
+    "frozen_deterministic_tokens": 3229
+   },
+   "agentless_structure_py_files": 891,
+   "parent_commit": "34b9c885bf0939c0cb323cc9f3d311f09d51fa36",
+   "sip_prompt": {
+    "chars": 31986,
+    "chars3_5_heuristic_tokens": 9138,
+    "chars4_heuristic_tokens": 7996,
+    "frozen_deterministic_tokens": 4650
+   }
+  },
+  "saleor-rc-65643ec7c37f": {
+   "agentless_prompt": {
+    "chars": 54530,
+    "chars3_5_heuristic_tokens": 15580,
+    "chars4_heuristic_tokens": 13632,
+    "frozen_deterministic_tokens": 5819
+   },
+   "agentless_structure_py_files": 1506,
+   "parent_commit": "f96e490ecf7dd8f9ab1a787253deb327b22657fe",
+   "sip_prompt": {
+    "chars": 44337,
+    "chars3_5_heuristic_tokens": 12667,
+    "chars4_heuristic_tokens": 11084,
+    "frozen_deterministic_tokens": 6277
+   }
+  },
+  "saleor-rc-659af1b19239": {
+   "agentless_prompt": {
+    "chars": 87692,
+    "chars3_5_heuristic_tokens": 25054,
+    "chars4_heuristic_tokens": 21923,
+    "frozen_deterministic_tokens": 9094
+   },
+   "agentless_structure_py_files": 2279,
+   "parent_commit": "6b23d81b4516289fd34fa420eadcafe735c7bb3e",
+   "sip_prompt": {
+    "chars": 66614,
+    "chars3_5_heuristic_tokens": 19032,
+    "chars4_heuristic_tokens": 16653,
+    "frozen_deterministic_tokens": 9357
+   }
+  },
+  "saleor-rc-65a07d9986ec": {
+   "agentless_prompt": {
+    "chars": 70175,
+    "chars3_5_heuristic_tokens": 20050,
+    "chars4_heuristic_tokens": 17543,
+    "frozen_deterministic_tokens": 7346
+   },
+   "agentless_structure_py_files": 1885,
+   "parent_commit": "062b574e7eb8e7597ac88e26967b50fdd9d08bda",
+   "sip_prompt": {
+    "chars": 57436,
+    "chars3_5_heuristic_tokens": 16410,
+    "chars4_heuristic_tokens": 14359,
+    "frozen_deterministic_tokens": 8094
+   }
+  },
+  "saleor-rc-65dfc61ec9fc": {
+   "agentless_prompt": {
+    "chars": 82979,
+    "chars3_5_heuristic_tokens": 23708,
+    "chars4_heuristic_tokens": 20744,
+    "frozen_deterministic_tokens": 8596
+   },
+   "agentless_structure_py_files": 2170,
+   "parent_commit": "46d26a91a68b2fa9ada0e923d9dc7731264ff46b",
+   "sip_prompt": {
+    "chars": 65651,
+    "chars3_5_heuristic_tokens": 18757,
+    "chars4_heuristic_tokens": 16412,
+    "frozen_deterministic_tokens": 9199
+   }
+  },
+  "saleor-rc-663543eaf563": {
+   "agentless_prompt": {
+    "chars": 91390,
+    "chars3_5_heuristic_tokens": 26111,
+    "chars4_heuristic_tokens": 22847,
+    "frozen_deterministic_tokens": 9497
+   },
+   "agentless_structure_py_files": 2363,
+   "parent_commit": "da11036b099a0251646a4d32987cc205cc327101",
+   "sip_prompt": {
+    "chars": 67594,
+    "chars3_5_heuristic_tokens": 19312,
+    "chars4_heuristic_tokens": 16898,
+    "frozen_deterministic_tokens": 9504
+   }
+  },
+  "saleor-rc-66907b149076": {
+   "agentless_prompt": {
+    "chars": 68397,
+    "chars3_5_heuristic_tokens": 19542,
+    "chars4_heuristic_tokens": 17099,
+    "frozen_deterministic_tokens": 7205
+   },
+   "agentless_structure_py_files": 1841,
+   "parent_commit": "eb2d368d7885e6f41952c4a5e1d3f9fdd8e967d8",
+   "sip_prompt": {
+    "chars": 54669,
+    "chars3_5_heuristic_tokens": 15619,
+    "chars4_heuristic_tokens": 13667,
+    "frozen_deterministic_tokens": 7726
+   }
+  },
+  "saleor-rc-67cd71a9e0b7": {
+   "agentless_prompt": {
+    "chars": 81054,
+    "chars3_5_heuristic_tokens": 23158,
+    "chars4_heuristic_tokens": 20263,
+    "frozen_deterministic_tokens": 8391
+   },
+   "agentless_structure_py_files": 2136,
+   "parent_commit": "64c99525a4bd1dfbb4ed1d6f707550b4b3f42253",
+   "sip_prompt": {
+    "chars": 65199,
+    "chars3_5_heuristic_tokens": 18628,
+    "chars4_heuristic_tokens": 16299,
+    "frozen_deterministic_tokens": 9150
+   }
+  },
+  "saleor-rc-68777a15d2a4": {
+   "agentless_prompt": {
+    "chars": 86761,
+    "chars3_5_heuristic_tokens": 24788,
+    "chars4_heuristic_tokens": 21690,
+    "frozen_deterministic_tokens": 8988
+   },
+   "agentless_structure_py_files": 2265,
+   "parent_commit": "fb8708830766058b384ccf461bf1b636da71b1fe",
+   "sip_prompt": {
+    "chars": 66039,
+    "chars3_5_heuristic_tokens": 18868,
+    "chars4_heuristic_tokens": 16509,
+    "frozen_deterministic_tokens": 9281
+   }
+  },
+  "saleor-rc-68fb4bf4a458": {
+   "agentless_prompt": {
+    "chars": 48974,
+    "chars3_5_heuristic_tokens": 13992,
+    "chars4_heuristic_tokens": 12243,
+    "frozen_deterministic_tokens": 5256
+   },
+   "agentless_structure_py_files": 1374,
+   "parent_commit": "d1674dee1fbed87b0de57824a2d5b7f1b9e06e83",
+   "sip_prompt": {
+    "chars": 40332,
+    "chars3_5_heuristic_tokens": 11523,
+    "chars4_heuristic_tokens": 10083,
+    "frozen_deterministic_tokens": 5746
+   }
+  },
+  "saleor-rc-693eb302968c": {
+   "agentless_prompt": {
+    "chars": 35218,
+    "chars3_5_heuristic_tokens": 10062,
+    "chars4_heuristic_tokens": 8804,
+    "frozen_deterministic_tokens": 3766
+   },
+   "agentless_structure_py_files": 1009,
+   "parent_commit": "db212f09fbbb8af308970ed2e22328e9ec4df362",
+   "sip_prompt": {
+    "chars": 34482,
+    "chars3_5_heuristic_tokens": 9852,
+    "chars4_heuristic_tokens": 8620,
+    "frozen_deterministic_tokens": 4910
+   }
+  },
+  "saleor-rc-697cbdc85b4a": {
+   "agentless_prompt": {
+    "chars": 94409,
+    "chars3_5_heuristic_tokens": 26974,
+    "chars4_heuristic_tokens": 23602,
+    "frozen_deterministic_tokens": 9816
+   },
+   "agentless_structure_py_files": 2429,
+   "parent_commit": "1162f6e2edc76e399aa6c1ac6c8ef73a0772a16a",
+   "sip_prompt": {
+    "chars": 69028,
+    "chars3_5_heuristic_tokens": 19722,
+    "chars4_heuristic_tokens": 17257,
+    "frozen_deterministic_tokens": 9705
+   }
+  },
+  "saleor-rc-6a1f884168d2": {
+   "agentless_prompt": {
+    "chars": 36386,
+    "chars3_5_heuristic_tokens": 10396,
+    "chars4_heuristic_tokens": 9096,
+    "frozen_deterministic_tokens": 3899
+   },
+   "agentless_structure_py_files": 1049,
+   "parent_commit": "916c1e29f26552213ca16dc1ddfc8425f5021976",
+   "sip_prompt": {
+    "chars": 34397,
+    "chars3_5_heuristic_tokens": 9827,
+    "chars4_heuristic_tokens": 8599,
+    "frozen_deterministic_tokens": 4901
+   }
+  },
+  "saleor-rc-6c928b72daa4": {
+   "agentless_prompt": {
+    "chars": 39765,
+    "chars3_5_heuristic_tokens": 11361,
+    "chars4_heuristic_tokens": 9941,
+    "frozen_deterministic_tokens": 4265
+   },
+   "agentless_structure_py_files": 1138,
+   "parent_commit": "46a2a565f410d2235d9798f3e2b2433ff82c509c",
+   "sip_prompt": {
+    "chars": 36357,
+    "chars3_5_heuristic_tokens": 10387,
+    "chars4_heuristic_tokens": 9089,
+    "frozen_deterministic_tokens": 5186
+   }
+  },
+  "saleor-rc-73b8f4c2a451": {
+   "agentless_prompt": {
+    "chars": 41173,
+    "chars3_5_heuristic_tokens": 11763,
+    "chars4_heuristic_tokens": 10293,
+    "frozen_deterministic_tokens": 4423
+   },
+   "agentless_structure_py_files": 1182,
+   "parent_commit": "6912a504c5401d6d95e409e2f74b61635f5efcc3",
+   "sip_prompt": {
+    "chars": 36367,
+    "chars3_5_heuristic_tokens": 10390,
+    "chars4_heuristic_tokens": 9091,
+    "frozen_deterministic_tokens": 5208
+   }
+  },
+  "saleor-rc-74fbba6d0734": {
+   "agentless_prompt": {
+    "chars": 83993,
+    "chars3_5_heuristic_tokens": 23998,
+    "chars4_heuristic_tokens": 20998,
+    "frozen_deterministic_tokens": 8701
+   },
+   "agentless_structure_py_files": 2202,
+   "parent_commit": "a4621623f618921b35090f3bdbb61a706686bcb9",
+   "sip_prompt": {
+    "chars": 65647,
+    "chars3_5_heuristic_tokens": 18756,
+    "chars4_heuristic_tokens": 16411,
+    "frozen_deterministic_tokens": 9213
+   }
+  },
+  "saleor-rc-7691de1ea22e": {
+   "agentless_prompt": {
+    "chars": 74276,
+    "chars3_5_heuristic_tokens": 21221,
+    "chars4_heuristic_tokens": 18569,
+    "frozen_deterministic_tokens": 7706
+   },
+   "agentless_structure_py_files": 1981,
+   "parent_commit": "7d12bbd0d90c7fbecb5d8bfb289c05acbfdcddad",
+   "sip_prompt": {
+    "chars": 63026,
+    "chars3_5_heuristic_tokens": 18007,
+    "chars4_heuristic_tokens": 15756,
+    "frozen_deterministic_tokens": 8854
+   }
+  },
+  "saleor-rc-78c9081e2731": {
+   "agentless_prompt": {
+    "chars": 86572,
+    "chars3_5_heuristic_tokens": 24734,
+    "chars4_heuristic_tokens": 21643,
+    "frozen_deterministic_tokens": 8968
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "7a977f5c1366b549891e7ff236a699ecd2a280be",
+   "sip_prompt": {
+    "chars": 66149,
+    "chars3_5_heuristic_tokens": 18899,
+    "chars4_heuristic_tokens": 16537,
+    "frozen_deterministic_tokens": 9298
+   }
+  },
+  "saleor-rc-78d985111cd9": {
+   "agentless_prompt": {
+    "chars": 51822,
+    "chars3_5_heuristic_tokens": 14806,
+    "chars4_heuristic_tokens": 12955,
+    "frozen_deterministic_tokens": 5556
+   },
+   "agentless_structure_py_files": 1438,
+   "parent_commit": "8de7ca21d6b1831f0f94d36448067bf914379d3d",
+   "sip_prompt": {
+    "chars": 41989,
+    "chars3_5_heuristic_tokens": 11996,
+    "chars4_heuristic_tokens": 10497,
+    "frozen_deterministic_tokens": 5975
+   }
+  },
+  "saleor-rc-796f4a0fd969": {
+   "agentless_prompt": {
+    "chars": 99116,
+    "chars3_5_heuristic_tokens": 28318,
+    "chars4_heuristic_tokens": 24779,
+    "frozen_deterministic_tokens": 10308
+   },
+   "agentless_structure_py_files": 2550,
+   "parent_commit": "cdcbd5cda46e00856270c4ad86214ffe6d2ed349",
+   "sip_prompt": {
+    "chars": 71202,
+    "chars3_5_heuristic_tokens": 20343,
+    "chars4_heuristic_tokens": 17800,
+    "frozen_deterministic_tokens": 10040
+   }
+  },
+  "saleor-rc-799a9f1c915a": {
+   "agentless_prompt": {
+    "chars": 52249,
+    "chars3_5_heuristic_tokens": 14928,
+    "chars4_heuristic_tokens": 13062,
+    "frozen_deterministic_tokens": 5596
+   },
+   "agentless_structure_py_files": 1451,
+   "parent_commit": "63b7903e4c1b43bc4c8e3db83be90ca2a280bef8",
+   "sip_prompt": {
+    "chars": 42429,
+    "chars3_5_heuristic_tokens": 12122,
+    "chars4_heuristic_tokens": 10607,
+    "frozen_deterministic_tokens": 6031
+   }
+  },
+  "saleor-rc-7b1e8cee95d5": {
+   "agentless_prompt": {
+    "chars": 93376,
+    "chars3_5_heuristic_tokens": 26678,
+    "chars4_heuristic_tokens": 23344,
+    "frozen_deterministic_tokens": 9719
+   },
+   "agentless_structure_py_files": 2404,
+   "parent_commit": "e848f046c912cf0b4ecb2b311af6ab9ed62368cd",
+   "sip_prompt": {
+    "chars": 68293,
+    "chars3_5_heuristic_tokens": 19512,
+    "chars4_heuristic_tokens": 17073,
+    "frozen_deterministic_tokens": 9604
+   }
+  },
+  "saleor-rc-7b3fbb77c331": {
+   "agentless_prompt": {
+    "chars": 41278,
+    "chars3_5_heuristic_tokens": 11793,
+    "chars4_heuristic_tokens": 10319,
+    "frozen_deterministic_tokens": 4426
+   },
+   "agentless_structure_py_files": 1185,
+   "parent_commit": "de0e787f40744e3b9a54be0cda2d3224d96766fd",
+   "sip_prompt": {
+    "chars": 36695,
+    "chars3_5_heuristic_tokens": 10484,
+    "chars4_heuristic_tokens": 9173,
+    "frozen_deterministic_tokens": 5252
+   }
+  },
+  "saleor-rc-7bbeb193b718": {
+   "agentless_prompt": {
+    "chars": 44439,
+    "chars3_5_heuristic_tokens": 12696,
+    "chars4_heuristic_tokens": 11109,
+    "frozen_deterministic_tokens": 4777
+   },
+   "agentless_structure_py_files": 1270,
+   "parent_commit": "4874c4155c1642363c99b77ca32b3c84c5ec67e0",
+   "sip_prompt": {
+    "chars": 37901,
+    "chars3_5_heuristic_tokens": 10828,
+    "chars4_heuristic_tokens": 9475,
+    "frozen_deterministic_tokens": 5420
+   }
+  },
+  "saleor-rc-7e42fc67ce72": {
+   "agentless_prompt": {
+    "chars": 98626,
+    "chars3_5_heuristic_tokens": 28178,
+    "chars4_heuristic_tokens": 24656,
+    "frozen_deterministic_tokens": 10262
+   },
+   "agentless_structure_py_files": 2534,
+   "parent_commit": "798632158394c9f2911e6d36e8e424fd55007dc4",
+   "sip_prompt": {
+    "chars": 70963,
+    "chars3_5_heuristic_tokens": 20275,
+    "chars4_heuristic_tokens": 17740,
+    "frozen_deterministic_tokens": 10000
+   }
+  },
+  "saleor-rc-7f841e468194": {
+   "agentless_prompt": {
+    "chars": 31770,
+    "chars3_5_heuristic_tokens": 9077,
+    "chars4_heuristic_tokens": 7942,
+    "frozen_deterministic_tokens": 3383
+   },
+   "agentless_structure_py_files": 927,
+   "parent_commit": "6eec2d4894d29bbf7fb5d9e52d1dfde20f45f081",
+   "sip_prompt": {
+    "chars": 32694,
+    "chars3_5_heuristic_tokens": 9341,
+    "chars4_heuristic_tokens": 8173,
+    "frozen_deterministic_tokens": 4741
+   }
+  },
+  "saleor-rc-80a33b28b80d": {
+   "agentless_prompt": {
+    "chars": 86813,
+    "chars3_5_heuristic_tokens": 24803,
+    "chars4_heuristic_tokens": 21703,
+    "frozen_deterministic_tokens": 8995
+   },
+   "agentless_structure_py_files": 2265,
+   "parent_commit": "23332839f45e4e2c88471e6005ac29e3df288ab5",
+   "sip_prompt": {
+    "chars": 66091,
+    "chars3_5_heuristic_tokens": 18883,
+    "chars4_heuristic_tokens": 16522,
+    "frozen_deterministic_tokens": 9288
+   }
+  },
+  "saleor-rc-81d02e76b22e": {
+   "agentless_prompt": {
+    "chars": 47897,
+    "chars3_5_heuristic_tokens": 13684,
+    "chars4_heuristic_tokens": 11974,
+    "frozen_deterministic_tokens": 5138
+   },
+   "agentless_structure_py_files": 1347,
+   "parent_commit": "c6220233ccb1ed14fbd66c48b7febbbe62cf4411",
+   "sip_prompt": {
+    "chars": 40157,
+    "chars3_5_heuristic_tokens": 11473,
+    "chars4_heuristic_tokens": 10039,
+    "frozen_deterministic_tokens": 5722
+   }
+  },
+  "saleor-rc-8220a53473bb": {
+   "agentless_prompt": {
+    "chars": 29152,
+    "chars3_5_heuristic_tokens": 8329,
+    "chars4_heuristic_tokens": 7288,
+    "frozen_deterministic_tokens": 3099
+   },
+   "agentless_structure_py_files": 848,
+   "parent_commit": "3459d2b68cef1a85443d6f867caa8330017303fa",
+   "sip_prompt": {
+    "chars": 31403,
+    "chars3_5_heuristic_tokens": 8972,
+    "chars4_heuristic_tokens": 7850,
+    "frozen_deterministic_tokens": 4526
+   }
+  },
+  "saleor-rc-82cc17adedba": {
+   "agentless_prompt": {
+    "chars": 77353,
+    "chars3_5_heuristic_tokens": 22100,
+    "chars4_heuristic_tokens": 19338,
+    "frozen_deterministic_tokens": 7991
+   },
+   "agentless_structure_py_files": 2055,
+   "parent_commit": "e21d5dfead8142b564e827896d7ec29ef73184c2",
+   "sip_prompt": {
+    "chars": 65246,
+    "chars3_5_heuristic_tokens": 18641,
+    "chars4_heuristic_tokens": 16311,
+    "frozen_deterministic_tokens": 9148
+   }
+  },
+  "saleor-rc-8406dce8d1b7": {
+   "agentless_prompt": {
+    "chars": 55634,
+    "chars3_5_heuristic_tokens": 15895,
+    "chars4_heuristic_tokens": 13908,
+    "frozen_deterministic_tokens": 5946
+   },
+   "agentless_structure_py_files": 1541,
+   "parent_commit": "6a1bd7af29701b9cc1bf083868ddbb24a4968743",
+   "sip_prompt": {
+    "chars": 44536,
+    "chars3_5_heuristic_tokens": 12724,
+    "chars4_heuristic_tokens": 11134,
+    "frozen_deterministic_tokens": 6326
+   }
+  },
+  "saleor-rc-843a2c1905ad": {
+   "agentless_prompt": {
+    "chars": 77421,
+    "chars3_5_heuristic_tokens": 22120,
+    "chars4_heuristic_tokens": 19355,
+    "frozen_deterministic_tokens": 8000
+   },
+   "agentless_structure_py_files": 2051,
+   "parent_commit": "1f8ff02d8dd0367d985b1bcabcb1030d3b8a20cc",
+   "sip_prompt": {
+    "chars": 65482,
+    "chars3_5_heuristic_tokens": 18709,
+    "chars4_heuristic_tokens": 16370,
+    "frozen_deterministic_tokens": 9177
+   }
+  },
+  "saleor-rc-85d416c024e1": {
+   "agentless_prompt": {
+    "chars": 34234,
+    "chars3_5_heuristic_tokens": 9781,
+    "chars4_heuristic_tokens": 8558,
+    "frozen_deterministic_tokens": 3649
+   },
+   "agentless_structure_py_files": 993,
+   "parent_commit": "0183cc0e8f8af76b490e992e1a680975cab7d115",
+   "sip_prompt": {
+    "chars": 33989,
+    "chars3_5_heuristic_tokens": 9711,
+    "chars4_heuristic_tokens": 8497,
+    "frozen_deterministic_tokens": 4865
+   }
+  },
+  "saleor-rc-884327b653cc": {
+   "agentless_prompt": {
+    "chars": 41161,
+    "chars3_5_heuristic_tokens": 11760,
+    "chars4_heuristic_tokens": 10290,
+    "frozen_deterministic_tokens": 4422
+   },
+   "agentless_structure_py_files": 1182,
+   "parent_commit": "4cbec186740cad4e6cd988f61ac43c65cd6bcdff",
+   "sip_prompt": {
+    "chars": 36355,
+    "chars3_5_heuristic_tokens": 10387,
+    "chars4_heuristic_tokens": 9088,
+    "frozen_deterministic_tokens": 5207
+   }
+  },
+  "saleor-rc-897f9e7d6766": {
+   "agentless_prompt": {
+    "chars": 84467,
+    "chars3_5_heuristic_tokens": 24133,
+    "chars4_heuristic_tokens": 21116,
+    "frozen_deterministic_tokens": 8752
+   },
+   "agentless_structure_py_files": 2215,
+   "parent_commit": "78eed93507dfe8143c22e14f66964ce244bf50f4",
+   "sip_prompt": {
+    "chars": 65626,
+    "chars3_5_heuristic_tokens": 18750,
+    "chars4_heuristic_tokens": 16406,
+    "frozen_deterministic_tokens": 9216
+   }
+  },
+  "saleor-rc-8a03c74411d7": {
+   "agentless_prompt": {
+    "chars": 94039,
+    "chars3_5_heuristic_tokens": 26868,
+    "chars4_heuristic_tokens": 23509,
+    "frozen_deterministic_tokens": 9786
+   },
+   "agentless_structure_py_files": 2421,
+   "parent_commit": "2265f5fae9b828c2ed0dbc2aadb0b04bb816d951",
+   "sip_prompt": {
+    "chars": 68491,
+    "chars3_5_heuristic_tokens": 19568,
+    "chars4_heuristic_tokens": 17122,
+    "frozen_deterministic_tokens": 9635
+   }
+  },
+  "saleor-rc-8b0cbe2fb72f": {
+   "agentless_prompt": {
+    "chars": 44453,
+    "chars3_5_heuristic_tokens": 12700,
+    "chars4_heuristic_tokens": 11113,
+    "frozen_deterministic_tokens": 4778
+   },
+   "agentless_structure_py_files": 1262,
+   "parent_commit": "c566698beb76a56c064b46c51abbf64c2635d814",
+   "sip_prompt": {
+    "chars": 38117,
+    "chars3_5_heuristic_tokens": 10890,
+    "chars4_heuristic_tokens": 9529,
+    "frozen_deterministic_tokens": 5441
+   }
+  },
+  "saleor-rc-8c8d9db54d63": {
+   "agentless_prompt": {
+    "chars": 75885,
+    "chars3_5_heuristic_tokens": 21681,
+    "chars4_heuristic_tokens": 18971,
+    "frozen_deterministic_tokens": 7864
+   },
+   "agentless_structure_py_files": 2019,
+   "parent_commit": "295bebacb09424f65587827b5fce4c71d32771fe",
+   "sip_prompt": {
+    "chars": 64101,
+    "chars3_5_heuristic_tokens": 18314,
+    "chars4_heuristic_tokens": 16025,
+    "frozen_deterministic_tokens": 9005
+   }
+  },
+  "saleor-rc-8d911cb27289": {
+   "agentless_prompt": {
+    "chars": 55332,
+    "chars3_5_heuristic_tokens": 15809,
+    "chars4_heuristic_tokens": 13833,
+    "frozen_deterministic_tokens": 5909
+   },
+   "agentless_structure_py_files": 1534,
+   "parent_commit": "a5c3dd97b5c81bb8121617ed019971fb96ab8172",
+   "sip_prompt": {
+    "chars": 44492,
+    "chars3_5_heuristic_tokens": 12712,
+    "chars4_heuristic_tokens": 11123,
+    "frozen_deterministic_tokens": 6318
+   }
+  },
+  "saleor-rc-8e6164e3d123": {
+   "agentless_prompt": {
+    "chars": 103320,
+    "chars3_5_heuristic_tokens": 29520,
+    "chars4_heuristic_tokens": 25830,
+    "frozen_deterministic_tokens": 10793
+   },
+   "agentless_structure_py_files": 2591,
+   "parent_commit": "570e51a78e1ebb7a9d0c828239d333a498e544a6",
+   "sip_prompt": {
+    "chars": 73093,
+    "chars3_5_heuristic_tokens": 20883,
+    "chars4_heuristic_tokens": 18273,
+    "frozen_deterministic_tokens": 10259
+   }
+  },
+  "saleor-rc-8eb11da07f09": {
+   "agentless_prompt": {
+    "chars": 94207,
+    "chars3_5_heuristic_tokens": 26916,
+    "chars4_heuristic_tokens": 23551,
+    "frozen_deterministic_tokens": 9797
+   },
+   "agentless_structure_py_files": 2429,
+   "parent_commit": "bdb2f9d05d339fb0f07d9aa6946c60284b08a836",
+   "sip_prompt": {
+    "chars": 68826,
+    "chars3_5_heuristic_tokens": 19664,
+    "chars4_heuristic_tokens": 17206,
+    "frozen_deterministic_tokens": 9686
+   }
+  },
+  "saleor-rc-8f99df03562b": {
+   "agentless_prompt": {
+    "chars": 35194,
+    "chars3_5_heuristic_tokens": 10055,
+    "chars4_heuristic_tokens": 8798,
+    "frozen_deterministic_tokens": 3751
+   },
+   "agentless_structure_py_files": 1018,
+   "parent_commit": "cd352b906183693b949ef2de919105b4eab22cd4",
+   "sip_prompt": {
+    "chars": 34407,
+    "chars3_5_heuristic_tokens": 9830,
+    "chars4_heuristic_tokens": 8601,
+    "frozen_deterministic_tokens": 4895
+   }
+  },
+  "saleor-rc-9057e82cea23": {
+   "agentless_prompt": {
+    "chars": 34831,
+    "chars3_5_heuristic_tokens": 9951,
+    "chars4_heuristic_tokens": 8707,
+    "frozen_deterministic_tokens": 3714
+   },
+   "agentless_structure_py_files": 1007,
+   "parent_commit": "9c7a8b4b8aa8d8a50d5ff0f5c15365c1a5c89f1d",
+   "sip_prompt": {
+    "chars": 34173,
+    "chars3_5_heuristic_tokens": 9763,
+    "chars4_heuristic_tokens": 8543,
+    "frozen_deterministic_tokens": 4868
+   }
+  },
+  "saleor-rc-940b759d6c6f": {
+   "agentless_prompt": {
+    "chars": 63684,
+    "chars3_5_heuristic_tokens": 18195,
+    "chars4_heuristic_tokens": 15921,
+    "frozen_deterministic_tokens": 6732
+   },
+   "agentless_structure_py_files": 1735,
+   "parent_commit": "e390d38cd89a5098ac8f110d55609456a238c1db",
+   "sip_prompt": {
+    "chars": 51272,
+    "chars3_5_heuristic_tokens": 14649,
+    "chars4_heuristic_tokens": 12818,
+    "frozen_deterministic_tokens": 7257
+   }
+  },
+  "saleor-rc-940b8d83ec5c": {
+   "agentless_prompt": {
+    "chars": 95464,
+    "chars3_5_heuristic_tokens": 27275,
+    "chars4_heuristic_tokens": 23866,
+    "frozen_deterministic_tokens": 9938
+   },
+   "agentless_structure_py_files": 2432,
+   "parent_commit": "f6d2a71ff9620a40017dc8a634a7822cbcc19285",
+   "sip_prompt": {
+    "chars": 69977,
+    "chars3_5_heuristic_tokens": 19993,
+    "chars4_heuristic_tokens": 17494,
+    "frozen_deterministic_tokens": 9814
+   }
+  },
+  "saleor-rc-954887b39f13": {
+   "agentless_prompt": {
+    "chars": 94431,
+    "chars3_5_heuristic_tokens": 26980,
+    "chars4_heuristic_tokens": 23607,
+    "frozen_deterministic_tokens": 9826
+   },
+   "agentless_structure_py_files": 2430,
+   "parent_commit": "07f8aad09d81408ffdc89b0980916c349d6a34ef",
+   "sip_prompt": {
+    "chars": 69058,
+    "chars3_5_heuristic_tokens": 19730,
+    "chars4_heuristic_tokens": 17264,
+    "frozen_deterministic_tokens": 9718
+   }
+  },
+  "saleor-rc-95db464ad4ea": {
+   "agentless_prompt": {
+    "chars": 66300,
+    "chars3_5_heuristic_tokens": 18942,
+    "chars4_heuristic_tokens": 16575,
+    "frozen_deterministic_tokens": 7009
+   },
+   "agentless_structure_py_files": 1792,
+   "parent_commit": "ef6d403325fef9a9a0df34ca624dd7423ae31689",
+   "sip_prompt": {
+    "chars": 52933,
+    "chars3_5_heuristic_tokens": 15123,
+    "chars4_heuristic_tokens": 13233,
+    "frozen_deterministic_tokens": 7490
+   }
+  },
+  "saleor-rc-95dbffbc523a": {
+   "agentless_prompt": {
+    "chars": 95683,
+    "chars3_5_heuristic_tokens": 27338,
+    "chars4_heuristic_tokens": 23920,
+    "frozen_deterministic_tokens": 9950
+   },
+   "agentless_structure_py_files": 2466,
+   "parent_commit": "ffe3a3ece0fb29cfbb7c02a032c86da31d17e8b3",
+   "sip_prompt": {
+    "chars": 69872,
+    "chars3_5_heuristic_tokens": 19963,
+    "chars4_heuristic_tokens": 17468,
+    "frozen_deterministic_tokens": 9834
+   }
+  },
+  "saleor-rc-9701eb8d7ec2": {
+   "agentless_prompt": {
+    "chars": 32433,
+    "chars3_5_heuristic_tokens": 9266,
+    "chars4_heuristic_tokens": 8108,
+    "frozen_deterministic_tokens": 3467
+   },
+   "agentless_structure_py_files": 945,
+   "parent_commit": "a5d729d2f0e52cdb256b41a34d4bce3ef0adfa8c",
+   "sip_prompt": {
+    "chars": 33116,
+    "chars3_5_heuristic_tokens": 9461,
+    "chars4_heuristic_tokens": 8279,
+    "frozen_deterministic_tokens": 4765
+   }
+  },
+  "saleor-rc-99041211cf9e": {
+   "agentless_prompt": {
+    "chars": 31702,
+    "chars3_5_heuristic_tokens": 9057,
+    "chars4_heuristic_tokens": 7925,
+    "frozen_deterministic_tokens": 3377
+   },
+   "agentless_structure_py_files": 926,
+   "parent_commit": "04f852ab9452fab6826a0945e09e00bfee97ea6b",
+   "sip_prompt": {
+    "chars": 32677,
+    "chars3_5_heuristic_tokens": 9336,
+    "chars4_heuristic_tokens": 8169,
+    "frozen_deterministic_tokens": 4740
+   }
+  },
+  "saleor-rc-99f9e28f8b6f": {
+   "agentless_prompt": {
+    "chars": 85802,
+    "chars3_5_heuristic_tokens": 24514,
+    "chars4_heuristic_tokens": 21450,
+    "frozen_deterministic_tokens": 8892
+   },
+   "agentless_structure_py_files": 2245,
+   "parent_commit": "594b8e8e3b847cf821ecd8637f16abce411264e0",
+   "sip_prompt": {
+    "chars": 65787,
+    "chars3_5_heuristic_tokens": 18796,
+    "chars4_heuristic_tokens": 16446,
+    "frozen_deterministic_tokens": 9238
+   }
+  },
+  "saleor-rc-9abf7176cfdc": {
+   "agentless_prompt": {
+    "chars": 35153,
+    "chars3_5_heuristic_tokens": 10043,
+    "chars4_heuristic_tokens": 8788,
+    "frozen_deterministic_tokens": 3747
+   },
+   "agentless_structure_py_files": 1018,
+   "parent_commit": "fe3706a620e932a8cd1ff6dca57edf9ef51a81a9",
+   "sip_prompt": {
+    "chars": 34366,
+    "chars3_5_heuristic_tokens": 9818,
+    "chars4_heuristic_tokens": 8591,
+    "frozen_deterministic_tokens": 4891
+   }
+  },
+  "saleor-rc-9b88221ba8c2": {
+   "agentless_prompt": {
+    "chars": 51380,
+    "chars3_5_heuristic_tokens": 14680,
+    "chars4_heuristic_tokens": 12845,
+    "frozen_deterministic_tokens": 5506
+   },
+   "agentless_structure_py_files": 1429,
+   "parent_commit": "1a78e37e24738b7d48f4f3bf48f6be7387c80f43",
+   "sip_prompt": {
+    "chars": 41980,
+    "chars3_5_heuristic_tokens": 11994,
+    "chars4_heuristic_tokens": 10495,
+    "frozen_deterministic_tokens": 5976
+   }
+  },
+  "saleor-rc-9b96c1602b1f": {
+   "agentless_prompt": {
+    "chars": 61826,
+    "chars3_5_heuristic_tokens": 17664,
+    "chars4_heuristic_tokens": 15456,
+    "frozen_deterministic_tokens": 6539
+   },
+   "agentless_structure_py_files": 1689,
+   "parent_commit": "b7b423c15e85e5b19cda1ae7ef976e2ffcfba117",
+   "sip_prompt": {
+    "chars": 49799,
+    "chars3_5_heuristic_tokens": 14228,
+    "chars4_heuristic_tokens": 12449,
+    "frozen_deterministic_tokens": 7048
+   }
+  },
+  "saleor-rc-9bc1b1134cc3": {
+   "agentless_prompt": {
+    "chars": 90712,
+    "chars3_5_heuristic_tokens": 25917,
+    "chars4_heuristic_tokens": 22678,
+    "frozen_deterministic_tokens": 9419
+   },
+   "agentless_structure_py_files": 2349,
+   "parent_commit": "0c76055f831d7048f0e43d9a52fde737cd0b4369",
+   "sip_prompt": {
+    "chars": 67423,
+    "chars3_5_heuristic_tokens": 19263,
+    "chars4_heuristic_tokens": 16855,
+    "frozen_deterministic_tokens": 9481
+   }
+  },
+  "saleor-rc-9c032845e29b": {
+   "agentless_prompt": {
+    "chars": 86737,
+    "chars3_5_heuristic_tokens": 24782,
+    "chars4_heuristic_tokens": 21684,
+    "frozen_deterministic_tokens": 8982
+   },
+   "agentless_structure_py_files": 2261,
+   "parent_commit": "6f12f721d271f6cd1757a88100ed76d0636df202",
+   "sip_prompt": {
+    "chars": 66260,
+    "chars3_5_heuristic_tokens": 18931,
+    "chars4_heuristic_tokens": 16565,
+    "frozen_deterministic_tokens": 9302
+   }
+  },
+  "saleor-rc-a11ed9984b87": {
+   "agentless_prompt": {
+    "chars": 95496,
+    "chars3_5_heuristic_tokens": 27284,
+    "chars4_heuristic_tokens": 23874,
+    "frozen_deterministic_tokens": 9934
+   },
+   "agentless_structure_py_files": 2460,
+   "parent_commit": "e95b19d0e9bdd38d26334e633ffa00ecfb445566",
+   "sip_prompt": {
+    "chars": 69921,
+    "chars3_5_heuristic_tokens": 19977,
+    "chars4_heuristic_tokens": 17480,
+    "frozen_deterministic_tokens": 9840
+   }
+  },
+  "saleor-rc-a17f11cf7e87": {
+   "agentless_prompt": {
+    "chars": 42203,
+    "chars3_5_heuristic_tokens": 12058,
+    "chars4_heuristic_tokens": 10550,
+    "frozen_deterministic_tokens": 4530
+   },
+   "agentless_structure_py_files": 1206,
+   "parent_commit": "54bbb04b895460cb88d624edb49eb37596d66e30",
+   "sip_prompt": {
+    "chars": 37013,
+    "chars3_5_heuristic_tokens": 10575,
+    "chars4_heuristic_tokens": 9253,
+    "frozen_deterministic_tokens": 5291
+   }
+  },
+  "saleor-rc-a1e1e2554327": {
+   "agentless_prompt": {
+    "chars": 91890,
+    "chars3_5_heuristic_tokens": 26254,
+    "chars4_heuristic_tokens": 22972,
+    "frozen_deterministic_tokens": 9551
+   },
+   "agentless_structure_py_files": 2372,
+   "parent_commit": "474c0c4f52a92ff2c4299a775aea8887387b84e1",
+   "sip_prompt": {
+    "chars": 67878,
+    "chars3_5_heuristic_tokens": 19393,
+    "chars4_heuristic_tokens": 16969,
+    "frozen_deterministic_tokens": 9546
+   }
+  },
+  "saleor-rc-a25c73e9f74b": {
+   "agentless_prompt": {
+    "chars": 81366,
+    "chars3_5_heuristic_tokens": 23247,
+    "chars4_heuristic_tokens": 20341,
+    "frozen_deterministic_tokens": 8422
+   },
+   "agentless_structure_py_files": 2144,
+   "parent_commit": "5b95bbf929aad091032a2faeba54f21d2fe68b4d",
+   "sip_prompt": {
+    "chars": 65214,
+    "chars3_5_heuristic_tokens": 18632,
+    "chars4_heuristic_tokens": 16303,
+    "frozen_deterministic_tokens": 9152
+   }
+  },
+  "saleor-rc-a36d8a8d0c0c": {
+   "agentless_prompt": {
+    "chars": 78869,
+    "chars3_5_heuristic_tokens": 22534,
+    "chars4_heuristic_tokens": 19717,
+    "frozen_deterministic_tokens": 8149
+   },
+   "agentless_structure_py_files": 2084,
+   "parent_commit": "d0dfacb56283f5b614dbd1af0a0b10d64002bcf1",
+   "sip_prompt": {
+    "chars": 65518,
+    "chars3_5_heuristic_tokens": 18719,
+    "chars4_heuristic_tokens": 16379,
+    "frozen_deterministic_tokens": 9183
+   }
+  },
+  "saleor-rc-a576e993bab7": {
+   "agentless_prompt": {
+    "chars": 71802,
+    "chars3_5_heuristic_tokens": 20514,
+    "chars4_heuristic_tokens": 17950,
+    "frozen_deterministic_tokens": 7494
+   },
+   "agentless_structure_py_files": 1920,
+   "parent_commit": "d7a707f8aec18d38e6e90f462ce9175b5937833e",
+   "sip_prompt": {
+    "chars": 59786,
+    "chars3_5_heuristic_tokens": 17081,
+    "chars4_heuristic_tokens": 14946,
+    "frozen_deterministic_tokens": 8422
+   }
+  },
+  "saleor-rc-a5e831779345": {
+   "agentless_prompt": {
+    "chars": 37435,
+    "chars3_5_heuristic_tokens": 10695,
+    "chars4_heuristic_tokens": 9358,
+    "frozen_deterministic_tokens": 4013
+   },
+   "agentless_structure_py_files": 1086,
+   "parent_commit": "86aecd86220263ec456a33591357b07027ce0e0c",
+   "sip_prompt": {
+    "chars": 35383,
+    "chars3_5_heuristic_tokens": 10109,
+    "chars4_heuristic_tokens": 8845,
+    "frozen_deterministic_tokens": 5054
+   }
+  },
+  "saleor-rc-a650f8f05c02": {
+   "agentless_prompt": {
+    "chars": 75296,
+    "chars3_5_heuristic_tokens": 21513,
+    "chars4_heuristic_tokens": 18824,
+    "frozen_deterministic_tokens": 7809
+   },
+   "agentless_structure_py_files": 2002,
+   "parent_commit": "dfca812042037dc33b7d856828ed86689ae86e82",
+   "sip_prompt": {
+    "chars": 63758,
+    "chars3_5_heuristic_tokens": 18216,
+    "chars4_heuristic_tokens": 15939,
+    "frozen_deterministic_tokens": 8952
+   }
+  },
+  "saleor-rc-a6c09d5579d6": {
+   "agentless_prompt": {
+    "chars": 82081,
+    "chars3_5_heuristic_tokens": 23451,
+    "chars4_heuristic_tokens": 20520,
+    "frozen_deterministic_tokens": 8505
+   },
+   "agentless_structure_py_files": 2156,
+   "parent_commit": "52cb0e00895760c16277e3d9cad63b867f313242",
+   "sip_prompt": {
+    "chars": 65424,
+    "chars3_5_heuristic_tokens": 18692,
+    "chars4_heuristic_tokens": 16356,
+    "frozen_deterministic_tokens": 9179
+   }
+  },
+  "saleor-rc-a7a2bf4146ba": {
+   "agentless_prompt": {
+    "chars": 55886,
+    "chars3_5_heuristic_tokens": 15967,
+    "chars4_heuristic_tokens": 13971,
+    "frozen_deterministic_tokens": 5969
+   },
+   "agentless_structure_py_files": 1540,
+   "parent_commit": "bac19498f13b7b1c38e8b2a6e3f14bac48faabe7",
+   "sip_prompt": {
+    "chars": 44828,
+    "chars3_5_heuristic_tokens": 12808,
+    "chars4_heuristic_tokens": 11207,
+    "frozen_deterministic_tokens": 6354
+   }
+  },
+  "saleor-rc-a9121e630814": {
+   "agentless_prompt": {
+    "chars": 55484,
+    "chars3_5_heuristic_tokens": 15852,
+    "chars4_heuristic_tokens": 13871,
+    "frozen_deterministic_tokens": 5926
+   },
+   "agentless_structure_py_files": 1536,
+   "parent_commit": "81c1d741fc24bebf0ac4025f7cbccc0862bb2d5a",
+   "sip_prompt": {
+    "chars": 44536,
+    "chars3_5_heuristic_tokens": 12724,
+    "chars4_heuristic_tokens": 11134,
+    "frozen_deterministic_tokens": 6321
+   }
+  },
+  "saleor-rc-a93a877388ae": {
+   "agentless_prompt": {
+    "chars": 37342,
+    "chars3_5_heuristic_tokens": 10669,
+    "chars4_heuristic_tokens": 9335,
+    "frozen_deterministic_tokens": 3999
+   },
+   "agentless_structure_py_files": 1079,
+   "parent_commit": "745b92f1f302726fd5e53da3a4c41302d9d7dd06",
+   "sip_prompt": {
+    "chars": 35388,
+    "chars3_5_heuristic_tokens": 10110,
+    "chars4_heuristic_tokens": 8847,
+    "frozen_deterministic_tokens": 5046
+   }
+  },
+  "saleor-rc-a9e79dac40a2": {
+   "agentless_prompt": {
+    "chars": 91130,
+    "chars3_5_heuristic_tokens": 26037,
+    "chars4_heuristic_tokens": 22782,
+    "frozen_deterministic_tokens": 9461
+   },
+   "agentless_structure_py_files": 2353,
+   "parent_commit": "ccd3960acd1d058528d9796c2b9ff096f28d848e",
+   "sip_prompt": {
+    "chars": 67767,
+    "chars3_5_heuristic_tokens": 19362,
+    "chars4_heuristic_tokens": 16941,
+    "frozen_deterministic_tokens": 9519
+   }
+  },
+  "saleor-rc-aa2bcdd0c218": {
+   "agentless_prompt": {
+    "chars": 38255,
+    "chars3_5_heuristic_tokens": 10930,
+    "chars4_heuristic_tokens": 9563,
+    "frozen_deterministic_tokens": 4110
+   },
+   "agentless_structure_py_files": 1105,
+   "parent_commit": "9d2b2cdd72c40b4841cf4101f4fb125e3b396250",
+   "sip_prompt": {
+    "chars": 35401,
+    "chars3_5_heuristic_tokens": 10114,
+    "chars4_heuristic_tokens": 8850,
+    "frozen_deterministic_tokens": 5057
+   }
+  },
+  "saleor-rc-aa814bd5f355": {
+   "agentless_prompt": {
+    "chars": 87287,
+    "chars3_5_heuristic_tokens": 24939,
+    "chars4_heuristic_tokens": 21821,
+    "frozen_deterministic_tokens": 9041
+   },
+   "agentless_structure_py_files": 2261,
+   "parent_commit": "15d39085ad767b294ba6d83935247f67597efbe1",
+   "sip_prompt": {
+    "chars": 66810,
+    "chars3_5_heuristic_tokens": 19088,
+    "chars4_heuristic_tokens": 16702,
+    "frozen_deterministic_tokens": 9361
+   }
+  },
+  "saleor-rc-ab6c29ba265d": {
+   "agentless_prompt": {
+    "chars": 32379,
+    "chars3_5_heuristic_tokens": 9251,
+    "chars4_heuristic_tokens": 8094,
+    "frozen_deterministic_tokens": 3458
+   },
+   "agentless_structure_py_files": 944,
+   "parent_commit": "46757ac242b983a6fbae76e0f56d58928743e1ab",
+   "sip_prompt": {
+    "chars": 33101,
+    "chars3_5_heuristic_tokens": 9457,
+    "chars4_heuristic_tokens": 8275,
+    "frozen_deterministic_tokens": 4761
+   }
+  },
+  "saleor-rc-add4064d238e": {
+   "agentless_prompt": {
+    "chars": 35887,
+    "chars3_5_heuristic_tokens": 10253,
+    "chars4_heuristic_tokens": 8971,
+    "frozen_deterministic_tokens": 3833
+   },
+   "agentless_structure_py_files": 1034,
+   "parent_commit": "68c4e1aa57989854807f841a1f55dcf6e754b29c",
+   "sip_prompt": {
+    "chars": 34806,
+    "chars3_5_heuristic_tokens": 9944,
+    "chars4_heuristic_tokens": 8701,
+    "frozen_deterministic_tokens": 4951
+   }
+  },
+  "saleor-rc-aea05da547c8": {
+   "agentless_prompt": {
+    "chars": 86667,
+    "chars3_5_heuristic_tokens": 24762,
+    "chars4_heuristic_tokens": 21666,
+    "frozen_deterministic_tokens": 8978
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "e7a1f97043f9326d64c0f67f123e6b4f35dfd210",
+   "sip_prompt": {
+    "chars": 66052,
+    "chars3_5_heuristic_tokens": 18872,
+    "chars4_heuristic_tokens": 16513,
+    "frozen_deterministic_tokens": 9282
+   }
+  },
+  "saleor-rc-b0245506e69b": {
+   "agentless_prompt": {
+    "chars": 73501,
+    "chars3_5_heuristic_tokens": 21000,
+    "chars4_heuristic_tokens": 18375,
+    "frozen_deterministic_tokens": 7619
+   },
+   "agentless_structure_py_files": 1961,
+   "parent_commit": "b6a4fab72aba91e8894dcbe9b38c0b7abfc0f205",
+   "sip_prompt": {
+    "chars": 62641,
+    "chars3_5_heuristic_tokens": 17897,
+    "chars4_heuristic_tokens": 15660,
+    "frozen_deterministic_tokens": 8796
+   }
+  },
+  "saleor-rc-b0672eea0422": {
+   "agentless_prompt": {
+    "chars": 47741,
+    "chars3_5_heuristic_tokens": 13640,
+    "chars4_heuristic_tokens": 11935,
+    "frozen_deterministic_tokens": 5119
+   },
+   "agentless_structure_py_files": 1347,
+   "parent_commit": "87531ade76bd2d04f35354fa3ef5672df995fea9",
+   "sip_prompt": {
+    "chars": 40001,
+    "chars3_5_heuristic_tokens": 11428,
+    "chars4_heuristic_tokens": 10000,
+    "frozen_deterministic_tokens": 5703
+   }
+  },
+  "saleor-rc-b2622810adf1": {
+   "agentless_prompt": {
+    "chars": 38751,
+    "chars3_5_heuristic_tokens": 11071,
+    "chars4_heuristic_tokens": 9687,
+    "frozen_deterministic_tokens": 4158
+   },
+   "agentless_structure_py_files": 1115,
+   "parent_commit": "5eaf1975645e2afe163a073506e066b140e1c91a",
+   "sip_prompt": {
+    "chars": 35720,
+    "chars3_5_heuristic_tokens": 10205,
+    "chars4_heuristic_tokens": 8930,
+    "frozen_deterministic_tokens": 5094
+   }
+  },
+  "saleor-rc-b2e3652af826": {
+   "agentless_prompt": {
+    "chars": 55000,
+    "chars3_5_heuristic_tokens": 15714,
+    "chars4_heuristic_tokens": 13750,
+    "frozen_deterministic_tokens": 5876
+   },
+   "agentless_structure_py_files": 1525,
+   "parent_commit": "b88bf39c5504b9705237b8e4fd376082e10e6f69",
+   "sip_prompt": {
+    "chars": 44232,
+    "chars3_5_heuristic_tokens": 12637,
+    "chars4_heuristic_tokens": 11058,
+    "frozen_deterministic_tokens": 6279
+   }
+  },
+  "saleor-rc-b356a525ba2a": {
+   "agentless_prompt": {
+    "chars": 96653,
+    "chars3_5_heuristic_tokens": 27615,
+    "chars4_heuristic_tokens": 24163,
+    "frozen_deterministic_tokens": 10050
+   },
+   "agentless_structure_py_files": 2481,
+   "parent_commit": "68e80f40e6a4f670a2a4b5265cc94db4b0a35cfa",
+   "sip_prompt": {
+    "chars": 70297,
+    "chars3_5_heuristic_tokens": 20084,
+    "chars4_heuristic_tokens": 17574,
+    "frozen_deterministic_tokens": 9887
+   }
+  },
+  "saleor-rc-b35783838e51": {
+   "agentless_prompt": {
+    "chars": 94387,
+    "chars3_5_heuristic_tokens": 26967,
+    "chars4_heuristic_tokens": 23596,
+    "frozen_deterministic_tokens": 9818
+   },
+   "agentless_structure_py_files": 2433,
+   "parent_commit": "e7e1907c2e9911f339871a3e9edfbd9ea139b1bc",
+   "sip_prompt": {
+    "chars": 68907,
+    "chars3_5_heuristic_tokens": 19687,
+    "chars4_heuristic_tokens": 17226,
+    "frozen_deterministic_tokens": 9698
+   }
+  },
+  "saleor-rc-b41168d9077d": {
+   "agentless_prompt": {
+    "chars": 82844,
+    "chars3_5_heuristic_tokens": 23669,
+    "chars4_heuristic_tokens": 20711,
+    "frozen_deterministic_tokens": 8582
+   },
+   "agentless_structure_py_files": 2175,
+   "parent_commit": "02236f6b1603a0fc4abb2f2eb8f2301685a6d86e",
+   "sip_prompt": {
+    "chars": 65215,
+    "chars3_5_heuristic_tokens": 18632,
+    "chars4_heuristic_tokens": 16303,
+    "frozen_deterministic_tokens": 9154
+   }
+  },
+  "saleor-rc-b60266933f7a": {
+   "agentless_prompt": {
+    "chars": 39663,
+    "chars3_5_heuristic_tokens": 11332,
+    "chars4_heuristic_tokens": 9915,
+    "frozen_deterministic_tokens": 4252
+   },
+   "agentless_structure_py_files": 1138,
+   "parent_commit": "0bf31765e60adbc2c648f2dd8f920ffe9095cb4a",
+   "sip_prompt": {
+    "chars": 36255,
+    "chars3_5_heuristic_tokens": 10358,
+    "chars4_heuristic_tokens": 9063,
+    "frozen_deterministic_tokens": 5173
+   }
+  },
+  "saleor-rc-b79cf8f91f04": {
+   "agentless_prompt": {
+    "chars": 88118,
+    "chars3_5_heuristic_tokens": 25176,
+    "chars4_heuristic_tokens": 22029,
+    "frozen_deterministic_tokens": 9139
+   },
+   "agentless_structure_py_files": 2293,
+   "parent_commit": "5646e7c4fbaaebb2260d2183cdbc65499bbefc59",
+   "sip_prompt": {
+    "chars": 66956,
+    "chars3_5_heuristic_tokens": 19130,
+    "chars4_heuristic_tokens": 16739,
+    "frozen_deterministic_tokens": 9407
+   }
+  },
+  "saleor-rc-b84bf6595f49": {
+   "agentless_prompt": {
+    "chars": 83614,
+    "chars3_5_heuristic_tokens": 23889,
+    "chars4_heuristic_tokens": 20903,
+    "frozen_deterministic_tokens": 8663
+   },
+   "agentless_structure_py_files": 2189,
+   "parent_commit": "62870077870790b5367c516ceef576c087fd9574",
+   "sip_prompt": {
+    "chars": 65360,
+    "chars3_5_heuristic_tokens": 18674,
+    "chars4_heuristic_tokens": 16340,
+    "frozen_deterministic_tokens": 9168
+   }
+  },
+  "saleor-rc-b8786c1bf4d3": {
+   "agentless_prompt": {
+    "chars": 61887,
+    "chars3_5_heuristic_tokens": 17682,
+    "chars4_heuristic_tokens": 15471,
+    "frozen_deterministic_tokens": 6545
+   },
+   "agentless_structure_py_files": 1690,
+   "parent_commit": "bf7d29c1f4093577c3e08738a6d9da9de388f403",
+   "sip_prompt": {
+    "chars": 49820,
+    "chars3_5_heuristic_tokens": 14234,
+    "chars4_heuristic_tokens": 12455,
+    "frozen_deterministic_tokens": 7049
+   }
+  },
+  "saleor-rc-b97d1d9c7064": {
+   "agentless_prompt": {
+    "chars": 93278,
+    "chars3_5_heuristic_tokens": 26650,
+    "chars4_heuristic_tokens": 23319,
+    "frozen_deterministic_tokens": 9712
+   },
+   "agentless_structure_py_files": 2404,
+   "parent_commit": "1cb32c1b70731af728ff9cb3729d4925e5d748ca",
+   "sip_prompt": {
+    "chars": 68195,
+    "chars3_5_heuristic_tokens": 19484,
+    "chars4_heuristic_tokens": 17048,
+    "frozen_deterministic_tokens": 9597
+   }
+  },
+  "saleor-rc-ba0f225cc7d3": {
+   "agentless_prompt": {
+    "chars": 82843,
+    "chars3_5_heuristic_tokens": 23669,
+    "chars4_heuristic_tokens": 20710,
+    "frozen_deterministic_tokens": 8580
+   },
+   "agentless_structure_py_files": 2177,
+   "parent_commit": "d0ab3ca2b5a4080c993bb0fc90b0330bbff29ca8",
+   "sip_prompt": {
+    "chars": 65217,
+    "chars3_5_heuristic_tokens": 18633,
+    "chars4_heuristic_tokens": 16304,
+    "frozen_deterministic_tokens": 9155
+   }
+  },
+  "saleor-rc-ba4ff17faab4": {
+   "agentless_prompt": {
+    "chars": 36288,
+    "chars3_5_heuristic_tokens": 10368,
+    "chars4_heuristic_tokens": 9072,
+    "frozen_deterministic_tokens": 3889
+   },
+   "agentless_structure_py_files": 1047,
+   "parent_commit": "0ea29888230782e1cf94387733daf8853b7b44d1",
+   "sip_prompt": {
+    "chars": 34295,
+    "chars3_5_heuristic_tokens": 9798,
+    "chars4_heuristic_tokens": 8573,
+    "frozen_deterministic_tokens": 4889
+   }
+  },
+  "saleor-rc-bcd9f60d2aef": {
+   "agentless_prompt": {
+    "chars": 56289,
+    "chars3_5_heuristic_tokens": 16082,
+    "chars4_heuristic_tokens": 14072,
+    "frozen_deterministic_tokens": 6014
+   },
+   "agentless_structure_py_files": 1549,
+   "parent_commit": "938f0c027422449bf39b9a0962149ba4204f24a2",
+   "sip_prompt": {
+    "chars": 44829,
+    "chars3_5_heuristic_tokens": 12808,
+    "chars4_heuristic_tokens": 11207,
+    "frozen_deterministic_tokens": 6353
+   }
+  },
+  "saleor-rc-bd0c56fc787e": {
+   "agentless_prompt": {
+    "chars": 41053,
+    "chars3_5_heuristic_tokens": 11729,
+    "chars4_heuristic_tokens": 10263,
+    "frozen_deterministic_tokens": 4410
+   },
+   "agentless_structure_py_files": 1179,
+   "parent_commit": "753140cda1727f3180374254319df62ed25980c6",
+   "sip_prompt": {
+    "chars": 36305,
+    "chars3_5_heuristic_tokens": 10372,
+    "chars4_heuristic_tokens": 9076,
+    "frozen_deterministic_tokens": 5202
+   }
+  },
+  "saleor-rc-bd11af3ea0a4": {
+   "agentless_prompt": {
+    "chars": 90854,
+    "chars3_5_heuristic_tokens": 25958,
+    "chars4_heuristic_tokens": 22713,
+    "frozen_deterministic_tokens": 9433
+   },
+   "agentless_structure_py_files": 2349,
+   "parent_commit": "d73ce407c2f1b1d5d7c4b5ab13dcc770751ded12",
+   "sip_prompt": {
+    "chars": 67565,
+    "chars3_5_heuristic_tokens": 19304,
+    "chars4_heuristic_tokens": 16891,
+    "frozen_deterministic_tokens": 9495
+   }
+  },
+  "saleor-rc-bd64d6fdbe4b": {
+   "agentless_prompt": {
+    "chars": 68143,
+    "chars3_5_heuristic_tokens": 19469,
+    "chars4_heuristic_tokens": 17035,
+    "frozen_deterministic_tokens": 7183
+   },
+   "agentless_structure_py_files": 1841,
+   "parent_commit": "becbbdd78660859bc1b8cd424799aff72f1935e6",
+   "sip_prompt": {
+    "chars": 54423,
+    "chars3_5_heuristic_tokens": 15549,
+    "chars4_heuristic_tokens": 13605,
+    "frozen_deterministic_tokens": 7703
+   }
+  },
+  "saleor-rc-bdb2f9d05d33": {
+   "agentless_prompt": {
+    "chars": 94224,
+    "chars3_5_heuristic_tokens": 26921,
+    "chars4_heuristic_tokens": 23556,
+    "frozen_deterministic_tokens": 9799
+   },
+   "agentless_structure_py_files": 2429,
+   "parent_commit": "d273fd97a46ac0c5a009816dc6bab1147adb4b2d",
+   "sip_prompt": {
+    "chars": 68843,
+    "chars3_5_heuristic_tokens": 19669,
+    "chars4_heuristic_tokens": 17210,
+    "frozen_deterministic_tokens": 9688
+   }
+  },
+  "saleor-rc-bf938e731bd8": {
+   "agentless_prompt": {
+    "chars": 36870,
+    "chars3_5_heuristic_tokens": 10534,
+    "chars4_heuristic_tokens": 9217,
+    "frozen_deterministic_tokens": 3947
+   },
+   "agentless_structure_py_files": 1065,
+   "parent_commit": "3e9470ff3e30a2b9991bf659d1dd42b5c89c8b4e",
+   "sip_prompt": {
+    "chars": 34973,
+    "chars3_5_heuristic_tokens": 9992,
+    "chars4_heuristic_tokens": 8743,
+    "frozen_deterministic_tokens": 4988
+   }
+  },
+  "saleor-rc-c0d4785abd74": {
+   "agentless_prompt": {
+    "chars": 75191,
+    "chars3_5_heuristic_tokens": 21483,
+    "chars4_heuristic_tokens": 18797,
+    "frozen_deterministic_tokens": 7801
+   },
+   "agentless_structure_py_files": 2000,
+   "parent_commit": "ac3e7b4bd2feded5220f21f847f69ea52e8113c7",
+   "sip_prompt": {
+    "chars": 63760,
+    "chars3_5_heuristic_tokens": 18217,
+    "chars4_heuristic_tokens": 15940,
+    "frozen_deterministic_tokens": 8952
+   }
+  },
+  "saleor-rc-c12e83aac8f6": {
+   "agentless_prompt": {
+    "chars": 83889,
+    "chars3_5_heuristic_tokens": 23968,
+    "chars4_heuristic_tokens": 20972,
+    "frozen_deterministic_tokens": 8696
+   },
+   "agentless_structure_py_files": 2190,
+   "parent_commit": "c5828cf6202042a07811e40802f5cc320ba4fa1d",
+   "sip_prompt": {
+    "chars": 65584,
+    "chars3_5_heuristic_tokens": 18738,
+    "chars4_heuristic_tokens": 16396,
+    "frozen_deterministic_tokens": 9195
+   }
+  },
+  "saleor-rc-c18e40f5b6f3": {
+   "agentless_prompt": {
+    "chars": 83714,
+    "chars3_5_heuristic_tokens": 23918,
+    "chars4_heuristic_tokens": 20928,
+    "frozen_deterministic_tokens": 8674
+   },
+   "agentless_structure_py_files": 2196,
+   "parent_commit": "d880b7956320ae33fe3ff1318617acae1dbf8013",
+   "sip_prompt": {
+    "chars": 65246,
+    "chars3_5_heuristic_tokens": 18641,
+    "chars4_heuristic_tokens": 16311,
+    "frozen_deterministic_tokens": 9159
+   }
+  },
+  "saleor-rc-c27cc94d06ff": {
+   "agentless_prompt": {
+    "chars": 55657,
+    "chars3_5_heuristic_tokens": 15902,
+    "chars4_heuristic_tokens": 13914,
+    "frozen_deterministic_tokens": 5948
+   },
+   "agentless_structure_py_files": 1541,
+   "parent_commit": "ceeb65c333e606bc2b23f191d0e9f450ee8ecf00",
+   "sip_prompt": {
+    "chars": 44559,
+    "chars3_5_heuristic_tokens": 12731,
+    "chars4_heuristic_tokens": 11139,
+    "frozen_deterministic_tokens": 6328
+   }
+  },
+  "saleor-rc-c31fb4cfd08f": {
+   "agentless_prompt": {
+    "chars": 95434,
+    "chars3_5_heuristic_tokens": 27266,
+    "chars4_heuristic_tokens": 23858,
+    "frozen_deterministic_tokens": 9926
+   },
+   "agentless_structure_py_files": 2460,
+   "parent_commit": "a11ed9984b877994ab32b21fabfff62ef501d407",
+   "sip_prompt": {
+    "chars": 69859,
+    "chars3_5_heuristic_tokens": 19959,
+    "chars4_heuristic_tokens": 17464,
+    "frozen_deterministic_tokens": 9832
+   }
+  },
+  "saleor-rc-c38263743e9e": {
+   "agentless_prompt": {
+    "chars": 77101,
+    "chars3_5_heuristic_tokens": 22028,
+    "chars4_heuristic_tokens": 19275,
+    "frozen_deterministic_tokens": 7961
+   },
+   "agentless_structure_py_files": 2049,
+   "parent_commit": "4a0bcd768f6de02aa41651251904ad84f9bd714d",
+   "sip_prompt": {
+    "chars": 65252,
+    "chars3_5_heuristic_tokens": 18643,
+    "chars4_heuristic_tokens": 16313,
+    "frozen_deterministic_tokens": 9147
+   }
+  },
+  "saleor-rc-c428b47bddc5": {
+   "agentless_prompt": {
+    "chars": 55737,
+    "chars3_5_heuristic_tokens": 15924,
+    "chars4_heuristic_tokens": 13934,
+    "frozen_deterministic_tokens": 5958
+   },
+   "agentless_structure_py_files": 1543,
+   "parent_commit": "c28b12323141208257338c3619a57bd2dc8b1922",
+   "sip_prompt": {
+    "chars": 44546,
+    "chars3_5_heuristic_tokens": 12727,
+    "chars4_heuristic_tokens": 11136,
+    "frozen_deterministic_tokens": 6327
+   }
+  },
+  "saleor-rc-c4dac9df4baf": {
+   "agentless_prompt": {
+    "chars": 80062,
+    "chars3_5_heuristic_tokens": 22874,
+    "chars4_heuristic_tokens": 20015,
+    "frozen_deterministic_tokens": 8282
+   },
+   "agentless_structure_py_files": 2109,
+   "parent_commit": "076b32ce4bb9962b4ef55c41d7ae31fbb568464c",
+   "sip_prompt": {
+    "chars": 65241,
+    "chars3_5_heuristic_tokens": 18640,
+    "chars4_heuristic_tokens": 16310,
+    "frozen_deterministic_tokens": 9144
+   }
+  },
+  "saleor-rc-c6220233ccb1": {
+   "agentless_prompt": {
+    "chars": 47893,
+    "chars3_5_heuristic_tokens": 13683,
+    "chars4_heuristic_tokens": 11973,
+    "frozen_deterministic_tokens": 5135
+   },
+   "agentless_structure_py_files": 1347,
+   "parent_commit": "65d4c832296490dbf4396db04f084d99bdcc89ae",
+   "sip_prompt": {
+    "chars": 40153,
+    "chars3_5_heuristic_tokens": 11472,
+    "chars4_heuristic_tokens": 10038,
+    "frozen_deterministic_tokens": 5719
+   }
+  },
+  "saleor-rc-c7207e71e0d3": {
+   "agentless_prompt": {
+    "chars": 54981,
+    "chars3_5_heuristic_tokens": 15708,
+    "chars4_heuristic_tokens": 13745,
+    "frozen_deterministic_tokens": 5873
+   },
+   "agentless_structure_py_files": 1525,
+   "parent_commit": "1748c77271a4746fdaf5688e918d1a68aa175379",
+   "sip_prompt": {
+    "chars": 44213,
+    "chars3_5_heuristic_tokens": 12632,
+    "chars4_heuristic_tokens": 11053,
+    "frozen_deterministic_tokens": 6276
+   }
+  },
+  "saleor-rc-c74d62286403": {
+   "agentless_prompt": {
+    "chars": 96422,
+    "chars3_5_heuristic_tokens": 27549,
+    "chars4_heuristic_tokens": 24105,
+    "frozen_deterministic_tokens": 10028
+   },
+   "agentless_structure_py_files": 2481,
+   "parent_commit": "0264b50a6f00c965168c8afc83e65fdd660ae968",
+   "sip_prompt": {
+    "chars": 70078,
+    "chars3_5_heuristic_tokens": 20022,
+    "chars4_heuristic_tokens": 17519,
+    "frozen_deterministic_tokens": 9865
+   }
+  },
+  "saleor-rc-c87441bb1464": {
+   "agentless_prompt": {
+    "chars": 41169,
+    "chars3_5_heuristic_tokens": 11762,
+    "chars4_heuristic_tokens": 10292,
+    "frozen_deterministic_tokens": 4423
+   },
+   "agentless_structure_py_files": 1182,
+   "parent_commit": "c0242fda91d7ec028f65054a37bc2a864d3526f7",
+   "sip_prompt": {
+    "chars": 36363,
+    "chars3_5_heuristic_tokens": 10389,
+    "chars4_heuristic_tokens": 9090,
+    "frozen_deterministic_tokens": 5208
+   }
+  },
+  "saleor-rc-c8d4cb2844e6": {
+   "agentless_prompt": {
+    "chars": 91953,
+    "chars3_5_heuristic_tokens": 26272,
+    "chars4_heuristic_tokens": 22988,
+    "frozen_deterministic_tokens": 9561
+   },
+   "agentless_structure_py_files": 2375,
+   "parent_commit": "d38c5f7025a2776a87e4444fcb8e10cdc1abb49e",
+   "sip_prompt": {
+    "chars": 67789,
+    "chars3_5_heuristic_tokens": 19368,
+    "chars4_heuristic_tokens": 16947,
+    "frozen_deterministic_tokens": 9536
+   }
+  },
+  "saleor-rc-c9c1cc0968d3": {
+   "agentless_prompt": {
+    "chars": 40790,
+    "chars3_5_heuristic_tokens": 11654,
+    "chars4_heuristic_tokens": 10197,
+    "frozen_deterministic_tokens": 4376
+   },
+   "agentless_structure_py_files": 1168,
+   "parent_commit": "e04d8fc23897c8c1cd8c0353e80ae52b7c41f36d",
+   "sip_prompt": {
+    "chars": 36386,
+    "chars3_5_heuristic_tokens": 10396,
+    "chars4_heuristic_tokens": 9096,
+    "frozen_deterministic_tokens": 5200
+   }
+  },
+  "saleor-rc-cae629dc4166": {
+   "agentless_prompt": {
+    "chars": 81075,
+    "chars3_5_heuristic_tokens": 23164,
+    "chars4_heuristic_tokens": 20268,
+    "frozen_deterministic_tokens": 8400
+   },
+   "agentless_structure_py_files": 2127,
+   "parent_commit": "cbd7310268c66f6b4ac8b1e60cc748669e947a70",
+   "sip_prompt": {
+    "chars": 65579,
+    "chars3_5_heuristic_tokens": 18736,
+    "chars4_heuristic_tokens": 16394,
+    "frozen_deterministic_tokens": 9193
+   }
+  },
+  "saleor-rc-cbd7310268c6": {
+   "agentless_prompt": {
+    "chars": 80664,
+    "chars3_5_heuristic_tokens": 23046,
+    "chars4_heuristic_tokens": 20166,
+    "frozen_deterministic_tokens": 8352
+   },
+   "agentless_structure_py_files": 2127,
+   "parent_commit": "195cc966886bc0d7a4818eb1da25de8b150c1fd7",
+   "sip_prompt": {
+    "chars": 65168,
+    "chars3_5_heuristic_tokens": 18619,
+    "chars4_heuristic_tokens": 16292,
+    "frozen_deterministic_tokens": 9145
+   }
+  },
+  "saleor-rc-ccd3960acd1d": {
+   "agentless_prompt": {
+    "chars": 91040,
+    "chars3_5_heuristic_tokens": 26011,
+    "chars4_heuristic_tokens": 22760,
+    "frozen_deterministic_tokens": 9453
+   },
+   "agentless_structure_py_files": 2353,
+   "parent_commit": "43f5ba1b48e59ef66cf2fe4f490b45e61aaa7222",
+   "sip_prompt": {
+    "chars": 67677,
+    "chars3_5_heuristic_tokens": 19336,
+    "chars4_heuristic_tokens": 16919,
+    "frozen_deterministic_tokens": 9511
+   }
+  },
+  "saleor-rc-cd076fed6118": {
+   "agentless_prompt": {
+    "chars": 32660,
+    "chars3_5_heuristic_tokens": 9331,
+    "chars4_heuristic_tokens": 8165,
+    "frozen_deterministic_tokens": 3487
+   },
+   "agentless_structure_py_files": 951,
+   "parent_commit": "c7debbec272c47b5e5202fa2ccb317beb98f3daa",
+   "sip_prompt": {
+    "chars": 33150,
+    "chars3_5_heuristic_tokens": 9471,
+    "chars4_heuristic_tokens": 8287,
+    "frozen_deterministic_tokens": 4768
+   }
+  },
+  "saleor-rc-cdcbd5cda46e": {
+   "agentless_prompt": {
+    "chars": 99087,
+    "chars3_5_heuristic_tokens": 28310,
+    "chars4_heuristic_tokens": 24771,
+    "frozen_deterministic_tokens": 10305
+   },
+   "agentless_structure_py_files": 2550,
+   "parent_commit": "94ea1418175967f4c1bf0c8731a1008bf9c6f1bf",
+   "sip_prompt": {
+    "chars": 71173,
+    "chars3_5_heuristic_tokens": 20335,
+    "chars4_heuristic_tokens": 17793,
+    "frozen_deterministic_tokens": 10037
+   }
+  },
+  "saleor-rc-ce3b63edecef": {
+   "agentless_prompt": {
+    "chars": 97534,
+    "chars3_5_heuristic_tokens": 27866,
+    "chars4_heuristic_tokens": 24383,
+    "frozen_deterministic_tokens": 10156
+   },
+   "agentless_structure_py_files": 2500,
+   "parent_commit": "a1bc6ba44cc977f4bff45b3164302d2b2555d754",
+   "sip_prompt": {
+    "chars": 70448,
+    "chars3_5_heuristic_tokens": 20128,
+    "chars4_heuristic_tokens": 17612,
+    "frozen_deterministic_tokens": 9915
+   }
+  },
+  "saleor-rc-cff241afc8d7": {
+   "agentless_prompt": {
+    "chars": 78195,
+    "chars3_5_heuristic_tokens": 22341,
+    "chars4_heuristic_tokens": 19548,
+    "frozen_deterministic_tokens": 8085
+   },
+   "agentless_structure_py_files": 2073,
+   "parent_commit": "b7f3deb08f40854327310f97566cd4e4c01a82c7",
+   "sip_prompt": {
+    "chars": 65402,
+    "chars3_5_heuristic_tokens": 18686,
+    "chars4_heuristic_tokens": 16350,
+    "frozen_deterministic_tokens": 9171
+   }
+  },
+  "saleor-rc-d24336188b88": {
+   "agentless_prompt": {
+    "chars": 96638,
+    "chars3_5_heuristic_tokens": 27610,
+    "chars4_heuristic_tokens": 24159,
+    "frozen_deterministic_tokens": 10052
+   },
+   "agentless_structure_py_files": 2487,
+   "parent_commit": "8ec5811aa3a833b991cb5c2f1efa3705e19c9f3a",
+   "sip_prompt": {
+    "chars": 70187,
+    "chars3_5_heuristic_tokens": 20053,
+    "chars4_heuristic_tokens": 17546,
+    "frozen_deterministic_tokens": 9882
+   }
+  },
+  "saleor-rc-d299e27e5f04": {
+   "agentless_prompt": {
+    "chars": 73802,
+    "chars3_5_heuristic_tokens": 21086,
+    "chars4_heuristic_tokens": 18450,
+    "frozen_deterministic_tokens": 7657
+   },
+   "agentless_structure_py_files": 1965,
+   "parent_commit": "a937b5b9701a898a7b97b05c2faec0e678376c1d",
+   "sip_prompt": {
+    "chars": 62970,
+    "chars3_5_heuristic_tokens": 17991,
+    "chars4_heuristic_tokens": 15742,
+    "frozen_deterministic_tokens": 8844
+   }
+  },
+  "saleor-rc-d361479ab7da": {
+   "agentless_prompt": {
+    "chars": 99079,
+    "chars3_5_heuristic_tokens": 28308,
+    "chars4_heuristic_tokens": 24769,
+    "frozen_deterministic_tokens": 10309
+   },
+   "agentless_structure_py_files": 2543,
+   "parent_commit": "e46cc8120e2265a30811a58f140f1f13bcbe1470",
+   "sip_prompt": {
+    "chars": 71436,
+    "chars3_5_heuristic_tokens": 20410,
+    "chars4_heuristic_tokens": 17859,
+    "frozen_deterministic_tokens": 10068
+   }
+  },
+  "saleor-rc-d3ab58054844": {
+   "agentless_prompt": {
+    "chars": 41083,
+    "chars3_5_heuristic_tokens": 11738,
+    "chars4_heuristic_tokens": 10270,
+    "frozen_deterministic_tokens": 4414
+   },
+   "agentless_structure_py_files": 1179,
+   "parent_commit": "0c6de141461fa8b7ff944ea0df74afa1ac72e04d",
+   "sip_prompt": {
+    "chars": 36335,
+    "chars3_5_heuristic_tokens": 10381,
+    "chars4_heuristic_tokens": 9083,
+    "frozen_deterministic_tokens": 5206
+   }
+  },
+  "saleor-rc-d498167dcd30": {
+   "agentless_prompt": {
+    "chars": 99709,
+    "chars3_5_heuristic_tokens": 28488,
+    "chars4_heuristic_tokens": 24927,
+    "frozen_deterministic_tokens": 10379
+   },
+   "agentless_structure_py_files": 2563,
+   "parent_commit": "853ed54e0526c4c22a9ac5ff90acceccb8c6143b",
+   "sip_prompt": {
+    "chars": 70828,
+    "chars3_5_heuristic_tokens": 20236,
+    "chars4_heuristic_tokens": 17707,
+    "frozen_deterministic_tokens": 9986
+   }
+  },
+  "saleor-rc-d4fcbd22a853": {
+   "agentless_prompt": {
+    "chars": 87524,
+    "chars3_5_heuristic_tokens": 25006,
+    "chars4_heuristic_tokens": 21881,
+    "frozen_deterministic_tokens": 9077
+   },
+   "agentless_structure_py_files": 2282,
+   "parent_commit": "1337f67b001927aac5c30854debdd1de8e6ccfcf",
+   "sip_prompt": {
+    "chars": 66514,
+    "chars3_5_heuristic_tokens": 19004,
+    "chars4_heuristic_tokens": 16628,
+    "frozen_deterministic_tokens": 9350
+   }
+  },
+  "saleor-rc-d6656e0f2a1d": {
+   "agentless_prompt": {
+    "chars": 99931,
+    "chars3_5_heuristic_tokens": 28551,
+    "chars4_heuristic_tokens": 24982,
+    "frozen_deterministic_tokens": 10404
+   },
+   "agentless_structure_py_files": 2569,
+   "parent_commit": "7700a81e6e6bf693085da3ad875157c468878a49",
+   "sip_prompt": {
+    "chars": 71138,
+    "chars3_5_heuristic_tokens": 20325,
+    "chars4_heuristic_tokens": 17784,
+    "frozen_deterministic_tokens": 10038
+   }
+  },
+  "saleor-rc-d78378d275dd": {
+   "agentless_prompt": {
+    "chars": 82080,
+    "chars3_5_heuristic_tokens": 23451,
+    "chars4_heuristic_tokens": 20520,
+    "frozen_deterministic_tokens": 8501
+   },
+   "agentless_structure_py_files": 2160,
+   "parent_commit": "01f6a116f8de0f439e687b4bdd9e8645610513b2",
+   "sip_prompt": {
+    "chars": 65238,
+    "chars3_5_heuristic_tokens": 18639,
+    "chars4_heuristic_tokens": 16309,
+    "frozen_deterministic_tokens": 9156
+   }
+  },
+  "saleor-rc-d7b03a3eeec0": {
+   "agentless_prompt": {
+    "chars": 88075,
+    "chars3_5_heuristic_tokens": 25164,
+    "chars4_heuristic_tokens": 22018,
+    "frozen_deterministic_tokens": 9130
+   },
+   "agentless_structure_py_files": 2291,
+   "parent_commit": "ffc07d1c48d62b60bb9c74760241232b13db3f77",
+   "sip_prompt": {
+    "chars": 67019,
+    "chars3_5_heuristic_tokens": 19148,
+    "chars4_heuristic_tokens": 16754,
+    "frozen_deterministic_tokens": 9411
+   }
+  },
+  "saleor-rc-d8a4cd122bf0": {
+   "agentless_prompt": {
+    "chars": 38552,
+    "chars3_5_heuristic_tokens": 11014,
+    "chars4_heuristic_tokens": 9638,
+    "frozen_deterministic_tokens": 4137
+   },
+   "agentless_structure_py_files": 1110,
+   "parent_commit": "b54d785cf83c3d41967cb22fa477a3fbcdda487a",
+   "sip_prompt": {
+    "chars": 35707,
+    "chars3_5_heuristic_tokens": 10202,
+    "chars4_heuristic_tokens": 8926,
+    "frozen_deterministic_tokens": 5091
+   }
+  },
+  "saleor-rc-dacded922b1f": {
+   "agentless_prompt": {
+    "chars": 86370,
+    "chars3_5_heuristic_tokens": 24677,
+    "chars4_heuristic_tokens": 21592,
+    "frozen_deterministic_tokens": 8946
+   },
+   "agentless_structure_py_files": 2259,
+   "parent_commit": "8d08f65fbf18abf97d424e2b4a186eb3a38071ed",
+   "sip_prompt": {
+    "chars": 65992,
+    "chars3_5_heuristic_tokens": 18854,
+    "chars4_heuristic_tokens": 16498,
+    "frozen_deterministic_tokens": 9277
+   }
+  },
+  "saleor-rc-db5440f7994f": {
+   "agentless_prompt": {
+    "chars": 100079,
+    "chars3_5_heuristic_tokens": 28594,
+    "chars4_heuristic_tokens": 25019,
+    "frozen_deterministic_tokens": 10423
+   },
+   "agentless_structure_py_files": 2571,
+   "parent_commit": "951f2690c8b6ba776141f5cc51b905f8b44c1869",
+   "sip_prompt": {
+    "chars": 71194,
+    "chars3_5_heuristic_tokens": 20341,
+    "chars4_heuristic_tokens": 17798,
+    "frozen_deterministic_tokens": 10047
+   }
+  },
+  "saleor-rc-dc08f06119f5": {
+   "agentless_prompt": {
+    "chars": 77097,
+    "chars3_5_heuristic_tokens": 22027,
+    "chars4_heuristic_tokens": 19274,
+    "frozen_deterministic_tokens": 7961
+   },
+   "agentless_structure_py_files": 2049,
+   "parent_commit": "9633a118aba1743efeb7a0f99a885d8139f7f851",
+   "sip_prompt": {
+    "chars": 65248,
+    "chars3_5_heuristic_tokens": 18642,
+    "chars4_heuristic_tokens": 16312,
+    "frozen_deterministic_tokens": 9147
+   }
+  },
+  "saleor-rc-dd8ead382526": {
+   "agentless_prompt": {
+    "chars": 63356,
+    "chars3_5_heuristic_tokens": 18101,
+    "chars4_heuristic_tokens": 15839,
+    "frozen_deterministic_tokens": 6701
+   },
+   "agentless_structure_py_files": 1725,
+   "parent_commit": "882536fe57d0f7b81efbb8db4095b37b1b2cd6cf",
+   "sip_prompt": {
+    "chars": 51165,
+    "chars3_5_heuristic_tokens": 14618,
+    "chars4_heuristic_tokens": 12791,
+    "frozen_deterministic_tokens": 7243
+   }
+  },
+  "saleor-rc-ddb8921a6744": {
+   "agentless_prompt": {
+    "chars": 80191,
+    "chars3_5_heuristic_tokens": 22911,
+    "chars4_heuristic_tokens": 20047,
+    "frozen_deterministic_tokens": 8297
+   },
+   "agentless_structure_py_files": 2115,
+   "parent_commit": "6ca955250d717c693c74f96d007ab928d7a564d8",
+   "sip_prompt": {
+    "chars": 65164,
+    "chars3_5_heuristic_tokens": 18618,
+    "chars4_heuristic_tokens": 16291,
+    "frozen_deterministic_tokens": 9140
+   }
+  },
+  "saleor-rc-dea5ffb730ac": {
+   "agentless_prompt": {
+    "chars": 85869,
+    "chars3_5_heuristic_tokens": 24534,
+    "chars4_heuristic_tokens": 21467,
+    "frozen_deterministic_tokens": 8899
+   },
+   "agentless_structure_py_files": 2245,
+   "parent_commit": "6d1eb518532e288f43a20ec0abdc612998afddd0",
+   "sip_prompt": {
+    "chars": 65854,
+    "chars3_5_heuristic_tokens": 18815,
+    "chars4_heuristic_tokens": 16463,
+    "frozen_deterministic_tokens": 9245
+   }
+  },
+  "saleor-rc-deb12c0433a5": {
+   "agentless_prompt": {
+    "chars": 36922,
+    "chars3_5_heuristic_tokens": 10549,
+    "chars4_heuristic_tokens": 9230,
+    "frozen_deterministic_tokens": 3953
+   },
+   "agentless_structure_py_files": 1067,
+   "parent_commit": "0fcc6a0f9edb90ccd0b1cf90afe687456c675ace",
+   "sip_prompt": {
+    "chars": 34998,
+    "chars3_5_heuristic_tokens": 9999,
+    "chars4_heuristic_tokens": 8749,
+    "frozen_deterministic_tokens": 4992
+   }
+  },
+  "saleor-rc-def20fe86d03": {
+   "agentless_prompt": {
+    "chars": 44935,
+    "chars3_5_heuristic_tokens": 12838,
+    "chars4_heuristic_tokens": 11233,
+    "frozen_deterministic_tokens": 4829
+   },
+   "agentless_structure_py_files": 1284,
+   "parent_commit": "a5586e852970554fcd4967f0af2e377b201dba11",
+   "sip_prompt": {
+    "chars": 38360,
+    "chars3_5_heuristic_tokens": 10960,
+    "chars4_heuristic_tokens": 9590,
+    "frozen_deterministic_tokens": 5493
+   }
+  },
+  "saleor-rc-df270700f16e": {
+   "agentless_prompt": {
+    "chars": 89099,
+    "chars3_5_heuristic_tokens": 25456,
+    "chars4_heuristic_tokens": 22274,
+    "frozen_deterministic_tokens": 9242
+   },
+   "agentless_structure_py_files": 2316,
+   "parent_commit": "5ff8b6eeb9dd9093acb7527a96460319b9f51bb2",
+   "sip_prompt": {
+    "chars": 67214,
+    "chars3_5_heuristic_tokens": 19204,
+    "chars4_heuristic_tokens": 16803,
+    "frozen_deterministic_tokens": 9451
+   }
+  },
+  "saleor-rc-df7c7d4e8466": {
+   "agentless_prompt": {
+    "chars": 52787,
+    "chars3_5_heuristic_tokens": 15082,
+    "chars4_heuristic_tokens": 13196,
+    "frozen_deterministic_tokens": 5657
+   },
+   "agentless_structure_py_files": 1460,
+   "parent_commit": "667837a09f5aeceb72437461f623158aa529a8c0",
+   "sip_prompt": {
+    "chars": 42833,
+    "chars3_5_heuristic_tokens": 12238,
+    "chars4_heuristic_tokens": 10708,
+    "frozen_deterministic_tokens": 6087
+   }
+  },
+  "saleor-rc-e0890780bf56": {
+   "agentless_prompt": {
+    "chars": 99748,
+    "chars3_5_heuristic_tokens": 28499,
+    "chars4_heuristic_tokens": 24937,
+    "frozen_deterministic_tokens": 10383
+   },
+   "agentless_structure_py_files": 2560,
+   "parent_commit": "2dd70df51c47bfe2e966ee060da805a9d7e0535f",
+   "sip_prompt": {
+    "chars": 70815,
+    "chars3_5_heuristic_tokens": 20232,
+    "chars4_heuristic_tokens": 17703,
+    "frozen_deterministic_tokens": 9982
+   }
+  },
+  "saleor-rc-e089e93419bf": {
+   "agentless_prompt": {
+    "chars": 35460,
+    "chars3_5_heuristic_tokens": 10131,
+    "chars4_heuristic_tokens": 8865,
+    "frozen_deterministic_tokens": 3787
+   },
+   "agentless_structure_py_files": 1020,
+   "parent_commit": "51d8b65d1c017562a187f6d6fe6a468e81e9d317",
+   "sip_prompt": {
+    "chars": 34250,
+    "chars3_5_heuristic_tokens": 9785,
+    "chars4_heuristic_tokens": 8562,
+    "frozen_deterministic_tokens": 4867
+   }
+  },
+  "saleor-rc-e0f2933d58b9": {
+   "agentless_prompt": {
+    "chars": 100226,
+    "chars3_5_heuristic_tokens": 28636,
+    "chars4_heuristic_tokens": 25056,
+    "frozen_deterministic_tokens": 10442
+   },
+   "agentless_structure_py_files": 2569,
+   "parent_commit": "2ff53751c7aa3d889ab07e9055ec03402c7faf21",
+   "sip_prompt": {
+    "chars": 71433,
+    "chars3_5_heuristic_tokens": 20409,
+    "chars4_heuristic_tokens": 17858,
+    "frozen_deterministic_tokens": 10076
+   }
+  },
+  "saleor-rc-e12689231d3b": {
+   "agentless_prompt": {
+    "chars": 97242,
+    "chars3_5_heuristic_tokens": 27783,
+    "chars4_heuristic_tokens": 24310,
+    "frozen_deterministic_tokens": 10119
+   },
+   "agentless_structure_py_files": 2500,
+   "parent_commit": "70957dcb61b9288c7d8d3e38438012512cb98709",
+   "sip_prompt": {
+    "chars": 70156,
+    "chars3_5_heuristic_tokens": 20044,
+    "chars4_heuristic_tokens": 17539,
+    "frozen_deterministic_tokens": 9878
+   }
+  },
+  "saleor-rc-e129a4d6f9b1": {
+   "agentless_prompt": {
+    "chars": 80669,
+    "chars3_5_heuristic_tokens": 23048,
+    "chars4_heuristic_tokens": 20167,
+    "frozen_deterministic_tokens": 8352
+   },
+   "agentless_structure_py_files": 2127,
+   "parent_commit": "7cf4e3392e82a234afa3f37dbf03b4d51139d2cb",
+   "sip_prompt": {
+    "chars": 65177,
+    "chars3_5_heuristic_tokens": 18622,
+    "chars4_heuristic_tokens": 16294,
+    "frozen_deterministic_tokens": 9146
+   }
+  },
+  "saleor-rc-e2031f0dc458": {
+   "agentless_prompt": {
+    "chars": 79105,
+    "chars3_5_heuristic_tokens": 22601,
+    "chars4_heuristic_tokens": 19776,
+    "frozen_deterministic_tokens": 8174
+   },
+   "agentless_structure_py_files": 2089,
+   "parent_commit": "8d64849187dae9695820a11fdbb597f6b41654a7",
+   "sip_prompt": {
+    "chars": 65514,
+    "chars3_5_heuristic_tokens": 18718,
+    "chars4_heuristic_tokens": 16378,
+    "frozen_deterministic_tokens": 9185
+   }
+  },
+  "saleor-rc-e28ca6ad6442": {
+   "agentless_prompt": {
+    "chars": 78919,
+    "chars3_5_heuristic_tokens": 22548,
+    "chars4_heuristic_tokens": 19729,
+    "frozen_deterministic_tokens": 8155
+   },
+   "agentless_structure_py_files": 2088,
+   "parent_commit": "5b2ee678d86ceadd6f97b7e8c8f9be7ddb44d4fe",
+   "sip_prompt": {
+    "chars": 65403,
+    "chars3_5_heuristic_tokens": 18686,
+    "chars4_heuristic_tokens": 16350,
+    "frozen_deterministic_tokens": 9171
+   }
+  },
+  "saleor-rc-e429b8be07fd": {
+   "agentless_prompt": {
+    "chars": 80089,
+    "chars3_5_heuristic_tokens": 22882,
+    "chars4_heuristic_tokens": 20022,
+    "frozen_deterministic_tokens": 8284
+   },
+   "agentless_structure_py_files": 2113,
+   "parent_commit": "f3c7b7c80b53ce0f9a6c86177ff749b9efc93b07",
+   "sip_prompt": {
+    "chars": 65145,
+    "chars3_5_heuristic_tokens": 18612,
+    "chars4_heuristic_tokens": 16286,
+    "frozen_deterministic_tokens": 9136
+   }
+  },
+  "saleor-rc-e6198146186d": {
+   "agentless_prompt": {
+    "chars": 92662,
+    "chars3_5_heuristic_tokens": 26474,
+    "chars4_heuristic_tokens": 23165,
+    "frozen_deterministic_tokens": 9407
+   },
+   "agentless_structure_py_files": 2438,
+   "parent_commit": "4dd4c81d8807dc4197ff71ca4c15f4fa1f84ba97",
+   "sip_prompt": {
+    "chars": 66172,
+    "chars3_5_heuristic_tokens": 18906,
+    "chars4_heuristic_tokens": 16543,
+    "frozen_deterministic_tokens": 9280
+   }
+  },
+  "saleor-rc-e7175003a542": {
+   "agentless_prompt": {
+    "chars": 98092,
+    "chars3_5_heuristic_tokens": 28026,
+    "chars4_heuristic_tokens": 24523,
+    "frozen_deterministic_tokens": 10203
+   },
+   "agentless_structure_py_files": 2521,
+   "parent_commit": "4d333d041821ec49a8a1d570e711a9779aef1c66",
+   "sip_prompt": {
+    "chars": 70530,
+    "chars3_5_heuristic_tokens": 20151,
+    "chars4_heuristic_tokens": 17632,
+    "frozen_deterministic_tokens": 9926
+   }
+  },
+  "saleor-rc-e71c1f4caef7": {
+   "agentless_prompt": {
+    "chars": 86701,
+    "chars3_5_heuristic_tokens": 24771,
+    "chars4_heuristic_tokens": 21675,
+    "frozen_deterministic_tokens": 8981
+   },
+   "agentless_structure_py_files": 2263,
+   "parent_commit": "8846222a676cf7f55ace09152a9d8da20b9bff6d",
+   "sip_prompt": {
+    "chars": 66086,
+    "chars3_5_heuristic_tokens": 18881,
+    "chars4_heuristic_tokens": 16521,
+    "frozen_deterministic_tokens": 9285
+   }
+  },
+  "saleor-rc-e8733aee630a": {
+   "agentless_prompt": {
+    "chars": 99695,
+    "chars3_5_heuristic_tokens": 28484,
+    "chars4_heuristic_tokens": 24923,
+    "frozen_deterministic_tokens": 10378
+   },
+   "agentless_structure_py_files": 2563,
+   "parent_commit": "d498167dcd3037b15682c8ec8278d38ab1a465dd",
+   "sip_prompt": {
+    "chars": 70814,
+    "chars3_5_heuristic_tokens": 20232,
+    "chars4_heuristic_tokens": 17703,
+    "frozen_deterministic_tokens": 9985
+   }
+  },
+  "saleor-rc-ea98ffa79753": {
+   "agentless_prompt": {
+    "chars": 63153,
+    "chars3_5_heuristic_tokens": 18043,
+    "chars4_heuristic_tokens": 15788,
+    "frozen_deterministic_tokens": 6675
+   },
+   "agentless_structure_py_files": 1721,
+   "parent_commit": "da65c262b97e691afdfa655640a8d15772ef54e2",
+   "sip_prompt": {
+    "chars": 51063,
+    "chars3_5_heuristic_tokens": 14589,
+    "chars4_heuristic_tokens": 12765,
+    "frozen_deterministic_tokens": 7228
+   }
+  },
+  "saleor-rc-eaf1577585a2": {
+   "agentless_prompt": {
+    "chars": 41306,
+    "chars3_5_heuristic_tokens": 11801,
+    "chars4_heuristic_tokens": 10326,
+    "frozen_deterministic_tokens": 4430
+   },
+   "agentless_structure_py_files": 1185,
+   "parent_commit": "c3fba1fec76253535bf6391edb6739d5ea5ef9a8",
+   "sip_prompt": {
+    "chars": 36723,
+    "chars3_5_heuristic_tokens": 10492,
+    "chars4_heuristic_tokens": 9180,
+    "frozen_deterministic_tokens": 5256
+   }
+  },
+  "saleor-rc-eb61406cecc5": {
+   "agentless_prompt": {
+    "chars": 86176,
+    "chars3_5_heuristic_tokens": 24621,
+    "chars4_heuristic_tokens": 21544,
+    "frozen_deterministic_tokens": 8925
+   },
+   "agentless_structure_py_files": 2255,
+   "parent_commit": "7da994d66f69d13a5644f5f5824ca52e69b45762",
+   "sip_prompt": {
+    "chars": 66143,
+    "chars3_5_heuristic_tokens": 18898,
+    "chars4_heuristic_tokens": 16535,
+    "frozen_deterministic_tokens": 9287
+   }
+  },
+  "saleor-rc-ee2b248d8076": {
+   "agentless_prompt": {
+    "chars": 60066,
+    "chars3_5_heuristic_tokens": 17161,
+    "chars4_heuristic_tokens": 15016,
+    "frozen_deterministic_tokens": 6336
+   },
+   "agentless_structure_py_files": 1646,
+   "parent_commit": "43f72a14a242f5630ef5446de8fb6365a1bd04c5",
+   "sip_prompt": {
+    "chars": 49498,
+    "chars3_5_heuristic_tokens": 14142,
+    "chars4_heuristic_tokens": 12374,
+    "frozen_deterministic_tokens": 7003
+   }
+  },
+  "saleor-rc-ef4d31a09e7c": {
+   "agentless_prompt": {
+    "chars": 36359,
+    "chars3_5_heuristic_tokens": 10388,
+    "chars4_heuristic_tokens": 9089,
+    "frozen_deterministic_tokens": 3899
+   },
+   "agentless_structure_py_files": 1047,
+   "parent_commit": "db3bca12cd59a82dd44ae2008a5be79538ed867b",
+   "sip_prompt": {
+    "chars": 34393,
+    "chars3_5_heuristic_tokens": 9826,
+    "chars4_heuristic_tokens": 8598,
+    "frozen_deterministic_tokens": 4901
+   }
+  },
+  "saleor-rc-f1d4e82c1dea": {
+   "agentless_prompt": {
+    "chars": 39530,
+    "chars3_5_heuristic_tokens": 11294,
+    "chars4_heuristic_tokens": 9882,
+    "frozen_deterministic_tokens": 4239
+   },
+   "agentless_structure_py_files": 1140,
+   "parent_commit": "f6d7d6ab88bdcb9e82f3f3b4593df8a1ca242107",
+   "sip_prompt": {
+    "chars": 36044,
+    "chars3_5_heuristic_tokens": 10298,
+    "chars4_heuristic_tokens": 9011,
+    "frozen_deterministic_tokens": 5150
+   }
+  },
+  "saleor-rc-f2207c408917": {
+   "agentless_prompt": {
+    "chars": 51383,
+    "chars3_5_heuristic_tokens": 14680,
+    "chars4_heuristic_tokens": 12845,
+    "frozen_deterministic_tokens": 5505
+   },
+   "agentless_structure_py_files": 1429,
+   "parent_commit": "19a70a04af45ab0c62dc2b476c7c37a6aed4327c",
+   "sip_prompt": {
+    "chars": 41983,
+    "chars3_5_heuristic_tokens": 11995,
+    "chars4_heuristic_tokens": 10495,
+    "frozen_deterministic_tokens": 5975
+   }
+  },
+  "saleor-rc-f3a0bc28797b": {
+   "agentless_prompt": {
+    "chars": 85562,
+    "chars3_5_heuristic_tokens": 24446,
+    "chars4_heuristic_tokens": 21390,
+    "frozen_deterministic_tokens": 8867
+   },
+   "agentless_structure_py_files": 2232,
+   "parent_commit": "40d0e7ffcb18abb7f1fb7f508346e76794102541",
+   "sip_prompt": {
+    "chars": 65944,
+    "chars3_5_heuristic_tokens": 18841,
+    "chars4_heuristic_tokens": 16486,
+    "frozen_deterministic_tokens": 9248
+   }
+  },
+  "saleor-rc-f3a111394d43": {
+   "agentless_prompt": {
+    "chars": 84087,
+    "chars3_5_heuristic_tokens": 24024,
+    "chars4_heuristic_tokens": 21021,
+    "frozen_deterministic_tokens": 8709
+   },
+   "agentless_structure_py_files": 2202,
+   "parent_commit": "0f0d85b1dc4678f724548e4b142b6419076b4237",
+   "sip_prompt": {
+    "chars": 65741,
+    "chars3_5_heuristic_tokens": 18783,
+    "chars4_heuristic_tokens": 16435,
+    "frozen_deterministic_tokens": 9221
+   }
+  },
+  "saleor-rc-f3a1ec65571f": {
+   "agentless_prompt": {
+    "chars": 31756,
+    "chars3_5_heuristic_tokens": 9073,
+    "chars4_heuristic_tokens": 7939,
+    "frozen_deterministic_tokens": 3385
+   },
+   "agentless_structure_py_files": 928,
+   "parent_commit": "5893575a47db5e05f40837b6d15bcaf941ec50bc",
+   "sip_prompt": {
+    "chars": 32679,
+    "chars3_5_heuristic_tokens": 9336,
+    "chars4_heuristic_tokens": 8169,
+    "frozen_deterministic_tokens": 4726
+   }
+  },
+  "saleor-rc-f46a0a307197": {
+   "agentless_prompt": {
+    "chars": 55322,
+    "chars3_5_heuristic_tokens": 15806,
+    "chars4_heuristic_tokens": 13830,
+    "frozen_deterministic_tokens": 5909
+   },
+   "agentless_structure_py_files": 1534,
+   "parent_commit": "ac2d4ac172d37dd8e866b679b1a6538745b43c2b",
+   "sip_prompt": {
+    "chars": 44482,
+    "chars3_5_heuristic_tokens": 12709,
+    "chars4_heuristic_tokens": 11120,
+    "frozen_deterministic_tokens": 6318
+   }
+  },
+  "saleor-rc-f4cf223ac3f6": {
+   "agentless_prompt": {
+    "chars": 94218,
+    "chars3_5_heuristic_tokens": 26919,
+    "chars4_heuristic_tokens": 23554,
+    "frozen_deterministic_tokens": 9799
+   },
+   "agentless_structure_py_files": 2429,
+   "parent_commit": "8eb11da07f09437374cb82daa6f10a80a11a1c90",
+   "sip_prompt": {
+    "chars": 68837,
+    "chars3_5_heuristic_tokens": 19667,
+    "chars4_heuristic_tokens": 17209,
+    "frozen_deterministic_tokens": 9688
+   }
+  },
+  "saleor-rc-f4eeba7fab16": {
+   "agentless_prompt": {
+    "chars": 80116,
+    "chars3_5_heuristic_tokens": 22890,
+    "chars4_heuristic_tokens": 20029,
+    "frozen_deterministic_tokens": 8289
+   },
+   "agentless_structure_py_files": 2107,
+   "parent_commit": "24c77fc83e2bba6dc8b10d93390e34cb55c495cd",
+   "sip_prompt": {
+    "chars": 65380,
+    "chars3_5_heuristic_tokens": 18680,
+    "chars4_heuristic_tokens": 16345,
+    "frozen_deterministic_tokens": 9161
+   }
+  },
+  "saleor-rc-f5d2c47e47c3": {
+   "agentless_prompt": {
+    "chars": 86483,
+    "chars3_5_heuristic_tokens": 24709,
+    "chars4_heuristic_tokens": 21620,
+    "frozen_deterministic_tokens": 8961
+   },
+   "agentless_structure_py_files": 2261,
+   "parent_commit": "5fe1e784620feea241193d6544fc11cb766f6200",
+   "sip_prompt": {
+    "chars": 66006,
+    "chars3_5_heuristic_tokens": 18858,
+    "chars4_heuristic_tokens": 16501,
+    "frozen_deterministic_tokens": 9281
+   }
+  },
+  "saleor-rc-f605058a13e8": {
+   "agentless_prompt": {
+    "chars": 83947,
+    "chars3_5_heuristic_tokens": 23984,
+    "chars4_heuristic_tokens": 20986,
+    "frozen_deterministic_tokens": 8694
+   },
+   "agentless_structure_py_files": 2204,
+   "parent_commit": "f7edc48f9b91ed40503efcfed6f99a2b334f087b",
+   "sip_prompt": {
+    "chars": 65519,
+    "chars3_5_heuristic_tokens": 18719,
+    "chars4_heuristic_tokens": 16379,
+    "frozen_deterministic_tokens": 9198
+   }
+  },
+  "saleor-rc-f623ab428821": {
+   "agentless_prompt": {
+    "chars": 91676,
+    "chars3_5_heuristic_tokens": 26193,
+    "chars4_heuristic_tokens": 22919,
+    "frozen_deterministic_tokens": 9528
+   },
+   "agentless_structure_py_files": 2366,
+   "parent_commit": "4da28ae4bb3853e02080c5007a8659647ff479eb",
+   "sip_prompt": {
+    "chars": 67728,
+    "chars3_5_heuristic_tokens": 19350,
+    "chars4_heuristic_tokens": 16932,
+    "frozen_deterministic_tokens": 9517
+   }
+  },
+  "saleor-rc-f6a3751a8bc2": {
+   "agentless_prompt": {
+    "chars": 87970,
+    "chars3_5_heuristic_tokens": 25134,
+    "chars4_heuristic_tokens": 21992,
+    "frozen_deterministic_tokens": 9128
+   },
+   "agentless_structure_py_files": 2292,
+   "parent_commit": "538c6452235ce9cbef59bda3280c6b97ff2fdebf",
+   "sip_prompt": {
+    "chars": 66793,
+    "chars3_5_heuristic_tokens": 19083,
+    "chars4_heuristic_tokens": 16698,
+    "frozen_deterministic_tokens": 9393
+   }
+  },
+  "saleor-rc-f74a5394c7f1": {
+   "agentless_prompt": {
+    "chars": 89084,
+    "chars3_5_heuristic_tokens": 25452,
+    "chars4_heuristic_tokens": 22271,
+    "frozen_deterministic_tokens": 9242
+   },
+   "agentless_structure_py_files": 2315,
+   "parent_commit": "5268e92e0e273811d17754522ebb833c72384c51",
+   "sip_prompt": {
+    "chars": 67205,
+    "chars3_5_heuristic_tokens": 19201,
+    "chars4_heuristic_tokens": 16801,
+    "frozen_deterministic_tokens": 9450
+   }
+  },
+  "saleor-rc-f76d0093b450": {
+   "agentless_prompt": {
+    "chars": 36201,
+    "chars3_5_heuristic_tokens": 10343,
+    "chars4_heuristic_tokens": 9050,
+    "frozen_deterministic_tokens": 3867
+   },
+   "agentless_structure_py_files": 1046,
+   "parent_commit": "0e0efbc30033fbc8b28b0b2c18f8c7bd9271d66b",
+   "sip_prompt": {
+    "chars": 34839,
+    "chars3_5_heuristic_tokens": 9954,
+    "chars4_heuristic_tokens": 8709,
+    "frozen_deterministic_tokens": 4963
+   }
+  },
+  "saleor-rc-f953990d221b": {
+   "agentless_prompt": {
+    "chars": 41287,
+    "chars3_5_heuristic_tokens": 11796,
+    "chars4_heuristic_tokens": 10321,
+    "frozen_deterministic_tokens": 4427
+   },
+   "agentless_structure_py_files": 1185,
+   "parent_commit": "b49fa2877e52fa2421bb2e345a82c1d35e5bb43e",
+   "sip_prompt": {
+    "chars": 36704,
+    "chars3_5_heuristic_tokens": 10486,
+    "chars4_heuristic_tokens": 9176,
+    "frozen_deterministic_tokens": 5253
+   }
+  },
+  "saleor-rc-fa113018cb83": {
+   "agentless_prompt": {
+    "chars": 81316,
+    "chars3_5_heuristic_tokens": 23233,
+    "chars4_heuristic_tokens": 20329,
+    "frozen_deterministic_tokens": 8418
+   },
+   "agentless_structure_py_files": 2136,
+   "parent_commit": "38cd5b2f6d5c013291283dd5e534934d4b7c7e89",
+   "sip_prompt": {
+    "chars": 65461,
+    "chars3_5_heuristic_tokens": 18703,
+    "chars4_heuristic_tokens": 16365,
+    "frozen_deterministic_tokens": 9177
+   }
+  },
+  "saleor-rc-fa1ed1794a8a": {
+   "agentless_prompt": {
+    "chars": 86569,
+    "chars3_5_heuristic_tokens": 24734,
+    "chars4_heuristic_tokens": 21642,
+    "frozen_deterministic_tokens": 8968
+   },
+   "agentless_structure_py_files": 2264,
+   "parent_commit": "9e8453e351a9c4fae04822c1cb7b793c8c9b4283",
+   "sip_prompt": {
+    "chars": 66105,
+    "chars3_5_heuristic_tokens": 18887,
+    "chars4_heuristic_tokens": 16526,
+    "frozen_deterministic_tokens": 9293
+   }
+  },
+  "saleor-rc-fbfc66e3a46b": {
+   "agentless_prompt": {
+    "chars": 35224,
+    "chars3_5_heuristic_tokens": 10064,
+    "chars4_heuristic_tokens": 8806,
+    "frozen_deterministic_tokens": 3767
+   },
+   "agentless_structure_py_files": 1019,
+   "parent_commit": "805dde7498000280dedea41b205ccf9a8b9babe4",
+   "sip_prompt": {
+    "chars": 34083,
+    "chars3_5_heuristic_tokens": 9738,
+    "chars4_heuristic_tokens": 8520,
+    "frozen_deterministic_tokens": 4855
+   }
+  },
+  "saleor-rc-fc4883ed7da4": {
+   "agentless_prompt": {
+    "chars": 38722,
+    "chars3_5_heuristic_tokens": 11063,
+    "chars4_heuristic_tokens": 9680,
+    "frozen_deterministic_tokens": 4155
+   },
+   "agentless_structure_py_files": 1115,
+   "parent_commit": "26eaa8c1bbbfddecafd44c67ff9ce33363c5c8e1",
+   "sip_prompt": {
+    "chars": 35694,
+    "chars3_5_heuristic_tokens": 10198,
+    "chars4_heuristic_tokens": 8923,
+    "frozen_deterministic_tokens": 5091
+   }
+  },
+  "saleor-rc-fd463c8aae38": {
+   "agentless_prompt": {
+    "chars": 99104,
+    "chars3_5_heuristic_tokens": 28315,
+    "chars4_heuristic_tokens": 24776,
+    "frozen_deterministic_tokens": 10321
+   },
+   "agentless_structure_py_files": 2545,
+   "parent_commit": "8116df6e0d927d5d14e7f00015cf11c35cf9280a",
+   "sip_prompt": {
+    "chars": 70671,
+    "chars3_5_heuristic_tokens": 20191,
+    "chars4_heuristic_tokens": 17667,
+    "frozen_deterministic_tokens": 9961
+   }
+  },
+  "saleor-rc-fd5b7971c5d2": {
+   "agentless_prompt": {
+    "chars": 36396,
+    "chars3_5_heuristic_tokens": 10398,
+    "chars4_heuristic_tokens": 9099,
+    "frozen_deterministic_tokens": 3902
+   },
+   "agentless_structure_py_files": 1049,
+   "parent_commit": "5821309aed09ba6f1089f9f2f08691bd3812b8b3",
+   "sip_prompt": {
+    "chars": 34407,
+    "chars3_5_heuristic_tokens": 9830,
+    "chars4_heuristic_tokens": 8601,
+    "frozen_deterministic_tokens": 4904
+   }
+  },
+  "saleor-rc-fdca49f190e2": {
+   "agentless_prompt": {
+    "chars": 87517,
+    "chars3_5_heuristic_tokens": 25004,
+    "chars4_heuristic_tokens": 21879,
+    "frozen_deterministic_tokens": 9077
+   },
+   "agentless_structure_py_files": 2281,
+   "parent_commit": "4163d8e330aad10ebf6009a6698ea9dc06d8de74",
+   "sip_prompt": {
+    "chars": 66479,
+    "chars3_5_heuristic_tokens": 18994,
+    "chars4_heuristic_tokens": 16619,
+    "frozen_deterministic_tokens": 9345
+   }
+  },
+  "saleor-rc-fe6e46266e81": {
+   "agentless_prompt": {
+    "chars": 86155,
+    "chars3_5_heuristic_tokens": 24615,
+    "chars4_heuristic_tokens": 21538,
+    "frozen_deterministic_tokens": 8923
+   },
+   "agentless_structure_py_files": 2255,
+   "parent_commit": "270285eb24f383fa567fa02e9b8bcc0c163992e3",
+   "sip_prompt": {
+    "chars": 66122,
+    "chars3_5_heuristic_tokens": 18892,
+    "chars4_heuristic_tokens": 16530,
+    "frozen_deterministic_tokens": 9285
+   }
+  },
+  "saleor-rc-ff0d35878a50": {
+   "agentless_prompt": {
+    "chars": 84791,
+    "chars3_5_heuristic_tokens": 24226,
+    "chars4_heuristic_tokens": 21197,
+    "frozen_deterministic_tokens": 8788
+   },
+   "agentless_structure_py_files": 2223,
+   "parent_commit": "8ef601aff8fdb23e8d63cbb1998bcc893d27aa32",
+   "sip_prompt": {
+    "chars": 65533,
+    "chars3_5_heuristic_tokens": 18723,
+    "chars4_heuristic_tokens": 16383,
+    "frozen_deterministic_tokens": 9207
+   }
+  },
+  "saleor-rc-ffe3a3ece0fb": {
+   "agentless_prompt": {
+    "chars": 95776,
+    "chars3_5_heuristic_tokens": 27364,
+    "chars4_heuristic_tokens": 23944,
+    "frozen_deterministic_tokens": 9958
+   },
+   "agentless_structure_py_files": 2466,
+   "parent_commit": "0b86741ca3eed158c56ba7d4402f9871816f18bf",
+   "sip_prompt": {
+    "chars": 69965,
+    "chars3_5_heuristic_tokens": 19990,
+    "chars4_heuristic_tokens": 17491,
+    "frozen_deterministic_tokens": 9842
+   }
+  }
+ },
+ "sip_repr": {
+  "chars": {
+   "max": 73093,
+   "median": 63026,
+   "min": 31199,
+   "p90": 70156
+  },
+  "chars4_median_tokens": 15756,
+  "frozen_deterministic_tokens": {
+   "max": 10259,
+   "median": 8854,
+   "min": 4514,
+   "p90": 9878
+  }
+ },
+ "tokenizer_identity": {
+  "frozen_deterministic": "benchmark.cheap_baselines.tokenize (deterministic snake/camel split, lowercase, frozen stopwords) \u2014 OFFLINE, AVAILABLE",
+  "llm_tokenizer": "exact qwen3-coder / official model tokenizer NOT available offline; no model download permitted on this mission -> UNVERIFIED"
+ }
+}

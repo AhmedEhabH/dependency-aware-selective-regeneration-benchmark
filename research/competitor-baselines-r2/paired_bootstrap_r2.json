@@ -1,0 +1,174 @@
+{
+ "comparisons": {
+  "direct": [
+   "BM25@1",
+   "BM25@3",
+   "BM25@5",
+   "BM25@10",
+   "DENSE@1",
+   "DENSE@3",
+   "DENSE@5",
+   "DENSE@10"
+  ],
+  "size_matched_controls": [
+   "BM25_SIZE_MATCHED",
+   "DENSE_SIZE_MATCHED"
+  ]
+ },
+ "method": "paired cluster bootstrap over tasks; per-sample pooled micro confusion recomputed from the resampled tasks, then micro F1 and micro Recall",
+ "n_resamples": 10000,
+ "n_tasks": 297,
+ "rows": {
+  "BM25@1": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.1852082351092252,
+    "q025": 0.1455287214905185,
+    "q975": 0.2231128170075768
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": 0.19344262295081965,
+    "q025": 0.15876249693838926,
+    "q975": 0.22780920212010786
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "BM25@10": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.1436979836979837,
+    "q025": 0.10824371299149642,
+    "q975": 0.1784254067054999
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": -0.1453551912568306,
+    "q025": -0.18857871541399956,
+    "q975": -0.10319086453828268
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "BM25@3": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.12315983757844223,
+    "q025": 0.08474748068105259,
+    "q975": 0.1608090177032713
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": 0.07650273224043713,
+    "q025": 0.03938687778907283,
+    "q975": 0.11361013986013986
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "BM25@5": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.11599206349206348,
+    "q025": 0.08028338490514048,
+    "q975": 0.15126007977888248
+   },
+   "delta_recall": {
+    "ci_crosses_zero": true,
+    "point": -0.008743169398907125,
+    "q025": -0.047477006760698694,
+    "q975": 0.02959278155706728
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "BM25_SIZE_MATCHED": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.12063492063492062,
+    "q025": 0.08478778967802074,
+    "q975": 0.15673636469779986
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": 0.10382513661202183,
+    "q025": 0.07282025028441409,
+    "q975": 0.13571485381002873
+   },
+   "label": "SIZE_MATCHED_CONTROL"
+  },
+  "DENSE@1": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.1621059248782021,
+    "q025": 0.13005618889195583,
+    "q975": 0.1936826933774883
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": 0.17814207650273223,
+    "q025": 0.14861920914102547,
+    "q975": 0.20814479638009048
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "DENSE@10": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.13185757185757185,
+    "q025": 0.10331818544042067,
+    "q975": 0.16020463279704175
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": -0.17049180327868857,
+    "q025": -0.19953352164547375,
+    "q975": -0.1415310511390619
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "DENSE@3": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.08218530823181985,
+    "q025": 0.05634187834216109,
+    "q975": 0.10861397567726147
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": 0.0360655737704918,
+    "q025": 0.009522400676246854,
+    "q975": 0.0625
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "DENSE@5": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.08849206349206351,
+    "q025": 0.06343174763138916,
+    "q975": 0.11369712540091269
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": -0.044808743169398924,
+    "q025": -0.07158351409978309,
+    "q975": -0.019108280254777066
+   },
+   "label": "DIRECT_SAME_PROTOCOL"
+  },
+  "DENSE_SIZE_MATCHED": {
+   "delta_f1_micro": {
+    "ci_crosses_zero": false,
+    "point": 0.0787301587301587,
+    "q025": 0.05462989996266035,
+    "q975": 0.10342732839187882
+   },
+   "delta_recall": {
+    "ci_crosses_zero": false,
+    "point": 0.06775956284153004,
+    "q025": 0.04663774403470716,
+    "q975": 0.08987485779294652
+   },
+   "label": "SIZE_MATCHED_CONTROL"
+  }
+ },
+ "seed": 20261012
+}

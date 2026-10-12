@@ -1,0 +1,168 @@
+{
+  "protocol_id": "M17_COMP_BASELINES_R2_PROTOCOL_FREEZE",
+  "mission": "M17_COMP_BASELINES_R2_FINAL_CHEAP_SAME_PROTOCOL",
+  "created_utc": "2026-10-12T00:00:00Z",
+  "status": "FROZEN_BEFORE_ANY_NEW_BASELINE_OUTCOME",
+  "owner_pre_specified": true,
+  "branch": "parallel/competitor-baselines-2026-10-12",
+  "base_head": "1661ec215ede6ae96e82735148db4febffb21580",
+  "freeze_sha256_source_note": "created and recorded BEFORE any newly produced MAIN_297 baseline outcome was inspected; all numbers at freeze time are pre-existing frozen RM-CSS/SIP/Agent MAIN_297 evidence only.",
+
+  "population": {
+    "identity": "MAIN_297 (frozen)",
+    "manifest_artifact": "research/wp1b/wp1b_main_297_manifest.json",
+    "manifest_sha256": "6bc5980fde694c1d8818389a8a8cdbf8d0acb410866806b74b404f19a90fccde",
+    "task_ids_sha256": "1678dbaa3793588df4b82dce7d7b2d29586b612698e12a1c4d52ce32f4ccbceb",
+    "n_tasks": 297,
+    "selection_rule": "all 300 in frozen order minus the 3 Calibration-3 tasks",
+    "sample_source": "research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.json",
+    "sample_sha256": "445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447",
+    "excluded_calibration_ids": [
+      "saleor-rc-349d46d906ad",
+      "saleor-rc-b05633dae118",
+      "saleor-rc-d52a55471bfc"
+    ],
+    "directory": "benchmark_data/real_commit_impact_saleor/scientific/<task_id>/public/"
+  },
+
+  "gold": {
+    "source": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+    "opened_once": true,
+    "n_tasks": 300,
+    "role": "observed change-set proxy, evaluation-only; Ground Truth is evaluation-only",
+    "definition": "file paths changed by the real commit (observed change-set proxy), repository-relative",
+    "gold_normalization": "repository-relative paths, forward slashes, as stored in the frozen proxies artifact",
+    "checked": "all 300 proxy path sets are subsets of the per-task frozen candidate universe (0 paths outside)"
+  },
+
+  "candidate_universe": {
+    "source": "per-task public/candidate_universe.json (frozen real-commit-impact-dataset-v1)",
+    "normalization": "repository-relative paths, forward slashes; path canonicalization = exact string as in candidate_universe records",
+    "exclusions": "NONE added by this protocol. The frozen universe artifact already encodes the canonical predicate (production .py only). No tests/migrations/generated/non-code exclusion is applied at scoring time beyond the frozen universe itself.",
+    "predictions_outside_universe_policy": "never silently dropped; counted in invalid_prediction_count and recorded per task",
+    "duplicate_prediction_policy": "duplicate paths deduplicated before set scoring (set semantics); count recorded in duplicate_prediction_count"
+  },
+
+  "evaluator": {
+    "identity": "benchmark.wp1a.scorer (per_task_confusion + ArmConfusion) and benchmark.wp1b.main_scoring pooled() — the exact evaluator used for RM-CSS / SIP / Agent MAIN_297 results",
+    "micro": {
+      "definition": "pooled confusion counts TP=sum(tp_t), FP=sum(fp_t), FN=sum(fn_t) over the 297 tasks",
+      "precision": "TP/(TP+FP); 0 if TP+FP == 0",
+      "recall": "TP/(TP+FN); 0 if TP+FN == 0",
+      "fnr": "FN/(TP+FN); 0 if TP+FN == 0",
+      "f1": "2*TP/(2*TP+FP+FN); 0 if denominator == 0"
+    },
+    "macro": {
+      "definition": "mean over tasks of the per-task metric, computed with the SAME frozen per-task convention (ArmConfusion per_task_confusion): per-task Precision=0 if TP+FP==0; per-task Recall=0 if TP+FN==0 (recorded convention); per-task F1=0 if 2TP+FP+FN==0"
+    },
+    "size_metrics": "mean, median, min, max of per-task selected-set size",
+    "per_task_capability": "per-task predictions and per-task confusion counts persisted so every aggregate can be recomputed"
+  },
+
+  "direct_variants_pre_specified": [
+    "BM25@1", "BM25@3", "BM25@5", "BM25@10",
+    "DENSE@1", "DENSE@3", "DENSE@5", "DENSE@10"
+  ],
+
+  "sec_controls_pre_specified": [
+    "BM25_SIZE_MATCHED",
+    "DENSE_SIZE_MATCHED"
+  ],
+  "size_matched_rule": "k_t = number of files selected by frozen RM-CSS prediction for task t (RM-CSS OUTPUT SIZE only; never reads gold); select top-k_t of the arm's ranking",
+  "size_matched_label": "SIZE_MATCHED_CONTROL",
+
+  "gold_seeded_pre_specified": [
+    "C_ORACLE_1HOP",
+    "C_ORACLE_2HOP"
+  ],
+  "oracle_label": "UPPER_BOUND_ONLY / GOLD_SEEDED — diagnostic bridge to seeded change-impact methods (RIPPLE / From Seed to Scope); never placed in the direct competitor headline table",
+
+  "arm_A_BM25": {
+    "query": "exact developer change description received by RM-CSS = public/intent.json intent_text (same parent-visible text used by SIP and RM-CSS)",
+    "documents": "for each candidate file at the parent commit: file path + file content (doc = path + '\\\\n' + file content); file content = bytes of the file at parent commit decoded utf-8 errors=replace; missing file at parent -> empty text (fail-closed deterministic)",
+    "document_source": "frozen upstream cache repo (dist/pilot-repo-cache/saleor, 22,615 commits) via git show <parent>:<path> — the same cache the frozen MAIN_297 agent materialization used",
+    "tokenizer": "benchmark.cheap_baselines.tokenize (deterministic: snake_case/camelCase boundary split, lowercased, alphanumeric only, frozen stopword list) — implementation recorded in src/benchmark/cheap_baselines/tokenize.py",
+    "bm25_parameters": {"k1": 1.2, "b": 0.75, "epsilon": 1e-9, "idf": "log((N-df+0.5)/(df+0.5)+1)"},
+    "tuning": "NONE. Parameters owner pre-specified; no k selected after seeing outcomes; all of BM25@1/3/5/10 reported",
+    "tie_break": "score descending, then normalized repository path ascending (frozen Route-B / SweRank convention)"
+  },
+
+  "arm_B_DENSE": {
+    "source": "already-existing frozen dense path — qwen/qwen3-embedding-8b @ DeepInfra, realization A, frozen splitter + MAX-cosine aggregation — artifacts research/saleor-reserve-300-rmcss/full_file_scores_saleor300.parquet (frozen per-task dense_file_score + dense_rank over the frozen candidate universe)",
+    "model_checkpoint": "qwen/qwen3-embedding-8b (DeepInfra), frozen in the RM-CSS Saleor RESERVE-300 realization A ledger",
+    "tokenizer_chunking_aggregation": "frozen splitter into code units (benchmark.signal.code_units.extract_code_units) + score(file) = MAX cosine over units (benchmark.signal.swrank_adapter.aggregate_file_score) — same frozen dense representation consumed by the frozen RM-CSS classifier (feature dense_file_score)",
+    "similarity_metric": "cosine (L2-normalized embeddings)",
+    "query": "intent_text of the task (query_sha256 in the artifact equals the frozen intent_sha256 for every task)",
+    "ranking": "dense_file_score descending; NaN dense scores (no embeddable units) rank below all finite scores; tie-break path ascending",
+    "download_policy": "NO new model download >100 MiB is permitted; if the frozen SweRankEmbed-Small path were required instead and not cached locally it is BLOCKED_DOWNLOAD — the frozen qwen dense artifact path above requires no download and no new API call",
+    "ablation_label": "DENSE_ONLY_ABLATION (RM-CSS's calibrated classifier consumes exactly this dense representation; the arm isolates retrieval quality without the calibrated head)"
+  },
+
+  "arm_C_CIA": {
+    "implementation": "frozen static reverse-dependency/impact closure as implemented in scripts/classical_cia_baseline_v1.py (_adjacency undirected over the per-task frozen dependency_graph.json edges; CIA_1HOP = seed + 1-hop closure; CIA_2HOP = seed + 2-hop budgeted propagation)",
+    "graph_source": "per-task public/dependency_graph.json (frozen parent-only AST import graph)",
+    "c_realistic_seed": "BM25 top-1 prediction for the same task (same-protocol seed; no gold)",
+    "c_realistic_variants": ["BM25_TO_CIA_1HOP", "BM25_TO_CIA_2HOP"],
+    "c_oracle_seed_rule": "lexicographically first gold changed non-test file under the deterministic frozen normalization rule = min(sorted(gold paths intersect candidate universe)); tests are already outside the frozen universe so no extra test rule is needed",
+    "c_oracle_variants": ["C_ORACLE_1HOP", "C_ORACLE_2HOP"],
+    "labels": "BM25_TO_CIA_* -> DIRECT_SAME_PROTOCOL; C_ORACLE_* -> UPPER_BOUND_ONLY + GOLD_SEEDED"
+  },
+
+  "arm_D_AGENT": {
+    "mode": "READ-ONLY reuse of the frozen bounded Repository Agent MAIN_297 result (research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json + .sha256)",
+    "rerun": "FALSE", "api_calls_new": 0
+  },
+  "arm_E_SIP_RMCSS": {
+    "mode": "READ-ONLY reuse of frozen SIP / RM-CSS MAIN_297 evidence (research/wp1a/sip_rmcss_per_task_predictions.json + .sha256; model identity qwen/qwen3-coder @ deepinfra/turbo for SIP, deterministic L2-LR classifier for RM-CSS)",
+    "rerun": "FALSE", "retuning": "FALSE"
+  },
+
+  "paired_statistics": {
+    "method": "paired cluster bootstrap over TASKS (task is the resampling unit)",
+    "n_resamples": 10000,
+    "random_seed": 20261012,
+    "draw_algorithm": "same as benchmark.wp1b.main_scoring.bootstrap_indices: random.Random(seed).randrange(n) per drawn index",
+    "per_sample": "resample 297 task indices with replacement; recompute pooled micro confusion counts (TP/FP/FN) per arm over the sampled tasks; recompute micro F1 and micro Recall per arm from those counts",
+    "statistics": "DeltaF1 = F1_micro(RM-CSS) - F1_micro(baseline); DeltaRecall = Recall(RM-CSS) - Recall(baseline)",
+    "ci": "95% percentile CI [q025, q975] of the delta distribution",
+    "comparisons": "RM-CSS vs EVERY pre-specified direct headline variant (BM25@1/3/5/10, DENSE@1/3/5/10); SIZE_MATCHED controls receive the same bootstrap analysis but are reported as controlled analyses; no significance chasing, no post-hoc deletion",
+    "point_estimates": "raw pooled deltas on the full 297-task population"
+  },
+
+  "efficiency_reporting": {
+    "llm_calls_new": 0,
+    "api_cost_usd_new": 0.0,
+    "note": "zero-API arms: API calls = 0 and API cost USD = 0 for NEW calls; computational cost is NOT zero — wall time and compute context are recorded; frozen dense artifact reuse carries its historical materialization cost (recorded informational: embedding_cost_usd_total 0.026035 for 300 tasks) which is NOT this mission's spend"
+  },
+
+  "published_context_only": {
+    "rule": "published Acc@K / Hit@K / MRR / MAP / function-method-level accuracy / resolve rate MUST NOT be numerically compared as if they were our MAIN_297 micro-F1; any such numbers in the report are labeled PUBLISHED_CONTEXT_ONLY"
+  },
+
+  "ripple_positioning": {
+    "run": "NOT_RUN (prohibited)",
+    "protocol_implication": "RIPPLE / From Seed to Scope is a SEEDED change-impact method; an experiment giving it a gold changed file is GOLD_SEEDED + UPPER_BOUND_ONLY, never DIRECT_SAME_PROTOCOL against description-only RM-CSS; a fair future comparison requires a separately frozen seed-generation protocol (e.g. BM25 top-1)"
+  },
+
+  "no_retuning_no_feedback": {
+    "rmcss": "unchanged", "sip": "unchanged", "agent": "unchanged",
+    "main297_membership": "unchanged", "gold": "unchanged",
+    "evaluator": "unchanged", "candidate_universe": "unchanged",
+    "feedback": "baseline outcomes are NOT fed back into RM-CSS design or tuning; no k/hops/models/normalization is chosen after seeing outcomes"
+  },
+
+  "ambiguity_labels": [
+    "BASELINE_PROTOCOL_AMBIGUITY",
+    "BLOCKED_DOWNLOAD",
+    "MISSING_ARTIFACT",
+    "EVALUATOR_MISMATCH",
+    "NOT_REPRODUCIBLE_WITHOUT_NEW_PROTOCOL"
+  ],
+  "stop_conditions": [
+    "MAIN_297 authority mismatch",
+    "gold/evaluator corruption",
+    "accidental paid API call",
+    "scientific contamination affecting multiple arms",
+    "unexpected modification of frozen RM-CSS/SIP/Agent evidence"
+  ]
+}
