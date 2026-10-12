@@ -1,13 +1,13 @@
 {
  "schema": "live_status_v1",
- "as_of_local": "2026-10-05 (Africa/Cairo)",
+ "as_of_local": "2026-10-12 (Africa/Cairo)",
  "evidence_snapshot": "WP1 primary evidence complete (Saleor RESERVE-300; MAIN_297 selection-only non-inferiority and efficiency). WP2 supporting evidence closed/consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive). M16-v1 CLOSED as a pre-experiment adapter failure; no MAIN OPWS outcome exists. C0->C6 documentation closure complete, stopped at G0_BRAIN_REVIEW (decision: finalize the durable research baseline before any new science).",
  "phase": "Phase 6 - Durable research baseline finalization (WP1 primary + WP2 supporting closed)",
  "position": "M17 Phase0B-v2 (2026-10-05): M17 REAL qualification + oracle kit FROZEN (tag wp2-m17-v1-real-oracle-kit-2026-10-03, launch amendment tag wp2-m17-v1-real-oracle-kit-r1-2026-10-05); controller-real harness timing fixed (timeout 1800 -> 5400 s); selftest controller timeouts raised 1800 -> 7200 s in both live plans; M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS. ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.",
  "position_short": "M17 real + oracle kit FROZEN (tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness + selftest timing fixed; 110/110 M17 + 66/66 frozen harness + 8/8 real-controller PASS; qualification NOT run; awaiting brain review",
- "now_short": "M17 launch timing amendment done -> STOP_TOKEN=M17_LAUNCH_READY -> brain review of the qualification evidence",
- "next_action": "Await ChatGPT brain review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.",
- "next_short": "Brain review of the M17 qualification kit -> real 12-task qualification (only after approval)",
+ "now_short": "M17 env-canon source-fidelity fresh calibration-12 PASS (12/12) -> STOP_TOKEN=M17_ENV_CANON_SOURCE_FIDELITY_R1_CALIBRATION_12_PASS_READY_FOR_FULL_D7_OWNER_DECISION",
+ "next_action": "Owner decision on Full D7 under source_fidelity_r1. Do NOT start Full D7 automatically. Evidence: research/source-fidelity-calibration-r1/ (receipt, report, P2P/F2P, invariance audit) + LIGHT project-light-year-2026-10-12-1512.zip.",
+ "next_short": "Owner decision: authorize Full D7 under source_fidelity_r1 (do not auto-start)",
  "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke -> C0->C6 documentation closure DONE -> G0_BRAIN_REVIEW DONE (finalize durable baseline before new science) -> T2 baseline finalization (current LIVE status, LIGHT naming correction, commit/push/tag, fresh LIGHT) -> G1: seminar/proposal vs one optional targeted generalization pilot",
  "weakest_risk": "No active M16 run, no active generator experiment, no active polyglot experiment. Primary thesis evidence is WP1 selection correctness/efficiency; WP2 remains supporting/downstream. Governance risk is claim discipline: every statement must stay selection-only, descriptive (n<=10), or supporting-negative exactly as frozen in the claim registry.",
  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
@@ -543,5 +543,25 @@
    "evidence": "research/wp2/e2e_smoke_eng_v1/erratum/"
   }
  },
- "end_to_end_status": "M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run."
+ "end_to_end_status": "M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.",
+ "m17_source_fidelity_calibration12": {
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_R1_FRESH_CALIBRATION_12",
+  "mission_class": "T3_REAL_ENVIRONMENT_QUALIFICATION_FRESH_CALIBRATION_12",
+  "status": "PASS_READY_FOR_FULL_D7_OWNER_DECISION",
+  "N_EXECUTED": 12,
+  "N_PASS": 12,
+  "N_FAIL": 0,
+  "freeze_commit": "f5f4c1d0ecae135f3b687bf8b9d27ffd150b6338",
+  "freeze_tag": "m17-env-source-fidelity-r1-frozen-2026-10-12",
+  "pass_tag": "m17-env-source-fidelity-r1-calibration12-pass-2026-10-12",
+  "qualification_commit": "bea6fab8050e561ee7ac1fd0ebe9828f29ae6b55",
+  "root_cause_addressed": "C_LOCK_RECONSTRUCTION_DEFECT",
+  "source_identity_schema": "source_fidelity_r1",
+  "source_fidelity_change_applied_units": [
+   "vu-b9808f19ace4"
+  ],
+  "previous_failed_evidence": "D7_R3 11/12 (Unit 12 SMOKE_FAIL) immutable, not reused",
+  "full_d7_started": false,
+  "receipt": "research/source-fidelity-calibration-r1/SOURCE_FIDELITY_CALIBRATION_12_RECEIPT.json"
+ }
 }

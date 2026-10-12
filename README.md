@@ -152,11 +152,11 @@ Full rows with artifact paths and allowed interpretation:
 | C0->C6 closure + G0_BRAIN_REVIEW | DONE | documentation/evidence consolidation only; brain decision: finalize durable baseline before new science |
 | M16-v1 MAIN OPWS run | NOT AUTHORIZED / CLOSED | closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, brain-approved M16-v2 |
 
-**Next action:** Await ChatGPT brain review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.
+**Next action:** Owner decision on Full D7 under source_fidelity_r1. Do NOT start Full D7 automatically. Evidence: research/source-fidelity-calibration-r1/ (receipt, report, P2P/F2P, invariance audit) + LIGHT project-light-year-2026-10-12-1512.zip.
 
 **End-to-end status:** M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-05 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-12 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 > **Closure note (2026-10-02):** the WP-2 instrument trail (Smoke v2.2 →
