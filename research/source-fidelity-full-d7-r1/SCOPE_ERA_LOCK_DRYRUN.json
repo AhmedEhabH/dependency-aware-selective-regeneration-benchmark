@@ -1,0 +1,3325 @@
+{
+  "era_x_lock_counts": {
+    "3.12|poetry": 25,
+    "3.12|uv": 21,
+    "3.8|poetry": 15,
+    "3.9|poetry": 83
+  },
+  "dry_run_per_stratum": {
+    "3.12|poetry": {
+      "ok": 25,
+      "missing": 0,
+      "incompatible": 0
+    },
+    "3.12|uv": {
+      "ok": 0,
+      "missing": 21,
+      "incompatible": 0
+    },
+    "3.8|poetry": {
+      "ok": 0,
+      "missing": 15,
+      "incompatible": 0
+    },
+    "3.9|poetry": {
+      "ok": 0,
+      "missing": 65,
+      "incompatible": 18
+    }
+  },
+  "per_unit": [
+    {
+      "validation_unit_id": "vu-e4998719ee01",
+      "ordered_full_d7_index": 1,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-b68ee1b3ad18",
+      "ordered_full_d7_index": 2,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 234,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-262f45bffe92",
+      "ordered_full_d7_index": 3,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-db74b3640c98",
+      "ordered_full_d7_index": 4,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 250,
+      "n_runtime": 248,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-e878163db06a",
+      "ordered_full_d7_index": 5,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 236,
+      "n_runtime": 234,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-422bca69f329",
+      "ordered_full_d7_index": 6,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 236,
+      "n_runtime": 234,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-117d7bd068d5",
+      "ordered_full_d7_index": 7,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 234,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-5321e03160a1",
+      "ordered_full_d7_index": 8,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 254,
+      "n_runtime": 252,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-0d8ddec94417",
+      "ordered_full_d7_index": 9,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 254,
+      "n_runtime": 252,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-561a1a172143",
+      "ordered_full_d7_index": 10,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 236,
+      "n_runtime": 234,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-e40f7e955c05",
+      "ordered_full_d7_index": 11,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 234,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-b9808f19ace4",
+      "ordered_full_d7_index": 12,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 236,
+      "n_runtime": 234,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-148c254cdec8",
+      "ordered_full_d7_index": 13,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-8228f26085f6",
+      "ordered_full_d7_index": 14,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 250,
+      "n_runtime": 248,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-33422e2343f1",
+      "ordered_full_d7_index": 15,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-a1f3d1a5d841",
+      "ordered_full_d7_index": 16,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 236,
+      "n_runtime": 234,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-692af9112c6d",
+      "ordered_full_d7_index": 17,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 242,
+      "n_runtime": 241,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-021cfd4955e7",
+      "ordered_full_d7_index": 18,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 254,
+      "n_runtime": 252,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-3a7ebc8e23c7",
+      "ordered_full_d7_index": 19,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 250,
+      "n_runtime": 248,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-f4038beff05f",
+      "ordered_full_d7_index": 20,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 252,
+      "n_runtime": 250,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-dcd39990cb98",
+      "ordered_full_d7_index": 21,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-0a27b4b8eb0a",
+      "ordered_full_d7_index": 22,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-dade0b4b5b60",
+      "ordered_full_d7_index": 23,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 236,
+      "n_runtime": 234,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-c94437ca6633",
+      "ordered_full_d7_index": 24,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 254,
+      "n_runtime": 252,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-4b390d4acaf6",
+      "ordered_full_d7_index": 25,
+      "python_version": "3.12",
+      "lock_type": "poetry",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 233,
+      "excluded": [
+        "PLATFORM_WIN32",
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_OK",
+      "n_missing": 0,
+      "n_incompatible": 0,
+      "sample_missing": [],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-13c1de1de71e",
+      "ordered_full_d7_index": 26,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 231,
+      "n_runtime": 230,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-b78ebcf3e530",
+      "ordered_full_d7_index": 27,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-9d7a49485c23",
+      "ordered_full_d7_index": 28,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-5d6c9a0e0c10",
+      "ordered_full_d7_index": 29,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-70bfccaf270a",
+      "ordered_full_d7_index": 30,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-a213391f6471",
+      "ordered_full_d7_index": 31,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 231,
+      "n_runtime": 230,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-1b6e1e44d2b8",
+      "ordered_full_d7_index": 32,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-a75c2a6f15c3",
+      "ordered_full_d7_index": 33,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-167dda0843d5",
+      "ordered_full_d7_index": 34,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 231,
+      "n_runtime": 230,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-c25b088a37f7",
+      "ordered_full_d7_index": 35,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-b01a5665c996",
+      "ordered_full_d7_index": 36,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-fddb2fe50625",
+      "ordered_full_d7_index": 37,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-bfe987de6e53",
+      "ordered_full_d7_index": 38,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.22.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-b772fe8ae517",
+      "ordered_full_d7_index": 39,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-766af1c5d395",
+      "ordered_full_d7_index": 40,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-c1cf6680490b",
+      "ordered_full_d7_index": 41,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 235,
+      "n_runtime": 234,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.23.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-7aa21cafb78c",
+      "ordered_full_d7_index": 42,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 231,
+      "n_runtime": 230,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-2964dfd4c127",
+      "ordered_full_d7_index": 43,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-1418395d176d",
+      "ordered_full_d7_index": 44,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.22.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-fa3b1afc1fc7",
+      "ordered_full_d7_index": 45,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 231,
+      "n_runtime": 230,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.24.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-69dc51c7f829",
+      "ordered_full_d7_index": 46,
+      "python_version": "3.12",
+      "lock_type": "uv",
+      "era": "py312",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "MARKER_EXCLUDED_ON_LINUX"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 0,
+      "sample_missing": [
+        "python-magic-bin==0.4.14",
+        "saleor==3.22.0a0"
+      ],
+      "sample_incompatible": []
+    },
+    {
+      "validation_unit_id": "vu-eda4e9f82401",
+      "ordered_full_d7_index": 47,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 188,
+      "n_runtime": 187,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 20,
+      "sample_missing": [
+        "codecov==2.1.7"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.0",
+        "coverage==5.2",
+        "lazy-object-proxy==1.4.3",
+        "lxml==4.5.1",
+        "markupsafe==1.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-895115c0587f",
+      "ordered_full_d7_index": 48,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 205,
+      "n_runtime": 204,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.10"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-be8f8b160f49",
+      "ordered_full_d7_index": 49,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 182,
+      "n_runtime": 181,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 19,
+      "sample_missing": [
+        "codecov==2.1.4"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.0",
+        "coverage==5.1",
+        "lazy-object-proxy==1.4.3",
+        "lxml==4.5.1",
+        "markupsafe==1.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-e087af14cbdc",
+      "ordered_full_d7_index": 50,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 198,
+      "n_runtime": 197,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.8"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.1",
+        "coverage==5.2.1",
+        "google-crc32c==0.1.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-9148a5fac7f7",
+      "ordered_full_d7_index": 51,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 206,
+      "n_runtime": 205,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.10"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.4",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.34.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-2a340620f37b",
+      "ordered_full_d7_index": 52,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 197,
+      "n_runtime": 196,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.9"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-6657777e194c",
+      "ordered_full_d7_index": 53,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 191,
+      "n_runtime": 190,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 21,
+      "sample_missing": [
+        "codecov==2.1.8"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.0",
+        "coverage==5.2.1",
+        "google-crc32c==0.1.0",
+        "lazy-object-proxy==1.4.3",
+        "lxml==4.5.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-c17ac95f2f69",
+      "ordered_full_d7_index": 54,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 205,
+      "n_runtime": 204,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.10"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-93d83a7dfa9a",
+      "ordered_full_d7_index": 55,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 205,
+      "n_runtime": 204,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.10"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-cdcf3222cbb5",
+      "ordered_full_d7_index": 56,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 181,
+      "n_runtime": 180,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 19,
+      "sample_missing": [
+        "codecov==2.1.0"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.0",
+        "coverage==5.1",
+        "lazy-object-proxy==1.4.3",
+        "lxml==4.5.1",
+        "markupsafe==1.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-56c3822062f3",
+      "ordered_full_d7_index": 57,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 199,
+      "n_runtime": 198,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.9"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-31452711b5ad",
+      "ordered_full_d7_index": 58,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 198,
+      "n_runtime": 197,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.9"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.1",
+        "coverage==5.2.1",
+        "google-crc32c==0.1.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-ebc9a2321b77",
+      "ordered_full_d7_index": 59,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 205,
+      "n_runtime": 204,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.10"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-d70446795f77",
+      "ordered_full_d7_index": 60,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 205,
+      "n_runtime": 204,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.10"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-75b210e72939",
+      "ordered_full_d7_index": 61,
+      "python_version": "3.8",
+      "lock_type": "poetry",
+      "era": "py38",
+      "n_pins": 202,
+      "n_runtime": 201,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "codecov==2.1.9"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.2",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.31.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-457f26c93ff1",
+      "ordered_full_d7_index": 62,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 216,
+      "n_runtime": 215,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.9.6"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-2483fd026a5e",
+      "ordered_full_d7_index": 63,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.3"
+      ],
+      "sample_incompatible": [
+        "Brotli==1.0.9",
+        "MarkupSafe==2.1.1",
+        "Pillow==9.2.0",
+        "PyYAML==6.0",
+        "black==22.10.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-34976fcfcdb9",
+      "ordered_full_d7_index": 64,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 220,
+      "n_runtime": 219,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.10.2"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-ffe68ddec229",
+      "ordered_full_d7_index": 65,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.3.2",
+        "fonttools==4.46.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-0e0ef31c7634",
+      "ordered_full_d7_index": 66,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 210,
+      "n_runtime": 209,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 21,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.4",
+        "google-crc32c==1.1.2",
+        "grpcio==1.35.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-431fd44d4e16",
+      "ordered_full_d7_index": 67,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 220,
+      "n_runtime": 219,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.11.1"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.2.0",
+        "grpcio==1.40.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-fe57def0dadc",
+      "ordered_full_d7_index": 68,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 23,
+      "sample_missing": [
+        "pylint==2.16.1"
+      ],
+      "sample_incompatible": [
+        "black==23.1.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.0.1",
+        "coverage==6.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-fe7a88128f65",
+      "ordered_full_d7_index": 69,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 25,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.2.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "ordered_full_d7_index": 70,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 221,
+      "n_runtime": 220,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.10.2"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-cd262bbb641d",
+      "ordered_full_d7_index": 71,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 224,
+      "n_runtime": 223,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.12.2"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.3.2",
+        "google-crc32c==1.3.0",
+        "grpcio==1.44.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-37c7da0c0820",
+      "ordered_full_d7_index": 72,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.2"
+      ],
+      "sample_incompatible": [
+        "Brotli==1.0.9",
+        "MarkupSafe==2.1.1",
+        "Pillow==9.2.0",
+        "PyYAML==6.0",
+        "black==22.6.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-c5caaf2a1d6f",
+      "ordered_full_d7_index": 73,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.3.2",
+        "fonttools==4.46.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-04c71da705ac",
+      "ordered_full_d7_index": 74,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 214,
+      "n_runtime": 213,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.8.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.37.1",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-cf9b71629fb0",
+      "ordered_full_d7_index": 75,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 220,
+      "n_runtime": 219,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.11.1"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.0.2",
+        "google-crc32c==1.3.0",
+        "grpcio==1.41.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-cfed8240ddbc",
+      "ordered_full_d7_index": 76,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.4.4",
+        "fonttools==4.50.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-eba04e0cfe0e",
+      "ordered_full_d7_index": 77,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 208,
+      "n_runtime": 207,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.7.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.36.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-3cc575189c53",
+      "ordered_full_d7_index": 78,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 225,
+      "n_runtime": 224,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.12.2"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.3.1",
+        "google-crc32c==1.3.0",
+        "grpcio==1.43.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-930970ddfe91",
+      "ordered_full_d7_index": 79,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.3.3",
+        "fonttools==4.46.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-9218196782bc",
+      "ordered_full_d7_index": 80,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 216,
+      "n_runtime": 215,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.9.5"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-c3065f6a2b55",
+      "ordered_full_d7_index": 81,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 214,
+      "n_runtime": 213,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.8.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.37.1",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-b634339e1f8a",
+      "ordered_full_d7_index": 82,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.1.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.5"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-f98d47987c04",
+      "ordered_full_d7_index": 83,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 242,
+      "n_runtime": 241,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.3.2",
+        "fonttools==4.44.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-894cec50f546",
+      "ordered_full_d7_index": 84,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.4.1",
+        "fonttools==4.49.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-2dc07b65457d",
+      "ordered_full_d7_index": 85,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.2"
+      ],
+      "sample_incompatible": [
+        "black==23.1.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.3"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-7fc2380ce441",
+      "ordered_full_d7_index": 86,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 248,
+      "n_runtime": 247,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.5.4",
+        "fonttools==4.53.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-f65903cda35f",
+      "ordered_full_d7_index": 87,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.14.3"
+      ],
+      "sample_incompatible": [
+        "black==22.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.4.1",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-6e164d4710fa",
+      "ordered_full_d7_index": 88,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 208,
+      "n_runtime": 207,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.7.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.36.1",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-ef2b9ed85c06",
+      "ordered_full_d7_index": 89,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.2"
+      ],
+      "sample_incompatible": [
+        "Brotli==1.0.9",
+        "MarkupSafe==2.1.1",
+        "Pillow==9.2.0",
+        "PyYAML==6.0",
+        "black==22.6.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-449f84e63781",
+      "ordered_full_d7_index": 90,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.5"
+      ],
+      "sample_incompatible": [
+        "black==22.10.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.5.0",
+        "google-crc32c==1.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-1bc025c648a9",
+      "ordered_full_d7_index": 91,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 206,
+      "n_runtime": 205,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 21,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "cffi==1.14.4",
+        "coverage==5.3",
+        "google-crc32c==1.0.0",
+        "grpcio==1.34.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-211923a4bbb9",
+      "ordered_full_d7_index": 92,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 236,
+      "n_runtime": 235,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.10"
+      ],
+      "sample_incompatible": [
+        "black==22.12.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.5.0",
+        "google-crc32c==1.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-c80b536f2407",
+      "ordered_full_d7_index": 93,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-1322f72e5363",
+      "ordered_full_d7_index": 94,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 214,
+      "n_runtime": 213,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.7.4"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.36.1",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-25266c00d332",
+      "ordered_full_d7_index": 95,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 221,
+      "n_runtime": 220,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.11.1"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.1.1",
+        "google-crc32c==1.3.0",
+        "grpcio==1.41.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-18938eea2931",
+      "ordered_full_d7_index": 96,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 218,
+      "n_runtime": 217,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.9.6"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-69576eeb06f2",
+      "ordered_full_d7_index": 97,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 237,
+      "n_runtime": 236,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 23,
+      "sample_missing": [
+        "pylint==2.15.10"
+      ],
+      "sample_incompatible": [
+        "black==22.12.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.0.1",
+        "coverage==6.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-bedcd6ce97ff",
+      "ordered_full_d7_index": 98,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.1"
+      ],
+      "sample_incompatible": [
+        "black==23.1.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-d0ceadc7a5d0",
+      "ordered_full_d7_index": 99,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 223,
+      "n_runtime": 222,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.12.2"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.2",
+        "google-crc32c==1.3.0",
+        "grpcio==1.43.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-a199ad1732dc",
+      "ordered_full_d7_index": 100,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 255,
+      "n_runtime": 254,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 28,
+      "sample_missing": [
+        "pylint==2.17.7"
+      ],
+      "sample_incompatible": [
+        "black==23.9.1",
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.0",
+        "coverage==7.3.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-ff51c2dbdaf7",
+      "ordered_full_d7_index": 101,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-27136572a530",
+      "ordered_full_d7_index": 102,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 25,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-648e07c887c6",
+      "ordered_full_d7_index": 103,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 25,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.7.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.2.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-d391fc5c988e",
+      "ordered_full_d7_index": 104,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.4"
+      ],
+      "sample_incompatible": [
+        "black==22.10.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.5.0",
+        "google-crc32c==1.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-bd505dbe0e91",
+      "ordered_full_d7_index": 105,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.4.4",
+        "fonttools==4.50.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-9af2f5398149",
+      "ordered_full_d7_index": 106,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 208,
+      "n_runtime": 207,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.7.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.36.1",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-c4f8d5ea7e5a",
+      "ordered_full_d7_index": 107,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.16.1"
+      ],
+      "sample_incompatible": [
+        "black==23.1.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.0.1",
+        "coverage==6.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-0925adc62ab4",
+      "ordered_full_d7_index": 108,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 25,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.2.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-b38ed89dc9a4",
+      "ordered_full_d7_index": 109,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 208,
+      "n_runtime": 207,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 21,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "cffi==1.14.4",
+        "coverage==5.3.1",
+        "google-crc32c==1.1.1",
+        "grpcio==1.34.1",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-b0971c77cd3b",
+      "ordered_full_d7_index": 110,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.6.0",
+        "fonttools==4.53.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-2bcc39756c5a",
+      "ordered_full_d7_index": 111,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 211,
+      "n_runtime": 210,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.8.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.37.1",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-e009f3a36367",
+      "ordered_full_d7_index": 112,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 218,
+      "n_runtime": 217,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.9.6"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-3975af462f4e",
+      "ordered_full_d7_index": 113,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 255,
+      "n_runtime": 254,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 28,
+      "sample_missing": [
+        "pylint==2.17.5"
+      ],
+      "sample_incompatible": [
+        "black==23.7.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.2.0",
+        "coverage==7.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-a49265fc9017",
+      "ordered_full_d7_index": 114,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.6.0",
+        "fonttools==4.53.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-27e8f29e8efc",
+      "ordered_full_d7_index": 115,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 255,
+      "n_runtime": 254,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 28,
+      "sample_missing": [
+        "pylint==2.17.7"
+      ],
+      "sample_incompatible": [
+        "black==23.9.1",
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.0",
+        "coverage==7.3.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-60d3684b344f",
+      "ordered_full_d7_index": 116,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 23,
+      "sample_missing": [
+        "pylint==2.14.5"
+      ],
+      "sample_incompatible": [
+        "black==22.6.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.4.2",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-25c83915bd75",
+      "ordered_full_d7_index": 117,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-481aef932595",
+      "ordered_full_d7_index": 118,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 236,
+      "n_runtime": 235,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 23,
+      "sample_missing": [
+        "pylint==2.15.10"
+      ],
+      "sample_incompatible": [
+        "black==22.12.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.0.1",
+        "coverage==6.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-bbb37661a274",
+      "ordered_full_d7_index": 119,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 224,
+      "n_runtime": 223,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.13.4"
+      ],
+      "sample_incompatible": [
+        "black==22.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.3.2",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-afe5a5c0e422",
+      "ordered_full_d7_index": 120,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 255,
+      "n_runtime": 254,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 28,
+      "sample_missing": [
+        "pylint==2.17.7"
+      ],
+      "sample_incompatible": [
+        "black==23.9.1",
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.0",
+        "coverage==7.3.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-0f0447cc3e76",
+      "ordered_full_d7_index": 121,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 214,
+      "n_runtime": 213,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.8.1"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.37.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-f36465a05af1",
+      "ordered_full_d7_index": 122,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 238,
+      "n_runtime": 237,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.17.3"
+      ],
+      "sample_incompatible": [
+        "black==23.1.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.3"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-87c9ec56b2bc",
+      "ordered_full_d7_index": 123,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 25,
+      "sample_missing": [
+        "pylint==2.17.5"
+      ],
+      "sample_incompatible": [
+        "black==23.7.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.2.0",
+        "coverage==7.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-b6f3aa535043",
+      "ordered_full_d7_index": 124,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.4.4",
+        "fonttools==4.50.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-3f1261723b37",
+      "ordered_full_d7_index": 125,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 208,
+      "n_runtime": 207,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 21,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "cffi==1.14.4",
+        "coverage==5.3.1",
+        "google-crc32c==1.1.1",
+        "grpcio==1.34.1",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-92d8208bc063",
+      "ordered_full_d7_index": 126,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 257,
+      "n_runtime": 256,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 30,
+      "sample_missing": [
+        "pylint==2.17.7"
+      ],
+      "sample_incompatible": [
+        "black==23.9.1",
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.1",
+        "coverage==7.3.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-5985a7f5c711",
+      "ordered_full_d7_index": 127,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 239,
+      "n_runtime": 238,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.14.5"
+      ],
+      "sample_incompatible": [
+        "black==22.6.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.4.4",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-c9fbfeece4f3",
+      "ordered_full_d7_index": 128,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 246,
+      "n_runtime": 245,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.4.3",
+        "fonttools==4.49.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-38186b1280dd",
+      "ordered_full_d7_index": 129,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.2"
+      ],
+      "sample_incompatible": [
+        "Brotli==1.0.9",
+        "MarkupSafe==2.1.1",
+        "Pillow==9.2.0",
+        "PyYAML==6.0",
+        "black==22.6.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-9ed193747002",
+      "ordered_full_d7_index": 130,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 224,
+      "n_runtime": 223,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.13.5"
+      ],
+      "sample_incompatible": [
+        "black==22.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.3.2",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-6a7d0c94de02",
+      "ordered_full_d7_index": 131,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 227,
+      "n_runtime": 226,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.13.9"
+      ],
+      "sample_incompatible": [
+        "black==22.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.4",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-27ae8fa10bfc",
+      "ordered_full_d7_index": 132,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 225,
+      "n_runtime": 224,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.12.2"
+      ],
+      "sample_incompatible": [
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.3.1",
+        "google-crc32c==1.3.0",
+        "grpcio==1.43.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-2864e8ec8e21",
+      "ordered_full_d7_index": 133,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.2"
+      ],
+      "sample_incompatible": [
+        "Brotli==1.0.9",
+        "MarkupSafe==2.1.1",
+        "Pillow==9.2.0",
+        "PyYAML==6.0",
+        "black==22.6.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-28c3ab8a0637",
+      "ordered_full_d7_index": 134,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 236,
+      "n_runtime": 235,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.8"
+      ],
+      "sample_incompatible": [
+        "black==22.10.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.5.0",
+        "google-crc32c==1.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-5cf74906951d",
+      "ordered_full_d7_index": 135,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 227,
+      "n_runtime": 226,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 24,
+      "sample_missing": [
+        "pylint==2.13.8"
+      ],
+      "sample_incompatible": [
+        "black==22.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.0",
+        "coverage==6.3.2",
+        "google-crc32c==1.3.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-a677a0561630",
+      "ordered_full_d7_index": 136,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 214,
+      "n_runtime": 213,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.7.4"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.37.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-d5a8e4885ae5",
+      "ordered_full_d7_index": 137,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 240,
+      "n_runtime": 239,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.4"
+      ],
+      "sample_incompatible": [
+        "black==22.10.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.5.0",
+        "google-crc32c==1.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-f393f956c6ee",
+      "ordered_full_d7_index": 138,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 216,
+      "n_runtime": 215,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 2,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "backports.entry-points-selectable==1.1.0",
+        "pylint==2.9.6"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.6",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.39.0",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-048cdcee7907",
+      "ordered_full_d7_index": 139,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 237,
+      "n_runtime": 236,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.15.8"
+      ],
+      "sample_incompatible": [
+        "black==22.10.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "coverage==6.5.0",
+        "google-crc32c==1.5.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-cff7c5fc6d8e",
+      "ordered_full_d7_index": 140,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 207,
+      "n_runtime": 206,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 21,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "cffi==1.14.4",
+        "coverage==5.4",
+        "google-crc32c==1.1.2",
+        "grpcio==1.35.0",
+        "httptools==0.1.1"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-6fa34a604db4",
+      "ordered_full_d7_index": 141,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 242,
+      "n_runtime": 241,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_INCOMPATIBLE",
+      "n_missing": 0,
+      "n_incompatible": 27,
+      "sample_missing": [],
+      "sample_incompatible": [
+        "brotli==1.1.0",
+        "cffi==1.16.0",
+        "charset-normalizer==3.3.2",
+        "coverage==7.3.2",
+        "fonttools==4.44.0"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-101c124a89c7",
+      "ordered_full_d7_index": 142,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 233,
+      "n_runtime": 232,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 25,
+      "sample_missing": [
+        "pylint==2.17.4"
+      ],
+      "sample_incompatible": [
+        "black==23.3.0",
+        "brotli==1.0.9",
+        "cffi==1.15.1",
+        "charset-normalizer==3.1.0",
+        "coverage==7.2.7"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-00c65e6f8459",
+      "ordered_full_d7_index": 143,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 214,
+      "n_runtime": 213,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.8.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.37.1",
+        "httptools==0.1.2"
+      ]
+    },
+    {
+      "validation_unit_id": "vu-ef6a56039231",
+      "ordered_full_d7_index": 144,
+      "python_version": "3.9",
+      "lock_type": "poetry",
+      "era": "py39",
+      "n_pins": 212,
+      "n_runtime": 211,
+      "excluded": [
+        "PLATFORM_WIN32"
+      ],
+      "dry_run_outcome": "RESOLVE_MISSING",
+      "n_missing": 1,
+      "n_incompatible": 22,
+      "sample_missing": [
+        "pylint==2.8.2"
+      ],
+      "sample_incompatible": [
+        "cffi==1.14.5",
+        "coverage==5.5",
+        "google-crc32c==1.1.2",
+        "grpcio==1.38.0",
+        "httptools==0.1.2"
+      ]
+    }
+  ]
+}

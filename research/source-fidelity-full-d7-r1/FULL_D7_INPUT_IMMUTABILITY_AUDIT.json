@@ -1,0 +1,58 @@
+{
+  "all_pass": true,
+  "artifact": "FULL_D7_INPUT_IMMUTABILITY_AUDIT",
+  "checks": [
+    {
+      "detail": "all frozen R3 harness files byte-exact (manifest bound by R3 receipt actual-file hash)",
+      "id": "F1_harness_freeze_sha",
+      "pass": true
+    },
+    {
+      "detail": "219 lock artifacts verified",
+      "id": "F1_locks_exact",
+      "pass": true
+    },
+    {
+      "detail": "10/10 population profiles verified (D6+local+docker)",
+      "id": "F1_docker_images_exact",
+      "pass": true
+    },
+    {
+      "detail": "14 frozen image rows in D6",
+      "id": "F1_d6_image_ids_reference",
+      "pass": true
+    },
+    {
+      "detail": "11 provenance/calibration files byte-identical",
+      "id": "F1_provenance_files_identical",
+      "pass": true
+    },
+    {
+      "detail": "12/12 unit hashes match calibration receipt",
+      "id": "F1_calibration_progress_exact",
+      "pass": true
+    },
+    {
+      "detail": "144 units / 219 tasks, no duplicates",
+      "id": "F1_population_counts",
+      "pass": true
+    }
+  ],
+  "created_at_utc": "2026-10-12T16:24:06.138911+00:00",
+  "expected_harness_freeze_sha256": "ad8130941391aad2a0575221373651fbfb138f694122f3cd901c59639f68ab35",
+  "expected_population": 144,
+  "expected_tasks": 219,
+  "manifest_hashes": {
+    "F1_calibration_progress_exact": "12/12 unit hashes match calibration receipt",
+    "F1_d6_image_ids_reference": "14 frozen image rows in D6",
+    "F1_docker_images_exact": "10/10 population profiles verified (D6+local+docker)",
+    "F1_harness_freeze_sha": "all frozen R3 harness files byte-exact (manifest bound by R3 receipt actual-file hash)",
+    "F1_locks_exact": "219 lock artifacts verified",
+    "F1_population_counts": "144 units / 219 tasks, no duplicates",
+    "F1_provenance_files_identical": "11 provenance/calibration files byte-identical"
+  },
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_R1_FULL_D7",
+  "no_normalization": true,
+  "no_repair": true,
+  "phase": "F1"
+}

@@ -1,0 +1,74 @@
+{
+  "artifact": "FULL_D7_SCOPE_CENSUS",
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_R1_FULL_D7",
+  "mission_class": "T3_REAL_FULL_D7_ENVIRONMENT_QUALIFICATION",
+  "phase": "SCOPE_CENSUS_ZERO_CONTAINER",
+  "created_at_utc": "2026-10-12",
+  "scope_banner": "ZERO-CONTAINER census for owner decision.  NO Docker, NO Full-D7 unit execution, NO git freeze.  Units outside the Calibration-12 validated domain (python_version==3.12 AND lock_type==poetry) are labelled OUT_OF_VALIDATED_SCOPE, never classified as environment failure and never labelled NOT_READY in this census.",
+  "validated_domain": {
+    "definition": "python_version == 3.12 AND lock_type == poetry (Calibration-12 stratum)",
+    "n_units_in_population": 25,
+    "n_units_in_calibration_12": 12,
+    "n_units_dry_resolve_ok": 25,
+    "note": "All 25 py312-poetry units resolve under the frozen resolver; the Calibration-12 executed 12 of them (FIRST_12_FROZEN_ORDER) with 12/12 PASS under source-fidelity-r1."
+  },
+  "population": {
+    "N_VALIDATION_UNITS": 144,
+    "N_MAPPED_TASKS": 219,
+    "era_x_lock_counts": {
+      "3.12|poetry": 25,
+      "3.12|uv": 21,
+      "3.8|poetry": 15,
+      "3.9|poetry": 83
+    },
+    "out_of_validated_scope_units": {
+      "3.12|uv": 21,
+      "3.9|poetry": 83,
+      "3.8|poetry": 15,
+      "total": 119
+    }
+  },
+  "worktrees": {
+    "n_tasks": 219,
+    "n_dirs_present": 219,
+    "all_219_present": true,
+    "note": "existence only for the 219; no full 219 byte-verification performed (per owner scope-census instruction)"
+  },
+  "ntfs_invalid": {
+    "n_tasks_with_skipped_paths": 38,
+    "n_total_skipped_files": 190,
+    "note": "skipped paths are VCR test cassettes only (test data, never closure-derivation or frozen-gate inputs); all 38 tasks are member tasks of py39-poetry units, which are OUT_OF_VALIDATED_SCOPE in this census",
+    "evidence_file": "research/source-fidelity-full-d7-r1/SCOPE_NTFS.json"
+  },
+  "calibration_worktree_parity": {
+    "n_overlap_tasks": 18,
+    "all_byte_identical": true,
+    "evidence_file": "research/source-fidelity-full-d7-r1/SCOPE_WORKTREE_PARITY18.json"
+  },
+  "dry_run": {
+    "method": "frozen d7_r3_closure.derive_runtime_closure (pyver=unit python_version) + frozen d7_r3_closure.resolve_runtime_artifacts against era wheelhouse (wheelhouse/<era> + canon_r4b/<era>); zero container execution",
+    "per_stratum": {
+      "3.12|poetry": {"RESOLVE_OK": 25, "RESOLVE_MISSING": 0, "RESOLVE_INCOMPATIBLE": 0},
+      "3.12|uv": {"RESOLVE_OK": 0, "RESOLVE_MISSING": 21, "RESOLVE_INCOMPATIBLE": 0},
+      "3.9|poetry": {"RESOLVE_OK": 0, "RESOLVE_MISSING": 65, "RESOLVE_INCOMPATIBLE": 18},
+      "3.8|poetry": {"RESOLVE_OK": 0, "RESOLVE_MISSING": 15, "RESOLVE_INCOMPATIBLE": 0}
+    },
+    "evidence_file": "research/source-fidelity-full-d7-r1/SCOPE_ERA_LOCK_DRYRUN.json"
+  },
+  "limitations": {
+    "py312_only_wheel_tag_gate": "The frozen R3 wheel-tag gate (d7_r3_wheeltags) targets CPython 3.12 only.  py38/py39 era wheels (cp38/cp39 non-abi3) are not accepted by the frozen resolver, so py38/py39 strata cannot pass the frozen resolution gate as frozen.  This is a FROZEN-AUTHORITY LIMITATION, not an environment failure.  py38/py39 units = OUT_OF_VALIDATED_SCOPE.",
+    "uv_editable_self_and_markers": "The frozen R3 closure derivation reads all lock package entries as name==version pins; uv.lock editable-self (saleor==X, source virtual='.') is not excluded by the frozen R3 poetry_pins, and uv marker semantics are not applied by the frozen R3 closure path.  uv.lock units = OUT_OF_VALIDATED_SCOPE (not classified here).  Observed: all 21 uv units report missing 'saleor==X' (editable self) and 'python-magic-bin==0.4.14' under the frozen closure path.",
+    "sample_missing_incompatible": {
+      "3.12|uv": ["python-magic-bin==0.4.14", "saleor==3.22.0a0/3.23.0a0/3.24.0a0"],
+      "3.9|poetry_missing": ["backports.entry-points-selectable==1.1.0", "pylint==2.17.4", "codecov-absent-era-wheel entries"],
+      "3.9|poetry_incompatible": ["brotli==1.0.9", "cffi==1.15.1", "google-crc32c==1.1.2", "coverage==5.5"],
+      "3.8|poetry_missing": ["codecov==2.1.x"],
+      "3.8|poetry_incompatible": ["httptools==0.1.1", "grpcio==1.31.0", "coverage==5.3", "google-crc32c==1.0.0"]
+    }
+  },
+  "missing_worktree_policy": "A missing member-task worktree FAILS CLOSED (never a silent smoke skip): the closure derivation only applies the win32 python-magic-bin exclusion when the member-task pyproject.toml is present, and smoke requires the mounted worktree.  Both are enforced as FAIL-CLOSED by the Full-D7 driver when it is authorized.",
+  "owner_decision_required": "The frozen resolver, as frozen (py312-only wheel-tag gate + no uv editable-self exclusion), leaves 119/144 units OUT_OF_VALIDATED_SCOPE and only the 25 py312-poetry units inside the validated domain.  Owner must decide: (A) proceed with Full D7 limited to the Calibration-validated py312-poetry domain only, or (B) authorize a scope decision for py38/py39/uv strata, or (C) freeze the census as the Full-D7 result.",
+  "git_freeze_performed": false,
+  "docker_used": false,
+  "full_d7_execution_started": false
+}
