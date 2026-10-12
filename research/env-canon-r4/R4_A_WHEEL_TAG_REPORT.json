@@ -1,0 +1,145 @@
+{
+  "mission_id": "M17_D7_R4_A_ERA_AWARE_WHEEL_TAGS",
+  "start_commit": "2f37afbc21a50c5b11afe7b13cb593d1e47dd54a",
+  "branch": "parallel/d7-r4-a-wheeltags-2026-10-12",
+  "authority": {
+    "shared_interface_spec": "research/env-canon-r4/R4_SHARED_INTERFACE.md",
+    "shared_interface_code": "src/benchmark/wp2/env_r4/contracts.py",
+    "public_package": "src/benchmark/wp2/env_r4/__init__.py",
+    "entry_point": "wheel_compatible(wheel_filename: str, target: RuntimeTarget) -> bool",
+    "frozen_r3_reference": "D:\\wp2_env_store\\harness\\d7_r3\\d7_r3_wheeltags.py (read-only evidence)"
+  },
+  "implementation_files": [
+    "src/benchmark/wp2/env_r4/wheel_tags.py",
+    "tests/unit/wp2/test_env_r4_wheel_tags.py"
+  ],
+  "target_python_versions": ["3.8", "3.9", "3.12"],
+  "supported_assumptions": {
+    "implementations": ["cpython"],
+    "platforms": ["linux"],
+    "architectures": ["x86_64"],
+    "python_eras": ["3.8", "3.9", "3.12"],
+    "linux_platform_family": {
+      "glibc_ceiling": [2, 36],
+      "glibc_oldest": [2, 4],
+      "legacy_aliases": ["manylinux2014", "manylinux2010", "manylinux1"],
+      "note": "RuntimeTarget carries no glibc field, so the frozen R3 d7_r3_wheeltags py312 enumeration (Debian bookworm glibc 2.36 baseline, descending to PEP 600 oldest glibc, plus legacy aliases and linux_x86_64) is reused uniformly for every supported era."
+    },
+    "host_interpreter_independent": true,
+    "tooling": [
+      "packaging.tags.cpython_tags",
+      "packaging.tags.compatible_tags",
+      "packaging.utils.parse_wheel_filename"
+    ]
+  },
+  "p2p": {
+    "P1": {
+      "gate": "cp38-cp38 compatible with CPython 3.8 Linux x86_64",
+      "result": "PASS",
+      "case": "pkg-1.0-cp38-cp38-linux_x86_64.whl -> True"
+    },
+    "P2": {
+      "gate": "cp39-cp39 compatible with CPython 3.9 Linux x86_64",
+      "result": "PASS",
+      "case": "pkg-1.0-cp39-cp39-linux_x86_64.whl -> True"
+    },
+    "P3": {
+      "gate": "cp312-cp312 compatible with CPython 3.12 Linux x86_64",
+      "result": "PASS",
+      "case": "pkg-1.0-cp312-cp312-linux_x86_64.whl -> True"
+    },
+    "P4": {
+      "gate": "valid py3-none-any / py2.py3-none-any pure-Python wheel accepted",
+      "result": "PASS",
+      "cases": "py3-none-any and py2.py3-none-any accepted for 3.8, 3.9, 3.12"
+    },
+    "P5": {
+      "gate": "valid abi3 wheel accepted for a supported later CPython target",
+      "result": "PASS",
+      "cases": "cp38/cp39/cp310/cp311-abi3-manylinux_2_17_x86_64 -> True for 3.12"
+    },
+    "P6": {
+      "gate": "compatibility result deterministic across repeated calls",
+      "result": "PASS",
+      "case": "identical verdict across repeated calls and a cleared target-tag cache"
+    },
+    "P7": {
+      "gate": "result depends on RuntimeTarget, not host interpreter",
+      "result": "PASS",
+      "case": "host tag helpers (platform_tags, _cpython_abis) guarded to raise; sys.version_info patched to 3.7; results driven solely by the RuntimeTarget"
+    }
+  },
+  "f2p": {
+    "F1": {
+      "gate": "cp39-cp39 rejected for CPython 3.12",
+      "result": "PASS",
+      "case": "pkg-1.0-cp39-cp39-linux_x86_64.whl -> False"
+    },
+    "F2": {
+      "gate": "cp38-cp38 rejected for CPython 3.9",
+      "result": "PASS",
+      "case": "pkg-1.0-cp38-cp38-linux_x86_64.whl -> False"
+    },
+    "F3": {
+      "gate": "Windows wheel rejected for Linux target",
+      "result": "PASS",
+      "cases": "win_amd64 and win32 wheels -> False"
+    },
+    "F4": {
+      "gate": "macOS wheel rejected for Linux target",
+      "result": "PASS",
+      "cases": "macosx_10_9_x86_64 and macosx_11_0_arm64 wheels -> False"
+    },
+    "F5": {
+      "gate": "wrong architecture rejected",
+      "result": "PASS",
+      "cases": "linux_aarch64 and manylinux_2_17_aarch64 / _i686 wheels -> False"
+    },
+    "F6": {
+      "gate": "malformed wheel filename fails closed",
+      "result": "PASS",
+      "cases": "empty, whitespace, non-.whl, missing version, missing platform, missing .whl suffix -> False"
+    },
+    "F7": {
+      "gate": "unsupported/unknown target semantics fail closed",
+      "result": "PASS",
+      "cases": "pypy, graalpy, windows, macos, amd64, aarch64, unsupported eras 3.10/3.11/3.13, malformed 3.8.1 -> False"
+    }
+  },
+  "predecessor_regression": {
+    "scope": "targeted only (no population-wide scan)",
+    "method": "byte-for-byte parity against the frozen R3 d7_r3_wheeltags module for the py312 target: identical manylinux platform enumeration, identical supported PEP 425 tag set, and 25 known py312 wheel cases",
+    "platform_tags_identical": true,
+    "supported_tag_set_identical": true,
+    "cases_checked": 25,
+    "mismatches": 0,
+    "known_r3_accepted_cases_preserved": [
+      "bcrypt-4.2.1-cp37-abi3-manylinux_2_17_x86_64.whl",
+      "cryptography-43.0.3-cp37-abi3-manylinux_2_17_x86_64.whl",
+      "deptry-0.21.2-cp39-abi3-manylinux_2_17_x86_64.whl",
+      "protobuf-5.29.2-cp38-abi3-manylinux_2_17_x86_64.whl",
+      "pyxb-1.2.5-py3-none-any.whl",
+      "authorizenet-1.1.4-py3-none-any.whl"
+    ],
+    "known_r3_rejected_cases_preserved": [
+      "cp311-cp311 non-abi3 for 3.12",
+      "cp313-cp313 future-CPython",
+      "win_amd64",
+      "macosx",
+      "linux_aarch64"
+    ],
+    "result": "PASS"
+  },
+  "network_used": false,
+  "docker_used": false,
+  "full_d7_executed": false,
+  "shared_interface_modified": false,
+  "validation": {
+    "py_compile": "PASS",
+    "ruff": "PASS",
+    "mypy_strict": "PASS",
+    "targeted_pytest": "PASS (88 passed: 52 R4-A + 36 frozen contract)",
+    "git_diff_check": "PASS"
+  },
+  "overall_pass": true
+}
