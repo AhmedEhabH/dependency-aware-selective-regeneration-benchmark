@@ -1,0 +1,104 @@
+{
+  "schema": "benchmark_model_registry_v1",
+  "mission": "M17_DOCUMENTATION_ACADEMIC_PROVENANCE_HYGIENE_R1",
+  "generated": "2026-10-12",
+  "note": "Single human-readable registry of model identities used in actual benchmark/evaluation arms. Every entry is traceable to a frozen artifact. No model name added from memory.",
+  "models": [
+    {
+      "role": "historical primary scientific model + Sparse-v2 study model",
+      "model_id": "qwen/qwen3-coder",
+      "human_readable": "Qwen3-Coder-480B-A35B-Instruct",
+      "provider_or_route_if_relevant": "OpenRouter -> DeepInfra (deepinfra/turbo)",
+      "experiment_or_arm": "djangoCMS selection study (Agent + ImpactPlan-v1), ImpactPlan-v2, microstudies, WP-1b MAIN_297 agent arm",
+      "frozen_source_artifact": "docs/MODEL_IDENTITIES.md; research/wp1b/main-297-2026-09-22/run_state.json",
+      "frozen_source_hash_if_available": "route openrouter:qwen/qwen3-coder@deepinfra/turbo persisted in run_state.json",
+      "temperature_if_applicable": "0",
+      "budget_if_applicable": "cap 4096/16384 by arm",
+      "status": "EXECUTED_BENCHMARK"
+    },
+    {
+      "role": "completed cross-model robustness replication",
+      "model_id": "qwen/qwen3-32b",
+      "human_readable": "Qwen3-32B",
+      "provider_or_route_if_relevant": "OpenRouter -> DeepInfra (deepinfra/fp8)",
+      "experiment_or_arm": "scientific-stagec-djangocms-qwen3-32b-crossmodel-01 (60 cells)",
+      "frozen_source_artifact": "docs/MODEL_IDENTITIES.md; reports/QWEN3_32B_CROSSMODEL_AGREEMENT.md",
+      "frozen_source_hash_if_available": "",
+      "temperature_if_applicable": "0 (reasoning disabled)",
+      "budget_if_applicable": "per frozen study",
+      "status": "EXECUTED_BENCHMARK"
+    },
+    {
+      "role": "new cross-model / cross-provider coder robustness replication",
+      "model_id": "qwen/qwen3-coder-30b-a3b-instruct",
+      "human_readable": "Qwen3-Coder-30B-A3B-Instruct",
+      "provider_or_route_if_relevant": "OpenRouter (provider frozen from live metadata)",
+      "experiment_or_arm": "scientific-stagec-djangocms-qwen3-coder-30b-a3b-crossmodel-01",
+      "frozen_source_artifact": "docs/MODEL_IDENTITIES.md; reports/QWEN3_CODER_30B_A3B_CROSSMODEL_AGREEMENT.md",
+      "frozen_source_hash_if_available": "",
+      "temperature_if_applicable": "model-native non-thinking",
+      "budget_if_applicable": "per frozen study",
+      "status": "EXECUTED_BENCHMARK"
+    },
+    {
+      "role": "RM-CSS dense retrieval embedding realization",
+      "model_id": "qwen/qwen3-embedding-8b (alias qwen/n-8b)",
+      "human_readable": "Qwen3-Embedding-8B",
+      "provider_or_route_if_relevant": "OpenRouter embeddings interface -> DeepInfra ($0.01/M live-verified)",
+      "experiment_or_arm": "RM-CSS (Saleor-300, MAIN_297) + contamination-robustness bridge (DEV only)",
+      "frozen_source_artifact": "src/benchmark/signal/or_embeddings.py (OPENROUTER_EMBED_MODEL); reports/CONTAMINATION_ROBUSTNESS_BRIDGE_CLOSURE_2026-09-19.md",
+      "frozen_source_hash_if_available": "",
+      "temperature_if_applicable": "n/a (embeddings)",
+      "budget_if_applicable": "$0.01/M; bridge ceiling $0.50",
+      "status": "EXECUTED_EMBEDDING"
+    },
+    {
+      "role": "future cross-model candidate (NOT run)",
+      "model_id": "deepseek/deepseek-v4-flash-0731",
+      "human_readable": "DeepSeek V4 Flash 0731",
+      "provider_or_route_if_relevant": "OpenRouter",
+      "experiment_or_arm": "NOT run in milestone",
+      "frozen_source_artifact": "docs/MODEL_IDENTITIES.md (profile deepseek-v4-flash-openrouter); config/model_profiles.yaml",
+      "frozen_source_hash_if_available": "",
+      "temperature_if_applicable": "n/a",
+      "budget_if_applicable": "n/a",
+      "status": "PLANNED_NOT_EXECUTED"
+    },
+    {
+      "role": "future robustness candidate (NOT run)",
+      "model_id": "deepseek/deepseek-v4-pro-0813",
+      "human_readable": "DeepSeek V4 Pro 0813",
+      "provider_or_route_if_relevant": "OpenRouter",
+      "experiment_or_arm": "NOT run",
+      "frozen_source_artifact": "docs/MODEL_IDENTITIES.md (profile deepseek-v4-pro-openrouter)",
+      "frozen_source_hash_if_available": "",
+      "temperature_if_applicable": "n/a",
+      "budget_if_applicable": "n/a",
+      "status": "PLANNED_NOT_EXECUTED"
+    },
+    {
+      "role": "repository/orchestration execution model (NOT a benchmark arm)",
+      "model_id": "deepseek/deepseek-v4-flash-0731 (and GLM-5.3-Flash during one mission)",
+      "human_readable": "DeepSeek V4 Flash",
+      "provider_or_route_if_relevant": "OpenCode environment",
+      "experiment_or_arm": "n/a — orchestration only",
+      "frozen_source_artifact": "docs/EXECUTION_AGENT_PROVENANCE_2026-09-20.md",
+      "frozen_source_hash_if_available": "",
+      "temperature_if_applicable": "n/a",
+      "budget_if_applicable": "n/a",
+      "status": "ORCHESTRATION_ONLY"
+    },
+    {
+      "role": "blinded semantic-plausibility raters (frozen rater outputs)",
+      "model_id": "ChatGPT and Claude (external assistants)",
+      "human_readable": "ChatGPT, Claude",
+      "provider_or_route_if_relevant": "external chat sessions",
+      "experiment_or_arm": "AI semantic plausibility audit (descriptive, NOT human semantic gold)",
+      "frozen_source_artifact": "reports/AI_SEMANTIC_AUDIT_AGREEMENT_REPORT.md; research/semantic_audit/ai_blinded_v1/",
+      "frozen_source_hash_if_available": "per-file SHA-256 recorded in report",
+      "temperature_if_applicable": "n/a",
+      "budget_if_applicable": "n/a",
+      "status": "RELATED_WORK_ONLY"
+    }
+  ]
+}

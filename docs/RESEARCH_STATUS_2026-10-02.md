@@ -39,7 +39,7 @@ exists. Full record: [`docs/M16_V1_CLOSURE_2026-10-02.md`](M16_V1_CLOSURE_2026-1
 - WP2 E2E generation-based selector comparison (blocked by generator floor;
   M15-R S2 gate failed; S3 correctly skipped).
 - WP3 cross-language/polyglot study (optional; only after a feasibility gate
-  and a brain decision that it materially strengthens the thesis without
+  and a review decision that it materially strengthens the thesis without
   delaying it).
 
 ## Source of truth

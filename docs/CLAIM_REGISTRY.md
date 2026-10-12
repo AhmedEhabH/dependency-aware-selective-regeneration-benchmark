@@ -2,7 +2,7 @@
 
 **Role:** The binding interpretation of all results. Claims are frozen at
 2026-10-02. No executor may change research questions, metrics, thresholds or
-claim semantics without a brain-reviewed design amendment. This registry
+claim semantics without a review-approved design amendment. This registry
 mirrors the claim freeze in the control pack
 (`03_RESEARCH_QUESTIONS_AND_CLAIMS.md`).
 
