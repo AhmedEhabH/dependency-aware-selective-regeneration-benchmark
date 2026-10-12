@@ -1,0 +1,125 @@
+{
+  "mission_id": "M17_D7_R4_C_LINUX_TREE_FIDELITY",
+  "start_commit": "2f37afbc21a50c5b11afe7b13cb593d1e47dd54a",
+  "branch": "parallel/d7-r4-c-linux-tree-2026-10-12",
+  "date": "2026-10-13",
+  "implementation_files": [
+    "src/benchmark/wp2/env_r4/linux_tree_materialize.py"
+  ],
+  "test_files": [
+    "tests/unit/wp2/test_r4_linux_tree_materialize.py",
+    "tests/integration/wp2/test_r4_linux_tree_materialize_integration.py"
+  ],
+  "docker_used": true,
+  "local_linux_image": {
+    "image": "envcanon/saleor-env-base-py312-bookworm:latest",
+    "git_version_in_image": "2.39.5",
+    "image_already_present_local": true,
+    "pull_required": false
+  },
+  "substrate": "WSL-local Docker Engine (Ubuntu-24.04); ext4 volume",
+  "source_git_objects": {
+    "repo": "/opt/wp2_v2/saleor-cache",
+    "authority": "local Git object store only; no Windows checkout used",
+    "repo_core_filemode_false_note": "repo has core.filemode=false from NTFS checkout; materializer therefore reads object-authoritative modes via ls-tree and sets them explicitly (git archive would inherit worktree modes)",
+    "network_used": false
+  },
+  "representative_tasks": [
+    {
+      "task_id": "saleor-rc-24f9b244d6bc",
+      "parent_commit": "4639d4c30ed2f47e2cb5b63dfb17c412ce91b2ae",
+      "target_commit": "24f9b244d6bc8c591c9707380917d9b6c6d35c35",
+      "target_blob_count": 1788,
+      "executable_file_count": 26,
+      "submodules": 0,
+      "known_ntfs_invalid_vcr_cassettes": 3,
+      "evidence_source": "docs/WP2_WINDOWS_V1_TO_LINUX_V2_RECONCILIATION_2026-09-23.md + research/wp2/wp2_saleor_main297_census_2026-09-22.csv (frozen evidence)"
+    }
+  ],
+  "tested_ntfs_invalid_paths": [
+    "saleor/graphql/core/tests/cassettes/test_get_oembed_data[http:/www.youtube.com/watch?v=dQw4w9WgXcQ-VIDEO].yaml",
+    "saleor/graphql/core/tests/cassettes/test_get_oembed_data[https:/www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=TestingChannel-VIDEO].yaml",
+    "saleor/graphql/core/tests/cassettes/test_get_oembed_data[https:/www.youtube.com/watch?v=dQw4w9WgXcQ-VIDEO].yaml"
+  ],
+  "executable_mode_file": {
+    "path": "manage.py",
+    "git_mode": "100755",
+    "unix_mode_expected": "755"
+  },
+  "blob_content_verification": {
+    "method": "git hash-object on materialized file == git blob oid (ls-tree) for every targeted cassette",
+    "cassette_1_oid": "521004643f13f76999f5592fbba379459c756c9e",
+    "verified": true
+  },
+  "mode_verification": {
+    "method": "stat -c %a on materialized file == git objectmode (100755->755, 100644->644)",
+    "manage_py_mode": "755",
+    "verified": true
+  },
+  "p2p_results": {
+    "P1_valid_commit_materializes": "PASS",
+    "P2_ntfs_invalid_path_present_exact": "PASS",
+    "P3_blob_content_hash_matches_git": "PASS",
+    "P4_git_executable_mode_preserved": "PASS",
+    "P5_repeated_materialization_equivalent_tree_identity": "PASS",
+    "P6_cleanup_no_ambiguous_state": "PASS",
+    "P7_network_unavailable_not_used": "PASS"
+  },
+  "f2p_results": {
+    "F1_missing_commit_fails_closed": "PASS",
+    "F2_missing_corrupt_object_fails_closed": "PASS",
+    "F3_dirty_destination_fails_closed": "PASS",
+    "F4_partial_extraction_fails_closed": "PASS",
+    "F5_windows_ntfs_tree_rejected_as_authoritative_input": "PASS",
+    "F6_network_fallback_fails_closed": "PASS",
+    "F7_silent_omission_invalid_ntfs_path_fails": "PASS"
+  },
+  "test_run_summary": {
+    "unit_tests": "19 passed",
+    "integration_tests": "14 passed",
+    "contract_tests_unchanged": "36 passed",
+    "test_targets": [
+      "pytest tests/unit/wp2/test_r4_linux_tree_materialize.py",
+      "pytest tests/integration/wp2/test_r4_linux_tree_materialize_integration.py"
+    ]
+  },
+  "validation": {
+    "py_compile": "PASS",
+    "ruff": "PASS",
+    "mypy_strict": "PASS",
+    "git_diff_check": "PASS",
+    "targeted_pytest": "PASS",
+    "full_suite": "NOT RUN (not an acceptance gate per mission)"
+  },
+  "materialization_requirements": {
+    "source_local_git_objects_only": true,
+    "no_windows_checkout_authoritative": true,
+    "exact_git_path_names_preserved": true,
+    "exact_blob_contents_preserved": true,
+    "git_executable_mode_preserved": true,
+    "no_crlf_conversion": true,
+    "missing_commit_fails_closed": true,
+    "missing_object_fails_closed": true,
+    "partial_extraction_fails_closed": true,
+    "silent_skipped_path_fails": true,
+    "deterministic_cleanup": true,
+    "ephemeral_on_demand_materialization": true,
+    "no_permanent_219_worktree_duplicate": true
+  },
+  "anti_waste": {
+    "tasks_materialized": 1,
+    "no_full_population_materialization": true,
+    "no_full_suite_run": true,
+    "no_byte_verify_all_worktrees": true,
+    "docker_pull": false,
+    "docker_build": false
+  },
+  "network_used": false,
+  "docker_pull_used": false,
+  "docker_build_used": false,
+  "full_d7_executed": false,
+  "opws_executed": false,
+  "shared_interface_modified": false,
+  "overall_pass": true,
+  "status": "M17_D7_R4_C_LINUX_TREE_READY_FOR_INTEGRATION"
+}
