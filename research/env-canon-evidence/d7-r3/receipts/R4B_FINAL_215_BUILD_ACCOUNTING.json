@@ -1,0 +1,45 @@
+{
+  "artifact": "R4B_FINAL_215_BUILD_ACCOUNTING",
+  "mission": "M17_ENV_CANON_R4B_FINAL_EXECUTE_APPROVED_ENVIRONMENT_CANON",
+  "status": "CLEAN_CANONICAL_215_VALIDATION_COMPLETE",
+  "total_identities": 215,
+  "accounting": {
+    "CANONICAL_FULL_PASS": 214,
+    "CANONICAL_APPROVED_COMPATIBILITY_BACKPORT_PASS": 1
+  },
+  "expected_state": "214 CANONICAL_FULL_PASS + 1 CANONICAL_APPROVED_COMPATIBILITY_BACKPORT_PASS",
+  "canonical_full_pass": 214,
+  "canonical_approved_compatibility_backport_pass": 1,
+  "canonical_fail": 0,
+  "pyxb_backport_identity": "pyxb==1.2.5::py312",
+  "pyxb_backport_wheel": {
+    "filename": "pyxb-1.2.5-py3-none-any.whl",
+    "sha256": "52a256ce138aa2a4031a86789ba8edbe5379eb4ca96391eb4c572092894092d9",
+    "size": 4947363
+  },
+  "wheels_total": 215,
+  "wheels_with_tag_issues": [],
+  "source": [
+    "frozen canonical source set (wheelhouse, 215/215 hash-verified)"
+  ],
+  "toolhouse": "R4B_FINAL_BUILD_TOOLHOUSE.json (amended, additive)",
+  "native_profiles": [
+    "envcanon/saleor-env-base-py38-bullseye",
+    "envcanon/saleor-env-r4b-py39-native",
+    "envcanon/saleor-env-base-py312-bookworm"
+  ],
+  "network": "NONE during all source builds (--network=none)",
+  "build_flags": "--no-build-isolation --no-deps, SOURCE_DATE_EPOCH=1609459200, max heavy workers=2",
+  "patch_lane_promoted": "NONE (Track-B built wheels NOT reused; fresh canon_r4b outputs)",
+  "output_root": "D:\\wp2_env_store\\built_wheelhouse\\canon_r4b",
+  "invariants": {
+    "application_dependency_versions_changed": "NONE",
+    "application_locks_changed": "NONE",
+    "population_changed": "NONE",
+    "readiness_semantics_changed": "NONE",
+    "scientific_protocol_changed": "NONE",
+    "python_profile_changed": "NONE",
+    "D7_started": false
+  },
+  "created_at_utc": "2026-10-11T00:04:47.497117+00:00"
+}

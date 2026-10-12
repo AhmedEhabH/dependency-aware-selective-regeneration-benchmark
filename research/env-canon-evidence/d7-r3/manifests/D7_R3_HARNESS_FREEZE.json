@@ -1,0 +1,66 @@
+{
+  "artifact": "D7_R3_HARNESS_FREEZE",
+  "created_at_utc": "2026-10-12T04:41:21.065526+00:00",
+  "defect_corrections": [
+    "R2_DEFECT_A: libopenjp2-7 SONAME libopenjp2-7.so.7 -> libopenjp2.so.7",
+    "R2_DEFECT_B: pipx absolute /usr/local/bin/pipx -> EXEC-on-PATH probe (command -v pipx -> /usr/bin/pipx)",
+    "R2_DEFECT_C: libxslt1-dev SONAME libxslt.so.1.1 -> libxslt.so.1"
+  ],
+  "docker_used_in_freezes_now": true,
+  "docker_used_network": "none-only-read-only-probes",
+  "final_r4b_frozen_artifacts_changed": false,
+  "freeze_token": "M17_ENV_CANON_D7_R3_HARNESS_FREEZE_COMPLETE_READY_FOR_CALIBRATION_OWNER_DECISION",
+  "harness_dir": "D:\\wp2_env_store\\harness\\d7_r3",
+  "harness_files": {
+    "D7_R3_HARNESS_CONTRACT.md": {
+      "bytes": 8823,
+      "sha256": "fd06ebb2fcc29f128c15af0a1986f90684ba4d4c62dbfcb6493ed863fb98dfa5"
+    },
+    "D7_R3_HARNESS_MANIFEST.json": {
+      "bytes": 1515,
+      "note": "self-hash = SHA-256 of this manifest's JSON skeleton excluding files['D7_R3_HARNESS_MANIFEST.json'] (deterministic self-reference).",
+      "sha256": "4724f3dc5e222ed6dcab4d230661da898a8a3fb71922225b7dd614b0bf9aa97d"
+    },
+    "d7_r3_closure.py": {
+      "bytes": 8979,
+      "sha256": "88eec826d6c099831c9116e8269d402053624e8d4049ab6337c42daab3b54f58"
+    },
+    "d7_r3_light_pack.py": {
+      "bytes": 4821,
+      "sha256": "c14e9d2e7b56f02774b96449ba6755a083cd7f819c62e683b070579c7655620e"
+    },
+    "d7_r3_native_specs.py": {
+      "bytes": 6026,
+      "sha256": "051608c37840a8a4d5b01c6bf5fb0d653624227ca723bef656af64846508b44c"
+    },
+    "d7_r3_probes.py": {
+      "bytes": 6406,
+      "sha256": "04a395ce0069321f11b5b419d48569d94a1e81891ab767b564fd0c89aa35bad9"
+    },
+    "d7_r3_validation_driver.py": {
+      "bytes": 43741,
+      "sha256": "658f316961948041f908a6447736cd3169dedd26123d70c7942bdf4dea8aea40"
+    },
+    "d7_r3_wheeltags.py": {
+      "bytes": 5858,
+      "sha256": "e5e7d83846c90d61988190a6c0115565fb762fdebfed757fa1012356fe03312e"
+    },
+    "tests/pytest.ini": {
+      "bytes": 35,
+      "sha256": "aff86c25b341f851c7689e0e81c92b5a57d3ee3825de58e03a1a5568fccdcc77"
+    },
+    "tests/test_d7_r3_harness.py": {
+      "bytes": 13151,
+      "sha256": "5a138cf112fcfdd17c144e804d89babb058b64f665e8b54be1802a61f60fdfdb"
+    }
+  },
+  "metrics_thresholds_selectors_locks_changed": false,
+  "mission": "M17_ENV_CANON_D7_R3_HARNESS_DEFECT_CORRECTION_AND_FREEZE",
+  "mission_class": "ENGINEERING_QUALIFICATION_HARNESS_DEFECT_CORRECTION_ONLY",
+  "network_used_in_freeze": false,
+  "population_changed": false,
+  "r2_evidence_changed": false,
+  "real_12_unit_execution_started": false,
+  "scientific_changes": "NONE",
+  "source_build_attempted": false
+}

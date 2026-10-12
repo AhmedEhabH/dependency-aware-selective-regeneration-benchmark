@@ -1,0 +1,81 @@
+{
+  "artifact": "R4B_FINAL_SOURCE_BUILD_CANON_FREEZE",
+  "mission": "M17_ENV_CANON_R4B_FINAL_EXECUTE_APPROVED_ENVIRONMENT_CANON",
+  "status": "ENV_SOURCE_BUILD_CANON_READY = TRUE",
+  "status_scope": "source-build-environment stage ONLY; NOT ENV_CANON_READY (D7 authority boundary respected; D7 NOT started)",
+  "d7_started": false,
+  "scientific_evidence": "NONE",
+  "frozen_components": {
+    "A_R2_TOOLHOUSE": {
+      "manifest": "BUILD_TOOLHOUSE_HASHES_R2.json",
+      "n_files": 20,
+      "unchanged": true,
+      "hash_verified_at_r4b0": true
+    },
+    "B_AMENDED_TOOLHOUSE": {
+      "manifest": "manifests/R4B_FINAL_BUILD_TOOLHOUSE.json",
+      "n_files": 74,
+      "per_era": {
+        "py38": 33,
+        "py39": 33,
+        "py312": 8
+      },
+      "mode": "ADDITIVE (R2 preserved byte-identical)",
+      "verify": "R4B2_TOOLHOUSE_VERIFY_PASS (76/74 checked, 0 metadata problems, 0 transitive missing)"
+    },
+    "C_SPHINX_222_CLOSURE": {
+      "manifest": "manifests/R4B_FINAL_ACQUISITION.json",
+      "n_wheels": 23,
+      "bytes": 11761794,
+      "channel": "files.pythonhosted.org exact frozen URLs",
+      "frozen": true
+    },
+    "D_LIBCAIRO2": {
+      "manifest": "manifests/R4B_FINAL_ACQUISITION.json",
+      "deb": "libcairo2_1.16.0-7_amd64.deb",
+      "sha256": "927fa059f8b5791d0cd744d4e3a8c57fa872ef849ce14434dc2222ac8a076a69",
+      "runtime_gate": "R4B_FINAL_CAIRO_RUNTIME.json PASS (cairocffi 1.2.0 py39 -> cairo_version_string 1.16.0)"
+    },
+    "E_GOOGLE_CRC32C_NATIVE": {
+      "manifest": "manifests/R4B_FINAL_NATIVE_ENVIRONMENT.json",
+      "repo": "https://github.com/google/crc32c",
+      "tag": "1.0.6",
+      "commit": "75e82b8bc35fd013a6220427e7f61f8adeebf9b7",
+      "archive_sha256": "6b3b1d861bb8307658b2407bc7a4c59e566855ef5368a60b35c893551e4788e9",
+      "image": "envcanon/saleor-env-r4b-py39-native:latest",
+      "image_digest": "3220486db0d8f7649b29bfe01875a1ef794c860539e2713587d9d32f5bd91b89",
+      "fidelity_gate": "R4B_FINAL_GOOGLE_CRC32C_FIDELITY.json FULL_NATIVE_BUILD_PASS (8/8)"
+    },
+    "F_PYXB_COMPATIBILITY_BACKPORT": {
+      "manifest": "manifests/R4B_FINAL_PYXB_COMPATIBILITY_BACKPORT.json",
+      "authority": "OWNER_APPROVED_ENGINEERING_EXCEPTION (PYXB_OPTION_A)",
+      "identity": "pyxb==1.2.5::py312",
+      "before_six_py_sha256": "c759ab5cf07b9cecaf1f66e767c9a3d5bc4715a3c9140282a16ca106fb011162",
+      "after_six_py_sha256": "04bf14b9548168f096a190f9981ae7d06bb6715772067520ea46b2d7f0075425",
+      "acceptance": "R4B_FINAL_PYXB_ACCEPTANCE.json PASS (9/9 checks + differential py39 PASS)"
+    },
+    "G_215_BUILD_ACCOUNTING": {
+      "receipt": "receipts/R4B_FINAL_215_BUILD_ACCOUNTING.json",
+      "total": 215,
+      "canonical_full_pass": 214,
+      "canonical_approved_compatibility_backport_pass": 1,
+      "canonical_fail": 0,
+      "wheel_hash_independent_recheck": "215/215 match",
+      "network_during_builds": "NONE (--network=none)",
+      "output_root": "built_wheelhouse/canon_r4b",
+      "patch_lane_promoted": "NONE"
+    }
+  },
+  "invariants": {
+    "application_dependency_versions_changed": "NONE",
+    "application_locks_changed": "NONE",
+    "population_changed": "NONE",
+    "readiness_semantics_changed": "NONE",
+    "scientific_protocol_changed": "NONE",
+    "python_profile_changed": "NONE",
+    "frozen_build_toolhouse_changed": false,
+    "canonical_wheels_changed": false,
+    "D7_started": false
+  },
+  "created_at_utc": "2026-10-11T00:58:50.540800+00:00"
+}

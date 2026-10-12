@@ -1,0 +1,216 @@
+{
+  "artifact": "D7_R2_TO_R3_DEFECT_RESOLUTION",
+  "mission": "M17_ENV_CANON_D7_R3_HARNESS_DEFECT_CORRECTION_AND_FREEZE",
+  "mission_class": "ENGINEERING_QUALIFICATION_HARNESS_DEFECT_CORRECTION_ONLY",
+  "rq_evidence": "NONE",
+  "scientific_result": "NONE",
+  "branch": "parallel/env-canon-2026-10-09",
+  "head_commit": "1661ec215ede6ae96e82735148db4febffb21580",
+  "created_at_utc": "2026-10-12T04:45:00.000Z",
+  "r2_failed_calibration_evidence": {
+    "receipt": "D:\\wp2_env_store\\receipts\\D7_R2_CALIBRATION_12_RECEIPT.json",
+    "report": "D:\\wp2_env_store\\reports\\D7_R2_CALIBRATION_12_REPORT.md",
+    "D7_R2_CALIBRATION_STATUS": "BLOCKED_STOP",
+    "N_EXECUTED": 1,
+    "N_PASS": 0,
+    "N_FAIL": 1,
+    "first_failure_unit": {
+      "validation_unit_id": "vu-e4998719ee01",
+      "native_profile_id": "nat-34c1a3756742",
+      "final_classification": "NATIVE_FAIL",
+      "native_failures": [
+        {
+          "package": "libopenjp2-7",
+          "kind": "SONAME",
+          "expected": ["libopenjp2-7.so.7"],
+          "detail": "no allowed soname among loader-visible names"
+        }
+      ],
+      "native_json": "D:\\wp2_env_store\\tmp\\d7_r2_out\\vu-e4998719ee01\\native.json",
+      "openjp2_loader_tokens_observed": ["libopenjp2.so.7", "libopenjp2.so"]
+    },
+    "recorded_root_cause": "FROZEN native-spec table (d7_r2_native_specs.py) requires loader-visible soname token 'libopenjp2-7.so.7' for apt package 'libopenjp2-7', but the FROZEN native image exposes ELF SONAME 'libopenjp2.so.7'."
+  },
+  "root_cause_defects": [
+    {
+      "defect_id": "R2_DEFECT_A",
+      "package": "libopenjp2-7",
+      "class": "HARNESS_ENGINEERING_METADATA",
+      "probe_kind": "SONAME",
+      "r2_encoded": "libopenjp2-7.so.7",
+      "loader_truth": "libopenjp2.so.7",
+      "mechanism": "R2 encoded the Debian PACKAGE NAME morphology (libopenjp2-7) as a loader-visible SONAME. The actual loader/ELF reality in all frozen images is libopenjp2.so.7.",
+      "evidence": [
+        "ldconfig -p -> 'libopenjp2.so.7 (libc6,x86-64) => /lib/x86_64-linux-gnu/libopenjp2.so.7' and 'libopenjp2.so'; NO libopenjp2-7.so.7 token",
+        "readelf -d /usr/lib/x86_64-linux-gnu/libopenjp2.so.2.5.0 -> SONAME [libopenjp2.so.7]",
+        "find / -name 'libopenjp2*' -> only /usr/lib/x86_64-linux-gnu/libopenjp2.so{,.7,.2.5.0,.a,.pc} and dpkg doc/info paths",
+        "dpkg: libopenjp2-7 2.5.0-2+deb12u3 (package present; its SONAME is libopenjp2.so.7)"
+      ],
+      "reproduced_in": "D:\\wp2_env_store\\tmp\\d7_r3_out\\probes\\D7_R3_NATIVE_SPEC_AUDIT.json",
+      "affected_profiles": ["nat-02b9bb45ba01", "nat-0728db662cde", "nat-34c1a3756742", "nat-591718dce38a", "nat-a39687f3d19c", "nat-cc2f641e9e04", "nat-d35546f097f4", "nat-d7d5ae76a87f", "nat-f65b9bf250fd"],
+      "blocks": "ALL 12 calibration units (all three populations profiles include libopenjp2-7)"
+    },
+    {
+      "defect_id": "R2_DEFECT_B",
+      "package": "pipx",
+      "class": "HARNESS_ENGINEERING_METADATA",
+      "probe_kind": "PATH",
+      "r2_encoded": "/usr/local/bin/pipx (absolute PATH)",
+      "loader_truth": "EXEC-on-PATH: 'command -v pipx' -> /usr/bin/pipx",
+      "mechanism": "R2 encoded a frozen absolute path /usr/local/bin/pipx that does not exist. pipx is a Debian package (pipx 1.1.0-1, /usr/bin/pipx, python script) and the true requirement is 'pipx exists on PATH'.",
+      "evidence": [
+        "command -v pipx -> /usr/bin/pipx (rc=0)",
+        "realpath -> /usr/bin/pipx",
+        "ls -l /usr/local/bin/pipx -> does not exist on either pipx image",
+        "file /usr/bin/pipx -> Python script, ASCII text executable; dpkg pipx 1.1.0-1 all"
+      ],
+      "reproduced_in": "D:\\wp2_env_store\\tmp\\d7_r3_out\\probes\\D7_R3_NATIVE_SPEC_AUDIT.json",
+      "affected_profiles": ["nat-a39687f3d19c", "nat-cc2f641e9e04"],
+      "blocks": "Units using nat-a39687f3d19c / nat-cc2f641e9e04 (calibration units 4,5,6,8,9,10)"
+    },
+    {
+      "defect_id": "R2_DEFECT_C",
+      "package": "libxslt1-dev",
+      "class": "HARNESS_ENGINEERING_METADATA",
+      "probe_kind": "SONAME",
+      "r2_encoded": "libxslt.so.1.1",
+      "loader_truth": "libxslt.so.1",
+      "mechanism": "R2 encoded part of the versioned FILENAME (libxslt.so.1.1.35) as if it were a SONAME. The loader-visible SONAME is libxslt.so.1.",
+      "evidence": [
+        "ldconfig -p -> 'libxslt.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libxslt.so.1' and 'libxslt.so'; NO libxslt.so.1.1 token",
+        "readelf -d /usr/lib/x86_64-linux-gnu/libxslt.so.1.1.35 -> SONAME [libxslt.so.1]",
+        "find / -name 'libxslt.so.1.1*' -> only the versioned filename libxslt.so.1.1.35 (real object), never a loader token",
+        "dpkg: libxslt1-dev/libxslt1.1 1.1.35-1+deb12u4"
+      ],
+      "reproduced_in": "D:\\wp2_env_store\\tmp\\d7_r3_out\\probes\\D7_R3_NATIVE_SPEC_AUDIT.json",
+      "affected_profiles": ["nat-02b9bb45ba01"],
+      "blocks": "7 units of the 144 population using nat-02b9bb45ba01 (not in the first-12 calibration subset)"
+    }
+  ],
+  "full_native_spec_audit": {
+    "status": "COMPLETE",
+    "n_images_audited": 10,
+    "n_profiles_audited": 10,
+    "defects_found": 3,
+    "pass_requirements_audited": 19,
+    "no_environment_artifact_missing": true,
+    "no_environment_runtime_failure_classified": true,
+    "audit_evidence": "D:\\wp2_env_store\\tmp\\d7_r3_out\\probes\\D7_R3_NATIVE_SPEC_AUDIT.json"
+  },
+  "exact_changed_files": {
+    "harness/d7_r3/d7_r3_native_specs.py": {
+      "basis": "harness/d7_r2/d7_r2_native_specs.py",
+      "engineering_changed_lines": [
+        "added EXEC_PROBE = 'EXEC' (probe kind for PATH-resolvable executables)",
+        "libopenjp2-7 spec allowed_sonames: ('libopenjp2-7.so.7',) -> ('libopenjp2.so.7',)   [R2_DEFECT_A]",
+        "pipx spec: {'kind': PATH, 'path': '/usr/local/bin/pipx'} -> {'kind': EXEC, 'executable': 'pipx'}   [R2_DEFECT_B]",
+        "libxslt1-dev spec allowed_sonames: ('libxslt.so.1.1',) -> ('libxslt.so.1',)   [R2_DEFECT_C]"
+      ],
+      "identity_only_changes": "docstring (R2->R3 identity + defect mapping notes)"
+    },
+    "harness/d7_r3/d7_r3_probes.py": {
+      "basis": "harness/d7_r2/d7_r2_probes.py",
+      "engineering_changed_lines": [
+        "run_native_probes() gains optional exec_resolutions: dict[str,str] (container command -v view)",
+        "EXEC probe branch: strict 'executable resolvable on PATH core + resolved file exists' (no optimistic fallback)   [R2_DEFECT_B]"
+      ],
+      "identity_only_changes": "docstring (R2->R3 identity + defect mapping notes); import renamed to d7_r3_native_specs"
+    },
+    "harness/d7_r3/d7_r3_closure.py": {
+      "basis": "harness/d7_r2/d7_r2_closure.py",
+      "engineering_changed_lines": [],
+      "identity_only_changes": "docstring; import d7_r2_wheeltags -> d7_r3_wheeltags"
+    },
+    "harness/d7_r3/d7_r3_wheeltags.py": {
+      "basis": "harness/d7_r2/d7_r2_wheeltags.py",
+      "engineering_changed_lines": [],
+      "identity_only_changes": "docstring header only; behavior byte-identical"
+    },
+    "harness/d7_r3/d7_r3_validation_driver.py": {
+      "basis": "harness/d7_r2/d7_r2_validation_driver.py",
+      "engineering_changed_lines": [
+        "synthetic loader truth corrected: libopenjp2-7.so.7 -> libopenjp2.so.7   [R2_DEFECT_A]",
+        "synthetic pipx resolution: /usr/local/bin/pipx -> command -v pipx -> /usr/bin/pipx (EXEC)   [R2_DEFECT_B]",
+        "added positive control P3b_pipx_path_resolution_exact, P6_libxslt_soname_exact_loader",
+        "added negative controls F4b_pipx_not_resolvable_fail_closed, F4c_libxslt_absent_soname_fail_closed",
+        "F4 negative control now rejects the R2-era wrong libopenjp2-7.so.7 token (guards the corrected strict spec)"
+      ],
+      "identity_only_changes": "docstring; R3 output paths/manifest/mission names; report table text"
+    },
+    "harness/d7_r3/d7_r3_light_pack.py": {
+      "basis": "harness/d7_r2/d7_r2_light_pack.py",
+      "engineering_changed_lines": [],
+      "identity_only_changes": "R3 harness path, R3 output artifact names, authority file list adds R3 artifacts + R2 failed-calibration evidence"
+    },
+    "harness/d7_r3/tests/test_d7_r3_harness.py": {
+      "basis": "harness/d7_r2/tests/test_d7_r2_harness.py",
+      "engineering_changed_lines": [
+        "added test_r3_defect_a_libopenjp2_soname_corrected",
+        "added test_r3_defect_b_pipx_exec_on_path",
+        "added test_r3_defect_c_libxslt1_dev_soname_corrected",
+        "added test_loader_truth_nat34_exposes_libopenjp2_so7",
+        "added test_p3b_pipx_path_resolution_exact, test_p6_libxslt_soname_exact_loader",
+        "added test_f4b_pipx_not_resolvable_detected, test_f4c_libxslt_absent_soname_detected",
+        "added test_no_r2_import_leak",
+        "added test_run_native_probes_exact (wrong R2 token must NOT satisfy corrected spec)",
+        "added test_exec_probe_strict_resolution"
+      ],
+      "identity_only_changes": "module import names d7_r2 -> d7_r3"
+    },
+    "harness/d7_r3/tests/pytest.ini": {
+      "identity_only_changes": "none (byte-identical to R2)"
+    },
+    "harness/d7_r3/D7_R3_HARNESS_CONTRACT.md": {
+      "identity_only_changes": "new R3 contract document (defect-mapping table, immutability + additive boundary)"
+    }
+  },
+  "why_engineering_only": "Every specification/logic change in the native probe path is a correction of harness metadata to match the ALREADY-PRESENT, frozen environment artifact truth (loader-visible SONAMEs / PATH resolution). No environment image, package, lock, closure, threshold, selector, population, gold, evaluator, smoke or protocol was changed. The frozen closure identity is byte-identical (sha256 33f1d8415ccefcc9ced33e56a0ea2ade2cf4d4dfacf470ff88cf4fc1612cb641 for unit 1) under R3.",
+  "r2_hashes": {
+    "before_mission": "verified unchanged at mission start (recorded in this receipt)",
+    "after_mission_hold": "recomputed at mission end; see r2_hashes_after below",
+    "manifest_reference": "D:\\wp2_env_store\\harness\\d7_r2\\D7_R2_HARNESS_MANIFEST.json"
+  },
+  "r2_hashes_after": {
+    "verification": "RECOMPUTED_AT_MISSION_END_2026-10-12",
+    "all_manifest_listed_unchanged": true,
+    "n_files_verified": 9,
+    "manifest_file_unchanged": true,
+    "manifest_sha256_after": "5f7013c32b8dc146c4e0c1b601d6944155e26fc0d720352b879c0a1dc36b04e0",
+    "files_unchanged": [
+      "D7_R2_HARNESS_CONTRACT.md 79ece30f0ca34dc7c0766a6f7c993ad69e91ea55ffb6122d44f0c86ee321ae8d",
+      "d7_r2_closure.py a5c292374511b5f6932b34eac5c8f6daa52027df4a6e95a2fbc2d2430be9670c",
+      "d7_r2_light_pack.py 13dde70bbf0e89e0450e4227d50d6d97c0c508e7fb9c9b7ad4674498a57f099b",
+      "d7_r2_native_specs.py e55cd41cb6b4298b2a20c0c80fc62cad40e7b88e56aabf8c35ea6a3b07cbc8d8",
+      "d7_r2_probes.py 0e305b032555f3f7add17018bdb847901114cbc36ef950741b205d8cfe6094a3",
+      "d7_r2_validation_driver.py 233d2e77e9fa824bdd6b04d9db80ae5f2f554744fce8b7fab73fa155b110f0a9",
+      "d7_r2_wheeltags.py ca1b0482156c78fee6868385bf0d932defd29ba24049378cffda4ad05f1e5bcc",
+      "tests/pytest.ini aff86c25b341f851c7689e0e81c92b5a57d3ee3825de58e03a1a5568fccdcc77",
+      "tests/test_d7_r2_harness.py deb9248d1f1a029cf9c5313f11e0c87e2e78381cc9fb31d5cfa87963e8f99a65"
+    ]
+  },
+  "r3_hashes": {
+    "manifest": "D:\\wp2_env_store\\harness\\d7_r3\\D7_R3_HARNESS_MANIFEST.json",
+    "files": {
+      "D7_R3_HARNESS_CONTRACT.md": "fd06ebb2fcc29f128c15af0a1986f90684ba4d4c62dbfcb6493ed863fb98dfa5",
+      "D7_R3_HARNESS_MANIFEST.json": "4724f3dc5e222ed6dcab4d230661da898a8a3fb71922225b7dd614b0bf9aa97d (skeleton self-hash)",
+      "d7_r3_closure.py": "88eec826d6c099831c9116e8269d402053624e8d4049ab6337c42daab3b54f58",
+      "d7_r3_light_pack.py": "c14e9d2e7b56f02774b96449ba6755a083cd7f819c62e683b070579c7655620e",
+      "d7_r3_native_specs.py": "051608c37840a8a4d5b01c6bf5fb0d653624227ca723bef656af64846508b44c",
+      "d7_r3_probes.py": "04a395ce0069321f11b5b419d48569d94a1e81891ab767b564fd0c89aa35bad9",
+      "d7_r3_validation_driver.py": "658f316961948041f908a6447736cd3169dedd26123d70c7942bdf4dea8aea40",
+      "d7_r3_wheeltags.py": "e5e7d83846c90d61988190a6c0115565fb762fdebfed757fa1012356fe03312e",
+      "tests/pytest.ini": "aff86c25b341f851c7689e0e81c92b5a57d3ee3825de58e03a1a5568fccdcc77",
+      "tests/test_d7_r3_harness.py": "5a138cf112fcfdd17c144e804d89babb058b64f665e8b54be1802a61f60fdfdb"
+    }
+  },
+  "scientific_changes": "NONE",
+  "population_changed": "FALSE",
+  "thresholds_changed": "FALSE",
+  "locks_changed": "FALSE",
+  "docker_images_changed": "FALSE",
+  "source_build_canon_changed": "FALSE",
+  "calibration_12_not_run": true,
+  "no_repair_and_continue": true,
+  "r2_untouched_additive_r3_created": true,
+  "next_mission_required": "D7_R3_CALIBRATION_12 (separate owner authorization required)"
+}

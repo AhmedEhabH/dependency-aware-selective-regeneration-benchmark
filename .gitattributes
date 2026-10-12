@@ -98,3 +98,9 @@ exports/WP1B_AG16_BRAIN_HANDOFF_2026-09-22/** text eol=lf
 # unit result JSON (junit_files). Pin LF so Windows core.autocrlf cannot
 # invalidate verify_unit() hash checks on a fresh checkout.
 research/wp2/harness_v3_2026-09-26/p2pu_v3_junit/** text eol=lf
+
+# M17 D7 R3 environment-canon evidence-preservation snapshot is byte-frozen with
+# SHA-256 recorded in research/env-canon-evidence/d7-r3/EVIDENCE_MANIFEST.json
+# (computed from canonical LF content). Pin LF so Windows core.autocrlf cannot
+# invalidate the preservation hash contract on a fresh checkout.
+research/env-canon-evidence/d7-r3/** text eol=lf

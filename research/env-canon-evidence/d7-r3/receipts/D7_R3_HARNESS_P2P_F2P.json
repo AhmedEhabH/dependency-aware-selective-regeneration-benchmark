@@ -1,0 +1,198 @@
+{
+  "artifact": "D7_R3_HARNESS_P2P_F2P",
+  "closure_check": {
+    "all_resolve": true,
+    "n_units": 12
+  },
+  "created_at_utc": "2026-10-12T04:41:21.069032+00:00",
+  "deterministic": true,
+  "docker_not_used": true,
+  "f2p": {
+    "all_pass": true,
+    "items": [
+      {
+        "classification": "RUNTIME_TOOLHOUSE_CONTAMINATION",
+        "name": "F1_build_toolhouse_contamination_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "RUNTIME_ARTIFACT_CLOSURE_DEFECT",
+        "name": "F2_missing_runtime_wheel_source_build_request_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "NATIVE_FAIL",
+        "name": "F3_wrong_native_profile_probe_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "NATIVE_FAIL",
+        "name": "F4_incorrect_absent_required_soname_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "NATIVE_FAIL",
+        "name": "F4b_pipx_not_resolvable_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "NATIVE_FAIL",
+        "name": "F4c_libxslt_absent_soname_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "NETWORK_FAIL_CLOSED",
+        "name": "F5_network_visible_fetchcapable_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "PIP_CHECK_FAIL",
+        "name": "F6_deliberate_pip_check_inconsistency_fail_closed",
+        "pass": true
+      },
+      {
+        "classification": "SMOKE_FAIL",
+        "name": "F7_deliberate_smoke_failure_fail_closed",
+        "pass": true
+      }
+    ],
+    "n_items": 9,
+    "n_pass": 9
+  },
+  "mission": "M17_ENV_CANON_D7_R3_HARNESS_DEFECT_CORRECTION_AND_FREEZE",
+  "network_not_used": true,
+  "p2p": {
+    "all_pass": true,
+    "items": [
+      {
+        "classification": "PASS",
+        "name": "P1_clean_runtime_wheel_only_install_path",
+        "pass": true
+      },
+      {
+        "classification": "PASS",
+        "name": "P2_runtime_pip_check_clean",
+        "pass": true
+      },
+      {
+        "classification": "PASS",
+        "name": "P3_native_profile_exact_required_probes",
+        "pass": true
+      },
+      {
+        "classification": "PASS",
+        "name": "P3b_pipx_path_resolution_exact",
+        "pass": true
+      },
+      {
+        "classification": "PASS",
+        "name": "P4_no_native_profile_does_not_probe_unrelated",
+        "pass": true
+      },
+      {
+        "classification": "PASS",
+        "name": "P5_network_unavailable_under_network_none",
+        "pass": true
+      },
+      {
+        "classification": "PASS",
+        "name": "P6_libxslt_soname_exact_loader",
+        "pass": true
+      }
+    ],
+    "n_items": 7,
+    "n_pass": 7
+  },
+  "preflight": {
+    "docker_profile_manifest": true,
+    "locks": {
+      "missing": [],
+      "pass_": true
+    },
+    "marker_audit_ok": true,
+    "marker_excluded_linux": [
+      "pywin32"
+    ],
+    "plan": {
+      "n_matrix": 144,
+      "n_units": 12,
+      "not_in_matrix": [],
+      "pass_": true
+    },
+    "runtime_wheel_input": {
+      "n_wheels": 906,
+      "pass_": true
+    }
+  },
+  "real_units_not_used": true,
+  "wheel_tags": {
+    "all_pass": true,
+    "items": [
+      {
+        "compatible": true,
+        "expect": true,
+        "name": "WT_abi3_cp37",
+        "pass": true,
+        "wheel": "bcrypt-4.2.1-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      },
+      {
+        "compatible": true,
+        "expect": true,
+        "name": "WT_abi3_cp38",
+        "pass": true,
+        "wheel": "protobuf-5.29.2-cp38-abi3-manylinux2014_x86_64.whl"
+      },
+      {
+        "compatible": true,
+        "expect": true,
+        "name": "WT_abi3_cp39",
+        "pass": true,
+        "wheel": "deptry-0.21.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      },
+      {
+        "compatible": true,
+        "expect": true,
+        "name": "WT_cp312_native",
+        "pass": true,
+        "wheel": "demo_pkg-1.0.0-cp312-cp312-manylinux_2_17_x86_64.whl"
+      },
+      {
+        "compatible": true,
+        "expect": true,
+        "name": "WT_py3_none_any",
+        "pass": true,
+        "wheel": "petl-1.7.17-py3-none-any.whl"
+      },
+      {
+        "compatible": false,
+        "expect": false,
+        "name": "WT_win_amd64_rejected",
+        "pass": true,
+        "wheel": "bcrypt-4.2.1-cp37-abi3-win_amd64.whl"
+      },
+      {
+        "compatible": false,
+        "expect": false,
+        "name": "WT_macos_rejected",
+        "pass": true,
+        "wheel": "demo_pkg-1.0.0-cp312-cp312-macosx_10_9_x86_64.whl"
+      },
+      {
+        "compatible": false,
+        "expect": false,
+        "name": "WT_cp311_not_abi3_rejected",
+        "pass": true,
+        "wheel": "demo_pkg-1.0.0-cp311-cp311-manylinux2014_x86_64.whl"
+      },
+      {
+        "compatible": false,
+        "expect": false,
+        "name": "WT_future_cp313_rejected",
+        "pass": true,
+        "wheel": "demo_pkg-1.0.0-cp313-cp313-manylinux2014_x86_64.whl"
+      }
+    ],
+    "n_items": 9,
+    "n_pass": 9
+  }
+}

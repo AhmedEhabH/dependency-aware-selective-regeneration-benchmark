@@ -1,0 +1,188 @@
+{
+  "artifact": "DOCKER_PROFILE_MANIFEST",
+  "base_images": {
+    "saleor-env-base-py312-bookworm": {
+      "parent": "python:3.12-bookworm@sha256:5560e9ab8709f459489e5b8aa696eda8a07ef821e14bb122be62d91234bfa98b"
+    },
+    "saleor-env-base-py38-bullseye": {
+      "parent": "python:3.8-bullseye@sha256:11da1db2f485e2560be9817f92932a29f68fefc332b0167e8c51ae308ee23337"
+    },
+    "saleor-env-base-py39-bookworm": {
+      "parent": "python:3.9-slim-bookworm@sha256:a02e9c5406c416c504d6c9a1a306ff4080c3173f1008d192f953bd20382a2d5c"
+    },
+    "saleor-env-base-py39-bullseye": {
+      "parent": "python:3.9-bullseye@sha256:3dcaf39bbe2d6d8031a4a7ce68a20f2d494419aca18ec064f9e82e146e97a0ed"
+    }
+  },
+  "design": {
+    "digest_frozen": false,
+    "digest_note": "digests listed are E2 historical evidence; final canon digest requires Phase B build",
+    "layering": [
+      "saleor-env-base-<era>",
+      "saleor-env-native-<native_profile>",
+      "wheelhouse mounted/copied deterministically"
+    ],
+    "no_implicit_latest_in_final_canon": true,
+    "no_runtime_resolver": true,
+    "pinned_linux_base": true,
+    "pinned_python": true
+  },
+  "evidence": {
+    "ENVIRONMENT_MATRIX_248.json": "31cb9ef7d68fa724e09d1fd20dec5bc81e754746c01f468ccfec159c4c316121",
+    "IMAGE_RECIPES.json": "1c20466582c07693cba31852f064be5ed5701d7548a8f119614c6d75a706b300",
+    "IMAGE_SIGNATURE_MAP.json": "70a069bfa54a0625405067336e463c542bae2bb2c66e9bb3287ce8ca380b55f7"
+  },
+  "native_profiles": {
+    "nat-02b9bb45ba01": [
+      "gettext",
+      "libffi8",
+      "libgdk-pixbuf-2.0-0",
+      "liblcms2-2",
+      "libmagic1",
+      "libopenjp2-7",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "libxslt1-dev",
+      "shared-mime-info"
+    ],
+    "nat-0728db662cde": [
+      "gettext",
+      "libffi8",
+      "libgdk-pixbuf-2.0-0",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libmagic1",
+      "libopenjp2-7",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "mime-support",
+      "shared-mime-info"
+    ],
+    "nat-34c1a3756742": [
+      "gettext",
+      "libffi8",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libopenjp2-7",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "mime-support",
+      "shared-mime-info"
+    ],
+    "nat-591718dce38a": [
+      "gettext",
+      "libffi8",
+      "libgdk-pixbuf-2.0-0",
+      "liblcms2-2",
+      "libmagic1",
+      "libopenjp2-7",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "shared-mime-info"
+    ],
+    "nat-62bc3631c27d": [
+      "gettext",
+      "libcairo2",
+      "libgdk-pixbuf2.0-0",
+      "libpango-1.0-0",
+      "libpangocairo-1.0-0",
+      "libssl1.1",
+      "libxml2",
+      "mime-support",
+      "shared-mime-info"
+    ],
+    "nat-a39687f3d19c": [
+      "gettext",
+      "libffi8",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libopenjp2-7",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "mime-support",
+      "pipx",
+      "shared-mime-info"
+    ],
+    "nat-cc2f641e9e04": [
+      "gettext",
+      "libffi8",
+      "libgdk-pixbuf-2.0-0",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libmagic1",
+      "libopenjp2-7",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "mime-support",
+      "pipx",
+      "shared-mime-info"
+    ],
+    "nat-d35546f097f4": [
+      "gettext",
+      "libcairo2",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libopenjp2-7",
+      "libpango-1.0-0",
+      "libpangocairo-1.0-0",
+      "libpq5",
+      "libssl1.1",
+      "libtiff5",
+      "libwebp6",
+      "libxml2",
+      "mime-support",
+      "shared-mime-info"
+    ],
+    "nat-d7d5ae76a87f": [
+      "gettext",
+      "libcairo2",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libopenjp2-7",
+      "libpango-1.0-0",
+      "libpangocairo-1.0-0",
+      "libssl1.1",
+      "libtiff5",
+      "libwebp6",
+      "libxml2",
+      "mime-support",
+      "shared-mime-info"
+    ],
+    "nat-f65b9bf250fd": [
+      "gettext",
+      "libcairo2",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libopenjp2-7",
+      "libpango-1.0-0",
+      "libpangocairo-1.0-0",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "libxml2",
+      "mime-support",
+      "shared-mime-info"
+    ]
+  },
+  "phase": "PHASE_A_STATIC_DISCOVERY",
+  "profile_summary": {
+    "n_closure_profiles": 143,
+    "n_docker_base_profiles": 4,
+    "n_env_profiles": 13,
+    "n_native_profiles": 10
+  },
+  "ready": false
+}
