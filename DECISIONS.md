@@ -2661,3 +2661,41 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   `m17-agentless-main297-doc-sync-r1-2026-10-12`.
 - Next: review of the M17 qualification kit before the REAL 12-task
   qualification (Track A unchanged). No scientific run until approved.
+
+---
+
+## Decision 2026-10-12 — M17 cross-track current-state documentation correction R2 (T2)
+
+- Mission: `M17_CROSS_TRACK_CURRENT_STATE_DOCUMENTATION_CORRECTION_R2` on
+  `parallel/agentless-results-doc-sync-2026-10-12`. Class: T2 — current-state
+  documentation correction only.
+- The completed Agentless documentation-sync commit
+  (`m17-agentless-main297-doc-sync-r1-2026-10-12`) was scientifically correct
+  for Agentless: every Agentless value it recorded (micro F1 0.2736; RM-CSS
+  minus Agentless +0.0832 [+0.0511,+0.1148]; actual experimental API cost
+  $2.002373) is unchanged and remains canonical.
+- The R1 documentation base inherited stale Track-A current state: it said the
+  M17 "qualification NOT run" and instructed the reader to "review the M17
+  qualification kit before the REAL 12-task qualification". Those statements
+  are no longer current because the frozen R3 Calibration-12 WAS executed
+  (12/12 units, 11 PASS / 1 FAIL, BLOCKED_STOP), runtime owner review
+  classified the failure as C_LOCK_RECONSTRUCTION_DEFECT, and Source-Fidelity
+  Amendment R1 froze with 142/144 closures unchanged and 2/144 changed.
+- Correction is additive: only the current-facing Track-A current-state fields
+  in `docs/LIVE_STATUS.json` and the rendered LIVE blocks in
+  README / PROGRESS / START_HERE_CURRENT_2026-09-21b /
+  00_CURRENT_RESEARCH_STATE.md were updated. No historical entry, no previous
+  tag, and no frozen evidence (R3 calibration, runtime owner review,
+  source-fidelity, Agentless) was rewritten.
+- Current Track-A state: R3 CALIBRATION = BLOCKED_STOP (11/12); ROOT CAUSE =
+  C_LOCK_RECONSTRUCTION_DEFECT; SOURCE FIDELITY = FROZEN / READY FOR FRESH
+  CALIBRATION OWNER DECISION; NEXT = FRESH CALIBRATION-12 FROM ZERO;
+  FULL D7 = NOT AUTHORIZED (only after the fresh Calibration-12 reaches exactly
+  12 PASS / 0 FAIL).
+- Freeze: this correction commit on
+  `parallel/agentless-results-doc-sync-2026-10-12` + annotated tag
+  `m17-agentless-main297-doc-sync-r2-current-state-2026-10-12`.
+- Verification: git diff --check PASS; test_live_status_blocks 3/3 PASS;
+  test_thesis_doc_hygiene 3/3 PASS; test_m17_agentless_main297_docs_sync PASS;
+  new cross-track current-state P2P/F2P assertions PASS. No benchmark executed,
+  zero API calls.

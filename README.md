@@ -103,16 +103,20 @@ Full rows with artifact paths and allowed interpretation:
   claimed between them. The adaptation is a literature-inspired localization
   comparator — **not** an exact published-Agentless reproduction and never
   "official Agentless".
-- **Track A (M17 environment qualification):** retains its independent
-  environment-qualification status. The real qualification + oracle kit are
-  frozen (zero-Docker, zero-API; tags
-  `wp2-m17-v1-real-oracle-kit-2026-10-03` / `-r1-2026-10-05`); the 12-task REAL
-  qualification has NOT been run and is not superseded by the Agentless-style
-  evidence.
+- **Track A (M17 environment qualification):** the real qualification + oracle
+  kit are frozen (zero-Docker, zero-API; tags
+  `wp2-m17-v1-real-oracle-kit-2026-10-03` / `-r1-2026-10-05`). The frozen R3
+  Calibration-12 executed all 12 validation units and stopped at 11 PASS /
+  1 FAIL (BLOCKED_STOP); runtime owner review classified the failure as
+  C_LOCK_RECONSTRUCTION_DEFECT, and Source-Fidelity Amendment R1 is frozen
+  (142/144 closures unchanged, 2/144 changed). The next action is a fresh
+  Source-Fidelity Calibration-12 from zero; Full D7 remains unauthorized. The
+  Agentless-style evidence does not supersede any Track-A state.
 - **Next experiment:** none is invented from the Agentless work. The next step
   remains the current Track A / proposal plan already represented by this
-  documentation base (review of the M17 qualification kit → real 12-task
-  qualification; the G1 seminar/proposal decision).
+  documentation base (fresh Source-Fidelity Calibration-12 from zero; Full D7
+  remains unauthorized until it reaches 12 PASS / 0 FAIL; the G1
+  seminar/proposal decision).
 
 ## 5. Current status
 
@@ -120,7 +124,7 @@ Full rows with artifact paths and allowed interpretation:
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** M17 Agentless-style MAIN_297 adaptation COMPLETE and FROZEN (2026-10-12; tag wp2-m17-agentless-style-main297-2026-10-12, evidence commit a62605e3): pre-registered file-level localization comparator AGENTLESS_STYLE_ADAPTATION scored on the frozen MAIN_297 with the same file-level evaluator as RM-CSS/SIP/Agent; micro F1 0.2736 (TP 246 / FP 637 / FN 669); paired task-bootstrap 10,000 (seed 20261012): RM-CSS minus Agentless +0.0832 [+0.0511,+0.1148]; Agent minus Agentless +0.0894 [+0.0552,+0.1260]; Agentless minus SIP +0.0084 [-0.0204,+0.0377] (CI crosses zero). Experimental API cost $2.002373: the frozen $2 fail-closed threshold was crossed by the final task and execution stopped immediately afterward. M17 REAL qualification + oracle kit remain FROZEN (tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); qualification NOT run. Track A keeps its independent environment-qualification status.
+**Position:** M17 Agentless-style MAIN_297 adaptation COMPLETE and FROZEN (2026-10-12; tag wp2-m17-agentless-style-main297-2026-10-12, evidence commit a62605e3): pre-registered file-level localization comparator AGENTLESS_STYLE_ADAPTATION scored on the frozen MAIN_297 with the same file-level evaluator as RM-CSS/SIP/Agent; micro F1 0.2736 (TP 246 / FP 637 / FN 669); paired task-bootstrap 10,000 (seed 20261012): RM-CSS minus Agentless +0.0832 [+0.0511,+0.1148]; Agent minus Agentless +0.0894 [+0.0552,+0.1260]; Agentless minus SIP +0.0084 [-0.0204,+0.0377] (CI crosses zero). Experimental API cost $2.002373: the frozen $2 fail-closed threshold was crossed by the final task and execution stopped immediately afterward. Track A: the frozen R3 Calibration-12 executed all 12 validation units and stopped at 11 PASS / 1 FAIL (BLOCKED_STOP; root cause C_LOCK_RECONSTRUCTION_DEFECT). Runtime owner review is frozen; Source-Fidelity Amendment R1 is frozen with 142/144 closures unchanged and 2/144 changed. Next: a fresh Source-Fidelity Calibration-12 from zero; Full D7 remains unauthorized.
 
 **Research pipeline:**
 
@@ -151,7 +155,7 @@ Full rows with artifact paths and allowed interpretation:
 | M16-v1 OPWS-MAIN instrument | CLOSED (PRE-EXPERIMENT) | R02_ADAPTER_VERIFY STOP M16_ADAPTER_FAIL; R00 kit 102/102 PASS; no MAIN outcome |
 | C0->C6 documentation/closure | DONE | ledger/results/claims/methods/threats/README landing/research-status/repro-audit/LIGHT convention |
 | G0_BRAIN_REVIEW | DONE | review decision: finalize durable baseline before new science |
-| M17 Phase0B-v2 real qualification + oracle kit | KIT_FROZEN (zero-Docker, zero-API) | real-controller harness timing fixed (timeout 1800->5400 s); selftest controller timeouts raised 1800->7200 s in both live plans (launch amendment); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05; qualification NOT run; next: review then real 12-task qualification |
+| M17 Phase0B-v2 real qualification + oracle kit | KIT_FROZEN (zero-Docker, zero-API) | real-controller harness timing fixed (timeout 1800->5400 s); selftest controller timeouts raised 1800->7200 s in both live plans (launch amendment); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05; R3 Calibration-12 executed 12/12 -> 11 PASS / 1 FAIL (BLOCKED_STOP; root cause C_LOCK_RECONSTRUCTION_DEFECT); owner review + Source-Fidelity R1 frozen (142/144 unchanged, 2/144 changed); next: fresh Source-Fidelity Calibration-12 from zero; Full D7 unauthorized |
 | M17 Agentless-style MAIN_297 adaptation | DONE (FROZEN) | AGENTLESS_STYLE_ADAPTATION file-level localization comparator on frozen MAIN_297; micro F1 0.2736; paired bootstrap (10,000, seed 20261012) RM-CSS minus Agentless +0.0832 [+0.0511,+0.1148]; Agentless vs SIP CI crosses zero; experimental API cost $2.002373 (final task crossed the $2 fail-closed threshold, then stopped); zero re-scoring; evidence commit a62605e3 tag wp2-m17-agentless-style-main297-2026-10-12 |
 
 **LLM-call accounting:**
@@ -191,9 +195,9 @@ Full rows with artifact paths and allowed interpretation:
 | M16-v1 MAIN OPWS run | NOT AUTHORIZED / CLOSED | closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, review-approved M16-v2 |
 | M17 Agentless-style MAIN_297 adaptation | DONE (FROZEN) | pre-registered AGENTLESS_STYLE_ADAPTATION comparator; 297/297 real records; zero re-scoring; experimental API cost $2.002373 with final-call budget-ceiling crossing disclosed; evidence frozen at a62605e3 tag wp2-m17-agentless-style-main297-2026-10-12 |
 
-**Next action:** Await review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then. The Agentless-style adaptation is COMPLETE and frozen; do NOT rerun or extend it.
+**Next action:** Track A: the frozen R3 Calibration-12 executed all 12 validation units and stopped at 11 PASS / 1 FAIL (BLOCKED_STOP; root cause C_LOCK_RECONSTRUCTION_DEFECT). Runtime owner review is frozen; Source-Fidelity Amendment R1 is frozen (142/144 closures unchanged, 2/144 changed). The next action is a fresh Source-Fidelity Calibration-12 from zero, pending the owner's fresh-calibration decision; Full D7 remains unauthorized until the fresh Calibration-12 reaches exactly 12 PASS / 0 FAIL. The Agentless-style adaptation is COMPLETE and frozen; do NOT rerun or extend it.
 
-**End-to-end status:** M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. RQ2: Agentless-style MAIN_297 adaptation complete and frozen (micro F1 0.2736; RM-CSS above it with paired CI excluding zero; Agentless vs SIP CI crosses zero; DENSE@3 point estimate 0.2746 close/slightly above, no separation claim). WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
+**End-to-end status:** M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS. Track A: R3 Calibration-12 executed all 12 units -> 11 PASS / 1 FAIL (BLOCKED_STOP; root cause C_LOCK_RECONSTRUCTION_DEFECT); runtime owner review and Source-Fidelity R1 frozen (142/144 unchanged, 2/144 changed); next: fresh Source-Fidelity Calibration-12 from zero; Full D7 unauthorized. RQ2: Agentless-style MAIN_297 adaptation complete and frozen (micro F1 0.2736; RM-CSS above it with paired CI excluding zero; Agentless vs SIP CI crosses zero; DENSE@3 point estimate 0.2746 close/slightly above, no separation claim). WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
 
 *Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-12 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->

@@ -1,0 +1,41 @@
+{
+  "receipt_id": "CROSS_TRACK_CURRENT_STATE_P2P_F2P_RECEIPT",
+  "mission": "M17_CROSS_TRACK_CURRENT_STATE_DOCUMENTATION_CORRECTION_R2",
+  "created_local": "2026-10-12 (Africa/Cairo)",
+  "p2p_tests": {
+    "P1": {"description": "no LIVE block contains current-state wording 'qualification NOT run' or the other stale R1 phrasings", "result": "PASS"},
+    "P1b": {"description": "no current-facing doc contains the stale R1 phrasings as current state", "result": "PASS"},
+    "P2": {"description": "current docs contain the executed R3 state 11 PASS / 1 FAIL (BLOCKED_STOP)", "result": "PASS", "evidence": "11 PASS / 1 FAIL and BLOCKED_STOP present in all five current-facing targets"},
+    "P3": {"description": "current docs contain C_LOCK_RECONSTRUCTION_DEFECT", "result": "PASS"},
+    "P4": {"description": "current docs contain the frozen Source-Fidelity R1 state", "result": "PASS"},
+    "P5": {"description": "current docs identify next action as fresh Source-Fidelity Calibration-12 from zero", "result": "PASS"},
+    "P6": {"description": "current docs state Full D7 is NOT authorized (human-readable or flag)", "result": "PASS", "evidence": "every 'Full D7' mention carries an unauthorized/NOT-AUTHORIZED qualifier; 'unauthorized' present"},
+    "P7": {"description": "Agentless canonical metrics unchanged (0.2736 / +0.0832 / CI / 2.002373)", "result": "PASS"},
+    "P8": {"description": "frozen Agentless evidence hashes unchanged", "result": "PASS", "evidence": "prediction-freeze SHA256 90495bbb...abd9815; evaluation SHA256 4524be9a...c1723e78 verified"},
+    "P9": {"description": "LIVE rendered blocks remain byte-identical across the four targets", "result": "PASS", "evidence": "tests/unit/test_live_status_blocks.py 3/3 PASS + P9 byte-identity assertion PASS"},
+    "P10": {"description": "no benchmark/scientific result artifact changed", "result": "PASS", "evidence": "git diff --name-only HEAD limited to documentation + test + receipt files"},
+    "P11": {"description": "frozen runtime-audit owner-review identity preserved", "result": "PASS", "evidence": "classification C_LOCK_RECONSTRUCTION_DEFECT; tag m17-d7-r3-runtime-owner-review-r1-2026-10-12 peels to 9e338b27"},
+    "P12": {"description": "frozen source-fidelity amendment identity preserved", "result": "PASS", "evidence": "FULL_D7_AUTHORIZED FALSE, CALIBRATION_RERUN_REQUIRED TRUE, closure 142/2; tag m17-env-source-fidelity-r1-frozen-2026-10-12 peels to f5f4c1d0"}
+  },
+  "f2p_tests": {
+    "F1": {"description": "reinsert 'qualification NOT run' as current state => FAIL", "result": "PASS (mutation detected)"},
+    "F2": {"description": "change 11/12 to 12/12 => FAIL", "result": "PASS (mutation detected)"},
+    "F3": {"description": "change root cause away from C_LOCK_RECONSTRUCTION_DEFECT => FAIL", "result": "PASS (mutation detected)"},
+    "F4": {"description": "remove Source-Fidelity frozen state => FAIL", "result": "PASS (mutation detected)"},
+    "F5": {"description": "set Full D7 authorized before fresh calibration => FAIL", "result": "PASS (mutation detected)"},
+    "F6": {"description": "change Agentless F1 => FAIL", "result": "PASS (mutation detected)"},
+    "F7": {"description": "change Agentless bootstrap CI => FAIL", "result": "PASS (mutation detected)"},
+    "F8": {"description": "modify frozen Agentless evidence => FAIL", "result": "PASS (hash mismatch detected)"},
+    "F9": {"description": "modify frozen runtime-audit evidence => FAIL", "result": "PASS (mutation detected)"},
+    "F10": {"description": "modify frozen source-fidelity evidence => FAIL", "result": "PASS (mutation detected)"}
+  },
+  "summary": {
+    "p2p_total": 13,
+    "p2p_pass": 13,
+    "p2p_fail": 0,
+    "f2p_total": 10,
+    "f2p_pass": 10,
+    "f2p_fail": 0
+  },
+  "executed_command": ".venv\\Scripts\\python.exe -m pytest tests/unit/test_m17_cross_track_current_state_docs.py -q => 23 passed (13 P2P + 10 F2P); plus test_live_status_blocks.py 3/3, test_thesis_doc_hygiene.py 3/3, test_m17_agentless_main297_docs_sync.py 22/22"
+}

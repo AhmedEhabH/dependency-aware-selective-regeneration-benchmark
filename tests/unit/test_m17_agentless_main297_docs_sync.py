@@ -334,7 +334,9 @@ def test_p13_no_benchmark_code_or_result_artifact_changed() -> None:
         "docs/CLAIM_REGISTRY.md",
         "DECISIONS.md",
         "tests/unit/test_m17_agentless_main297_docs_sync.py",
+        "tests/unit/test_m17_cross_track_current_state_docs.py",
         "research/agentless-main297-doc-sync-r1/",
+        "research/agentless-main297-doc-sync-r2/",
     )
     for rel in changed:
         assert rel.startswith(allowed_prefixes), f"unexpected changed artifact: {rel}"
