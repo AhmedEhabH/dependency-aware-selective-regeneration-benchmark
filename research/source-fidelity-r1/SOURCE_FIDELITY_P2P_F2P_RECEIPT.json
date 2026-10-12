@@ -1,0 +1,111 @@
+{
+  "evidence": "tests/unit/wp2/test_source_fidelity_r1.py (38 tests incl. dep_compiler regression: 20 source-fidelity + 18 dep_compiler)",
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_AMENDMENT_R1_DESIGN_AND_FREEZE",
+  "n_fail": 0,
+  "n_pass": 20,
+  "phase": "S7_P2P_F2P",
+  "result": "PASS",
+  "schema_version": "source_fidelity_r1",
+  "tests": [
+    {
+      "id": "P1",
+      "name": "registry package remains registry package",
+      "status": "PASS"
+    },
+    {
+      "id": "P2",
+      "name": "directory-source PyXB remains DIRECTORY and preserves vendored/pyxb",
+      "status": "PASS"
+    },
+    {
+      "id": "P2b",
+      "name": "synthetic same directory semantics (hermetic)",
+      "status": "PASS"
+    },
+    {
+      "id": "P3",
+      "name": "directory-source authorizenet remains DIRECTORY",
+      "status": "PASS"
+    },
+    {
+      "id": "P4",
+      "name": "two packages equal name/version but different source bytes obtain different canonical identities",
+      "status": "PASS"
+    },
+    {
+      "id": "P5",
+      "name": "exact historical extraction repeated twice gives identical source tree hash",
+      "status": "PASS"
+    },
+    {
+      "id": "P6",
+      "name": "resulting artifact provenance points to exact historical source",
+      "status": "PASS"
+    },
+    {
+      "id": "P7",
+      "name": "existing unaffected registry-only closures remain unchanged",
+      "status": "PASS"
+    },
+    {
+      "id": "P8",
+      "name": "both statically exposed D7 units use the generic source-aware rule",
+      "status": "PASS"
+    },
+    {
+      "id": "P9",
+      "name": "source-aware closure is deterministic",
+      "status": "PASS"
+    },
+    {
+      "id": "F1",
+      "name": "flatten DIRECTORY to name/version => FAIL",
+      "status": "PASS"
+    },
+    {
+      "id": "F2",
+      "name": "replace vendored PyXB with registry PyXB 1.2.5 => FAIL",
+      "status": "PASS"
+    },
+    {
+      "id": "F3",
+      "name": "replace with PyXB-X => FAIL",
+      "status": "PASS"
+    },
+    {
+      "id": "F4",
+      "name": "use current mutable checkout instead of target commit => FAIL",
+      "status": "PASS"
+    },
+    {
+      "id": "F5",
+      "name": "missing source path => FAIL CLOSED",
+      "status": "PASS"
+    },
+    {
+      "id": "F6",
+      "name": "tree-hash mismatch => FAIL CLOSED",
+      "status": "PASS"
+    },
+    {
+      "id": "F7",
+      "name": "ambiguous source identity => FAIL CLOSED",
+      "status": "PASS"
+    },
+    {
+      "id": "F8",
+      "name": "attempt network fallback => FAIL",
+      "status": "PASS"
+    },
+    {
+      "id": "F9",
+      "name": "task-ID-specific special case => FAIL",
+      "status": "PASS"
+    },
+    {
+      "id": "F10",
+      "name": "mutate frozen R3 artifacts => FAIL",
+      "status": "PASS"
+    }
+  ]
+}

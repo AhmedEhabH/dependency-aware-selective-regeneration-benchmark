@@ -1,0 +1,95 @@
+{
+  "build_toolchain": "python3.12 + pip wheel (offline) + setuptools-75.7.0 (local wheelhouse)",
+  "calibration12_run": false,
+  "calibration_evidence": false,
+  "classification": "ENGINEERING_P2P_ONLY",
+  "import_probes": {
+    "PyXB": {
+      "output": "PYXB_OK 1.2.5\nBASES_OK True",
+      "returncode": 0,
+      "status": "PASS"
+    },
+    "authorizenet": {
+      "output": "AUTHORIZENET_OK authorizenet.apicontractsv1",
+      "returncode": 0,
+      "status": "PASS"
+    }
+  },
+  "material_gate": {
+    "all_inputs_local": true,
+    "build_runtime": "measured per package below (<< 10 min expected)",
+    "network": "unused",
+    "new_disk_bytes": 461563
+  },
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_AMENDMENT_R1_DESIGN_AND_FREEZE",
+  "network_used": false,
+  "packages": [
+    {
+      "build_log_sha256": "28d9e3b8bcffa3ecada492a30e424f87682303cee19a54a7e4a55bae8063cc82",
+      "build_ok": true,
+      "file_count": 753,
+      "name": "PyXB",
+      "provenance": {
+        "build_inputs": [
+          "vendored/pyxb"
+        ],
+        "build_log_sha256": "28d9e3b8bcffa3ecada492a30e424f87682303cee19a54a7e4a55bae8063cc82",
+        "build_toolchain_identity": "python3.12 + pip wheel (offline) + setuptools-75.7.0",
+        "declared_version": "1.2.5",
+        "dependency_name": "PyXB",
+        "git_tree_sha1": "6a96c06916fd445a87db032c1549353421a27f09",
+        "metadata_name": "PyXB",
+        "metadata_version": "1.2.5",
+        "output_filename": "pyxb-1.2.5-py3-none-any.whl",
+        "output_sha256": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee",
+        "python_tag": "py3-none-any",
+        "reproducibility_class": "SOURCE_IDENTITY_REPRODUCIBLE",
+        "schema_version": "source_fidelity_r1",
+        "source_tree_sha256": "5b36fb887b01352de251b872739bbd3786b330b3305d235e278d5caf1d37e1e2",
+        "source_type": "DIRECTORY",
+        "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+        "vendored_source_path": "vendored/pyxb"
+      },
+      "size_bytes": 3617777,
+      "source_tree_sha256": "5b36fb887b01352de251b872739bbd3786b330b3305d235e278d5caf1d37e1e2",
+      "wheel": "pyxb-1.2.5-py3-none-any.whl",
+      "wheel_sha256": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee",
+      "wheel_size_bytes": 305189
+    },
+    {
+      "build_log_sha256": "555471d3fab023b89ebf028b8eab903fd5633e75831b17d3bb134e308cb54531",
+      "build_ok": true,
+      "file_count": 26,
+      "name": "authorizenet",
+      "provenance": {
+        "build_inputs": [
+          "vendored/authorizenet"
+        ],
+        "build_log_sha256": "555471d3fab023b89ebf028b8eab903fd5633e75831b17d3bb134e308cb54531",
+        "build_toolchain_identity": "python3.12 + pip wheel (offline) + setuptools-75.7.0",
+        "declared_version": "1.1.4",
+        "dependency_name": "authorizenet",
+        "git_tree_sha1": "c9147cecc8d16821d081977dd82dc3ce55c5722a",
+        "metadata_name": "authorizenet",
+        "metadata_version": "1.1.4",
+        "output_filename": "authorizenet-1.1.4-py3-none-any.whl",
+        "output_sha256": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9",
+        "python_tag": "py3-none-any",
+        "reproducibility_class": "SOURCE_IDENTITY_REPRODUCIBLE",
+        "schema_version": "source_fidelity_r1",
+        "source_tree_sha256": "b3e05589709cb4c163e6e9b20f553cf2cbb6c4fd4592c4b76d4d757ac136121e",
+        "source_type": "DIRECTORY",
+        "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+        "vendored_source_path": "vendored/authorizenet"
+      },
+      "size_bytes": 3032836,
+      "source_tree_sha256": "b3e05589709cb4c163e6e9b20f553cf2cbb6c4fd4592c4b76d4d757ac136121e",
+      "wheel": "authorizenet-1.1.4-py3-none-any.whl",
+      "wheel_sha256": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9",
+      "wheel_size_bytes": 156374
+    }
+  ],
+  "phase": "S8_TARGETED_SOURCE_FIDELITY_VALIDATION",
+  "repo_dir": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-repo-cache\\saleor",
+  "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f"
+}

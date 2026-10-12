@@ -1,0 +1,266 @@
+{
+  "SOURCE_IDENTITY_SCHEMA_VERSION": "source_fidelity_r1",
+  "affected_population": {
+    "n_tasks": 219,
+    "n_units": 144,
+    "source_identity_loss_tasks": [
+      "saleor-rc-19bb9b070965",
+      "saleor-rc-e6198146186d"
+    ],
+    "source_identity_loss_units": [
+      "vu-692af9112c6d",
+      "vu-b9808f19ace4"
+    ],
+    "source_type_audit_summary": {
+      "DIRECTORY": 4,
+      "PATH": 35,
+      "REGISTRY": 50399,
+      "note_path": "35 PATH entries are uv root-project editable-self (virtual: .) and are NOT dependency artifact source losses",
+      "rows": 50438
+    }
+  },
+  "artifact_provenance_contract": {
+    "claim_invariant": "SOURCE_IDENTITY_REPRODUCIBLE asserts the artifact derives from the exact historical vendored source; ARTIFACT_BYTE_REPRODUCIBLE (byte-for-byte wheel reproducibility) is only claimed when the toolchain has demonstrated it - never falsely.",
+    "fields": [
+      "schema_version",
+      "dependency_name",
+      "declared_version",
+      "source_type",
+      "target_commit",
+      "vendored_source_path",
+      "source_tree_sha256",
+      "git_tree_sha1",
+      "build_toolchain_identity",
+      "build_inputs",
+      "output_filename",
+      "output_sha256",
+      "metadata_name",
+      "metadata_version",
+      "python_tag",
+      "build_log_sha256",
+      "reproducibility_class"
+    ],
+    "reproducibility_classes": [
+      "SOURCE_IDENTITY_REPRODUCIBLE",
+      "ARTIFACT_BYTE_REPRODUCIBLE"
+    ]
+  },
+  "built_artifacts": [
+    {
+      "build_ok": true,
+      "name": "PyXB",
+      "probe_status": "PASS",
+      "source_tree_sha256": "5b36fb887b01352de251b872739bbd3786b330b3305d235e278d5caf1d37e1e2",
+      "wheel": "pyxb-1.2.5-py3-none-any.whl",
+      "wheel_sha256": "ee196b69018cf9833f0210d050d8ae544070353a92d490a713be4e8347965aee"
+    },
+    {
+      "build_ok": true,
+      "name": "authorizenet",
+      "probe_status": "PASS",
+      "source_tree_sha256": "b3e05589709cb4c163e6e9b20f553cf2cbb6c4fd4592c4b76d4d757ac136121e",
+      "wheel": "authorizenet-1.1.4-py3-none-any.whl",
+      "wheel_sha256": "ba04a34ddba7496d778a458f8023ef597918b301b0824ad0517feed35c727ca9"
+    }
+  ],
+  "closure_impact": {
+    "mapping": [
+      {
+        "member_task_ids": [
+          "saleor-rc-19bb9b070965"
+        ],
+        "new_source_aware_closure_identity_sha256": "8c638686445b8895e3b16fec2db826e1962ef84c7e85c09ad56dc62c1747516f",
+        "old_canon_closure_identity_sha256": "8c86e692f8d23ca4f9a292edc86bb146f635a6100a99d9723afa4027ce04ac5d",
+        "validation_unit_id": "vu-692af9112c6d",
+        "why_changed": "directory-source packages PyXB 1.2.5 and authorizenet 1.1.4"
+      },
+      {
+        "member_task_ids": [
+          "saleor-rc-e6198146186d"
+        ],
+        "new_source_aware_closure_identity_sha256": "7bf871f278d8c5008682a8203be8835fcb643f9e471c5c43700cd914fa2cb1bd",
+        "old_canon_closure_identity_sha256": "da2fd74b0afb4e996f08a5c2f205cfcd85ed3017ae50e6033de2b7444666fbba",
+        "validation_unit_id": "vu-b9808f19ace4",
+        "why_changed": "directory-source packages PyXB 1.2.5 and authorizenet 1.1.4"
+      }
+    ],
+    "n_changed": 2,
+    "n_unchanged": 142
+  },
+  "created_at_local": "2026-10-12T11:51:34",
+  "decision_gates": {
+    "CALIBRATION_RERUN_REQUIRED": true,
+    "F2P_PASS": true,
+    "FULL_D7_AUTHORIZED": false,
+    "P2P_PASS": true
+  },
+  "extraction_algorithm": {
+    "anchor": "target_commit + historical source path",
+    "canonical_tree_hash": "SHA-256 over the sorted '\"<mode> <relpath>\\0<content-sha256>\\n' serialization; binds exact bytes and relative paths",
+    "f2p": "different bytes under same name/version => different identity",
+    "mechanism": "git ls-tree -r -z <commit> -- <path>/ for the blob inventory, git cat-file --batch for raw object bytes (no filters/CRLF), git rev-parse <commit>:<path> for the git tree object ID",
+    "mutable_working_tree": "never consumed; only committed objects",
+    "p2p": "same commit + same path => identical tree hash"
+  },
+  "invariants": {
+    "NETWORK_USED": false,
+    "PYTHON_VERSION_CHANGED": false,
+    "PYXBX_USED": false,
+    "R3_HISTORICAL_EVIDENCE_MODIFIED": false,
+    "SCIENTIFIC_POPULATION_CHANGED": false,
+    "SMOKE_GATE_CHANGED": false,
+    "TASK_ELIGIBILITY_CHANGED": false,
+    "TASK_ID_SPECIAL_CASE_USED": false
+  },
+  "mission": "M17_ENV_CANON_SOURCE_FIDELITY_AMENDMENT_R1_DESIGN_AND_FREEZE",
+  "phase": "S10_AMENDMENT_FREEZE",
+  "root_cause_classification": "C_LOCK_RECONSTRUCTION_DEFECT",
+  "schema_salt": "wp2-env-canon-source-fidelity-r1-2026-10-12",
+  "source_identity_schema": {
+    "binding_invariant": "For DIRECTORY/PATH dependencies, identity binds to the exact historical source-tree bytes (canonical tree hash), not merely path strings.",
+    "canonical_pin_format": {
+      "DIRECTORY/PATH": "<name>==<version>@<TYPE>:<reference>#<tree_sha256>",
+      "FILE": "<name>==<version>@FILE:<url>",
+      "GIT": "<name>==<version>@GIT:<url>[#<resolved_reference>]",
+      "REGISTRY": "<name>==<version>@REGISTRY",
+      "UNKNOWN": "FAIL CLOSED (ambiguous)",
+      "URL": "<name>==<version>@URL:<url>"
+    },
+    "identity_fields": [
+      "schema_version",
+      "name",
+      "version",
+      "source_type",
+      "source_reference",
+      "source_tree_sha256",
+      "git_tree_sha1",
+      "target_commit",
+      "markers",
+      "python_versions"
+    ],
+    "source_types": [
+      "REGISTRY",
+      "DIRECTORY",
+      "PATH",
+      "GIT",
+      "URL",
+      "FILE",
+      "UNKNOWN"
+    ]
+  },
+  "source_provenance": {
+    "closure_impact": "POPULATION_CLOSURE_IMPACT_R1.json",
+    "defect_receipt": "SOURCE_IDENTITY_DEFECT_RECEIPT.json",
+    "saleor_repo": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+    "source_type_audit": "D7_DEPENDENCY_SOURCE_TYPE_AUDIT.csv",
+    "validation": "SOURCE_FIDELITY_VALIDATION_R1.json"
+  },
+  "test_results": {
+    "n_fail": 0,
+    "n_pass": 20,
+    "n_tests": 20,
+    "suite": "tests/unit/wp2/test_source_fidelity_r1.py",
+    "tests": [
+      {
+        "id": "P1",
+        "name": "registry package remains registry package",
+        "status": "PASS"
+      },
+      {
+        "id": "P2",
+        "name": "directory-source PyXB remains DIRECTORY and preserves vendored/pyxb",
+        "status": "PASS"
+      },
+      {
+        "id": "P2b",
+        "name": "synthetic same directory semantics (hermetic)",
+        "status": "PASS"
+      },
+      {
+        "id": "P3",
+        "name": "directory-source authorizenet remains DIRECTORY",
+        "status": "PASS"
+      },
+      {
+        "id": "P4",
+        "name": "two packages equal name/version but different source bytes obtain different canonical identities",
+        "status": "PASS"
+      },
+      {
+        "id": "P5",
+        "name": "exact historical extraction repeated twice gives identical source tree hash",
+        "status": "PASS"
+      },
+      {
+        "id": "P6",
+        "name": "resulting artifact provenance points to exact historical source",
+        "status": "PASS"
+      },
+      {
+        "id": "P7",
+        "name": "existing unaffected registry-only closures remain unchanged",
+        "status": "PASS"
+      },
+      {
+        "id": "P8",
+        "name": "both statically exposed D7 units use the generic source-aware rule",
+        "status": "PASS"
+      },
+      {
+        "id": "P9",
+        "name": "source-aware closure is deterministic",
+        "status": "PASS"
+      },
+      {
+        "id": "F1",
+        "name": "flatten DIRECTORY to name/version => FAIL",
+        "status": "PASS"
+      },
+      {
+        "id": "F2",
+        "name": "replace vendored PyXB with registry PyXB 1.2.5 => FAIL",
+        "status": "PASS"
+      },
+      {
+        "id": "F3",
+        "name": "replace with PyXB-X => FAIL",
+        "status": "PASS"
+      },
+      {
+        "id": "F4",
+        "name": "use current mutable checkout instead of target commit => FAIL",
+        "status": "PASS"
+      },
+      {
+        "id": "F5",
+        "name": "missing source path => FAIL CLOSED",
+        "status": "PASS"
+      },
+      {
+        "id": "F6",
+        "name": "tree-hash mismatch => FAIL CLOSED",
+        "status": "PASS"
+      },
+      {
+        "id": "F7",
+        "name": "ambiguous source identity => FAIL CLOSED",
+        "status": "PASS"
+      },
+      {
+        "id": "F8",
+        "name": "attempt network fallback => FAIL",
+        "status": "PASS"
+      },
+      {
+        "id": "F9",
+        "name": "task-ID-specific special case => FAIL",
+        "status": "PASS"
+      },
+      {
+        "id": "F10",
+        "name": "mutate frozen R3 artifacts => FAIL",
+        "status": "PASS"
+      }
+    ]
+  }
+}
