@@ -573,3 +573,113 @@ class TestBackendCommandContract:
         # backend.run args must never contain a leading "docker".
         assert '["docker", "run"' not in src
         assert '"docker", "run", "--rm", "--network=none"' not in src
+
+
+class TestInstrumentPersistBeforeParse:
+    """Attempt-3 A: raw process evidence persisted BEFORE parse_output.
+
+    ``_persist_process_evidence`` writes raw stdout/stderr/returncode/elapsed
+    and must survive parse_output raising.
+    """
+
+    def test_persist_writes_all_files(self, tmp_path: Path) -> None:
+        runner = r2.UnitRunner.__new__(r2.UnitRunner)
+        out = tmp_path / "out"
+        runner._persist_process_evidence(
+            out,
+            stdout="raw out",
+            stderr="raw err",
+            returncode=7,
+            elapsed_seconds=12.5,
+            start_utc="2026-10-13T00:00:00+00:00",
+        )
+        assert (out / "raw_stdout.log").read_text(encoding="utf-8") == "raw out"
+        assert (out / "raw_stderr.log").read_text(encoding="utf-8") == "raw err"
+        meta = json.loads((out / "process_meta.json").read_text(encoding="utf-8"))
+        assert meta["returncode"] == 7
+        assert meta["elapsed_seconds"] == 12.5
+
+    def test_persist_writes_files_even_then_raises(self, tmp_path: Path) -> None:
+        runner = r2.UnitRunner.__new__(r2.UnitRunner)
+        out = tmp_path / "out"
+        runner._persist_process_evidence(
+            out, stdout="A", stderr="B", returncode=5,
+            elapsed_seconds=1.0, start_utc="x",
+        )
+        with pytest.raises(r2.CalibrationFailClosedError):
+            _ = r2.parse_output("INSTALL_RC=\n")
+        # files persisted even though parse failed later
+        assert (out / "raw_stdout.log").is_file()
+        assert (out / "raw_stderr.log").is_file()
+        assert (out / "process_meta.json").is_file()
+
+
+class TestInstrumentFailClosedParse:
+    """Attempt-3 B: parse_output fails closed on malformed int instrumentation."""
+
+    def test_empty_int_fails_closed(self) -> None:
+        with pytest.raises(r2.InstrumentationParseError, match="empty instrumentation value"):
+            r2.parse_output("INSTALL_RC=\n")
+
+    def test_non_integer_fails_closed(self) -> None:
+        with pytest.raises(r2.InstrumentationParseError, match="non-integer"):
+            r2.parse_output("PIPCHECK_RC=abc\n")
+
+    def test_duplicate_int_fails_closed(self) -> None:
+        with pytest.raises(r2.InstrumentationParseError, match="duplicate"):
+            r2.parse_output("INSTALL_MS=10\nINSTALL_MS=20\n")
+
+    def test_missing_required_int_no_pass(self) -> None:
+        run = r2.parse_output(
+            "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\n"
+            "TOOLHOUSE_PRESENT=[]\nPIPCHECK_RC=0\nNATIVE_FAILURES=[]\n"
+        )
+        assert run.get("install_rc") == 0
+        # MISSING IS NOT DEFAULTED TO ZERO
+        assert "install_ms" not in run
+
+    def test_valid_int_parsed(self) -> None:
+        run = r2.parse_output("INSTALL_RC=0\nINSTALL_MS=1234\nPIPCHECK_RC=0\n")
+        assert run["install_rc"] == 0
+        assert run["install_ms"] == 1234
+        assert run["pipcheck_rc"] == 0
+
+    def test_no_scientific_pass_from_malformed(self) -> None:
+        parsed = r2.parse_output(
+            "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\nPIPCHECK_RC=0\n"
+            "NATIVE_FAILURES=[]\nTOOLHOUSE_PRESENT=[]\nWT_wt0_IS_DIR=1\n"
+            "IMPORT_RC_wt0=0\nMANAGE_RC_wt0=0\nPYTEST_RC_wt0=0\n"
+        )
+        special: dict = {"version_probes": {}}
+        assert r2.classify_unit(parsed, special=special, wt_count=1) == "PASS"
+
+
+class TestInstrumentStageMarkers:
+    """Attempt-3 D: smoke-stage markers parsed and enforced."""
+
+    def test_parse_stage_markers(self) -> None:
+        run = r2.parse_output(
+            "STAGE_INSTALL_BEGIN\nSTAGE_INSTALL_END\nSTAGE_PIPCHECK_END\n"
+            "STAGE_NATIVE_END\nSTAGE_SPECIAL_PROBES_END\nSTAGE_SMOKE_BEGIN\n"
+            "WT_wt0_IS_DIR=1\nSTAGE_SMOKE_END\n"
+        )
+        assert "STAGE_SMOKE_BEGIN" in run["stages"]
+        assert "STAGE_SMOKE_END" in run["stages"]
+        assert run["wt_is_dir"] == {"wt0": "1"}
+
+    def test_missing_wt_marker_fails(self) -> None:
+        parsed = r2.parse_output(
+            "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\nPIPCHECK_RC=0\n"
+            "NATIVE_FAILURES=[]\nTOOLHOUSE_PRESENT=[]\n"
+            "IMPORT_RC_wt0=0\nMANAGE_RC_wt0=0\nPYTEST_RC_wt0=0\n"
+        )
+        special: dict = {"version_probes": {}}
+        assert r2.classify_unit(parsed, special=special, wt_count=1) == r2.F_ENV_IMPORT_SMOKE
+
+    def test_wt_marker_zero_fails(self) -> None:
+        parsed = r2.parse_output(
+            "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\nPIPCHECK_RC=0\n"
+            "NATIVE_FAILURES=[]\nTOOLHOUSE_PRESENT=[]\nWT_wt0_IS_DIR=0\n"
+        )
+        special: dict = {"version_probes": {}}
+        assert r2.classify_unit(parsed, special=special, wt_count=1) == r2.F_ENV_IMPORT_SMOKE

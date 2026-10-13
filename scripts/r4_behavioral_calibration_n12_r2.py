@@ -61,6 +61,7 @@ from benchmark.wp2.env_r4.contracts import (  # noqa: E402
 from benchmark.wp2.env_r4.integrated_parser import bind_integrated_parser  # noqa: E402
 from benchmark.wp2.env_r4.linux_tree_materialize import (  # noqa: E402
     MaterializeError,
+    encode_runner_script,
     ensure_empty_volume,
     remove_volume,
 )
@@ -191,6 +192,40 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: fh.read(1 << 16), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+class InstrumentationParseError(CalibrationFailClosedError):
+    """Raised when container instrumentation output is malformed or missing.
+
+    Never a scientific verdict: malformed instrumentation must not be
+    reinterpreted as PASS/FAIL, and any defaulted value is a defect.
+    """
+
+
+def _required_int_field(line: str, field: str, seen: dict[str, int]) -> int:
+    """Validate one required integer instrumentation field, fail closed.
+
+    Rejects missing, empty, duplicate, or non-integer values and records the
+    exact offending raw line/value in the raised error.
+    """
+    if field in seen:
+        raise InstrumentationParseError(
+            f"duplicate instrumentation field {field!r} (raw line {line!r})"
+        )
+    _, value = line.split("=", 1)
+    if not value.strip():
+        raise InstrumentationParseError(
+            f"empty instrumentation value for {field!r} (raw line {line!r})"
+        )
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError) as exc:
+        raise InstrumentationParseError(
+            f"non-integer instrumentation value {value!r} for {field!r} "
+            f"(raw line {line!r})"
+        ) from exc
+    seen[field] = parsed
+    return parsed
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -672,12 +707,14 @@ PYEOF''',
         "cat /tmp/d7/pyver.txt",
         "cp /tmp/d7/pyver.txt /out/pyver.txt",
         "echo '=== INSTALL (wheel-only, frozen closure) ==='",
+        "echo 'STAGE_INSTALL_BEGIN'",
         "T0=$(date +%s%3N)",
         "uv pip install --system --no-index --find-links /wheelhouse --only-binary=:all: -r /reqs/requirements-lock.txt >/tmp/d7/install.log 2>&1",  # noqa: E501
         "IR=$?",
         "T1=$(date +%s%3N)",
         "echo \"INSTALL_RC=$IR\"",
         "echo \"INSTALL_MS=$((T1-T0))\"",
+        "echo 'STAGE_INSTALL_END'",
         "cp /tmp/d7/install.log /out/install.log",
         "echo '=== PIPLIST ==='",
         "python -m pip list --format=freeze >/tmp/d7/pipfreeze.txt 2>&1",
@@ -696,6 +733,7 @@ PYEOF''',
         "echo '=== PIPCHECK ==='",
         "pip check >/tmp/d7/pipcheck.log 2>&1",
         "echo \"PIPCHECK_RC=$?\"",
+        "echo 'STAGE_PIPCHECK_END'",
         "cp /tmp/d7/pipcheck.log /out/pipcheck.log",
         "echo '=== NATIVE (frozen modules) ==='",
         f"echo '{{\"packages\": {json.dumps(native_pkgs)}}}' >/tmp/d7/profile.json",
@@ -735,6 +773,7 @@ open("/out/native.json","w").write(json.dumps({"failures": failures,
     "fs": fs,
     "exec_resolutions": exec_resolutions}, indent=2, sort_keys=True))
 PYEOF''',
+        "echo 'STAGE_NATIVE_END'",
     ]
     # Special evidence probes (only when applicable; no semantic change).
     if special.get("pyver_major_minor"):
@@ -765,11 +804,14 @@ PYEOF''',
             "open('/out/version_probes.json','w').write(json.dumps(out, indent=2, sort_keys=True))\n"
             "PYEOF"
         )
+    lines.append("echo 'STAGE_SPECIAL_PROBES_END'")
     if wts:
         lines += [
+            "echo 'STAGE_SMOKE_BEGIN'",
             "echo '=== SMOKE ==='",
             f"for wt in {wts}; do",
             "  if [ -d \"$wt\" ]; then",
+            "    echo \"WT_$(basename $wt)_IS_DIR=1\"",
             "    echo \"== SMOKE $(basename $wt) ==\"",
             "    cd \"$wt\"",
             "    python -c \"import saleor\" >/tmp/d7/import_$(basename $wt).log 2>&1",
@@ -789,15 +831,26 @@ PYEOF''',
             "    else",
             "      echo \"PYTEST_RC_$(basename $wt)=SKIP\"",
             "    fi",
+            "  else",
+            "    echo \"WT_$(basename $wt)_IS_DIR=0\"",
             "  fi",
             "done",
+            "echo 'STAGE_SMOKE_END'",
         ]
     lines.append("echo 'D7_UNIT_DONE'")
     return "\n".join(lines)
 
 
 def parse_output(out: str) -> dict[str, Any]:
+    """Parse container instrumentation output, FAIL CLOSED on malformed fields.
+
+    Required integer fields (INSTALL_RC / INSTALL_MS / PIPCHECK_RC) are
+    validated: missing, empty, duplicate or non-integer values raise
+    ``TOOLING_OR_INSTRUMENTATION_FAILURE`` with the offending raw line.  No
+    scientific PASS may ever be inferred from malformed instrumentation.
+    """
     res: dict[str, Any] = {}
+    seen_ints: dict[str, int] = {}
     for line in out.splitlines():
         line = line.strip()
         if line.startswith("NET_STATUS="):
@@ -808,13 +861,13 @@ def parse_output(out: str) -> dict[str, Any]:
             k, v = line.split("=", 1)
             res.setdefault("version_probes", {})[k[len("VERSION_"):].lower()] = v
         elif line.startswith("INSTALL_RC="):
-            res["install_rc"] = int(line.split("=", 1)[1])
+            res["install_rc"] = _required_int_field(line, "INSTALL_RC", seen_ints)
         elif line.startswith("INSTALL_MS="):
-            res["install_ms"] = int(line.split("=", 1)[1])
+            res["install_ms"] = _required_int_field(line, "INSTALL_MS", seen_ints)
         elif line.startswith("TOOLHOUSE_PRESENT="):
             res["toolhouse_present"] = json.loads(line.split("=", 1)[1] or "[]")
         elif line.startswith("PIPCHECK_RC="):
-            res["pipcheck_rc"] = int(line.split("=", 1)[1])
+            res["pipcheck_rc"] = _required_int_field(line, "PIPCHECK_RC", seen_ints)
         elif line.startswith("NATIVE_FAILURES="):
             res["native_failures"] = json.loads(line.split("=", 1)[1] or "[]")
         elif line.startswith("NATIVE_SPEC_GAP="):
@@ -830,11 +883,26 @@ def parse_output(out: str) -> dict[str, Any]:
         elif line.startswith("PYTEST_RC_"):
             k = line.split("=", 1)[0][len("PYTEST_RC_"):]
             res.setdefault("smoke", {})[f"pytest_{k}"] = line.split("=", 1)[1]
+        elif line.startswith("STAGE_"):
+            res.setdefault("stages", []).append(line.split("=", 1)[0])
+        elif line.startswith("WT_"):
+            token = line.split("=", 1)[0]
+            wt = token[3:]
+            if wt.endswith("_IS_DIR"):
+                wt = wt[: -len("_IS_DIR")]
+            res.setdefault("wt_is_dir", {})[wt] = line.split("=", 1)[1]
     return res
 
 
-def classify_unit(run: dict[str, Any], *, special: dict[str, Any]) -> str:
-    """Fail-closed gate order mirroring the frozen R3 driver."""
+def classify_unit(run: dict[str, Any], *, special: dict[str, Any],
+                  wt_count: int = 0) -> str:
+    """Fail-closed gate order mirroring the frozen R3 driver.
+
+    ``wt_count`` is the expected number of member-task worktrees.  If any
+    is expected, the smoke stage MUST produce an explicit WT_*_IS_DIR marker
+    (0 or 1); a missing marker means the smoke stage never reached the loop,
+    which is a fail-closed instrumentation observability defect (no PASS).
+    """
     if run.get("network_status") != "NETWORK_UNAVAILABLE":
         return F_ENV_DOCKER_IMAGE
     if run.get("install_rc") != 0:
@@ -850,6 +918,15 @@ def classify_unit(run: dict[str, Any], *, special: dict[str, Any]) -> str:
     if special.get("pyver_major_minor") and run.get("special_pyver") != special["pyver_major_minor"]:
         return F_ENV_IMPORT_SMOKE
     smoke = run.get("smoke", {})
+    wt_is_dir = run.get("wt_is_dir", {})
+    if wt_count > 0:
+        if len(wt_is_dir) != wt_count:
+            return F_ENV_IMPORT_SMOKE
+        if any(v != "1" for v in wt_is_dir.values()):
+            return F_ENV_IMPORT_SMOKE
+        for wt in wt_is_dir:
+            if f"import_{wt}" not in smoke:
+                return F_ENV_IMPORT_SMOKE
     for k, v in smoke.items():
         if k.startswith("import_") and v not in ("0", "SKIP"):
             return F_ENV_IMPORT_SMOKE
@@ -905,6 +982,32 @@ class UnitRunner:
     @staticmethod
     def cleanup_volume(vol: str) -> None:
         remove_volume(WslDockerBackend(distro=WSL_DISTRO), vol)
+
+    def _persist_process_evidence(
+        self, out_dir: Path, *, stdout: str, stderr: str, returncode: int,
+        elapsed_seconds: float, start_utc: str,
+    ) -> None:
+        """Persist raw process evidence BEFORE any parsing.
+
+        These files must survive even if parse_output / classification raises.
+        """
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "raw_stdout.log").write_text(stdout, encoding="utf-8")
+        (out_dir / "raw_stderr.log").write_text(stderr or "", encoding="utf-8")
+        (out_dir / "process_meta.json").write_text(
+            json.dumps(
+                {
+                    "returncode": returncode,
+                    "elapsed_seconds": elapsed_seconds,
+                    "start_utc": start_utc,
+                    "timeout_seconds": INSTALL_TIMEOUT_S,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
 
     def run_unit(self, idx: int) -> dict[str, Any]:
         plan = load_plan()
@@ -1019,12 +1122,21 @@ class UnitRunner:
                 "-v", f"{req_local}:/reqs/requirements-lock.txt:ro",
                 "-v", f"{harness_mnt}:/harness:ro",
                 "-v", f"{out_mnt}:/out:rw",
-                image_ref, "sh", "-lc", script,
+                image_ref, "sh", "-lc", encode_runner_script(script, entrypoint="sh"),
             ]
             r = self.backend.run(cmd, timeout_s=INSTALL_TIMEOUT_S)
+            elapsed = round(time.time() - t0, 2)
+            # A. Persist raw process evidence BEFORE parsing; survives parse errors.
+            self._persist_process_evidence(
+                out_dir,
+                stdout=r.stdout,
+                stderr=r.stderr,
+                returncode=r.returncode,
+                elapsed_seconds=elapsed,
+                start_utc=start_utc,
+            )
             if r.returncode == 124:
                 parsed: dict[str, Any] = {}
-                elapsed = round(time.time() - t0, 2)
                 return self._finish_unit(uid, idx, member_tasks, image_ref, image_id,
                                           dp, np_id, python_version, lock_type, install_route,
                                           era, pins, lock_sha, sf_inputs, recovery_input,
@@ -1032,8 +1144,7 @@ class UnitRunner:
                                           materialized, "TIMEOUT", volumes, r.stdout, r.stderr,
                                           wheel_input=wheel_input, resolution=resolution)
             parsed = parse_output(r.stdout)
-            elapsed = round(time.time() - t0, 2)
-            classification = classify_unit(parsed, special=special)
+            classification = classify_unit(parsed, special=special, wt_count=len(member_tasks))
             return self._finish_unit(uid, idx, member_tasks, image_ref, image_id,
                                       dp, np_id, python_version, lock_type, install_route,
                                       era, pins, lock_sha, sf_inputs, recovery_input,
