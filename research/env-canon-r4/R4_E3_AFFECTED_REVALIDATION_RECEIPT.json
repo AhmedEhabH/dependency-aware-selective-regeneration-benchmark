@@ -1,0 +1,2690 @@
+{
+  "affected_set_sha256": "d5ed821a95ce7d8a6adf5655dfd2b62216e4979b30023f225ba8a9a8f27678ea",
+  "branch": "parallel/d7-r4-e-affected-revalidation-2026-10-13",
+  "dependency_classification_invariance": {
+    "pass": true,
+    "violations": []
+  },
+  "deterministic_semantic_hash": "1eb1d0ae1e8205f034002358fefabb32b61127f9d5f7b1963e55b77cda7ca8dc",
+  "e1_plan_sha256": "731d71817051a1f5154b1853c7cc74ba95dc2e309b31e5b464c26dbbdf283baa",
+  "e2_external_manifest_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\manifests\\R4_E2_PYLINT_ACQUISITION_MANIFEST.json",
+  "e2_external_manifest_sha256": "0ac1fa2bd7b078d99c05a92f90d2dba886454377f7c1d392065e6db4ec8ea902",
+  "e2_repo_receipt": {
+    "mission_id": "M17_D7_R4_E2_PYLINT_OFFICIAL_PYPI_ACQUISITION",
+    "path": "D:\\WP2\\active\\r4-e-affected-revalidation\\research\\env-canon-r4\\R4_E2_PYLINT_ACQUISITION_RECEIPT.json",
+    "result": "PASS_28_28"
+  },
+  "exact_next_gate": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12",
+  "exact_transition_ledger": [
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-5c458f26276d",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-00c65e6f8459",
+      "version": "2.8.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-14f2176b5d8c",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-048cdcee7907",
+      "version": "2.15.8"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-d8a4cd122bf0",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-04c71da705ac",
+      "version": "2.8.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-45cfb26218c8",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-0925adc62ab4",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a5e831779345",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-0f0447cc3e76",
+      "version": "2.8.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a576e993bab7",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-101c124a89c7",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-bf938e731bd8",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-1322f72e5363",
+      "version": "2.7.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-b60266933f7a",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-18938eea2931",
+      "version": "2.9.6"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-9b96c1602b1f",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-211923a4bbb9",
+      "version": "2.15.10"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-b8786c1bf4d3",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-211923a4bbb9",
+      "version": "2.15.10"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-2a59d31fc839",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-2483fd026a5e",
+      "version": "2.15.3"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-1f47b503f69e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-25266c00d332",
+      "version": "2.11.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-1f9b5c53a63a",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-25c83915bd75",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-bd64d6fdbe4b",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-25c83915bd75",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-b0245506e69b",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-27136572a530",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-d299e27e5f04",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-27136572a530",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-27b65eae2a9a",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-27ae8fa10bfc",
+      "version": "2.12.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-506cd1157e9c",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-27e8f29e8efc",
+      "version": "2.17.7"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c7207e71e0d3",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-2864e8ec8e21",
+      "version": "2.15.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-33010c0d5f7f",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-28c3ab8a0637",
+      "version": "2.15.8"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-b2622810adf1",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-2bcc39756c5a",
+      "version": "2.8.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-95db464ad4ea",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-2dc07b65457d",
+      "version": "2.17.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-7b3fbb77c331",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-34976fcfcdb9",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-eaf1577585a2",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-34976fcfcdb9",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-f953990d221b",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-34976fcfcdb9",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a7a2bf4146ba",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-37c7da0c0820",
+      "version": "2.15.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-b2e3652af826",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-38186b1280dd",
+      "version": "2.15.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-8c8d9db54d63",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-3975af462f4e",
+      "version": "2.17.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-45301d74fb45",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-3cc575189c53",
+      "version": "2.12.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-54bbb04b8954",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-431fd44d4e16",
+      "version": "2.11.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a17f11cf7e87",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-431fd44d4e16",
+      "version": "2.11.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-349d88efcfec",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-449f84e63781",
+      "version": "2.15.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-bcd9f60d2aef",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-449f84e63781",
+      "version": "2.15.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-10889526d151",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-457f26c93ff1",
+      "version": "2.9.6"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-4931e989d82d",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-481aef932595",
+      "version": "2.15.10"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-4adf36dfdbe7",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-5985a7f5c711",
+      "version": "2.14.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-9b88221ba8c2",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-5cf74906951d",
+      "version": "2.13.8"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-4e45b83e7475",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-60d3684b344f",
+      "version": "2.14.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-65643ec7c37f",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-60d3684b344f",
+      "version": "2.14.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-349fe0c194a1",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-648e07c887c6",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-0fd3a4d986a0",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-69576eeb06f2",
+      "version": "2.15.10"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-094b1ec0f610",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-6a7d0c94de02",
+      "version": "2.13.9"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-28799575c518",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-6e164d4710fa",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-29c2d1abdce0",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-6e164d4710fa",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-ba4ff17faab4",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-6e164d4710fa",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-ef4d31a09e7c",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-6e164d4710fa",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a650f8f05c02",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-87c9ec56b2bc",
+      "version": "2.17.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c0d4785abd74",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-87c9ec56b2bc",
+      "version": "2.17.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-6c928b72daa4",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9218196782bc",
+      "version": "2.9.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-373efa067922",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-92d8208bc063",
+      "version": "2.17.7"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-884327b653cc",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-bd0c56fc787e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c87441bb1464",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c9c1cc0968d3",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-d3ab58054844",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "version": "2.10.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-24f9b244d6bc",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9af2f5398149",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-5821309aed09",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9af2f5398149",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-6a1f884168d2",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9af2f5398149",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-fd5b7971c5d2",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9af2f5398149",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-81d02e76b22e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9ed193747002",
+      "version": "2.13.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c6220233ccb1",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-9ed193747002",
+      "version": "2.13.5"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c38263743e9e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-a199ad1732dc",
+      "version": "2.17.7"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a93a877388ae",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-a677a0561630",
+      "version": "2.7.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-843a2c1905ad",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-afe5a5c0e422",
+      "version": "2.17.7"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-18430f2a7a16",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-b634339e1f8a",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-b0672eea0422",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-bbb37661a274",
+      "version": "2.13.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-17c8d807b3d1",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-bedcd6ce97ff",
+      "version": "2.17.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-03c5a9916858",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-c3065f6a2b55",
+      "version": "2.8.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-1af1c3a368ec",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-c4f8d5ea7e5a",
+      "version": "2.16.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-dd8ead382526",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-c4f8d5ea7e5a",
+      "version": "2.16.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-ea98ffa79753",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-c4f8d5ea7e5a",
+      "version": "2.16.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-2c44b8eccc2c",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-c80b536f2407",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-484ce8815cf4",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-cd262bbb641d",
+      "version": "2.12.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-1b4da5a88d08",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-cf9b71629fb0",
+      "version": "2.11.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-571a3b145aea",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-d0ceadc7a5d0",
+      "version": "2.12.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-8b0cbe2fb72f",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-d0ceadc7a5d0",
+      "version": "2.12.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-c428b47bddc5",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-d391fc5c988e",
+      "version": "2.15.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-0b46c89dfd9e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-d5a8e4885ae5",
+      "version": "2.15.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-f1d4e82c1dea",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-e009f3a36367",
+      "version": "2.9.6"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-52a797b00af3",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-eba04e0cfe0e",
+      "version": "2.7.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-3513064157fa",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-ef2b9ed85c06",
+      "version": "2.15.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-a9121e630814",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-ef2b9ed85c06",
+      "version": "2.15.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-aa2bcdd0c218",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-ef6a56039231",
+      "version": "2.8.2"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-1abda1e0d36e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-f36465a05af1",
+      "version": "2.17.3"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-585562cf1cec",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-f393f956c6ee",
+      "version": "2.9.6"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-df7c7d4e8466",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-f65903cda35f",
+      "version": "2.14.3"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-55ff6b5b2b65",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-fe57def0dadc",
+      "version": "2.16.1"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-7691de1ea22e",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-fe7a88128f65",
+      "version": "2.17.4"
+    },
+    {
+      "from": "TRUE_MISSING_ARTIFACT",
+      "normalized_name": "pylint",
+      "source_type": "REGISTRY",
+      "task_id": "saleor-rc-66907b149076",
+      "to": "RECOVERY_OVERLAY_RESOLVED",
+      "validation_unit_id": "vu-ff51c2dbdaf7",
+      "version": "2.17.4"
+    }
+  ],
+  "expected_affected_tasks": 89,
+  "expected_affected_units": 65,
+  "final_verdict": "PASS_READY_FOR_BEHAVIORAL_CALIBRATION",
+  "frozen_invariance_results": {
+    "e1_driver_unchanged": true,
+    "e1_plan_json_unchanged": true,
+    "e1_plan_md_unchanged": true,
+    "e2_driver_unchanged": true,
+    "e2_overlay_read_only_input": true,
+    "e2_receipt_json_unchanged": true,
+    "e2_summary_md_unchanged": true,
+    "frozen_shared_interface_unchanged": true,
+    "frozen_wheelhouse_py39_unchanged": true,
+    "i5_driver_unchanged": true,
+    "i6_census_json_unchanged": true,
+    "i6_census_summary_unchanged": true,
+    "i6_driver_unchanged": true,
+    "r4a_b_c_providers_unchanged": true,
+    "r4d_population_calibration_unchanged": true,
+    "source_fidelity_evidence_unchanged": true,
+    "wheelhouse_hashes_py39_unchanged": true
+  },
+  "i6_census_sha256": "f60668f88b42d8f7aebb6671dba97d705dc8d2bfbed4046ff7e4332361ec9240",
+  "import_provenance": {
+    "benchmark_module": "D:\\WP2\\active\\r4-e-affected-revalidation\\src\\benchmark\\__init__.py",
+    "resolves_to_i5_worktree": true
+  },
+  "mission_class": "T3_targeted_post_recovery_zero_container_scientific_revalidation",
+  "mission_id": "M17_D7_R4_E_AFFECTED_REVALIDATION",
+  "non_pylint_transition_count": 0,
+  "original_true_missing_occurrences": 89,
+  "original_true_missing_unique": 28,
+  "p2p_f2p_summary": {
+    "F2P": {
+      "F10_recovery_wheel_wrong_version_fails": true,
+      "F11_recovery_wheel_incompatible_fails": true,
+      "F12_random_cache_fallback_fails": true,
+      "F13_network_fallback_fails": true,
+      "F14_non_pylint_change_fails": true,
+      "F15_recovered_pylint_remaining_missing_fails": true,
+      "F16_new_true_missing_fails": true,
+      "F17_source_fidelity_change_fails": true,
+      "F18_target_exclusion_change_fails": true,
+      "F19_silent_skip_fails": true,
+      "F1_missing_affected_unit_fails": true,
+      "F20_partition_overlap_fails": true,
+      "F21_incomplete_synthesis_fails": true,
+      "F22_provider_semantic_mutation_fails": true,
+      "F2_extra_affected_unit_fails": true,
+      "F3_affected_set_sha_mismatch_fails": true,
+      "F4_missing_affected_task_fails": true,
+      "F5_i6_population_identity_mismatch_fails": true,
+      "F6_e2_manifest_missing_version_fails": true,
+      "F7_e2_manifest_wrong_identity_fails": true,
+      "F8_recovery_wheel_missing_fails": true,
+      "F9_recovery_wheel_sha_mismatch_fails": true
+    },
+    "P2P": {
+      "P10_only_allowed_transition": true,
+      "P11_non_pylint_invariant": true,
+      "P12_65_65_units_ready": true,
+      "P13_89_89_tasks_ready": true,
+      "P14_79_unaffected_admissible": true,
+      "P15_144_219_partition": true,
+      "P16_true_missing_zero": true,
+      "P17_no_network_docker_install_build_target_tests": true,
+      "P18_deterministic_serialization": true,
+      "P1_affected_set_derives_65": true,
+      "P2_affected_tasks_derive_89": true,
+      "P3_original_true_missing_89": true,
+      "P4_unique_28_all_pylint": true,
+      "P5_e2_manifest_equals_i6_missing_set": true,
+      "P6_28_promoted_wheels_sha_match": true,
+      "P7_28_r4a_compatible": true,
+      "P8_i6_semantics_reused": true,
+      "P9_recovered_pylint_resolves_from_overlay": true
+    },
+    "test_file": "tests/unit/wp2/env_r4/test_r4_e3_affected_revalidation.py"
+  },
+  "per_task_result": {
+    "saleor-rc-03c5a9916858": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-03c5a9916858",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-094b1ec0f610": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-094b1ec0f610",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-0b46c89dfd9e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-0b46c89dfd9e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-0fd3a4d986a0": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-0fd3a4d986a0",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-10889526d151": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-10889526d151",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-14f2176b5d8c": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-14f2176b5d8c",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-17c8d807b3d1": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-17c8d807b3d1",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-18430f2a7a16": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-18430f2a7a16",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-1abda1e0d36e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-1abda1e0d36e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-1af1c3a368ec": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-1af1c3a368ec",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-1b4da5a88d08": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-1b4da5a88d08",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-1f47b503f69e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-1f47b503f69e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-1f9b5c53a63a": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-1f9b5c53a63a",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-24f9b244d6bc": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-24f9b244d6bc",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-27b65eae2a9a": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-27b65eae2a9a",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-28799575c518": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-28799575c518",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-29c2d1abdce0": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-29c2d1abdce0",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-2a59d31fc839": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-2a59d31fc839",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-2c44b8eccc2c": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-2c44b8eccc2c",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-33010c0d5f7f": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-33010c0d5f7f",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-349d88efcfec": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-349d88efcfec",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-349fe0c194a1": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-349fe0c194a1",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-3513064157fa": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-3513064157fa",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-373efa067922": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-373efa067922",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-45301d74fb45": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-45301d74fb45",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-45cfb26218c8": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-45cfb26218c8",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-484ce8815cf4": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-484ce8815cf4",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-4931e989d82d": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-4931e989d82d",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-4adf36dfdbe7": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-4adf36dfdbe7",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-4e45b83e7475": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-4e45b83e7475",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-506cd1157e9c": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-506cd1157e9c",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-52a797b00af3": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-52a797b00af3",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-54bbb04b8954": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-54bbb04b8954",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-55ff6b5b2b65": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-55ff6b5b2b65",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-571a3b145aea": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-571a3b145aea",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-5821309aed09": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-5821309aed09",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-585562cf1cec": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-585562cf1cec",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-5c458f26276d": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-5c458f26276d",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-65643ec7c37f": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-65643ec7c37f",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-66907b149076": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-66907b149076",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-6a1f884168d2": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-6a1f884168d2",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-6c928b72daa4": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-6c928b72daa4",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-7691de1ea22e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-7691de1ea22e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-7b3fbb77c331": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-7b3fbb77c331",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-81d02e76b22e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-81d02e76b22e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-843a2c1905ad": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-843a2c1905ad",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-884327b653cc": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-884327b653cc",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-8b0cbe2fb72f": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-8b0cbe2fb72f",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-8c8d9db54d63": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-8c8d9db54d63",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-95db464ad4ea": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-95db464ad4ea",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-9b88221ba8c2": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-9b88221ba8c2",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-9b96c1602b1f": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-9b96c1602b1f",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a17f11cf7e87": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a17f11cf7e87",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a576e993bab7": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a576e993bab7",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a5e831779345": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a5e831779345",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a650f8f05c02": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a650f8f05c02",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a7a2bf4146ba": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a7a2bf4146ba",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a9121e630814": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a9121e630814",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-a93a877388ae": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-a93a877388ae",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-aa2bcdd0c218": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-aa2bcdd0c218",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-b0245506e69b": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-b0245506e69b",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-b0672eea0422": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-b0672eea0422",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-b2622810adf1": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-b2622810adf1",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-b2e3652af826": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-b2e3652af826",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-b60266933f7a": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-b60266933f7a",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-b8786c1bf4d3": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-b8786c1bf4d3",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-ba4ff17faab4": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-ba4ff17faab4",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-bcd9f60d2aef": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-bcd9f60d2aef",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-bd0c56fc787e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-bd0c56fc787e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-bd64d6fdbe4b": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-bd64d6fdbe4b",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-bf938e731bd8": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-bf938e731bd8",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c0d4785abd74": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c0d4785abd74",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c38263743e9e": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c38263743e9e",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c428b47bddc5": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c428b47bddc5",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c6220233ccb1": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c6220233ccb1",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c7207e71e0d3": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c7207e71e0d3",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c87441bb1464": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c87441bb1464",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-c9c1cc0968d3": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-c9c1cc0968d3",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-d299e27e5f04": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-d299e27e5f04",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-d3ab58054844": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-d3ab58054844",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-d8a4cd122bf0": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-d8a4cd122bf0",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-dd8ead382526": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-dd8ead382526",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-df7c7d4e8466": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-df7c7d4e8466",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-ea98ffa79753": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-ea98ffa79753",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-eaf1577585a2": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-eaf1577585a2",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-ef4d31a09e7c": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-ef4d31a09e7c",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-f1d4e82c1dea": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-f1d4e82c1dea",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-f953990d221b": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-f953990d221b",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    },
+    "saleor-rc-fd5b7971c5d2": {
+      "affected": true,
+      "resolved": true,
+      "task_id": "saleor-rc-fd5b7971c5d2",
+      "terminal": "READY_LOCAL_ZERO_CONTAINER"
+    }
+  },
+  "per_unit_result": {
+    "vu-00c65e6f8459": {
+      "commit_readiness": {
+        "saleor-rc-5c458f26276d": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-00c65e6f8459"
+    },
+    "vu-048cdcee7907": {
+      "commit_readiness": {
+        "saleor-rc-14f2176b5d8c": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-048cdcee7907"
+    },
+    "vu-04c71da705ac": {
+      "commit_readiness": {
+        "saleor-rc-d8a4cd122bf0": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-04c71da705ac"
+    },
+    "vu-0925adc62ab4": {
+      "commit_readiness": {
+        "saleor-rc-45cfb26218c8": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-0925adc62ab4"
+    },
+    "vu-0f0447cc3e76": {
+      "commit_readiness": {
+        "saleor-rc-a5e831779345": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-0f0447cc3e76"
+    },
+    "vu-101c124a89c7": {
+      "commit_readiness": {
+        "saleor-rc-a576e993bab7": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-101c124a89c7"
+    },
+    "vu-1322f72e5363": {
+      "commit_readiness": {
+        "saleor-rc-bf938e731bd8": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-1322f72e5363"
+    },
+    "vu-18938eea2931": {
+      "commit_readiness": {
+        "saleor-rc-b60266933f7a": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-18938eea2931"
+    },
+    "vu-211923a4bbb9": {
+      "commit_readiness": {
+        "saleor-rc-9b96c1602b1f": true,
+        "saleor-rc-b8786c1bf4d3": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-211923a4bbb9"
+    },
+    "vu-2483fd026a5e": {
+      "commit_readiness": {
+        "saleor-rc-2a59d31fc839": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-2483fd026a5e"
+    },
+    "vu-25266c00d332": {
+      "commit_readiness": {
+        "saleor-rc-1f47b503f69e": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-25266c00d332"
+    },
+    "vu-25c83915bd75": {
+      "commit_readiness": {
+        "saleor-rc-1f9b5c53a63a": true,
+        "saleor-rc-bd64d6fdbe4b": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-25c83915bd75"
+    },
+    "vu-27136572a530": {
+      "commit_readiness": {
+        "saleor-rc-b0245506e69b": true,
+        "saleor-rc-d299e27e5f04": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-27136572a530"
+    },
+    "vu-27ae8fa10bfc": {
+      "commit_readiness": {
+        "saleor-rc-27b65eae2a9a": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-27ae8fa10bfc"
+    },
+    "vu-27e8f29e8efc": {
+      "commit_readiness": {
+        "saleor-rc-506cd1157e9c": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-27e8f29e8efc"
+    },
+    "vu-2864e8ec8e21": {
+      "commit_readiness": {
+        "saleor-rc-c7207e71e0d3": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-2864e8ec8e21"
+    },
+    "vu-28c3ab8a0637": {
+      "commit_readiness": {
+        "saleor-rc-33010c0d5f7f": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-28c3ab8a0637"
+    },
+    "vu-2bcc39756c5a": {
+      "commit_readiness": {
+        "saleor-rc-b2622810adf1": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-2bcc39756c5a"
+    },
+    "vu-2dc07b65457d": {
+      "commit_readiness": {
+        "saleor-rc-95db464ad4ea": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-2dc07b65457d"
+    },
+    "vu-34976fcfcdb9": {
+      "commit_readiness": {
+        "saleor-rc-7b3fbb77c331": true,
+        "saleor-rc-eaf1577585a2": true,
+        "saleor-rc-f953990d221b": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 3,
+      "validation_unit_id": "vu-34976fcfcdb9"
+    },
+    "vu-37c7da0c0820": {
+      "commit_readiness": {
+        "saleor-rc-a7a2bf4146ba": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-37c7da0c0820"
+    },
+    "vu-38186b1280dd": {
+      "commit_readiness": {
+        "saleor-rc-b2e3652af826": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-38186b1280dd"
+    },
+    "vu-3975af462f4e": {
+      "commit_readiness": {
+        "saleor-rc-8c8d9db54d63": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-3975af462f4e"
+    },
+    "vu-3cc575189c53": {
+      "commit_readiness": {
+        "saleor-rc-45301d74fb45": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-3cc575189c53"
+    },
+    "vu-431fd44d4e16": {
+      "commit_readiness": {
+        "saleor-rc-54bbb04b8954": true,
+        "saleor-rc-a17f11cf7e87": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-431fd44d4e16"
+    },
+    "vu-449f84e63781": {
+      "commit_readiness": {
+        "saleor-rc-349d88efcfec": true,
+        "saleor-rc-bcd9f60d2aef": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-449f84e63781"
+    },
+    "vu-457f26c93ff1": {
+      "commit_readiness": {
+        "saleor-rc-10889526d151": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-457f26c93ff1"
+    },
+    "vu-481aef932595": {
+      "commit_readiness": {
+        "saleor-rc-4931e989d82d": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-481aef932595"
+    },
+    "vu-5985a7f5c711": {
+      "commit_readiness": {
+        "saleor-rc-4adf36dfdbe7": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-5985a7f5c711"
+    },
+    "vu-5cf74906951d": {
+      "commit_readiness": {
+        "saleor-rc-9b88221ba8c2": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-5cf74906951d"
+    },
+    "vu-60d3684b344f": {
+      "commit_readiness": {
+        "saleor-rc-4e45b83e7475": true,
+        "saleor-rc-65643ec7c37f": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-60d3684b344f"
+    },
+    "vu-648e07c887c6": {
+      "commit_readiness": {
+        "saleor-rc-349fe0c194a1": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-648e07c887c6"
+    },
+    "vu-69576eeb06f2": {
+      "commit_readiness": {
+        "saleor-rc-0fd3a4d986a0": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-69576eeb06f2"
+    },
+    "vu-6a7d0c94de02": {
+      "commit_readiness": {
+        "saleor-rc-094b1ec0f610": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-6a7d0c94de02"
+    },
+    "vu-6e164d4710fa": {
+      "commit_readiness": {
+        "saleor-rc-28799575c518": true,
+        "saleor-rc-29c2d1abdce0": true,
+        "saleor-rc-ba4ff17faab4": true,
+        "saleor-rc-ef4d31a09e7c": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 4,
+      "validation_unit_id": "vu-6e164d4710fa"
+    },
+    "vu-87c9ec56b2bc": {
+      "commit_readiness": {
+        "saleor-rc-a650f8f05c02": true,
+        "saleor-rc-c0d4785abd74": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-87c9ec56b2bc"
+    },
+    "vu-9218196782bc": {
+      "commit_readiness": {
+        "saleor-rc-6c928b72daa4": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-9218196782bc"
+    },
+    "vu-92d8208bc063": {
+      "commit_readiness": {
+        "saleor-rc-373efa067922": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-92d8208bc063"
+    },
+    "vu-9a5ec59e6d06": {
+      "commit_readiness": {
+        "saleor-rc-884327b653cc": true,
+        "saleor-rc-bd0c56fc787e": true,
+        "saleor-rc-c87441bb1464": true,
+        "saleor-rc-c9c1cc0968d3": true,
+        "saleor-rc-d3ab58054844": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 5,
+      "validation_unit_id": "vu-9a5ec59e6d06"
+    },
+    "vu-9af2f5398149": {
+      "commit_readiness": {
+        "saleor-rc-24f9b244d6bc": true,
+        "saleor-rc-5821309aed09": true,
+        "saleor-rc-6a1f884168d2": true,
+        "saleor-rc-fd5b7971c5d2": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 4,
+      "validation_unit_id": "vu-9af2f5398149"
+    },
+    "vu-9ed193747002": {
+      "commit_readiness": {
+        "saleor-rc-81d02e76b22e": true,
+        "saleor-rc-c6220233ccb1": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-9ed193747002"
+    },
+    "vu-a199ad1732dc": {
+      "commit_readiness": {
+        "saleor-rc-c38263743e9e": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-a199ad1732dc"
+    },
+    "vu-a677a0561630": {
+      "commit_readiness": {
+        "saleor-rc-a93a877388ae": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-a677a0561630"
+    },
+    "vu-afe5a5c0e422": {
+      "commit_readiness": {
+        "saleor-rc-843a2c1905ad": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-afe5a5c0e422"
+    },
+    "vu-b634339e1f8a": {
+      "commit_readiness": {
+        "saleor-rc-18430f2a7a16": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-b634339e1f8a"
+    },
+    "vu-bbb37661a274": {
+      "commit_readiness": {
+        "saleor-rc-b0672eea0422": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-bbb37661a274"
+    },
+    "vu-bedcd6ce97ff": {
+      "commit_readiness": {
+        "saleor-rc-17c8d807b3d1": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-bedcd6ce97ff"
+    },
+    "vu-c3065f6a2b55": {
+      "commit_readiness": {
+        "saleor-rc-03c5a9916858": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-c3065f6a2b55"
+    },
+    "vu-c4f8d5ea7e5a": {
+      "commit_readiness": {
+        "saleor-rc-1af1c3a368ec": true,
+        "saleor-rc-dd8ead382526": true,
+        "saleor-rc-ea98ffa79753": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 3,
+      "validation_unit_id": "vu-c4f8d5ea7e5a"
+    },
+    "vu-c80b536f2407": {
+      "commit_readiness": {
+        "saleor-rc-2c44b8eccc2c": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-c80b536f2407"
+    },
+    "vu-cd262bbb641d": {
+      "commit_readiness": {
+        "saleor-rc-484ce8815cf4": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-cd262bbb641d"
+    },
+    "vu-cf9b71629fb0": {
+      "commit_readiness": {
+        "saleor-rc-1b4da5a88d08": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-cf9b71629fb0"
+    },
+    "vu-d0ceadc7a5d0": {
+      "commit_readiness": {
+        "saleor-rc-571a3b145aea": true,
+        "saleor-rc-8b0cbe2fb72f": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-d0ceadc7a5d0"
+    },
+    "vu-d391fc5c988e": {
+      "commit_readiness": {
+        "saleor-rc-c428b47bddc5": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-d391fc5c988e"
+    },
+    "vu-d5a8e4885ae5": {
+      "commit_readiness": {
+        "saleor-rc-0b46c89dfd9e": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-d5a8e4885ae5"
+    },
+    "vu-e009f3a36367": {
+      "commit_readiness": {
+        "saleor-rc-f1d4e82c1dea": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-e009f3a36367"
+    },
+    "vu-eba04e0cfe0e": {
+      "commit_readiness": {
+        "saleor-rc-52a797b00af3": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-eba04e0cfe0e"
+    },
+    "vu-ef2b9ed85c06": {
+      "commit_readiness": {
+        "saleor-rc-3513064157fa": true,
+        "saleor-rc-a9121e630814": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 2,
+      "validation_unit_id": "vu-ef2b9ed85c06"
+    },
+    "vu-ef6a56039231": {
+      "commit_readiness": {
+        "saleor-rc-aa2bcdd0c218": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-ef6a56039231"
+    },
+    "vu-f36465a05af1": {
+      "commit_readiness": {
+        "saleor-rc-1abda1e0d36e": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-f36465a05af1"
+    },
+    "vu-f393f956c6ee": {
+      "commit_readiness": {
+        "saleor-rc-585562cf1cec": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-f393f956c6ee"
+    },
+    "vu-f65903cda35f": {
+      "commit_readiness": {
+        "saleor-rc-df7c7d4e8466": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-f65903cda35f"
+    },
+    "vu-fe57def0dadc": {
+      "commit_readiness": {
+        "saleor-rc-55ff6b5b2b65": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-fe57def0dadc"
+    },
+    "vu-fe7a88128f65": {
+      "commit_readiness": {
+        "saleor-rc-7691de1ea22e": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-fe7a88128f65"
+    },
+    "vu-ff51c2dbdaf7": {
+      "commit_readiness": {
+        "saleor-rc-66907b149076": true
+      },
+      "frozen_terminal": "BLOCKED_TRUE_MISSING_ARTIFACT",
+      "remaining_true_missing": 0,
+      "terminal_after_recovery": "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY",
+      "transitions_count": 1,
+      "validation_unit_id": "vu-ff51c2dbdaf7"
+    }
+  },
+  "population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+  "population_tasks_synthesized": 219,
+  "population_units_synthesized": 144,
+  "processed_affected_tasks": 89,
+  "processed_affected_units": 65,
+  "prohibited_work_flags": {
+    "behavioral_calibration_executed": false,
+    "build_executed": false,
+    "docker_cli_used": false,
+    "frozen_stores_modified": false,
+    "full_d7_executed": false,
+    "import_of_recovered_pylint": false,
+    "install_executed": false,
+    "network_used": false,
+    "opws_executed": false,
+    "overlay_modified": false,
+    "target_repo_tests_executed": false
+  },
+  "recovery_artifact_hash_failures": 0,
+  "recovery_artifacts_verified": 28,
+  "recovery_overlay_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\wheels",
+  "recovery_overlay_verification": {
+    "expected": 28,
+    "passed": true,
+    "results": [
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.7.2-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.7.2"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.7.4-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.7.4"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.8.1-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.8.1"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.8.2-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.8.2"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.9.5-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.9.5"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.9.6-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.9.6"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.10.2-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.10.2"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.11.1-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.11.1"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.12.2-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.12.2"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.13.4-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.13.4"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.13.5-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.13.5"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.13.8-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.13.8"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.13.9-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.13.9"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.14.3-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.14.3"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.14.5-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.14.5"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.15.2-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.15.2"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.15.3-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.15.3"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.15.4-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.15.4"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.15.5-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.15.5"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.15.8-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.15.8"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.15.10-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.15.10"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.16.1-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.16.1"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.17.1-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.17.1"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.17.2-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.17.2"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.17.3-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.17.3"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.17.4-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.17.4"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.17.5-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.17.5"
+      },
+      {
+        "checks": {
+          "actual_sha256_matches_manifest": true,
+          "actual_sha256_present": true,
+          "canonical_package_pylint": true,
+          "exact_version_in_i6_identity": true,
+          "filename_canonical_pylint": true,
+          "filename_exact_version": true,
+          "filename_structural": true,
+          "final_file_exists": true,
+          "manifest_entry_exists_once": true,
+          "promoted_status_true": true,
+          "r4a_compatibility": true
+        },
+        "filename": "pylint-2.17.7-py3-none-any.whl",
+        "package": "pylint",
+        "passed": true,
+        "version": "2.17.7"
+      }
+    ],
+    "verified": 28
+  },
+  "remaining_true_missing_occurrences": 0,
+  "remaining_true_missing_unique": 0,
+  "repo_used": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\dist\\pilot-repo-cache\\saleor",
+  "schema_version": "env-canon-r4-e3/1.0",
+  "semantic_ambiguity_count": 0,
+  "silent_skip_count": 0,
+  "starting_head": "00a35c80b4705cb35d0fa763f1724e4fffaacb15",
+  "store_used": "D:\\wp2_env_store",
+  "terminal_classifications_after_recovery": {
+    "READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY": 65
+  },
+  "tooling_failure_count": 0,
+  "transition_counts": {
+    "TRUE_MISSING_ARTIFACT_to_RECOVERY_OVERLAY_RESOLVED": 89
+  },
+  "unaffected_tasks_adopted_from_i6": 130,
+  "unaffected_units_adopted_from_i6": 79,
+  "upstream_e2_head": "d56f125f88806cb051d431108c4a99766af0ff59"
+}
