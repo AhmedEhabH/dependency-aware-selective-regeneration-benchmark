@@ -1,0 +1,347 @@
+{
+  "Docker_used": false,
+  "Full_D7_executed": false,
+  "acquisition_status": "PLANNED_AWAITING_OWNER_NETWORK_APPROVAL",
+  "affected_unit_ids": [
+    "vu-00c65e6f8459",
+    "vu-048cdcee7907",
+    "vu-04c71da705ac",
+    "vu-0925adc62ab4",
+    "vu-0f0447cc3e76",
+    "vu-101c124a89c7",
+    "vu-1322f72e5363",
+    "vu-18938eea2931",
+    "vu-211923a4bbb9",
+    "vu-2483fd026a5e",
+    "vu-25266c00d332",
+    "vu-25c83915bd75",
+    "vu-27136572a530",
+    "vu-27ae8fa10bfc",
+    "vu-27e8f29e8efc",
+    "vu-2864e8ec8e21",
+    "vu-28c3ab8a0637",
+    "vu-2bcc39756c5a",
+    "vu-2dc07b65457d",
+    "vu-34976fcfcdb9",
+    "vu-37c7da0c0820",
+    "vu-38186b1280dd",
+    "vu-3975af462f4e",
+    "vu-3cc575189c53",
+    "vu-431fd44d4e16",
+    "vu-449f84e63781",
+    "vu-457f26c93ff1",
+    "vu-481aef932595",
+    "vu-5985a7f5c711",
+    "vu-5cf74906951d",
+    "vu-60d3684b344f",
+    "vu-648e07c887c6",
+    "vu-69576eeb06f2",
+    "vu-6a7d0c94de02",
+    "vu-6e164d4710fa",
+    "vu-87c9ec56b2bc",
+    "vu-9218196782bc",
+    "vu-92d8208bc063",
+    "vu-9a5ec59e6d06",
+    "vu-9af2f5398149",
+    "vu-9ed193747002",
+    "vu-a199ad1732dc",
+    "vu-a677a0561630",
+    "vu-afe5a5c0e422",
+    "vu-b634339e1f8a",
+    "vu-bbb37661a274",
+    "vu-bedcd6ce97ff",
+    "vu-c3065f6a2b55",
+    "vu-c4f8d5ea7e5a",
+    "vu-c80b536f2407",
+    "vu-cd262bbb641d",
+    "vu-cf9b71629fb0",
+    "vu-d0ceadc7a5d0",
+    "vu-d391fc5c988e",
+    "vu-d5a8e4885ae5",
+    "vu-e009f3a36367",
+    "vu-eba04e0cfe0e",
+    "vu-ef2b9ed85c06",
+    "vu-ef6a56039231",
+    "vu-f36465a05af1",
+    "vu-f393f956c6ee",
+    "vu-f65903cda35f",
+    "vu-fe57def0dadc",
+    "vu-fe7a88128f65",
+    "vu-ff51c2dbdaf7"
+  ],
+  "affected_units": 65,
+  "allowed_artifact_origin": "https://files.pythonhosted.org/",
+  "allowed_metadata_origin": "https://pypi.org/",
+  "artifact_selection_policy": {
+    "multiple_compatible_wheels": {
+      "otherwise": "deterministic R4-A-compatible choice",
+      "prefer": "a pure-Python wheel compatible with the target",
+      "record": "selection rationale and all candidates considered"
+    },
+    "no_compatible_wheel": "STOP_OWNER_REVIEW with exact evidence; do NOT automatically build from sdist",
+    "source_of_truth": "official PyPI release metadata per exact version",
+    "steps": [
+      "1. read official PyPI release metadata",
+      "2. reject release if the exact version is absent",
+      "3. reject release if only unapproved/ambiguous artifacts exist",
+      "4. reject a yanked release unless frozen scientific authority requires that exact yanked version AND the owner explicitly approves the yanked artifact after evidence review",
+      "5. prefer an officially published wheel over an sdist",
+      "6. require exact wheel Name == pylint",
+      "7. require exact wheel Version == expected version",
+      "8. require R4-A compatibility with the frozen RuntimeTarget (CPython 3.9 / linux / x86_64)",
+      "9. pure-Python wheels (e.g. py3-none-any) acceptable only if R4-A accepts them for this target",
+      "10. no host-Python tag inference",
+      "11. no arbitrary filename-prefix matching"
+    ]
+  },
+  "artifacts_downloaded": 0,
+  "behavioral_calibration_executed": false,
+  "branch": "parallel/d7-r4-e-bounded-artifact-recovery-2026-10-13",
+  "exact_ordered_recovery_identities": [
+    [
+      "pylint",
+      "2.7.2"
+    ],
+    [
+      "pylint",
+      "2.7.4"
+    ],
+    [
+      "pylint",
+      "2.8.1"
+    ],
+    [
+      "pylint",
+      "2.8.2"
+    ],
+    [
+      "pylint",
+      "2.9.5"
+    ],
+    [
+      "pylint",
+      "2.9.6"
+    ],
+    [
+      "pylint",
+      "2.10.2"
+    ],
+    [
+      "pylint",
+      "2.11.1"
+    ],
+    [
+      "pylint",
+      "2.12.2"
+    ],
+    [
+      "pylint",
+      "2.13.4"
+    ],
+    [
+      "pylint",
+      "2.13.5"
+    ],
+    [
+      "pylint",
+      "2.13.8"
+    ],
+    [
+      "pylint",
+      "2.13.9"
+    ],
+    [
+      "pylint",
+      "2.14.3"
+    ],
+    [
+      "pylint",
+      "2.14.5"
+    ],
+    [
+      "pylint",
+      "2.15.2"
+    ],
+    [
+      "pylint",
+      "2.15.3"
+    ],
+    [
+      "pylint",
+      "2.15.4"
+    ],
+    [
+      "pylint",
+      "2.15.5"
+    ],
+    [
+      "pylint",
+      "2.15.8"
+    ],
+    [
+      "pylint",
+      "2.15.10"
+    ],
+    [
+      "pylint",
+      "2.16.1"
+    ],
+    [
+      "pylint",
+      "2.17.1"
+    ],
+    [
+      "pylint",
+      "2.17.2"
+    ],
+    [
+      "pylint",
+      "2.17.3"
+    ],
+    [
+      "pylint",
+      "2.17.4"
+    ],
+    [
+      "pylint",
+      "2.17.5"
+    ],
+    [
+      "pylint",
+      "2.17.7"
+    ]
+  ],
+  "exact_version_only_policy": {
+    "no_alternative_package": true,
+    "no_dependency_downloads_in_acquisition": true,
+    "no_latest": true,
+    "no_locally_rebuilt_substitute": true,
+    "no_mutation_of_frozen_i6_evidence": true,
+    "no_semver_compatible_substitution": true,
+    "no_version_downgrades": true,
+    "no_version_upgrades": true,
+    "package_name_must_equal": "pylint",
+    "version_must_be_exact": true
+  },
+  "frozen_wheelhouse_mutation_prohibited": true,
+  "import_provenance": {
+    "benchmark_module": "D:\\WP2\\active\\r4-e-artifact-recovery\\src\\benchmark\\__init__.py",
+    "expected_src": "D:\\WP2\\active\\r4-e-artifact-recovery\\src",
+    "resolves_to_expected_src": true
+  },
+  "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+  "integrity_validation_policy": {
+    "downloaded_file_sha256_must_equal_official": true,
+    "evidence_claims_limited_to": [
+      "official origin",
+      "hash integrity",
+      "archive structural safety",
+      "exact package identity"
+    ],
+    "final_artifact_host": "files.pythonhosted.org",
+    "https_tls_verification_enabled": true,
+    "no_malware_free_claim": true,
+    "official_sha256_captured_before_acceptance": true
+  },
+  "manifests_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\manifests",
+  "metadata_endpoint_template": "https://pypi.org/pypi/pylint/<EXACT_VERSION>/json",
+  "metadata_endpoints_queried_in_e1": false,
+  "mission_class": "T2_bounded_external_artifact_acquisition_planning",
+  "mission_id": "M17_D7_R4_E1_PYLINT_RECOVERY_PLAN",
+  "network_used": false,
+  "no_dependency_download_policy": {
+    "acquisition_downloads_contain_dependencies": false,
+    "dependency_resolution": "outside E1 scope; requires a later owner-approved phase",
+    "only_exact_pylint_versions_downloaded": true
+  },
+  "occurrence_counts_by_version": {
+    "2.10.2": 8,
+    "2.11.1": 4,
+    "2.12.2": 5,
+    "2.13.4": 1,
+    "2.13.5": 2,
+    "2.13.8": 1,
+    "2.13.9": 1,
+    "2.14.3": 1,
+    "2.14.5": 3,
+    "2.15.10": 4,
+    "2.15.2": 5,
+    "2.15.3": 1,
+    "2.15.4": 2,
+    "2.15.5": 2,
+    "2.15.8": 2,
+    "2.16.1": 4,
+    "2.17.1": 1,
+    "2.17.2": 1,
+    "2.17.3": 1,
+    "2.17.4": 11,
+    "2.17.5": 3,
+    "2.17.7": 4,
+    "2.7.2": 9,
+    "2.7.4": 2,
+    "2.8.1": 1,
+    "2.8.2": 5,
+    "2.9.5": 1,
+    "2.9.6": 4
+  },
+  "owner_network_approval": false,
+  "plan_sha256": "731d71817051a1f5154b1853c7cc74ba95dc2e309b31e5b464c26dbbdf283baa",
+  "population_identity": {
+    "n_mapped_tasks": 219,
+    "n_validation_units": 144,
+    "strata": {
+      "3.12_poetry": 25,
+      "3.12_uv": 21,
+      "3.8_poetry": 15,
+      "3.9_poetry": 83
+    }
+  },
+  "population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+  "schema_version": "env-canon-r4-e1/1.0",
+  "sdist_fallback_policy": "OWNER_REVIEW_REQUIRED",
+  "staging_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\staging",
+  "starting_head": "b4667fd56738b4d7d069ba88c73a290c201d1628",
+  "store_design": {
+    "additive_overlay_only": true,
+    "frozen_manifest_path": "D:\\wp2_env_store\\manifests\\WHEELHOUSE_HASHES_py39.json",
+    "frozen_wheelhouse_mutation_prohibited": true,
+    "frozen_wheelhouse_path": "D:\\wp2_env_store\\wheelhouse\\py39",
+    "manifests_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\manifests",
+    "network_downloads_go_to": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\staging",
+    "no_overwrite_rule": "no overwrite of an existing artifact unless byte-identical and already recorded by the same recovery manifest",
+    "promotion_rule": "promote staging -> wheels ONLY after complete verification",
+    "recovery_root": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39",
+    "staging_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\staging",
+    "wheels_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\wheels"
+  },
+  "structural_wheel_validation_policy": {
+    "artifact_never_imported_or_executed_during_recovery_validation": true,
+    "canonical_name_equals_pylint": true,
+    "contents_not_trusted_merely_because_download_succeeded": true,
+    "exact_version_equals_required": true,
+    "no_absolute_archive_paths": true,
+    "no_dotdot_path_traversal": true,
+    "r4a_target_compatibility_pass": true,
+    "wheel_filename_parsed_structurally": true,
+    "wheel_metadata_name_equals_pylint": true,
+    "wheel_metadata_version_equals_exact": true,
+    "zip_integrity_pass": true
+  },
+  "target": {
+    "architecture": "x86_64",
+    "implementation": "cpython",
+    "platform": "linux",
+    "python_version": "3.9"
+  },
+  "true_missing_occurrences": 89,
+  "true_missing_unique_identities": 28,
+  "upstream_i6_census_canonical_sha256": "8e378c496940119f2e280971e772c0ae4174264ae2bd626a19c16ed06075966a",
+  "upstream_i6_census_sha256": "f60668f88b42d8f7aebb6671dba97d705dc8d2bfbed4046ff7e4332361ec9240",
+  "upstream_i6_head": "b4667fd56738b4d7d069ba88c73a290c201d1628",
+  "wheel_compatibility_authority": "R4-A",
+  "wheels_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\wheels",
+  "yanked_release_policy": {
+    "default": "reject yanked release",
+    "exception": "frozen scientific authority requires that exact yanked version AND the owner explicitly approves the yanked artifact after evidence review"
+  }
+}
