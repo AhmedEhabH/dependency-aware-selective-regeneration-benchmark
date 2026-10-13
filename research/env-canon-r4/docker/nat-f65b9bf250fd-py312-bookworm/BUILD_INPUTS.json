@@ -1,0 +1,42 @@
+{
+  "schema_version": "r4-native-image-composition-repair/build-inputs/1.0",
+  "mission_id": "M17_D7_R4_NATIVE_IMAGE_COMPOSITION_REPAIR",
+  "build_context": "research/env-canon-r4/docker/nat-f65b9bf250fd-py312-bookworm/",
+  "target_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013",
+  "docker_profile_id": "dk-py312-bookworm",
+  "python_version": "3.12",
+  "wheelhouse_era": "py312",
+  "native_profile_id": "nat-f65b9bf250fd",
+  "base_image_ref": "envcanon/saleor-env-base-py312-bookworm:latest",
+  "base_image_id_expected": "sha256:b9e35d98a9b119ac6c265732308231581a88ad60d8c33dbbfd214cb82bf80a27",
+  "recipe_authority": "D:\\wp2_env_store\\dockerfiles\\saleor-env-native-nat-f65b9bf250fd.Dockerfile",
+  "recipe": "apt-get update && apt-get install -y --no-install-recommends <frozen nat-f65 package semantics> && rm -rf /var/lib/apt/lists/*",
+  "frozen_native_package_set": [
+    "gettext",
+    "libcairo2",
+    "libgdk-pixbuf2.0-0",
+    "liblcms2-2",
+    "libopenjp2-7",
+    "libpango-1.0-0",
+    "libpangocairo-1.0-0",
+    "libpq5",
+    "libssl3",
+    "libtiff6",
+    "libwebp7",
+    "libxml2",
+    "mime-support",
+    "shared-mime-info"
+  ],
+  "d6_r1_capability_providers": ["file", "libmagic1"],
+  "package_version_policy": "package identities + frozen behavioral probes (name-only, no exact Debian version pins)",
+  "network_policy": {
+    "authorized": true,
+    "authorization_source": "owner explicit M17_D7_R4_NATIVE_IMAGE_COMPOSITION_REPAIR network authorization",
+    "authorized_sources_only": ["deb.debian.org/debian", "deb.debian.org/debian-security"],
+    "authorized_top_level_packages": ["gettext", "libgdk-pixbuf2.0-0", "mime-support"],
+    "transitive_dependencies_authorized": true,
+    "prohibited": ["PyPI", "GitHub", "docker pull", "non-Debian mirror", "apt upgrade/dist-upgrade", "new repositories"]
+  },
+  "existing_py39_nat65_image_unchanged": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+  "existing_py39_nat65_image_id": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24"
+}
