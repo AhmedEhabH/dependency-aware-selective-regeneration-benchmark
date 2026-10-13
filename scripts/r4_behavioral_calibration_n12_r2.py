@@ -131,8 +131,8 @@ HARNESS_DIR = STORE / "harness" / "d7_r3"
 SF_MANIFEST = SF_R1_DIR / "SOURCE_FIDELITY_PROVENANCE_MANIFEST.json"
 SF_WHEELS = SF_R1_DIR / "artifacts" / "wheels"
 
-RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13")
-EXPECTED_RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13")
+RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14")
+EXPECTED_RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14")
 
 
 def current_run_root() -> Path:
@@ -140,13 +140,15 @@ def current_run_root() -> Path:
 
     Freeze records derive their ``external_run_root`` from this function so
     the runner's effective RUN_ROOT can never drift from what the freeze file
-    declares (Attempt-4 RUN_ROOT provenance invariant).
+    declares (Attempt-5 RUN_ROOT provenance invariant).
     """
     if RUN_ROOT != EXPECTED_RUN_ROOT:
         raise CalibrationFailClosedError(
             f"RUN_ROOT invariant violated: effective {RUN_ROOT} != expected {EXPECTED_RUN_ROOT}"
         )
     return RUN_ROOT
+
+
 FREEZE_DIR = RUN_ROOT / "freeze"
 UNITS_DIR = RUN_ROOT / "units"
 LOGS_DIR = RUN_ROOT / "logs"
@@ -154,7 +156,7 @@ PROGRESS_DIR = RUN_ROOT / "progress"
 MATERIALIZED_DIR = RUN_ROOT / "materialized"
 RECEIPTS_DIR = RUN_ROOT / "receipts"
 PROGRESS_JSON = PROGRESS_DIR / "progress.json"
-EXPECTED_RUN_ROOT_STR = "D:\\WP2\\runs\\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13"
+EXPECTED_RUN_ROOT_STR = "D:\\WP2\\runs\\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14"
 SRC_ENV_R4 = PROJECT / "src" / "benchmark" / "wp2" / "env_r4"
 
 # WSL-local Docker engine parameters (qualified R4-C substrate).
@@ -1439,7 +1441,7 @@ def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict
 
     ``external_run_root`` is derived EXCLUSIVELY from :func:`current_run_root`
     so the freeze file can never disagree with the runner's effective RUN_ROOT
-    (Attempt-4 RUN_ROOT provenance invariant).
+    (Attempt-5 RUN_ROOT provenance invariant).
     """
     freeze_root = current_run_root()
     assert str(freeze_root) == EXPECTED_RUN_ROOT_STR, "RUN_ROOT freeze drift"
@@ -1454,18 +1456,19 @@ def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict
     payload: dict[str, Any] = {
         "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/freeze/1.0",
         "attempt": attempt_label,
-        "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_R2",
+        "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_ATTEMPT5",
         "starting_head": "6f6dcf6f09a6e43bcde0dafc30e0cd748ce63254",
         "branch": EXPECTED_BRANCH,
         "preexecution_freeze_head": head,
         "remote_head": remote,
         "remote_equals_local": head == remote,
         "prior_attempt_heads": prior_heads,
+        "r4c_symlink_successor_commit": "30d0abfa5323e93d5438a6665fa2529b6e2555e5",
         "frozen_utc": utcnow(),
         "external_run_root": str(freeze_root),
         "run_root_invariant": {
-            "effective_runner_run_root": str(Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13")),
-            "expected_attempt4_root": str(RUN_ROOT),
+            "effective_runner_run_root": str(EXPECTED_RUN_ROOT),
+            "expected_attempt5_root": str(RUN_ROOT),
             "freeze_external_run_root": str(freeze_root),
             "all_three_agree": str(RUN_ROOT) == EXPECTED_RUN_ROOT_STR == str(freeze_root),
         },
@@ -1511,23 +1514,24 @@ def main() -> int:
     ap.add_argument("--binding", action="store_true", help="write CAL2-D binding evidence")
     ap.add_argument("--aggregate", action="store_true", help="CAL2-K aggregate")
     ap.add_argument("--verify-images", action="store_true", help="CAL2-B only")
-    ap.add_argument("--freeze", action="store_true", help="write Attempt-4 PRE_EXECUTION_FREEZE")
+    ap.add_argument("--freeze", action="store_true", help="write Attempt-5 PRE_EXECUTION_FREEZE")
     args = ap.parse_args()
 
     try:
         if args.freeze:
             payload = write_freeze_record(
-                "4",
+                "5",
                 {
                     "attempt1_freeze_head": "e8fc6c0f8e43b9a16712791a4bea2719a2dd6330",
                     "attempt2_freeze_head": "44e748fcb07e55527d04d4573c96ad75799fde6b",
                     "attempt3_freeze_head": "76952c0f3e672cde64498ac786e8f5e6694013d0",
+                    "attempt4_freeze_head": "3e6bf8bbc16f1532f5510ceffc53558f13123bde",
                 },
             )
             print(json.dumps({"freeze": payload["external_run_root"], "head": payload["preexecution_freeze_head"],
                               "run_root_agreement": payload["run_root_invariant"]["all_three_agree"]},
                              indent=2, sort_keys=True))
-            print("ATTEMPT4_FREEZE_WRITTEN")
+            print("ATTEMPT5_FREEZE_WRITTEN")
             return 0
         if args.preflight:
             a = verify_authority()
