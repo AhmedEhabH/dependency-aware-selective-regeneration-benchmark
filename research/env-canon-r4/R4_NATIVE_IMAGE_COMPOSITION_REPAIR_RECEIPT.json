@@ -1,0 +1,118 @@
+{
+  "schema_version": "r4-native-image-composition-repair/receipt/1.0",
+  "mission_id": "M17_D7_R4_NATIVE_IMAGE_COMPOSITION_REPAIR",
+  "starting_head": "f3f6c5cb03fc41fedc317742099a1cb51f11e146",
+  "pre_build_freeze_head": "e7856c99c2a9414841e8eebd47b00d75c396d188",
+  "final_head": "to-be-recorded-after-final-commit",
+  "branch": "parallel/d7-r4-native-image-composition-repair-2026-10-13",
+  "census_semantic_hash": "8478d05ac2aa75be995a25b62a06effffc6d61563f206f74474cbb9b891fe633",
+  "population_identity": {
+    "n_validation_units": 144,
+    "n_mapped_tasks": 219,
+    "identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac"
+  },
+  "affected_units": ["vu-692af9112c6d"],
+  "affected_tasks": ["saleor-rc-19bb9b070965"],
+  "missing_composites_before": 1,
+  "missing_composites_after": 0,
+  "build_method_authority": "D:\\wp2_env_store\\dockerfiles\\saleor-env-native-nat-f65b9bf250fd.Dockerfile + saleor-env-base-py312-bookworm.Dockerfile (frozen qualified recipe)",
+  "package_version_policy": "package identities + frozen behavioral probes (name-only, no exact Debian version pins)",
+  "base_image_ref": "envcanon/saleor-env-base-py312-bookworm:latest",
+  "base_image_id": "sha256:b9e35d98a9b119ac6c265732308231581a88ad60d8c33dbbfd214cb82bf80a27",
+  "native_profile_id": "nat-f65b9bf250fd",
+  "frozen_native_package_set": [
+    "gettext", "libcairo2", "libgdk-pixbuf2.0-0", "liblcms2-2", "libopenjp2-7",
+    "libpango-1.0-0", "libpangocairo-1.0-0", "libpq5", "libssl3", "libtiff6",
+    "libwebp7", "libxml2", "mime-support", "shared-mime-info"
+  ],
+  "target_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013",
+  "target_image_id": "sha256:1be41dd22a934cc56ed10fa1046234a450f6d2946f8099d7bcb501f696f1d759",
+  "image_architecture": "amd64",
+  "image_os": "linux",
+  "python_version": "3.12.15",
+  "os_family": "bookworm",
+  "build_network_used": true,
+  "build_network_endpoints": [
+    "http://deb.debian.org/debian (bookworm, bookworm-updates)",
+    "http://deb.debian.org/debian-security (bookworm-security)"
+  ],
+  "externally_acquired_packages": [
+    {"package": "gettext", "version": "0.21-12"},
+    {"package": "gettext-base", "version": "0.21-12"},
+    {"package": "mailcap", "version": "3.70+nmu1"},
+    {"package": "mime-support", "version": "3.66"},
+    {"package": "libgdk-pixbuf2.0-0", "version": "2.40.2-2"},
+    {"package": "libgdk-pixbuf-xlib-2.0-0", "version": "2.40.2-2"}
+  ],
+  "Docker_pull_used": false,
+  "external_downloads": [
+    "gettext, libgdk-pixbuf2.0-0, mime-support (authorized top-level) + transitive deps from authorized Debian bookworm source only"
+  ],
+  "native_probe_results": {
+    "probes_ran": 14,
+    "probe_failures": 0,
+    "missing_packages": [],
+    "required_sonames_present": [
+      "libcairo.so.2", "libgdk_pixbuf-2.0.so.0", "liblcms2.so.2", "libopenjp2.so.7",
+      "libpango-1.0.so.0", "libpangocairo-1.0.so.0", "libpq.so.5", "libssl.so.3",
+      "libtiff.so.6", "libwebp.so.7", "libxml2.so.2", "libmagic.so.1"
+    ],
+    "gettext_resolves": "/usr/bin/gettext",
+    "mime_support_path": "/etc/mime.types",
+    "shared_mime_info_path": "/usr/share/mime",
+    "result": "ALL_PASS"
+  },
+  "network_probe_result": "NETWORK_UNAVAILABLE (--network=none qualification container)",
+  "existing_py39_nat_f65_image_id_before": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+  "existing_py39_nat_f65_image_id_after": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+  "other_qualified_image_invariance": "all 13 other envcanon qualified image IDs unchanged; new composite is the 15th additive image",
+  "binding_unique_pair_count": 11,
+  "binding_semantic_hash": "3878e75a7f5f4b676af3633cad5cd64eeab05d4b9155ef9b61b2b8c1dd9607b3",
+  "census_post_repair_counts": {
+    "composition_match_count": 144,
+    "composite_image_required_count": 0,
+    "authority_ambiguous_count": 0,
+    "invalid_frozen_mapping_count": 0,
+    "unknown_count": 0,
+    "missing_composite_image_count": 0,
+    "unit_count": 144,
+    "task_count": 219
+  },
+  "P2P_F2P": {
+    "P1_P22": "all PASS (P1..P22 verified by tests/unit/wp2/env_r4/test_r4_native_image_composition_repair.py 32/32)",
+    "F1_F20": "all PASS (F1..F20 verified; fail-closed behavior asserted)"
+  },
+  "prohibited_action_flags": {
+    "task_id_special_casing": false,
+    "python_downgrade": false,
+    "py39_wheelhouse_use": false,
+    "native_profile_substitution": false,
+    "required_native_probe_removal": false,
+    "gettext_missing": false,
+    "py39_filesystem_copy": false,
+    "oci_layer_transplant": false,
+    "superset_profile_substitution": false,
+    "extra_package_without_authority": false,
+    "frozen_evidence_mutation": false,
+    "existing_image_mutation": false,
+    "behavioral_calibration_run": false,
+    "full_d7_run": false,
+    "opws_run": false
+  },
+  "frozen_invariance": {
+    "original_composition_census_json_md": "UNCHANGED",
+    "r4d_plan": "UNCHANGED",
+    "capability_matrix": "UNCHANGED",
+    "i3_reconciliation": "UNCHANGED",
+    "i6_census": "UNCHANGED",
+    "e3_receipt": "UNCHANGED",
+    "e2_evidence": "UNCHANGED",
+    "source_fidelity_evidence": "UNCHANGED",
+    "frozen_wheelhouses": "UNCHANGED",
+    "existing_14_qualified_docker_image_ids": "UNCHANGED",
+    "r3_behavioral_harness": "UNCHANGED"
+  },
+  "deterministic_semantic_hash": "3878e75a7f5f4b676af3633cad5cd64eeab05d4b9155ef9b61b2b8c1dd9607b3",
+  "final_verdict": "PASS_READY_FOR_BEHAVIORAL_CALIBRATION_N12",
+  "exact_next_gate": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12"
+}
