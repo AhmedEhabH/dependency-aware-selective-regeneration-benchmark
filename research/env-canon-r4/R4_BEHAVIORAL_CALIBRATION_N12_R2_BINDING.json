@@ -8,7 +8,7 @@
     "frozen D7/R3 behavioral execution semantics",
     "mission-local additive orchestration only"
   ],
-  "binding_semantic_hash": "3878e75a7f5f4b676af3633cad5cd64eeab05d4b9155ef9b61b2b8c1dd9607b3",
+  "binding_semantic_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2",
   "install_command": "uv pip install --system --no-index --find-links /wheelhouse --only-binary=:all: -r /reqs/requirements-lock.txt",
   "mandatory_gates": [
     "G1 MATERIALIZATION",
@@ -173,8 +173,8 @@
     {
       "calibration_index": 9,
       "docker_profile_id": "dk-py38-bullseye",
-      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
-      "immutable_image_id": "sha256:a8b198cf86806747c521d6c3256961822bd81702369af4fec1de8a3430d9caff",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:b3e7e8903350e8c3c89801df6113009a114b0553cca428d096c0847ac6122403",
       "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
       "lock_type": "poetry",
       "member_task_ids": [
@@ -191,8 +191,8 @@
     {
       "calibration_index": 10,
       "docker_profile_id": "dk-py39-bullseye",
-      "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
-      "immutable_image_id": "sha256:d6f910882d1d27ce878df535815630a190a57b19932ab58dcb96d193665f2796",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:94246e6bc8ae952f2172bac25973118a3d5d99f5fbed54bb451b55954067ac28",
       "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
       "lock_type": "poetry",
       "member_task_ids": [
@@ -208,8 +208,8 @@
     {
       "calibration_index": 11,
       "docker_profile_id": "dk-py39-bookworm",
-      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
-      "immutable_image_id": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:4332cce523045c92934bb5b1c6f422c9527d9c01fa70aa9dc7bb3b70d7776523",
       "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
       "lock_type": "poetry",
       "member_task_ids": [
@@ -225,8 +225,8 @@
     {
       "calibration_index": 12,
       "docker_profile_id": "dk-py39-bullseye",
-      "execution_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
-      "immutable_image_id": "sha256:dc6a421b28d86aab1c6bca0a32b11b40fefc74535105c4240348208ca3773233",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:8c90d36aca1393a619f4448e1adfd6c307f27518c44df7baa6320d1ebaaec3ae",
       "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
       "lock_type": "poetry",
       "member_task_ids": [
