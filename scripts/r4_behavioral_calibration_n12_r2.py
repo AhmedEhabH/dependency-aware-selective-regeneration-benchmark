@@ -130,7 +130,7 @@ HARNESS_DIR = STORE / "harness" / "d7_r3"
 SF_MANIFEST = SF_R1_DIR / "SOURCE_FIDELITY_PROVENANCE_MANIFEST.json"
 SF_WHEELS = SF_R1_DIR / "artifacts" / "wheels"
 
-RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-2026-10-13")
+RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt2-2026-10-13")
 FREEZE_DIR = RUN_ROOT / "freeze"
 UNITS_DIR = RUN_ROOT / "units"
 LOGS_DIR = RUN_ROOT / "logs"
@@ -1013,7 +1013,7 @@ class UnitRunner:
             out_mnt = _translate_mount(out_dir)
 
             cmd = [
-                "docker", "run", "--rm", "--network=none",
+                "run", "--rm", "--network=none",
                 *volumes_flag,
                 "-v", f"{merged_mnt}:/wheelhouse:ro",
                 "-v", f"{req_local}:/reqs/requirements-lock.txt:ro",

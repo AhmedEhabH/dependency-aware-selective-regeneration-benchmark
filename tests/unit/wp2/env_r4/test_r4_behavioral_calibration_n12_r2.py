@@ -548,3 +548,28 @@ class TestF27LinuxMaterializer:
     def test_translate_mount_linux(self) -> None:
         p = Path(r"D:\wp2_env_store\wheelhouse\py312")
         assert r2._translate_mount(p) == "/mnt/d/wp2_env_store/wheelhouse/py312"
+
+
+class TestBackendCommandContract:
+    """Regulatory regression for the Attempt-1 instrument defect.
+
+    ``WslDockerBackend.run`` prepends ``docker`` to ``cmd``, so the behavioral
+    command MUST begin with ``["run", ...]``.  A leading ``["docker", ...]``
+    would produce ``docker docker run`` and fail with ``unknown flag: --rm`` —
+    exactly the Attempt-1 failure.  This test locks the contract in the runner.
+    """
+
+    def test_behavioral_cmd_begins_with_run(self) -> None:
+        src = (SCRIPTS / "r4_behavioral_calibration_n12_r2.py").read_text(encoding="utf-8")
+        # The runner's docker argv construction must start with "run",... (no
+        # leading "docker") because WslDockerBackend prepends the docker CLI.
+        m = __import__("re").search(r"cmd = \[\n\s+\"run\", \"--rm\", \"--network=none\"", src)
+        assert m is not None, "behavioral cmd no longer starts with [\"run\", ...]"
+        assert '"docker", "run"' not in src or '["docker", "run"' not in src
+
+    def test_runner_never_passes_leading_docker_to_backend(self) -> None:
+        src = (SCRIPTS / "r4_behavioral_calibration_n12_r2.py").read_text(encoding="utf-8")
+        # Only the standalone local_image_id uses the wsl docker CLI directly;
+        # backend.run args must never contain a leading "docker".
+        assert '["docker", "run"' not in src
+        assert '"docker", "run", "--rm", "--network=none"' not in src
