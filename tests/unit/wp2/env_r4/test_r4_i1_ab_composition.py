@@ -458,5 +458,3 @@ class TestDelegationIntact:
                 assert wheel_compatible(name, T312) is wheel_tags.wheel_compatible(name, T312)
         finally:
             unbind_lock_parser()
-
-
