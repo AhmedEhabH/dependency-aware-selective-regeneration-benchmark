@@ -169,7 +169,10 @@ class TestRealFrozenFixture:
         assert REAL_UV_LOCK.is_file()
         import hashlib
 
-        digest = hashlib.sha256(REAL_UV_LOCK.read_bytes()).hexdigest()
+        raw = REAL_UV_LOCK.read_bytes()
+        canonical_lf = raw.replace(b"\r\n", b"\n")
+        assert b"\r" not in canonical_lf
+        digest = hashlib.sha256(canonical_lf).hexdigest()
         assert digest == "86a35ab0bf69629d04cc7f3d09f1c1fa205eb6afc6620b317754490b33f22907"
 
     def test_real_root_editable_self(self, real_closure: LockClosure) -> None:
