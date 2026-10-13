@@ -1,0 +1,91 @@
+{
+  "schema_version": "env-canon-r4-e2/1.0",
+  "mission_id": "M17_D7_R4_E2_PYLINT_OFFICIAL_PYPI_ACQUISITION",
+  "mission_class": "T3_bounded_owner_authorized_external_artifact_acquisition",
+  "branch": "parallel/d7-r4-e-bounded-artifact-recovery-2026-10-13",
+  "starting_head": "d56f125f88806cb051d431108c4a99766af0ff59",
+  "head_commit": "d56f125f88806cb051d431108c4a99766af0ff59",
+  "upstream_plan": "research/env-canon-r4/R4_E1_PYLINT_RECOVERY_PLAN.json",
+  "upstream_plan_sha256": "731d71817051a1f5154b1853c7cc74ba95dc2e309b31e5b464c26dbbdf283baa",
+  "owner_authorization": {
+    "granted": true,
+    "scope": [
+      "official PyPI metadata at https://pypi.org/",
+      "exact required pylint versions only",
+      "artifact downloads from https://files.pythonhosted.org/",
+      "no dependency downloads",
+      "no package substitutions",
+      "no unrelated network traffic"
+    ]
+  },
+  "target": {
+    "python_version": "3.9",
+    "implementation": "cpython",
+    "platform": "linux",
+    "architecture": "x86_64"
+  },
+  "wheel_compatibility_authority": "R4-A",
+  "origins": {
+    "metadata_host": "pypi.org",
+    "metadata_endpoint_template": "https://pypi.org/pypi/pylint/<EXACT_VERSION>/json",
+    "artifact_host": "files.pythonhosted.org"
+  },
+  "external_manifest": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\manifests\\R4_E2_PYLINT_ACQUISITION_MANIFEST.json",
+  "counts": {
+    "requested": 28,
+    "metadata_resolved": 28,
+    "wheels_selected": 28,
+    "downloaded": 28,
+    "verified": 28,
+    "promoted": 28
+  },
+  "network": {
+    "metadata_request_count": 28,
+    "artifact_request_count": 28,
+    "downloaded_bytes": 12880982,
+    "downloaded_mib": 12.284262,
+    "downloaded_gib": 0.011996349,
+    "retries": [],
+    "dependency_downloads": 0
+  },
+  "verification": {
+    "sha256_verified": 28,
+    "structural_filename_verified": 28,
+    "canonical_name_equals_pylint": 28,
+    "exact_version": 28,
+    "r4a_compatibility": 28,
+    "zip_integrity": 28,
+    "no_absolute_paths": 28,
+    "no_dotdot_traversal": 28,
+    "exactly_one_distinfo_metadata": 28,
+    "metadata_name_canonical_pylint": 28,
+    "metadata_version_exact": 28
+  },
+  "frozen_invariance": {
+    "e1_plan_json_unchanged": true,
+    "e1_plan_md_unchanged": true,
+    "i6_census_json_unchanged": true,
+    "i6_census_summary_unchanged": true,
+    "i5_i6_drivers_unchanged": true,
+    "r4a_b_c_providers_unchanged": true,
+    "shared_interface_unchanged": true,
+    "r4d_population_calibration_unchanged": true,
+    "source_fidelity_evidence_unchanged": true,
+    "frozen_wheelhouse_py39_unchanged": true,
+    "wheelhouse_hashes_py39_unchanged": true
+  },
+  "overlay": {
+    "staging_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\staging",
+    "wheels_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\wheels",
+    "manifests_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\manifests",
+    "frozen_wheelhouse_path": "D:\\wp2_env_store\\wheelhouse\\py39",
+    "frozen_manifest_path": "D:\\wp2_env_store\\manifests\\WHEELHOUSE_HASHES_py39.json",
+    "frozen_stores_modified": false
+  },
+  "stop_gates": {
+    "yanked_release_stop": false,
+    "no_compatible_wheel_stop": false,
+    "sdist_fallback_used": false
+  },
+  "result": "PASS_28_28"
+}
