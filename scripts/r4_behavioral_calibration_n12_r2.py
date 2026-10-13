@@ -76,7 +76,7 @@ SF_R1_DIR = PROJECT / "research" / "source-fidelity-r1"
 
 PLAN_PATH = R4_DIR / "R4_STRATIFIED_CALIBRATION_PLAN_DRAFT.json"
 MATRIX_PATH = R4_DIR / "R4_CAPABILITY_MATRIX_DRAFT.json"
-BINDING_PATH = R4_DIR / "R4_EXECUTION_IMAGE_COMPOSITE_BINDING.json"
+BINDING_PATH = R4_DIR / "R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json"
 REPAIR_RECEIPT_PATH = R4_DIR / "R4_NATIVE_IMAGE_COMPOSITION_REPAIR_RECEIPT.json"
 POST_REPAIR_CENSUS_PATH = R4_DIR / "R4_POST_REPAIR_COMPOSITION_CENSUS.json"
 E3_RECEIPT_PATH = R4_DIR / "R4_E3_AFFECTED_REVALIDATION_RECEIPT.json"
@@ -86,7 +86,7 @@ E2_RECEIPT_PATH = R4_DIR / "R4_E2_PYLINT_ACQUISITION_RECEIPT.json"
 BINDING_OUT = R4_DIR / "R4_BEHAVIORAL_CALIBRATION_N12_R2_BINDING.json"
 
 EXPECTED_PLAN_SHA = "8ec20f360f62c7f4d072ad03bb5fe042c85fa98bad64757715227b5c88de687d"
-EXPECTED_BINDING_HASH = "3878e75a7f5f4b676af3633cad5cd64eeab05d4b9155ef9b61b2b8c1dd9607b3"
+EXPECTED_BINDING_HASH = "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2"
 EXPECTED_POPULATION_IDENTITY = "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac"
 REPAIRED_IMAGE_REF = "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013"
 REPAIRED_IMAGE_ID = "sha256:1be41dd22a934cc56ed10fa1046234a450f6d2946f8099d7bcb501f696f1d759"
@@ -131,8 +131,8 @@ HARNESS_DIR = STORE / "harness" / "d7_r3"
 SF_MANIFEST = SF_R1_DIR / "SOURCE_FIDELITY_PROVENANCE_MANIFEST.json"
 SF_WHEELS = SF_R1_DIR / "artifacts" / "wheels"
 
-RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14")
-EXPECTED_RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14")
+RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt6-2026-10-14")
+EXPECTED_RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt6-2026-10-14")
 
 
 def current_run_root() -> Path:
@@ -140,7 +140,7 @@ def current_run_root() -> Path:
 
     Freeze records derive their ``external_run_root`` from this function so
     the runner's effective RUN_ROOT can never drift from what the freeze file
-    declares (Attempt-5 RUN_ROOT provenance invariant).
+    declares (Attempt-6 RUN_ROOT provenance invariant).
     """
     if RUN_ROOT != EXPECTED_RUN_ROOT:
         raise CalibrationFailClosedError(
@@ -156,7 +156,7 @@ PROGRESS_DIR = RUN_ROOT / "progress"
 MATERIALIZED_DIR = RUN_ROOT / "materialized"
 RECEIPTS_DIR = RUN_ROOT / "receipts"
 PROGRESS_JSON = PROGRESS_DIR / "progress.json"
-EXPECTED_RUN_ROOT_STR = "D:\\WP2\\runs\\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14"
+EXPECTED_RUN_ROOT_STR = "D:\\WP2\\runs\\r4-behavioral-calibration-n12-r2-attempt6-2026-10-14"
 SRC_ENV_R4 = PROJECT / "src" / "benchmark" / "wp2" / "env_r4"
 
 # WSL-local Docker engine parameters (qualified R4-C substrate).
@@ -1441,7 +1441,7 @@ def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict
 
     ``external_run_root`` is derived EXCLUSIVELY from :func:`current_run_root`
     so the freeze file can never disagree with the runner's effective RUN_ROOT
-    (Attempt-5 RUN_ROOT provenance invariant).
+    (Attempt-6 RUN_ROOT provenance invariant).
     """
     freeze_root = current_run_root()
     assert str(freeze_root) == EXPECTED_RUN_ROOT_STR, "RUN_ROOT freeze drift"
@@ -1453,10 +1453,21 @@ def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict
         capture_output=True,
         text=True,
     ).stdout.strip()
+    binding = load_binding()
+    per_unit_images = {}
+    for c in load_plan()["calibration_units"]:
+        info = resolve_execution_image(c["docker_profile_id"], c["native_profile_id"])
+        per_unit_images[c["validation_unit_id"]] = {
+            "docker_profile_id": c["docker_profile_id"],
+            "native_profile_id": c["native_profile_id"],
+            "execution_image_ref": info["execution_image_ref"],
+            "immutable_image_id": info["immutable_image_id"],
+            "provenance": info["provenance"],
+        }
     payload: dict[str, Any] = {
         "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/freeze/1.0",
         "attempt": attempt_label,
-        "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_ATTEMPT5",
+        "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_ATTEMPT6",
         "starting_head": "6f6dcf6f09a6e43bcde0dafc30e0cd748ce63254",
         "branch": EXPECTED_BRANCH,
         "preexecution_freeze_head": head,
@@ -1464,11 +1475,18 @@ def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict
         "remote_equals_local": head == remote,
         "prior_attempt_heads": prior_heads,
         "r4c_symlink_successor_commit": "30d0abfa5323e93d5438a6665fa2529b6e2555e5",
+        "runtime_toolhouse_repair_authority_commit": "f6ce802b33bcf3c21f611941801c563eb2d913dd",
+        "execution_image_binding": {
+            "path": "research/env-canon-r4/R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json",
+            "semantic_hash": binding["deterministic_binding_hash"],
+            "unique_pair_count": binding["unique_pair_count"],
+        },
+        "per_unit_execution_images": per_unit_images,
         "frozen_utc": utcnow(),
         "external_run_root": str(freeze_root),
         "run_root_invariant": {
             "effective_runner_run_root": str(EXPECTED_RUN_ROOT),
-            "expected_attempt5_root": str(RUN_ROOT),
+            "expected_attempt6_root": str(RUN_ROOT),
             "freeze_external_run_root": str(freeze_root),
             "all_three_agree": str(RUN_ROOT) == EXPECTED_RUN_ROOT_STR == str(freeze_root),
         },
@@ -1479,7 +1497,9 @@ def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict
             "runner": _sha256_file(PROJECT / "scripts" / "r4_behavioral_calibration_n12_r2.py"),
             "r2_behavioral_binding": _sha256_file(BINDING_OUT),
             "r4d_plan": _sha256_file(PLAN_PATH),
-            "composite_binding": _sha256_file(BINDING_PATH),
+            "execution_image_binding_runtime_clean": _sha256_file(BINDING_PATH),
+            "composite_binding_historical": _sha256_file(R4_DIR / "R4_EXECUTION_IMAGE_COMPOSITE_BINDING.json"),
+            "runtime_toolhouse_clean_receipt": _sha256_file(R4_DIR / "R4_RUNTIME_TOOLHOUSE_CLEAN_REPAIR_RECEIPT.json"),
             "repair_receipt": _sha256_file(REPAIR_RECEIPT_PATH),
             "post_repair_census": _sha256_file(POST_REPAIR_CENSUS_PATH),
             "e3_receipt": _sha256_file(E3_RECEIPT_PATH),
@@ -1514,24 +1534,25 @@ def main() -> int:
     ap.add_argument("--binding", action="store_true", help="write CAL2-D binding evidence")
     ap.add_argument("--aggregate", action="store_true", help="CAL2-K aggregate")
     ap.add_argument("--verify-images", action="store_true", help="CAL2-B only")
-    ap.add_argument("--freeze", action="store_true", help="write Attempt-5 PRE_EXECUTION_FREEZE")
+    ap.add_argument("--freeze", action="store_true", help="write Attempt-6 PRE_EXECUTION_FREEZE")
     args = ap.parse_args()
 
     try:
         if args.freeze:
             payload = write_freeze_record(
-                "5",
+                "6",
                 {
                     "attempt1_freeze_head": "e8fc6c0f8e43b9a16712791a4bea2719a2dd6330",
                     "attempt2_freeze_head": "44e748fcb07e55527d04d4573c96ad75799fde6b",
                     "attempt3_freeze_head": "76952c0f3e672cde64498ac786e8f5e6694013d0",
                     "attempt4_freeze_head": "3e6bf8bbc16f1532f5510ceffc53558f13123bde",
+                    "attempt5_freeze_head": "66bd6511552b3a6bca135f14d54c8da34647b3d8",
                 },
             )
             print(json.dumps({"freeze": payload["external_run_root"], "head": payload["preexecution_freeze_head"],
                               "run_root_agreement": payload["run_root_invariant"]["all_three_agree"]},
                              indent=2, sort_keys=True))
-            print("ATTEMPT5_FREEZE_WRITTEN")
+            print("ATTEMPT6_FREEZE_WRITTEN")
             return 0
         if args.preflight:
             a = verify_authority()

@@ -179,10 +179,16 @@ class TestP8RepairedImage:
         assert info["execution_image_ref"] != r2.OLD_PY39_REF
         assert info["immutable_image_id"] != r2.OLD_PY39_ID
 
-    def test_py39_pair_still_old_image(self) -> None:
+    def test_py39_pair_resolves_to_runtime_clean_successor(self) -> None:
+        # Attempt-6: the runtime-clean binding maps the py39 pair to the
+        # additive runtime-toolhouse-clean successor (not the historical image).
         info = r2.resolve_execution_image("dk-py39-bookworm", "nat-f65b9bf250fd")
-        assert info["execution_image_ref"] == r2.OLD_PY39_REF
-        assert info["immutable_image_id"] == r2.OLD_PY39_ID
+        assert info["provenance"] == "R4_RUNTIME_TOOLHOUSE_CLEAN"
+        assert info["execution_image_ref"] == (
+            "envcanon/saleor-env-native-nat-f65b9bf250fd-runtimeclean:r4-toolhouse-clean-20261014"
+        )
+        assert info["execution_image_ref"] != r2.OLD_PY39_REF
+        assert info["immutable_image_id"] != r2.OLD_PY39_ID
 
 
 @pytest.mark.skipif(not HAS_STORE, reason="store unavailable")
@@ -576,41 +582,42 @@ class TestBackendCommandContract:
 
 
 class TestRunRootInvariant:
-    """Attempt-5: RUN_ROOT provenance invariant.
+    """Attempt-6: RUN_ROOT provenance invariant.
 
-    The runner's effective RUN_ROOT, the expected Attempt-5 root, and the
+    The runner's effective RUN_ROOT, the expected Attempt-6 root, and the
     external_run_root written to PRE_EXECUTION_FREEZE.json must all agree
     exactly.  This regression prevents another RUN_ROOT/freeze mismatch.
     """
 
-    ATTEMPT5_ROOT = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14"
+    ATTEMPT6_ROOT = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt6-2026-10-14"
 
-    def test_effective_run_root_is_attempt5(self) -> None:
-        assert str(r2.RUN_ROOT) == self.ATTEMPT5_ROOT
-        assert str(r2.EXPECTED_RUN_ROOT) == self.ATTEMPT5_ROOT
+    def test_effective_run_root_is_attempt6(self) -> None:
+        assert str(r2.RUN_ROOT) == self.ATTEMPT6_ROOT
+        assert str(r2.EXPECTED_RUN_ROOT) == self.ATTEMPT6_ROOT
         assert r2.current_run_root() == r2.RUN_ROOT
 
     def test_freeze_external_root_derived_from_runner(self) -> None:
-        payload = r2.write_freeze_record("5", {"prior": "0" * 40})
-        assert payload["external_run_root"] == self.ATTEMPT5_ROOT
+        payload = r2.write_freeze_record("6", {"prior": "0" * 40})
+        assert payload["external_run_root"] == self.ATTEMPT6_ROOT
         assert payload["run_root_invariant"]["all_three_agree"] is True
+        assert payload["binding_semantic_hash"] == r2.EXPECTED_BINDING_HASH
 
-    def test_not_attempt2_3_or_4(self) -> None:
-        a2 = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt2-2026-10-13"
-        a3 = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt3-2026-10-13"
-        a4 = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13"
-        assert Path(a2) != r2.RUN_ROOT
-        assert Path(a3) != r2.RUN_ROOT
-        assert Path(a4) != r2.RUN_ROOT
-        assert str(r2.RUN_ROOT) == self.ATTEMPT5_ROOT
+    def test_not_attempt2_3_4_or_5(self) -> None:
+        for a in (
+            r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt2-2026-10-13",
+            r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt3-2026-10-13",
+            r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13",
+            r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt5-2026-10-14",
+        ):
+            assert Path(a) != r2.RUN_ROOT
+        assert str(r2.RUN_ROOT) == self.ATTEMPT6_ROOT
 
-    def test_attempt5_root_is_historical_frozen(self) -> None:
-        # The Attempt-5 root is now the frozen historical Attempt-5 run root
-        # (Attempt-5 executed units 1-9). It must exist and remain the runner's
-        # bound root; a future Attempt-6 uses a separate fresh root.
-        a5 = Path(self.ATTEMPT5_ROOT)
-        assert a5.is_dir(), "attempt-5 run root missing"
-        assert a5 == r2.RUN_ROOT
+    def test_attempt6_root_is_fresh(self) -> None:
+        a6 = Path(self.ATTEMPT6_ROOT)
+        assert a6.is_dir(), "attempt-6 run root missing"
+        assert a6 == r2.RUN_ROOT
+        real_evidence = [p for p in (a6 / "units").glob("*") if p.name != ".gitkeep"]
+        assert not real_evidence, f"attempt-6 units dir already holds evidence: {real_evidence}"
 
 
 class TestInstrumentPersistBeforeParse:
