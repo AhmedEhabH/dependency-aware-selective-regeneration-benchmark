@@ -604,17 +604,13 @@ class TestRunRootInvariant:
         assert Path(a4) != r2.RUN_ROOT
         assert str(r2.RUN_ROOT) == self.ATTEMPT5_ROOT
 
-    def test_attempt5_root_has_no_prior_execution(self) -> None:
+    def test_attempt5_root_is_historical_frozen(self) -> None:
+        # The Attempt-5 root is now the frozen historical Attempt-5 run root
+        # (Attempt-5 executed units 1-9). It must exist and remain the runner's
+        # bound root; a future Attempt-6 uses a separate fresh root.
         a5 = Path(self.ATTEMPT5_ROOT)
         assert a5.is_dir(), "attempt-5 run root missing"
-        # Empty placeholder sentinels are allowed; REAL execution evidence is not.
-        real_evidence = [
-            p for p in (a5 / "units").glob("*")
-            if p.name not in (".gitkeep",)
-        ]
-        assert not real_evidence, f"attempt-5 units dir already holds evidence: {real_evidence}"
-        if (a5 / "progress").joinpath("progress.json").exists():
-            raise AssertionError("attempt-5 already has progress.json (prior execution)")
+        assert a5 == r2.RUN_ROOT
 
 
 class TestInstrumentPersistBeforeParse:

@@ -1,0 +1,203 @@
+{
+  "binding_audit": [
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:465462307d07236a5424b146f3e19f9462970121a21e17f331db849c8008d2ac",
+      "n_frozen_units": 7,
+      "native_profile_id": "nat-02b9bb45ba01",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:a8687d9c7c5c8502ad019c1877e4c632ddc005f8c3b56a33a46bb3373c2ffb3a",
+      "n_frozen_units": 2,
+      "native_profile_id": "nat-0728db662cde",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "n_frozen_units": 11,
+      "native_profile_id": "nat-34c1a3756742",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:7862b9ecf8aa34e536a5b9eee545baa79318d9ef38704fa38525aba9426c52a3",
+      "n_frozen_units": 12,
+      "native_profile_id": "nat-591718dce38a",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "NEEDS_TOOLHOUSE_CLEAN_SUCCESSOR",
+      "docker_profile_id": "dk-py38-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "frozen_python_version": "3.8",
+      "immutable_image_id": "sha256:a8b198cf86806747c521d6c3256961822bd81702369af4fec1de8a3430d9caff",
+      "n_frozen_units": 15,
+      "native_profile_id": "nat-62bc3631c27d",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.8.20",
+      "toolhouse_present": [
+        "wheel"
+      ],
+      "toolhouse_versions": {
+        "wheel": "0.44.0"
+      },
+      "wheelhouse_era": "py38"
+    },
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "n_frozen_units": 12,
+      "native_profile_id": "nat-a39687f3d19c",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:acad85904c7011374316d5b44ecb8967628eb3fd6da9ddd2744c0be396728be6",
+      "n_frozen_units": 1,
+      "native_profile_id": "nat-cc2f641e9e04",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "NEEDS_TOOLHOUSE_CLEAN_SUCCESSOR",
+      "docker_profile_id": "dk-py39-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "frozen_python_version": "3.9",
+      "immutable_image_id": "sha256:d6f910882d1d27ce878df535815630a190a57b19932ab58dcb96d193665f2796",
+      "n_frozen_units": 53,
+      "native_profile_id": "nat-d35546f097f4",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.9.23",
+      "toolhouse_present": [
+        "wheel"
+      ],
+      "toolhouse_versions": {
+        "wheel": "0.45.1"
+      },
+      "wheelhouse_era": "py39"
+    },
+    {
+      "decision": "NEEDS_TOOLHOUSE_CLEAN_SUCCESSOR",
+      "docker_profile_id": "dk-py39-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "frozen_python_version": "3.9",
+      "immutable_image_id": "sha256:dc6a421b28d86aab1c6bca0a32b11b40fefc74535105c4240348208ca3773233",
+      "n_frozen_units": 6,
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.9.23",
+      "toolhouse_present": [
+        "wheel"
+      ],
+      "toolhouse_versions": {
+        "wheel": "0.45.1"
+      },
+      "wheelhouse_era": "py39"
+    },
+    {
+      "decision": "CLEAN",
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:1be41dd22a934cc56ed10fa1046234a450f6d2946f8099d7bcb501f696f1d759",
+      "n_frozen_units": 1,
+      "native_profile_id": "nat-f65b9bf250fd",
+      "provenance": "R4_COMPOSITE_REPAIR",
+      "python_runtime": "3.12.15",
+      "toolhouse_present": [],
+      "toolhouse_versions": {},
+      "wheelhouse_era": "py312"
+    },
+    {
+      "decision": "NEEDS_TOOLHOUSE_CLEAN_SUCCESSOR",
+      "docker_profile_id": "dk-py39-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "frozen_python_version": "3.9",
+      "immutable_image_id": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+      "n_frozen_units": 24,
+      "native_profile_id": "nat-f65b9bf250fd",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_runtime": "3.9.25",
+      "toolhouse_present": [
+        "wheel"
+      ],
+      "toolhouse_versions": {
+        "wheel": "0.45.1"
+      },
+      "wheelhouse_era": "py39"
+    }
+  ],
+  "closure_safety_audit": {
+    "locks_scanned": 219,
+    "method": "scan every frozen mapped-task lock (219) for BUILD_TOOLHOUSE_ONLY_DISTS package entries",
+    "raw_regex_hits": 0,
+    "result": "wheel (and all BUILD_TOOLHOUSE_ONLY_DISTS) are absent from every frozen runtime closure",
+    "toolhouse_occurrences_in_frozen_closures": 0
+  },
+  "contamination_beyond_frozen_set": false,
+  "decision": "NEEDS_TOOLHOUSE_CLEAN_SUCCESSOR for 4 py38/py39 bindings; CLEAN for 7 py312 bindings; STOP_OWNER_REVIEW 0",
+  "decision_classes": {
+    "CLEAN": 7,
+    "NEEDS_TOOLHOUSE_CLEAN_SUCCESSOR": 4,
+    "STOP_OWNER_REVIEW": 0
+  },
+  "frozen_build_toolhouse_only_dists": [
+    "vcs-versioning",
+    "poetry-core",
+    "setuptools-scm",
+    "wheel"
+  ],
+  "generated_utc": "2026-10-13T22:49:50.180290+00:00",
+  "method": "enumerate unique execution images from the qualified composite binding; inspect installed distributions via `python -m pip list --format=freeze` with --network=none",
+  "mission_id": "M17_D7_R4_RUNTIME_TOOLHOUSE_CLEAN",
+  "population": {
+    "n_unique_pairs": 11,
+    "n_validation_units": 144,
+    "population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac"
+  },
+  "schema_version": "env-canon-r4-runtime-toolhouse-image-audit/1.0"
+}
