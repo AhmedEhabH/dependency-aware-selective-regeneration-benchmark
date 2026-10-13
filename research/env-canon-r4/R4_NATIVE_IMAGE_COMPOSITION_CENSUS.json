@@ -1,0 +1,2198 @@
+{
+  "N12_intersection": [
+    "vu-692af9112c6d"
+  ],
+  "affected_tasks": [
+    "saleor-rc-19bb9b070965"
+  ],
+  "affected_validation_units": [
+    "vu-692af9112c6d"
+  ],
+  "authority_ambiguous_count": 0,
+  "branch": "parallel/d7-r4-native-image-composition-2026-10-13",
+  "composite_image_required_count": 1,
+  "composition_match_count": 143,
+  "cross_era_native_profile_count": 1,
+  "deterministic_semantic_hash": "8478d05ac2aa75be995a25b62a06effffc6d61563f206f74474cbb9b891fe633",
+  "docker_profile_map": {
+    "dk-py312-bookworm": {
+      "base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "base_image_ref": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "expected_era": "py312",
+      "expected_python_version": "3.12",
+      "immutable_image_id": "sha256:b9e35d98a9b119ac6c265732308231581a88ad60d8c33dbbfd214cb82bf80a27",
+      "mapped_native_profiles": [
+        "nat-02b9bb45ba01",
+        "nat-0728db662cde",
+        "nat-34c1a3756742",
+        "nat-591718dce38a",
+        "nat-a39687f3d19c",
+        "nat-cc2f641e9e04",
+        "nat-f65b9bf250fd"
+      ],
+      "os_family": "bookworm",
+      "wheelhouse_era": "py312"
+    },
+    "dk-py38-bullseye": {
+      "base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "base_image_ref": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "expected_era": "py38",
+      "expected_python_version": "3.8",
+      "immutable_image_id": "sha256:f931a497a1b572ae88c143f316b2f5b5a5b92ead4725bc523f9a2af761b85f58",
+      "mapped_native_profiles": [
+        "nat-62bc3631c27d"
+      ],
+      "os_family": "bullseye",
+      "wheelhouse_era": "py38"
+    },
+    "dk-py39-bookworm": {
+      "base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "base_image_ref": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "expected_era": "py39",
+      "expected_python_version": "3.9",
+      "immutable_image_id": "sha256:86d7f4ef1f0c296896d9c67fdca53ae900eb6482bc03b57a96c857cc00108b3e",
+      "mapped_native_profiles": [
+        "nat-f65b9bf250fd"
+      ],
+      "os_family": "bookworm",
+      "wheelhouse_era": "py39"
+    },
+    "dk-py39-bullseye": {
+      "base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "base_image_ref": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "expected_era": "py39",
+      "expected_python_version": "3.9",
+      "immutable_image_id": "sha256:940fc6d02e844b07414d9bce5087406bfeea23c8fa8d72af362ea9675ad5e138",
+      "mapped_native_profiles": [
+        "nat-d35546f097f4",
+        "nat-d7d5ae76a87f"
+      ],
+      "os_family": "bullseye",
+      "wheelhouse_era": "py39"
+    }
+  },
+  "exact_cross_era_native_profiles": [
+    "nat-f65b9bf250fd"
+  ],
+  "exact_missing_composites": [
+    {
+      "affected_validation_units": [
+        "vu-692af9112c6d"
+      ],
+      "current_conflicting_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "current_image_era": "py39",
+      "current_image_python_version": "3.9.25",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.12",
+      "required_native_packages": [
+        "gettext",
+        "libcairo2",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libopenjp2-7",
+        "libpango-1.0-0",
+        "libpangocairo-1.0-0",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "libxml2",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_parent_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "reuse_blocked_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25); cannot satisfy py312/3.12 semantics",
+      "wheelhouse_era": "py312"
+    }
+  ],
+  "exact_next_gate": "M17_D7_R4_NATIVE_IMAGE_COMPOSITION_REPAIR",
+  "final_verdict": "PASS_COMPOSITE_REPAIR_SCOPE_FROZEN",
+  "import_provenance": {
+    "benchmark_module": "D:\\WP2\\active\\r4-native-image-composition\\src\\benchmark\\__init__.py",
+    "resolves_to_current_worktree": true
+  },
+  "invalid_frozen_mapping_count": 0,
+  "known_blocker_analysis": {
+    "all_assumptions_true": true,
+    "assumptions": {
+      "current_nat65_image_is_py39": true,
+      "dk_py312_bookworm_frozen_base": true,
+      "nat_f65b9bf250fd_required_profile": true,
+      "py312_base_lacks_native_probe_set": true,
+      "py312_wheelhouse": true,
+      "py39_native_image_cannot_satisfy_py312_py312_wheelhouse": true,
+      "python_312_frozen_target": true
+    },
+    "blocker_confirmed": true,
+    "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+    "current_native_image_era": "py39",
+    "current_native_image_python_version": "3.9.25",
+    "current_native_os_family": "bookworm",
+    "diagnosis": "CONFIRMED: vu-692af9112c6d is frozen as Python 3.12 / py312 / dk-py312-bookworm / nat-f65b9bf250fd, but the only currently-qualified native image for nat-f65b9bf250fd is py39-based (python 3.9.25); the py312 base image exists but carries no native package layer; the py39 native image cannot satisfy the frozen Python 3.12 / py312 semantics.",
+    "frozen_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+    "frozen_docker_profile_id": "dk-py312-bookworm",
+    "frozen_era": "py312",
+    "frozen_native_profile_id": "nat-f65b9bf250fd",
+    "frozen_python_version": "3.12",
+    "frozen_wheelhouse_era": "py312",
+    "required_native_packages": [
+      "gettext",
+      "libcairo2",
+      "libgdk-pixbuf2.0-0",
+      "liblcms2-2",
+      "libopenjp2-7",
+      "libpango-1.0-0",
+      "libpangocairo-1.0-0",
+      "libpq5",
+      "libssl3",
+      "libtiff6",
+      "libwebp7",
+      "libxml2",
+      "mime-support",
+      "shared-mime-info"
+    ],
+    "validation_unit_id": "vu-692af9112c6d"
+  },
+  "missing_composite_image_count": 1,
+  "mission_id": "M17_D7_R4_NATIVE_IMAGE_COMPOSITION_CENSUS",
+  "native_profile_cross_era_usage": [
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py312-bookworm"
+      ],
+      "frozen_eras": [
+        "py312"
+      ],
+      "native_profile_id": "nat-02b9bb45ba01"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py312-bookworm"
+      ],
+      "frozen_eras": [
+        "py312"
+      ],
+      "native_profile_id": "nat-0728db662cde"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py312-bookworm"
+      ],
+      "frozen_eras": [
+        "py312"
+      ],
+      "native_profile_id": "nat-34c1a3756742"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py312-bookworm"
+      ],
+      "frozen_eras": [
+        "py312"
+      ],
+      "native_profile_id": "nat-591718dce38a"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py38-bullseye"
+      ],
+      "frozen_eras": [
+        "py38"
+      ],
+      "native_profile_id": "nat-62bc3631c27d"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py312-bookworm"
+      ],
+      "frozen_eras": [
+        "py312"
+      ],
+      "native_profile_id": "nat-a39687f3d19c"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py312-bookworm"
+      ],
+      "frozen_eras": [
+        "py312"
+      ],
+      "native_profile_id": "nat-cc2f641e9e04"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py39-bullseye"
+      ],
+      "frozen_eras": [
+        "py39"
+      ],
+      "native_profile_id": "nat-d35546f097f4"
+    },
+    {
+      "cross_era": false,
+      "frozen_bases": [
+        "dk-py39-bullseye"
+      ],
+      "frozen_eras": [
+        "py39"
+      ],
+      "native_profile_id": "nat-d7d5ae76a87f"
+    },
+    {
+      "cross_era": true,
+      "frozen_bases": [
+        "dk-py312-bookworm",
+        "dk-py39-bookworm"
+      ],
+      "frozen_eras": [
+        "py312",
+        "py39"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd"
+    }
+  ],
+  "native_profile_map": {
+    "nat-02b9bb45ba01": {
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-02b9bb45ba01",
+      "image_era": "py312",
+      "image_python_version": "3.12.15",
+      "immutable_image_id": "sha256:465462307d07236a5424b146f3e19f9462970121a21e17f331db849c8008d2ac",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py312-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libffi8",
+        "libgdk-pixbuf-2.0-0",
+        "liblcms2-2",
+        "libmagic1",
+        "libopenjp2-7",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "libxslt1-dev",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-0728db662cde": {
+      "current_native_image": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-0728db662cde",
+      "image_era": "py312",
+      "image_python_version": "3.12.15",
+      "immutable_image_id": "sha256:a8687d9c7c5c8502ad019c1877e4c632ddc005f8c3b56a33a46bb3373c2ffb3a",
+      "native_profile_id": "nat-0728db662cde",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py312-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libffi8",
+        "libgdk-pixbuf-2.0-0",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libmagic1",
+        "libopenjp2-7",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-34c1a3756742": {
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-34c1a3756742",
+      "image_era": "py312",
+      "image_python_version": "3.12.15",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "native_profile_id": "nat-34c1a3756742",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py312-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libffi8",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libopenjp2-7",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-591718dce38a": {
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-591718dce38a",
+      "image_era": "py312",
+      "image_python_version": "3.12.15",
+      "immutable_image_id": "sha256:7862b9ecf8aa34e536a5b9eee545baa79318d9ef38704fa38525aba9426c52a3",
+      "native_profile_id": "nat-591718dce38a",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py312-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libffi8",
+        "libgdk-pixbuf-2.0-0",
+        "liblcms2-2",
+        "libmagic1",
+        "libopenjp2-7",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-62bc3631c27d": {
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-62bc3631c27d",
+      "image_era": "py38",
+      "image_python_version": "3.8.20",
+      "immutable_image_id": "sha256:a8b198cf86806747c521d6c3256961822bd81702369af4fec1de8a3430d9caff",
+      "native_profile_id": "nat-62bc3631c27d",
+      "os_family": "bullseye",
+      "planned_parent_base": "saleor-env-base-py38-bullseye",
+      "required_native_packages": [
+        "gettext",
+        "libcairo2",
+        "libgdk-pixbuf2.0-0",
+        "libpango-1.0-0",
+        "libpangocairo-1.0-0",
+        "libssl1.1",
+        "libxml2",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-a39687f3d19c": {
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-a39687f3d19c",
+      "image_era": "py312",
+      "image_python_version": "3.12.15",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "native_profile_id": "nat-a39687f3d19c",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py312-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libffi8",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libopenjp2-7",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "mime-support",
+        "pipx",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-cc2f641e9e04": {
+      "current_native_image": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-cc2f641e9e04",
+      "image_era": "py312",
+      "image_python_version": "3.12.15",
+      "immutable_image_id": "sha256:acad85904c7011374316d5b44ecb8967628eb3fd6da9ddd2744c0be396728be6",
+      "native_profile_id": "nat-cc2f641e9e04",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py312-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libffi8",
+        "libgdk-pixbuf-2.0-0",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libmagic1",
+        "libopenjp2-7",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "mime-support",
+        "pipx",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-d35546f097f4": {
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-d35546f097f4",
+      "image_era": "py39",
+      "image_python_version": "3.9.23",
+      "immutable_image_id": "sha256:d6f910882d1d27ce878df535815630a190a57b19932ab58dcb96d193665f2796",
+      "native_profile_id": "nat-d35546f097f4",
+      "os_family": "bullseye",
+      "planned_parent_base": "saleor-env-base-py39-bullseye",
+      "required_native_packages": [
+        "gettext",
+        "libcairo2",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libopenjp2-7",
+        "libpango-1.0-0",
+        "libpangocairo-1.0-0",
+        "libpq5",
+        "libssl1.1",
+        "libtiff5",
+        "libwebp6",
+        "libxml2",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-d7d5ae76a87f": {
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-d7d5ae76a87f",
+      "image_era": "py39",
+      "image_python_version": "3.9.23",
+      "immutable_image_id": "sha256:dc6a421b28d86aab1c6bca0a32b11b40fefc74535105c4240348208ca3773233",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "os_family": "bullseye",
+      "planned_parent_base": "saleor-env-base-py39-bullseye",
+      "required_native_packages": [
+        "gettext",
+        "libcairo2",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libopenjp2-7",
+        "libpango-1.0-0",
+        "libpangocairo-1.0-0",
+        "libssl1.1",
+        "libtiff5",
+        "libwebp6",
+        "libxml2",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    },
+    "nat-f65b9bf250fd": {
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "current_native_image_name": "envcanon/saleor-env-native-nat-f65b9bf250fd",
+      "image_era": "py39",
+      "image_python_version": "3.9.25",
+      "immutable_image_id": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "os_family": "bookworm",
+      "planned_parent_base": "saleor-env-base-py39-bookworm",
+      "required_native_packages": [
+        "gettext",
+        "libcairo2",
+        "libgdk-pixbuf2.0-0",
+        "liblcms2-2",
+        "libopenjp2-7",
+        "libpango-1.0-0",
+        "libpangocairo-1.0-0",
+        "libpq5",
+        "libssl3",
+        "libtiff6",
+        "libwebp7",
+        "libxml2",
+        "mime-support",
+        "shared-mime-info"
+      ],
+      "required_native_probes": []
+    }
+  },
+  "p2p_f2p": {
+    "F10_conflicting_native_package_definition_fails_closed": true,
+    "F11_unit_classified_with_both_dimensions": true,
+    "F12_task_id_special_case_fails": true,
+    "F13_python_downgrade_fails": true,
+    "F14_wheelhouse_era_substitution_fails": true,
+    "F15_native_profile_substitution_fails": true,
+    "F16_mutation_of_frozen_authority_fails": true,
+    "F1_missing_unit_fails": true,
+    "F2_extra_unit_fails": true,
+    "F3_missing_task_fails": true,
+    "F4_population_identity_drift_fails": true,
+    "F5_unknown_docker_profile_fails": true,
+    "F6_unknown_native_profile_fails": true,
+    "F7_python_era_missing_fails": true,
+    "F8_wheelhouse_era_missing_fails": true,
+    "F9_conflicting_base_mapping_fails_closed": true,
+    "P10_explicit_classification_per_unit": true,
+    "P11_no_UNKNOWN": true,
+    "P12_cross_era_computed_for_every_profile": true,
+    "P13_missing_composites_deterministic_dedup": true,
+    "P14_blocker_in_conflict_set_iff_evidence": true,
+    "P15_no_task_id_special_casing": true,
+    "P16_no_scientific_input_mutated": true,
+    "P17_repeated_census_identical_hash": true,
+    "P1_144_units": true,
+    "P2_219_tasks": true,
+    "P3_population_identity_unchanged": true,
+    "P4_singular_python_version": true,
+    "P5_singular_wheelhouse_era": true,
+    "P6_singular_docker_profile": true,
+    "P7_singular_native_profile": true,
+    "P8_docker_profiles_resolve": true,
+    "P9_native_profiles_resolve": true
+  },
+  "per_unit_composition": [
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-00c65e6f8459",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-021cfd4955e7",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-048cdcee7907",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-04c71da705ac",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-0925adc62ab4",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-0a27b4b8eb0a",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-0d8ddec94417",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d7d5ae76a87f:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-0e0ef31c7634",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-0f0447cc3e76",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-101c124a89c7",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-117d7bd068d5",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-1322f72e5363",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-13c1de1de71e",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-1418395d176d",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-148c254cdec8",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-167dda0843d5",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-18938eea2931",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-1b6e1e44d2b8",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d7d5ae76a87f:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-1bc025c648a9",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-211923a4bbb9",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-2483fd026a5e",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-25266c00d332",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-25c83915bd75",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-262f45bffe92",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-27136572a530",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-27ae8fa10bfc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-27e8f29e8efc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-2864e8ec8e21",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-28c3ab8a0637",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-2964dfd4c127",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-2a340620f37b",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-2bcc39756c5a",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-2dc07b65457d",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-31452711b5ad",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-33422e2343f1",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-34976fcfcdb9",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-37c7da0c0820",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-38186b1280dd",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-3975af462f4e",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-3a7ebc8e23c7",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-3cc575189c53",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d7d5ae76a87f:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-3f1261723b37",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-cc2f641e9e04:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-cc2f641e9e04",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-422bca69f329",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-431fd44d4e16",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-449f84e63781",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-457f26c93ff1",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-481aef932595",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-4b390d4acaf6",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-5321e03160a1",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-561a1a172143",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-56c3822062f3",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-5985a7f5c711",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-5cf74906951d",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-5d6c9a0e0c10",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-60d3684b344f",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-648e07c887c6",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-6657777e194c",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "unit vu-692af9112c6d requires native profile nat-f65b9bf250fd on py312/dk-py312-bookworm (python 3.12, wheelhouse py312) but current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25); composite dk-py312-bookworm + nat-f65b9bf250fd is not present",
+      "composition_classification": "COMPOSITE_IMAGE_REQUIRED",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-692af9112c6d",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-69576eeb06f2",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-0728db662cde:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-0728db662cde",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-69dc51c7f829",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-6a7d0c94de02",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-6e164d4710fa",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-6fa34a604db4",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-70bfccaf270a",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-75b210e72939",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-766af1c5d395",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-7aa21cafb78c",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-7fc2380ce441",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-8228f26085f6",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-87c9ec56b2bc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-894cec50f546",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-895115c0587f",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-9148a5fac7f7",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-9218196782bc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-92d8208bc063",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-930970ddfe91",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-93d83a7dfa9a",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-9a5ec59e6d06",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-9af2f5398149",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-9d7a49485c23",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-9ed193747002",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-a199ad1732dc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-a1f3d1a5d841",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-a213391f6471",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-a49265fc9017",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-a677a0561630",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-a75c2a6f15c3",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-afe5a5c0e422",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-b01a5665c996",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-b0971c77cd3b",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d7d5ae76a87f:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-b38ed89dc9a4",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-b634339e1f8a",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-b68ee1b3ad18",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-b6f3aa535043",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-b772fe8ae517",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-b78ebcf3e530",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-b9808f19ace4",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-bbb37661a274",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-bd505dbe0e91",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-be8f8b160f49",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-bedcd6ce97ff",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-0728db662cde:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-0728db662cde",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-bfe987de6e53",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-c17ac95f2f69",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-c1cf6680490b",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-c25b088a37f7",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-c3065f6a2b55",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-c4f8d5ea7e5a",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-c5caaf2a1d6f",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-c80b536f2407",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-c94437ca6633",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-c9fbfeece4f3",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-cd262bbb641d",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-cdcf3222cbb5",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-cf9b71629fb0",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-cfed8240ddbc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d7d5ae76a87f:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-cff7c5fc6d8e",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-d0ceadc7a5d0",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-d391fc5c988e",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-d5a8e4885ae5",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-d70446795f77",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-dade0b4b5b60",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-db74b3640c98",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-dcd39990cb98",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-e009f3a36367",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-e087af14cbdc",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-e40f7e955c05",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-34c1a3756742:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-e4998719ee01",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-e878163db06a",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d7d5ae76a87f:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-eba04e0cfe0e",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-ebc9a2321b77",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-62bc3631c27d:latest is py38 (python 3.8.20) matching frozen unit era py38",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py38-bullseye:latest",
+      "docker_profile_id": "dk-py38-bullseye",
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "validation_unit_id": "vu-eda4e9f82401",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-ef2b9ed85c06",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-ef6a56039231",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-f36465a05af1",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-f393f956c6ee",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-a39687f3d19c:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-f4038beff05f",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-f65903cda35f",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-f98d47987c04",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-591718dce38a:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-fa3b1afc1fc7",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-02b9bb45ba01:latest is py312 (python 3.12.15) matching frozen unit era py312",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py312-bookworm:latest",
+      "docker_profile_id": "dk-py312-bookworm",
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "validation_unit_id": "vu-fddb2fe50625",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-fe57def0dadc",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-fe7a88128f65",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-d35546f097f4:latest is py39 (python 3.9.23) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bullseye:latest",
+      "docker_profile_id": "dk-py39-bullseye",
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-ff51c2dbdaf7",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "classification_reason": "current native image envcanon/saleor-env-native-nat-f65b9bf250fd:latest is py39 (python 3.9.25) matching frozen unit era py39",
+      "composition_classification": "COMPOSITION_MATCH",
+      "current_native_image": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "docker_base_image": "envcanon/saleor-env-base-py39-bookworm:latest",
+      "docker_profile_id": "dk-py39-bookworm",
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "validation_unit_id": "vu-ffe68ddec229",
+      "wheelhouse_era": "py39"
+    }
+  ],
+  "population_identity": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+  "prohibited_changes": {
+    "native_profile_substitution": true,
+    "package_version_substitution": true,
+    "python_downgrade": true,
+    "task_id_special_casing": true
+  },
+  "recommended_general_repair_model": {
+    "decision_logic": "When a native profile is valid independently of Python era, the execution image identity must be the composite (docker_profile_id, native_profile_id); the frozen native package layer must be composed onto the matching frozen Docker/Python base image.",
+    "evidence_support": {
+      "cross_era_profiles_observed": [
+        "nat-f65b9bf250fd"
+      ],
+      "native_profile_package_sets_era_independent": true
+    },
+    "preserves": {
+      "frozen_task_commit_identity": true,
+      "lock_semantics": true,
+      "native_package_set": true,
+      "native_probe_semantics": true,
+      "native_profile_id": true,
+      "network_disabled_execution": true,
+      "python_version": true,
+      "validation_unit_membership": true,
+      "wheelhouse_era": true
+    },
+    "prohibited_changes": {
+      "native_profile_substitution": true,
+      "package_version_substitution": true,
+      "python_downgrade": true,
+      "task_id_special_casing": true
+    },
+    "prohibited_work": {
+      "no_behavioral_calibration": true,
+      "no_image_build": true,
+      "no_image_pull": true,
+      "no_package_download": true,
+      "no_wheelhouse_modification": true
+    },
+    "recommended_execution_image_identity": "(docker_profile_id, native_profile_id)"
+  },
+  "schema_version": "env-canon-r4-native-image-composition/1.0",
+  "source_fidelity_intersection": [
+    "vu-692af9112c6d"
+  ],
+  "starting_head": "4c1ec32cdff48afecd77970c32e210d756f979a6",
+  "strata": {
+    "3.12_poetry": 25,
+    "3.12_uv": 21,
+    "3.8_poetry": 15,
+    "3.9_poetry": 83
+  },
+  "task_count": 219,
+  "unit_count": 144,
+  "unknown_count": 0
+}
