@@ -1,0 +1,230 @@
+{
+  "schema_version": "env-canon-r4-i4/1.0",
+  "mission_id": "M17_D7_R4_I4_CONVERGENCE",
+  "mission_class": "T2_bounded_multi_track_convergence",
+  "starting_seed": "2f37afbc21a50c5b11afe7b13cb593d1e47dd54a",
+  "i1_branch": "parallel/d7-r4-i1-ab-composition-2026-10-13",
+  "i1_branch_head": "3be03de58e1bfc17ee4e1f530a811a0f6b5372bf",
+  "i1_outcome": "M17_D7_R4_I1_AB_COMPOSITION_READY_FOR_CONVERGENCE",
+  "i2_branch": "parallel/d7-r4-i2-linux-wiring-2026-10-13",
+  "i2_branch_head": "0719ae55610dfd176231d6bc5473d8beb58e056a",
+  "i2_outcome": "M17_D7_R4_I2_LINUX_WIRING_READY_FOR_CONVERGENCE",
+  "i3_branch": "parallel/d7-r4-i3-reconciliation-2026-10-13",
+  "i3_branch_head": "72fd5144435bd501d6b39e90b144197c6c97a0cd",
+  "i3_outcome": "M17_D7_R4_I3_RECONCILIATION_READY_FOR_CONVERGENCE",
+  "integrated_branch_commit_after_convergence": "5b280eb39c58365e4d4e309183cf0da975c469de",
+  "integrated_commit_ranges": {
+    "i1_range_chronological": [
+      "253b468f",
+      "46b43111",
+      "dfb15e36",
+      "b8458db4",
+      "e2666e4c",
+      "be1a02ad",
+      "b11fad8d",
+      "3be03de5"
+    ],
+    "i2_range_chronological": [
+      "326fc037",
+      "0719ae55"
+    ],
+    "i3_range_chronological": [
+      "d7a5b99e",
+      "72fd5144"
+    ]
+  },
+  "convergence_operation": {
+    "method": "chronological cherry-pick of each qualified branch range onto parallel/d7-r4-integration-2026-10-12",
+    "order": "I1 complete range, then I2 complete range, then I3 complete range",
+    "commits_replayed": 12,
+    "cherry_pick_conflicts": 0,
+    "commits_amended_or_squashed": false,
+    "qualified_evidence_preserved": true,
+    "worktree_clean_after_each_range": true
+  },
+  "frozen_shared_interface": {
+    "contracts_py": "src/benchmark/wp2/env_r4/contracts.py",
+    "init_py": "src/benchmark/wp2/env_r4/__init__.py",
+    "spec_md": "research/env-canon-r4/R4_SHARED_INTERFACE.md",
+    "unchanged_byte_for_byte": true,
+    "absent_from_all_branch_mutations": true
+  },
+  "provider_convergence": {
+    "poetry_lock_parser": {
+      "provider": "R4-B (EnvR4LockAdapter parse_lock, poetry path)",
+      "qualified_source": "M17_D7_R4_I1_AB_COMPOSITION / R4-B 711c7920bd8a2da1db63eacbf80a3d28638f0844",
+      "integration_state": "INTEGRATED",
+      "acceptance_evidence": "I1 P1-P10 PASS; combined I1 qualification 208 passed; I4 targeted suite 306 passed (includes test_r4_i1_ab_composition.py, test_r4b_uv_adapter.py)",
+      "unresolved_limitations": "poetry path reuses frozen R3 source_fidelity_r1 + dep_compiler classification; source types not representable in the frozen 4-member SourceType enum fail closed"
+    },
+    "uv_lock_parser": {
+      "provider": "R4-B (EnvR4LockAdapter parse_lock, uv path)",
+      "qualified_source": "M17_D7_R4_I1_AB_COMPOSITION / R4-B 711c7920bd8a2da1db63eacbf80a3d28638f0844",
+      "integration_state": "INTEGRATED",
+      "acceptance_evidence": "Saleor uv fixture: lock_format=uv, 230 requirements, editable_self=saleor, 2 exclusions, freeze_sha256=a8c1bdd4a7eb9acf9fcd43a169cf44796881c177c43295c75c26549081f8631c; deterministic repeated parsing",
+      "unresolved_limitations": "uv lock versions validated for 1/2 only; git/url/file/editable/multi-key sources fail closed by frozen design"
+    },
+    "wheel_tag_compatibility": {
+      "provider": "R4-A (wheel_tags.wheel_compatible, era-aware)",
+      "qualified_source": "M17_D7_R4_I1_AB_COMPOSITION / R4-A 041cc5251c76e7bce232cf2250974768f20e899b",
+      "integration_state": "INTEGRATED",
+      "acceptance_evidence": "CPython 3.8/3.9/3.12 Linux x86_64, pure-Python wheels, valid abi3 accepted; incompatible era, wrong platform/architecture, malformed wheels fail closed",
+      "unresolved_limitations": "targets restricted to cpython/linux/x86_64 and eras 3.8/3.9/3.12; any other semantics fail closed"
+    },
+    "linux_faithful_materialization": {
+      "provider": "R4-C (Materializer via LinuxTreeWiring)",
+      "qualified_source": "M17_D7_R4_I2_LINUX_WIRING / R4-C f5aee06b36cf5071ca82513ff6ff3cd22ebd8542",
+      "integration_state": "INTEGRATED",
+      "acceptance_evidence": "I2: 14 wiring tests PASS, 19 R4-C non-Docker unit tests PASS, frozen contract tests PASS; I4 P4 proves delegation + unchanged commit identity + no Windows fallback + MaterializeError propagation; no Docker execution in I2/I4",
+      "unresolved_limitations": "requires a locally present Linux Docker image; never pulls; Windows/NTFS is never treated as repository authority"
+    },
+    "docker_local_image_capability": {
+      "provider": "R4-D current local image reconciliation (I3 receipt)",
+      "qualified_source": "M17_D7_R4_I3_CAPABILITY_STATE_RECONCILIATION / R4-D ecab678f2cbd3e3a35fcfa40392bef17afeb2c0d",
+      "integration_state": "ACCEPTED_AS_CURRENT_STATE_CAPABILITY_EVIDENCE",
+      "acceptance_evidence": "R4_I3_CAPABILITY_STATE_RECONCILIATION.json: present_match_count=14, missing_count=0, mismatch_count=0, classification=HISTORICAL_STALE_STATE_FOR_R4_INTEGRATION; consumed structurally without re-querying Docker",
+      "unresolved_limitations": "registry digests remain unfrozen (explicit residual fact, not a hidden PASS); ENV_CANON_GATE all_docker_images_built remains false; historical frozen gate not modified"
+    },
+    "source_fidelity_overlay": {
+      "provider": "PRE_R4 frozen source-fidelity R1 evidence",
+      "qualified_source": "research/source-fidelity-r1 (SOURCE_FIDELITY_AMENDMENT_FREEZE.json, SOURCE_FIDELITY_VALIDATION_R1.json, SOURCE_FIDELITY_P2P_F2P_RECEIPT.json)",
+      "integration_state": "PRESENT_PREEXISTING",
+      "acceptance_evidence": "frozen source-fidelity overlay (PyXB 1.2.5, authorizenet 1.1.4 DIRECTORY-source wheels) preserved; source-fidelity regressions PASS (test_source_fidelity_r1.py, test_dep_compiler.py)",
+      "unresolved_limitations": "overlay integration into the R4 driver is a later-gated mission concern, not altered here"
+    }
+  },
+  "r4d_population": {
+    "n_validation_units": 144,
+    "n_mapped_tasks": 219,
+    "strata": {
+      "python_3.12_poetry": 25,
+      "python_3.12_uv": 21,
+      "python_3.9_poetry": 83,
+      "python_3.8_poetry": 15
+    },
+    "unique_environment_paths": 13,
+    "docker_profiles": 4,
+    "native_profiles": 10,
+    "install_routes": 4,
+    "wheelhouse_eras": 3,
+    "lock_adapter_paths": 2,
+    "population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+    "population_unchanged": true
+  },
+  "calibration_plan": {
+    "n_calibration": 12,
+    "plan_sha256": "8ec20f360f62c7f4d072ad03bb5fe042c85fa98bad64757715227b5c88de687d",
+    "selection_rule": "deterministic metadata-only stratified walk, both source-fidelity units forced, no FIRST_N, no outcome peeking",
+    "membership_unchanged": true,
+    "original_plan_sha_at_i3": "8ec20f360f62c7f4d072ad03bb5fe042c85fa98bad64757715227b5c88de687d",
+    "calibration_units": [
+      "vu-0e0ef31c7634",
+      "vu-13c1de1de71e",
+      "vu-422bca69f329",
+      "vu-457f26c93ff1",
+      "vu-692af9112c6d",
+      "vu-b78ebcf3e530",
+      "vu-b9808f19ace4",
+      "vu-bfe987de6e53",
+      "vu-db74b3640c98",
+      "vu-e4998719ee01",
+      "vu-eda4e9f82401",
+      "vu-ffe68ddec229"
+    ]
+  },
+  "docker_reconciliation_summary": {
+    "present_match_count": 14,
+    "missing_count": 0,
+    "mismatch_count": 0,
+    "classification": "HISTORICAL_STALE_STATE_FOR_R4_INTEGRATION",
+    "docker_pull_used": false,
+    "docker_build_used": false,
+    "docker_run_used": false,
+    "network_used": false,
+    "historical_frozen_gate_modified": false,
+    "registry_digests_unfrozen": true
+  },
+  "import_provenance": {
+    "method": "PYTHONPATH=src",
+    "benchmark_module": "D:\\WP2\\active\\d7-r4-integration\\src\\benchmark\\__init__.py",
+    "env_r4_modules": "D:\\WP2\\active\\d7-r4-integration\\src\\benchmark\\wp2\\env_r4\\*",
+    "resolves_to_i4_worktree": true,
+    "stale_editable_install_used": false
+  },
+  "cross_track_test_results": {
+    "collected": 306,
+    "passed": 306,
+    "failed": 0,
+    "skipped": 0,
+    "per_file": {
+      "tests/unit/wp2/env_r4/test_r4_i4_convergence.py": "38 passed (new I4 P1-P10 + F2P)",
+      "tests/unit/wp2/env_r4/test_r4_i1_ab_composition.py": "44 passed",
+      "tests/unit/wp2/test_env_r4_wheel_tags.py": "52 passed",
+      "tests/unit/wp2/env_r4/test_r4b_uv_adapter.py": "38 passed",
+      "tests/unit/wp2/test_r4_linux_tree_wiring.py": "14 passed",
+      "tests/unit/wp2/test_r4_linux_tree_materialize.py": "19 passed",
+      "tests/unit/wp2/test_r4d_capability_plan.py": "27 passed",
+      "tests/contract/test_env_r4_contract.py": "36 passed",
+      "tests/unit/wp2/test_source_fidelity_r1.py": "20 passed",
+      "tests/unit/wp2/test_dep_compiler.py": "18 passed"
+    }
+  },
+  "p2p_f2p": {
+    "P1_artifacts_coexist": "PASS",
+    "P2_integrated_parser_both_entry_points": "PASS",
+    "P3_saleor_closure_identity_unchanged": "PASS",
+    "P4_linux_wiring_delegates_to_r4c": "PASS",
+    "P5_r4d_population_invariance": "PASS",
+    "P6_calibration_n12_sha_membership_invariance": "PASS",
+    "P7_docker_receipt_14_0_0_accepted": "PASS",
+    "P8_historical_r4d_evidence_preserved": "PASS",
+    "P9_frozen_shared_interface_unchanged": "PASS",
+    "P10_import_provenance_worktree": "PASS",
+    "F2P_parser_unbound_fails_closed": "PASS",
+    "F2P_malformed_lock_fails_closed": "PASS",
+    "F2P_malformed_incompatible_wheel_fails_closed": "PASS",
+    "F2P_invalid_materialization_input_fails_closed": "PASS",
+    "F2P_mutated_plan_sha_fails_convergence_validation": "PASS",
+    "F2P_mutated_population_strata_fails_convergence_validation": "PASS",
+    "F2P_docker_receipt_missing_or_mismatch_fails_convergence_validation": "PASS",
+    "F2P_missing_provider_artifact_fails_convergence_validation": "PASS"
+  },
+  "tooling_gates": {
+    "git_diff_check_seed_to_head": "PASS",
+    "ruff_changed_i4_and_integrated_modules": "PASS",
+    "mypy_strict_i4_and_integrated_modules": "PASS",
+    "py_compile_i4_and_integrated_modules": "PASS",
+    "targeted_pytest": "PASS (306/306)"
+  },
+  "invariance_gates": {
+    "frozen_shared_interface_byte_identical_to_seed": true,
+    "r4d_draft_artifacts_byte_identical_to_i3_qualified_source": true,
+    "i1_qualified_component_files_unchanged_after_convergence": true,
+    "i2_qualified_component_files_unchanged_after_convergence": true,
+    "i3_reconciliation_receipt_unchanged_after_convergence": true,
+    "calibration_selection_membership_unchanged": true,
+    "population_membership_counts_unchanged": true
+  },
+  "r4_integration_prerequisites_satisfied": true,
+  "original_r4d_draft_preserved": true,
+  "original_r4d_draft_status": "DRAFT_PENDING_R4_INTEGRATION",
+  "prohibited_work_executed": {
+    "docker_containers_run": false,
+    "docker_containers_created": false,
+    "docker_images_pulled": false,
+    "docker_images_built": false,
+    "registry_accessed": false,
+    "network_used": false,
+    "full_d7_executed": false,
+    "behavioral_calibration_executed": false,
+    "zero_container_smoke_executed": false,
+    "corrected_144_census_executed": false,
+    "opws_executed": false,
+    "population_rematerialized": false,
+    "r4_tag_created": false,
+    "other_worktree_touched": false
+  },
+  "next_required_gate": "M17_D7_R4_I5_ZERO_CONTAINER_SMOKE_N12",
+  "next_gate_is_operational_pointer_only": true,
+  "status": "M17_D7_R4_I4_CONVERGENCE_READY_FOR_ZERO_CONTAINER_SMOKE"
+}
