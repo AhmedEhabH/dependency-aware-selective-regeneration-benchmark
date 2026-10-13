@@ -1,0 +1,77 @@
+{
+  "mission_id": "M17_D7_R4_I2_LINUX_MATERIALIZATION_WIRING",
+  "mission_class": "T2_bounded_integration_wiring_and_verification",
+  "branch": "parallel/d7-r4-i2-linux-wiring-2026-10-13",
+  "starting_head": "2f37afbc21a50c5b11afe7b13cb593d1e47dd54a",
+  "date": "2026-10-13",
+  "r4c_authoritative_source_commit": "f5aee06b36cf5071ca82513ff6ff3cd22ebd8542",
+  "r4c_source_commit_subject": "feat(env-canon): add Linux-faithful R4 materialization",
+  "local_cherry_picked_r4c_commit": "326fc0375f083329111365dbd80291b8363598bb",
+  "cherry_pick_conflicts": false,
+  "wiring_implementation_files": [
+    "src/benchmark/wp2/env_r4/linux_tree_wiring.py"
+  ],
+  "test_files": [
+    "tests/unit/wp2/test_r4_linux_tree_wiring.py"
+  ],
+  "exact_delegation_target": "benchmark.wp2.env_r4.linux_tree_materialize.Materializer.materialize(commit, volume, *, resolve=True)",
+  "wiring_entry_point": "benchmark.wp2.env_r4.linux_tree_wiring.LinuxTreeWiring.materialize(commit: str, volume: str) -> int",
+  "explicit_inputs": {
+    "repository_source": "R4MaterializationSource(image, repo_linux_path, mount_src, mount_out, image_verified) - Linux-side Git repository path mounted read-only",
+    "commit_identity": "explicit Git commit/object identity passed verbatim",
+    "destination": "explicit Linux-side Docker volume passed verbatim (existing C API target)"
+  },
+  "fallback_policy": "NO Windows/NTFS fallback exists. The facade routes repository-tree creation exclusively to the qualified R4-C object-authoritative Materializer (local git ls-tree / cat-file). It never copies the Windows working tree, never uses shutil.copytree, never treats NTFS or host-working-tree executable bits as authority. Blank inputs fail closed at the seam (MaterializeError).",
+  "deterministic_behavior_result": "PASS - frozen R4MaterializationSource descriptor; verbatim commit/volume pass-through; no mutable state; repeated identical calls record identical delegation args and return identical counts",
+  "p2p_results": {
+    "P1_facade_delegates_to_qualified_r4c_materializer": "PASS - facade.materialize returns the R4-C result and records exactly one delegation call with the exact (commit, volume)",
+    "P1b_default_wiring_builds_qualified_r4c_materializer_from_explicit_source": "PASS - default construction yields an instance of the qualified Materializer with image/repo/mounts equal to the explicit source",
+    "P2_explicit_git_commit_identity_reaches_materializer_unchanged": "PASS - spy records the exact same commit/volume objects (identity preserved, no transform)",
+    "P3_no_windows_working_tree_fallback_path_in_facade": "PASS - no shutil/os/pathlib/subprocess imports; no copytree/copyfile/copy2 calls; runtime invokes only Materializer.materialize",
+    "P4_materialization_failure_propagates_fail_closed": "PASS - MaterializeError raised by R4-C propagates unchanged (same exception instance)",
+    "P5_repeated_identical_calls_deterministic": "PASS - two identical calls record identical args and return identical counts; source descriptor frozen and equal inputs equal",
+    "P6_facade_does_not_alter_frozen_shared_interface": "PASS - wiring module never imports contracts.py / package __init__; frozen blobs byte-for-byte unchanged at HEAD vs starting HEAD"
+  },
+  "f2p_results": {
+    "F1_missing_repository_input_fails_closed": "PASS - blank/whitespace repo_linux_path and image raise MaterializeError at construction",
+    "F2_missing_or_invalid_commit_identity_at_seam_fails_closed": "PASS - blank commit fails closed at the seam; R4-C missing-commit MaterializeError propagates unchanged",
+    "F3_materializer_failure_propagates_fail_closed": "PASS - any MaterializeError from R4-C propagates to the caller unchanged",
+    "F4_absence_of_silent_windows_fallback": "PASS - static (no copy imports/calls) and runtime (only Materializer.materialize invoked) proof"
+  },
+  "test_counts": {
+    "new_i2_wiring_tests": "14 passed",
+    "existing_r4c_non_docker_unit_tests": "19 passed",
+    "frozen_contract_tests": "36 passed",
+    "combined_targeted_pytest": "69 passed"
+  },
+  "validation": {
+    "py_compile": "PASS - 5 changed/new Python files",
+    "ruff": "PASS - 5 changed/new Python files (0 issues)",
+    "mypy": "PASS - strict, 2 changed production files (linux_tree_wiring.py, linux_tree_materialize.py)",
+    "git_diff_check": "PASS",
+    "frozen_interface_unchanged": "PASS - blob hashes identical at HEAD vs starting HEAD for contracts.py, __init__.py, R4_SHARED_INTERFACE.md"
+  },
+  "frozen_interface_hashes_at_head": {
+    "src/benchmark/wp2/env_r4/contracts.py": "4361746713fee47f9ebf52442c1a4643cd2a6c26",
+    "src/benchmark/wp2/env_r4/__init__.py": "27bff5be6b4e69114a796087ace54d87aaf847d2",
+    "research/env-canon-r4/R4_SHARED_INTERFACE.md": "c302cfcf6328ababdf10da51cb67c07b353ae682"
+  },
+  "r4c_files_integrated": [
+    "research/env-canon-r4/R4_C_LINUX_TREE_FIDELITY_REPORT.json",
+    "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+    "tests/integration/wp2/test_r4_linux_tree_materialize_integration.py",
+    "tests/unit/wp2/test_r4_linux_tree_materialize.py"
+  ],
+  "r4c_broad_audit_performed": false,
+  "r4c_modified": false,
+  "network_used": false,
+  "docker_used": false,
+  "docker_pull_used": false,
+  "docker_build_used": false,
+  "full_d7_executed": false,
+  "population_census_executed": false,
+  "opws_executed": false,
+  "git_pushed": true,
+  "overall_pass": true,
+  "status": "M17_D7_R4_I2_LINUX_MATERIALIZATION_WIRING_READY_FOR_CONVERGENCE"
+}
