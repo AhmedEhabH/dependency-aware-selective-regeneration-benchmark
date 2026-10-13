@@ -1,0 +1,243 @@
+{
+  "authority_hierarchy": [
+    "frozen R4-D population/calibration plan",
+    "qualified execution-image composite binding",
+    "qualified R4-A/B/C providers",
+    "qualified R4-E3 artifact/readiness evidence",
+    "source-fidelity frozen evidence",
+    "frozen D7/R3 behavioral execution semantics",
+    "mission-local additive orchestration only"
+  ],
+  "binding_semantic_hash": "3878e75a7f5f4b676af3633cad5cd64eeab05d4b9155ef9b61b2b8c1dd9607b3",
+  "install_command": "uv pip install --system --no-index --find-links /wheelhouse --only-binary=:all: -r /reqs/requirements-lock.txt",
+  "mandatory_gates": [
+    "G1 MATERIALIZATION",
+    "G2 OFFLINE_ARTIFACT_RESOLUTION",
+    "G3 NETWORK_ISOLATION",
+    "G4 INSTALL",
+    "G5 PIP_CHECK",
+    "G6 NATIVE_PROFILE",
+    "G7 IMPORT_SMOKE",
+    "G8 FRAMEWORK_MANAGE",
+    "G9 PYTEST_COLLECTION",
+    "G10 ARTIFACT_PROVENANCE",
+    "G11 EXECUTION_IMAGE_BINDING"
+  ],
+  "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_R2",
+  "network_isolation": "--network=none",
+  "plan_sha256": "8ec20f360f62c7f4d072ad03bb5fe042c85fa98bad64757715227b5c88de687d",
+  "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/1.0",
+  "timeout_seconds": 5400,
+  "units": [
+    {
+      "calibration_index": 1,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-e6198146186d"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": true,
+      "validation_unit_id": "vu-b9808f19ace4",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 2,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013",
+      "immutable_image_id": "sha256:1be41dd22a934cc56ed10fa1046234a450f6d2946f8099d7bcb501f696f1d759",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-19bb9b070965"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": true,
+      "validation_unit_id": "vu-692af9112c6d",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 3,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-438595033c60",
+        "saleor-rc-fa1ed1794a8a"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-e4998719ee01",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 4,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-80a33b28b80d"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-db74b3640c98",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 5,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "immutable_image_id": "sha256:acad85904c7011374316d5b44ecb8967628eb3fd6da9ddd2744c0be396728be6",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-954887b39f13"
+      ],
+      "native_profile_id": "nat-cc2f641e9e04",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-422bca69f329",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 6,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "immutable_image_id": "sha256:465462307d07236a5424b146f3e19f9462970121a21e17f331db849c8008d2ac",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-e0f2933d58b9"
+      ],
+      "native_profile_id": "nat-02b9bb45ba01",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-13c1de1de71e",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 7,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "immutable_image_id": "sha256:7862b9ecf8aa34e536a5b9eee545baa79318d9ef38704fa38525aba9426c52a3",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-3bf31ab2fefc",
+        "saleor-rc-95dbffbc523a",
+        "saleor-rc-b356a525ba2a",
+        "saleor-rc-ce3b63edecef",
+        "saleor-rc-ffe3a3ece0fb"
+      ],
+      "native_profile_id": "nat-591718dce38a",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-b78ebcf3e530",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 8,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "immutable_image_id": "sha256:a8687d9c7c5c8502ad019c1877e4c632ddc005f8c3b56a33a46bb3373c2ffb3a",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-0179b331be38"
+      ],
+      "native_profile_id": "nat-0728db662cde",
+      "python_version": "3.12",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-bfe987de6e53",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 9,
+      "docker_profile_id": "dk-py38-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "immutable_image_id": "sha256:a8b198cf86806747c521d6c3256961822bd81702369af4fec1de8a3430d9caff",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-208833e2fa53",
+        "saleor-rc-63a31dd3c8ca"
+      ],
+      "native_profile_id": "nat-62bc3631c27d",
+      "python_version": "3.8",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-eda4e9f82401",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "calibration_index": 10,
+      "docker_profile_id": "dk-py39-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "immutable_image_id": "sha256:d6f910882d1d27ce878df535815630a190a57b19932ab58dcb96d193665f2796",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-10889526d151"
+      ],
+      "native_profile_id": "nat-d35546f097f4",
+      "python_version": "3.9",
+      "recovery_overlay": true,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-457f26c93ff1",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "calibration_index": 11,
+      "docker_profile_id": "dk-py39-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "immutable_image_id": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-f4eeba7fab16"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd",
+      "python_version": "3.9",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-ffe68ddec229",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "calibration_index": 12,
+      "docker_profile_id": "dk-py39-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "immutable_image_id": "sha256:dc6a421b28d86aab1c6bca0a32b11b40fefc74535105c4240348208ca3773233",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-add4064d238e"
+      ],
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "python_version": "3.9",
+      "recovery_overlay": false,
+      "source_fidelity_overlay": false,
+      "validation_unit_id": "vu-0e0ef31c7634",
+      "wheelhouse_era": "py39"
+    }
+  ]
+}
