@@ -5,10 +5,20 @@ only: a deterministic, Linux-native route to materialize a historical target
 commit from local Git objects into an ephemeral Linux container volume, without
 a permanent 219-worktree duplicate.
 
+Successor ``M17_D7_R4C_SYMLINK_MATERIALIZATION`` adds Git-faithful symlink
+materialization required by the same frozen exact-tree-fidelity contract:
+
+  100644 -> regular file (unchanged)
+  100755 -> executable regular file (unchanged)
+  120000 -> real Linux symbolic link (new; target = exact Git blob bytes,
+            never dereferenced/flattened/normalized, broken relative links
+            preserved)
+  all other modes (e.g. 160000 gitlink/submodule) -> fail closed (unchanged)
+
 Windows/NTFS cannot faithfully materialize every historical repository path
 (e.g. Saleor VCR cassettes containing ``?``).  This module never treats a
 Windows checkout as authoritative: the tree is read object-authoritatively from
-local Git objects (``ls-tree`` / ``cat-file``), and every file is written to a
+local Git objects (``ls-tree`` / ``cat-file``), and every entry is written to a
 Linux volume with its exact Git path, exact blob bytes and Git mode, fail
 closed on any missing commit, missing object, partial extraction, silent skip,
 dirty destination, or unexpected mode.
@@ -58,18 +68,28 @@ class TreeEntry:
 
 
 def git_mode_to_unix(mode: str) -> int:
-    """Map a Git blob mode to Unix permission bits; unknown modes fail closed."""
+    """Map a Git tree entry mode to Unix permission bits; unknown modes fail closed.
+
+    ``100644`` -> regular file, ``100755`` -> executable regular file,
+    ``120000`` -> symbolic link (Linux symlinks are always ``0o777``; the
+    permission bits are not meaningful for symlinks).  Any other mode
+    (including ``160000`` gitlinks) fails closed.
+    """
     if mode == "100755":
         return 0o755
     if mode == "100644":
         return 0o644
+    if mode == "120000":
+        return 0o777
     raise MaterializeError(f"unsupported git blob mode {mode!r} (fail closed)")
 
 
 def parse_tree_line(line: str) -> TreeEntry:
     """Parse one ``ls-tree`` line ``<mode> <oid>\t<path>`` -> ``TreeEntry``.
 
-    Non-blob modes are rejected (never silently skipped).
+    Supported entry modes are regular file (100644), executable regular file
+    (100755) and symbolic link (120000).  Any other mode (e.g. 160000 gitlink)
+    is rejected (never silently skipped).
     """
     if not line:
         raise MaterializeError("empty ls-tree line (fail closed)")
@@ -79,7 +99,7 @@ def parse_tree_line(line: str) -> TreeEntry:
     oid, path = rest.split("\t", 1)
     if not oid or not path:
         raise MaterializeError(f"malformed ls-tree line {line!r} (fail closed)")
-    if mode not in ("100644", "100755"):
+    if mode not in ("100644", "100755", "120000"):
         raise MaterializeError(f"non-blob/unsupported entry {line!r} (fail closed)")
     return TreeEntry(mode=mode, oid=oid, path=path)
 
@@ -136,6 +156,16 @@ while IFS= read -r -d '' mode; do
   case "$mode" in
     100755) um=755 ;;
     100644) um=644 ;;
+    120000)
+      # Real Linux symlink: target = exact Git blob bytes; never dereference,
+      # never flatten, never normalize. Broken relative links preserved.
+      target="$(git -C "$src" cat-file blob "$oid")" \
+        || { echo "SYMLINK_TARGET_FAIL $oid $path"; exit 20; }
+      mkdir -p "$out/$(dirname "$path")" || { echo "MKDIR_FAIL $path"; exit 16; }
+      ln -s "$target" "$out/$path" || { echo "SYMLINK_FAIL $path"; exit 21; }
+      count=$((count+1))
+      continue
+      ;;
     *) echo "UNEXPECTED_MODE $mode $path"; exit 15 ;;
   esac
   mkdir -p "$out/$(dirname "$path")" || { echo "MKDIR_FAIL $path"; exit 16; }
@@ -257,7 +287,7 @@ class Materializer:
                 continue
             mode, rest = line.split(" ", 1)
             oid, path = rest.split("\t", 1)
-            if mode not in ("100644", "100755"):
+            if mode not in ("100644", "100755", "120000"):
                 raise MaterializeError(f"non-blob/unsupported entry {line!r} (fail closed)")
             entries.append(TreeEntry(mode=mode, oid=oid, path=path))
         if not entries:
@@ -359,6 +389,53 @@ class Materializer:
             "content_match": oid == expected_oid,
         }
 
+    def verify_symlink(
+        self,
+        commit: str,
+        volume: str,
+        path: str,
+        expected_target: str,
+        *,
+        resolve: bool = True,
+    ) -> dict[str, object]:
+        """Verify one materialized symlink against Git-tree authority.
+
+        Checks the entry is a REAL symbolic link (not a copied/dereferenced
+        file) and that ``readlink`` returns exactly the Git blob target.
+        """
+        if resolve:
+            self.resolve_commit(commit)
+        script = (
+            "set -euo pipefail\n"
+            f'p={path!r}\n'
+            f"f={self.mount_out}/$p\n"
+            "if [ ! -L \"$f\" ]; then echo 'NOT_SYMLINK'; exit 22; fi\n"
+            f"tgt=$(readlink \"$f\")\n"
+            f"echo \"TARGET $tgt\"\n"
+        )
+        r = self._run_in_image(
+            "bash",
+            script,
+            volumes=[f"{volume}:{self.mount_out}"],
+        )
+        if r.returncode != 0:
+            return {
+                "path": path,
+                "is_symlink": False,
+                "error": r.stdout.strip() or r.stderr.strip(),
+            }
+        target = None
+        for line in r.stdout.splitlines():
+            if line.startswith("TARGET "):
+                target = line[len("TARGET "):].strip()
+        return {
+            "path": path,
+            "is_symlink": True,
+            "readlink": target,
+            "expected_target": expected_target,
+            "target_match": target == expected_target,
+        }
+
     def materialized_tree_identity(self, commit: str, volume: str) -> str:
         """Deterministic identity of the materialized tree (sorted mode+path).
 
@@ -369,9 +446,15 @@ class Materializer:
         script = (
             "set -euo pipefail\n"
             f"cd '{self.mount_out}'\n"
-            "find . -type f | sort | while read -r f; do\n"
-            '  mode=$(stat -c %a "$f")\n'
-            '  printf "%s %s\\n" "$mode" "${f#./}"\n'
+            "find . \\( -type f -o -type l \\) | sort | while read -r f; do\n"
+            '  if [ -L "$f" ]; then\n'
+            '    mode=$(stat -c %a "$f")\n'
+            '    tgt=$(readlink "$f")\n'
+            '    printf "%s %s -> %s\\n" "$mode" "${f#./}" "$tgt"\n'
+            '  else\n'
+            '    mode=$(stat -c %a "$f")\n'
+            '    printf "%s %s\\n" "$mode" "${f#./}"\n'
+            '  fi\n'
             "done\n"
         )
         r = self._run_in_image(

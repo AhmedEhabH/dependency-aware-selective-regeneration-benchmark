@@ -86,8 +86,10 @@ def _fail(stdout: str = "", stderr: str = "boom") -> CommandResult:
 def test_git_mode_to_unix() -> None:
     assert git_mode_to_unix("100755") == 0o755
     assert git_mode_to_unix("100644") == 0o644
+    # R4-C symlink successor: mode 120000 is a real symlink (0o777).
+    assert git_mode_to_unix("120000") == 0o777
     with pytest.raises(MaterializeError):
-        git_mode_to_unix("120000")  # symlink not in scope -> fail closed
+        git_mode_to_unix("160000")  # gitlink/submodule remains fail-closed
 
 
 def test_parse_tree_line() -> None:

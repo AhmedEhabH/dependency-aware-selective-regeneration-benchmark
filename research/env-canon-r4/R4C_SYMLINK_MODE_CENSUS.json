@@ -1,0 +1,53 @@
+{
+  "schema_version": "env-canon-r4c-symlink-mode-census/1.0",
+  "mission_id": "M17_D7_R4C_SYMLINK_MATERIALIZATION",
+  "method": "metadata-only git ls-tree -r over every frozen mapped-task target commit (no materialization, no checkout)",
+  "population": {
+    "n_mapped_tasks": 219,
+    "distinct_target_commits": 219,
+    "population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac"
+  },
+  "unique_tree_entry_modes": ["100644", "100755", "120000"],
+  "mode_counts": {
+    "100644": 686613,
+    "100755": 3022,
+    "120000": 48
+  },
+  "commits_containing_symlinks": 31,
+  "symlink_commits": [
+    "032b98afff2026468336882ffc04f235243fc4fc",
+    "07c8859c0ac3031174d6946371341c93175d176a",
+    "0ad61b3f0096a50a0ec8e80b2c1905b06e11aa7d",
+    "11756ee6b65a255869f551e838edec1742b1c2ce",
+    "138ee68c3818affda0de12010f561fbf4d2caf9e",
+    "224bf29fb39fd14645a5adfda42008ea5fb8d799",
+    "22a30bf2e4ccda91e1e43673d77e25d439f61746",
+    "2c770c685a57466c11d3cc9a0e9e12ed10243408",
+    "30b4edece5aa284f5a1e344e70350a680e43d9cd",
+    "333febd3522379220788fabac4c716f426ccd76d",
+    "3bf31ab2fefca154d841803c9fc71057938ce5f9",
+    "3cac33590b90fd34e33ac593180c67f014d9a372",
+    "46456e7317ca5729241a9f62ff7250e3cf0b00a1",
+    "481c2d367c6ffe14a5dff85aa983adbea911285c",
+    "796f4a0fd9690c374195135488c36e8641833f24",
+    "7e42fc67ce72770720440781fc83685a48bd91b8",
+    "8e6164e3d12327496660f91f836d5c3222d8d2b6",
+    "95dbffbc523a5a8865ead2a2649913491ac8e89c",
+    "b356a525ba2ab918b85b6b617ac4df499e70e247",
+    "c31fb4cfd08f5578c90b9109f98f662b119e208a",
+    "ce3b63edecef7c942ac88888a4bc77149086bbd3",
+    "d361479ab7da3060cf26e8dbb52c9aab89fab0c0",
+    "d498167dcd3037b15682c8ec8278d38ab1a465dd",
+    "d6656e0f2a1d955b64a48fe21a7fd733203a8cd8",
+    "db5440f7994f02f85c621a604d9813329db43e56",
+    "e0890780bf56856d2b20ac14b1786749309450ae",
+    "e0f2933d58b973ae61ca26b22a89da026aaaa7ad",
+    "e7175003a542258f15e341a90a305f6c4cc61df2",
+    "e8733aee630a007e0ec031e772ed517ce6c20e9d",
+    "fd463c8aae38b120f3d984fa881c1c7c61817591",
+    "ffe3a3ece0fb29cfbb7c02a032c86da31d17e8b3"
+  ],
+  "decision": "CONTINUE",
+  "decision_rule": "population contains only 100644 / 100755 / 120000; no 160000 gitlink or other mode requiring new semantics",
+  "note": "No mode 160000 (gitlink/submodule) present. Gitlinks remain fail-closed."
+}

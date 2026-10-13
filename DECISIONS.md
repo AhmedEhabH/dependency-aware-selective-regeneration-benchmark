@@ -2613,3 +2613,26 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   annotated tag `wp2-m17-v1-real-oracle-kit-r1-2026-10-05`.
 - Next: STOP_TOKEN=M17_LAUNCH_READY; await brain review before the REAL 12-task
   qualification. No scientific run until approved.
+
+
+---
+
+## M17_D7_R4C_SYMLINK_MATERIALIZATION (2026-10-13)
+
+Owner-authorized additive instrumentation/environment successor to the qualified
+R4-C Linux materializer. R4-C originally failed closed on git mode 120000
+(symlink) because the qualification fixture did not contain symlinks; the
+successor adds Git-faithful symlink materialization required by the already
+frozen exact-tree-fidelity contract.
+
+- Population mode census (219 mapped tasks, metadata-only): unique modes are
+  exactly 100644 (686,613), 100755 (3,022), 120000 (48); no 160000/gitlink.
+  Decision CONTINUE per authorization.
+- New semantics: 100644 regular (unchanged), 100755 executable (unchanged),
+  120000 -> real Linux symlink (target = exact Git blob bytes; never
+  dereferenced/flattened/normalized; broken relative links preserved). All
+  other modes incl. 160000 fail closed (unchanged).
+- Tests first: focused unit tests + real Unit-6/7 bounded integration
+  qualification. No scientific-method change; frozen Attempt-4 evidence,
+  population, plan, binding, providers, gates, timeout policy unchanged.
+- Evidence: research/env-canon-r4/R4C_SYMLINK_MODE_CENSUS.json.
