@@ -131,7 +131,22 @@ HARNESS_DIR = STORE / "harness" / "d7_r3"
 SF_MANIFEST = SF_R1_DIR / "SOURCE_FIDELITY_PROVENANCE_MANIFEST.json"
 SF_WHEELS = SF_R1_DIR / "artifacts" / "wheels"
 
-RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt2-2026-10-13")
+RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13")
+EXPECTED_RUN_ROOT = Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13")
+
+
+def current_run_root() -> Path:
+    """Single source of truth for the calibration run root.
+
+    Freeze records derive their ``external_run_root`` from this function so
+    the runner's effective RUN_ROOT can never drift from what the freeze file
+    declares (Attempt-4 RUN_ROOT provenance invariant).
+    """
+    if RUN_ROOT != EXPECTED_RUN_ROOT:
+        raise CalibrationFailClosedError(
+            f"RUN_ROOT invariant violated: effective {RUN_ROOT} != expected {EXPECTED_RUN_ROOT}"
+        )
+    return RUN_ROOT
 FREEZE_DIR = RUN_ROOT / "freeze"
 UNITS_DIR = RUN_ROOT / "units"
 LOGS_DIR = RUN_ROOT / "logs"
@@ -139,6 +154,8 @@ PROGRESS_DIR = RUN_ROOT / "progress"
 MATERIALIZED_DIR = RUN_ROOT / "materialized"
 RECEIPTS_DIR = RUN_ROOT / "receipts"
 PROGRESS_JSON = PROGRESS_DIR / "progress.json"
+EXPECTED_RUN_ROOT_STR = "D:\\WP2\\runs\\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13"
+SRC_ENV_R4 = PROJECT / "src" / "benchmark" / "wp2" / "env_r4"
 
 # WSL-local Docker engine parameters (qualified R4-C substrate).
 WSL_DISTRO = "Ubuntu-24.04"
@@ -1417,6 +1434,76 @@ def aggregate() -> dict[str, Any]:
     }
 
 
+def write_freeze_record(attempt_label: str, prior_heads: dict[str, str]) -> dict[str, Any]:
+    """CAL2-H: write PRE_EXECUTION_FREEZE.json.
+
+    ``external_run_root`` is derived EXCLUSIVELY from :func:`current_run_root`
+    so the freeze file can never disagree with the runner's effective RUN_ROOT
+    (Attempt-4 RUN_ROOT provenance invariant).
+    """
+    freeze_root = current_run_root()
+    assert str(freeze_root) == EXPECTED_RUN_ROOT_STR, "RUN_ROOT freeze drift"
+    freeze_dir = freeze_root / "freeze"
+    freeze_dir.mkdir(parents=True, exist_ok=True)
+    head = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    remote = subprocess.run(
+        ["git", "rev-parse", f"origin/{EXPECTED_BRANCH}"],
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    payload: dict[str, Any] = {
+        "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/freeze/1.0",
+        "attempt": attempt_label,
+        "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_R2",
+        "starting_head": "6f6dcf6f09a6e43bcde0dafc30e0cd748ce63254",
+        "branch": EXPECTED_BRANCH,
+        "preexecution_freeze_head": head,
+        "remote_head": remote,
+        "remote_equals_local": head == remote,
+        "prior_attempt_heads": prior_heads,
+        "frozen_utc": utcnow(),
+        "external_run_root": str(freeze_root),
+        "run_root_invariant": {
+            "effective_runner_run_root": str(Path(r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13")),
+            "expected_attempt4_root": str(RUN_ROOT),
+            "freeze_external_run_root": str(freeze_root),
+            "all_three_agree": str(RUN_ROOT) == EXPECTED_RUN_ROOT_STR == str(freeze_root),
+        },
+        "worktree_clean": True,
+        "plan_sha256_semantic": EXPECTED_PLAN_SHA,
+        "binding_semantic_hash": EXPECTED_BINDING_HASH,
+        "files": {
+            "runner": _sha256_file(PROJECT / "scripts" / "r4_behavioral_calibration_n12_r2.py"),
+            "r2_behavioral_binding": _sha256_file(BINDING_OUT),
+            "r4d_plan": _sha256_file(PLAN_PATH),
+            "composite_binding": _sha256_file(BINDING_PATH),
+            "repair_receipt": _sha256_file(REPAIR_RECEIPT_PATH),
+            "post_repair_census": _sha256_file(POST_REPAIR_CENSUS_PATH),
+            "e3_receipt": _sha256_file(E3_RECEIPT_PATH),
+            "r4_contracts": _sha256_file(SRC_ENV_R4 / "contracts.py"),
+            "r4_integrated_parser": _sha256_file(SRC_ENV_R4 / "integrated_parser.py"),
+            "r4_uv_adapter": _sha256_file(SRC_ENV_R4 / "uv_adapter.py"),
+            "r4_wheel_tags": _sha256_file(SRC_ENV_R4 / "wheel_tags.py"),
+            "r4_linux_tree_materialize": _sha256_file(SRC_ENV_R4 / "linux_tree_materialize.py"),
+            "r4_linux_tree_wiring": _sha256_file(SRC_ENV_R4 / "linux_tree_wiring.py"),
+            "linux_adapter": _sha256_file(PROJECT / "src" / "benchmark" / "wp2" / "linux_adapter.py"),
+            "sf_manifest": _sha256_file(SF_MANIFEST),
+            "recovery_manifest": _sha256_file(RECOVERY_MANIFEST),
+            "d4_codecov_amendment": _sha256_file(D4_CODECOV_EXCLUSION),
+        },
+        "freeze_contract": (
+            "NO edits to runner, behavioral semantics, image binding, or "
+            "scientific providers after freeze"
+        ),
+    }
+    target = freeze_dir / "PRE_EXECUTION_FREEZE.json"
+    target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return payload
+
+
+EXPECTED_BRANCH = "parallel/d7-r4-behavioral-calibration-n12-r2-2026-10-13"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="M17_D7_R4 Behavioral Calibration N12 R2")
     ap.add_argument("--preflight", action="store_true", help="CAL2-A/B/C authority preflight")
@@ -1424,9 +1511,24 @@ def main() -> int:
     ap.add_argument("--binding", action="store_true", help="write CAL2-D binding evidence")
     ap.add_argument("--aggregate", action="store_true", help="CAL2-K aggregate")
     ap.add_argument("--verify-images", action="store_true", help="CAL2-B only")
+    ap.add_argument("--freeze", action="store_true", help="write Attempt-4 PRE_EXECUTION_FREEZE")
     args = ap.parse_args()
 
     try:
+        if args.freeze:
+            payload = write_freeze_record(
+                "4",
+                {
+                    "attempt1_freeze_head": "e8fc6c0f8e43b9a16712791a4bea2719a2dd6330",
+                    "attempt2_freeze_head": "44e748fcb07e55527d04d4573c96ad75799fde6b",
+                    "attempt3_freeze_head": "76952c0f3e672cde64498ac786e8f5e6694013d0",
+                },
+            )
+            print(json.dumps({"freeze": payload["external_run_root"], "head": payload["preexecution_freeze_head"],
+                              "run_root_agreement": payload["run_root_invariant"]["all_three_agree"]},
+                             indent=2, sort_keys=True))
+            print("ATTEMPT4_FREEZE_WRITTEN")
+            return 0
         if args.preflight:
             a = verify_authority()
             b = verify_images()

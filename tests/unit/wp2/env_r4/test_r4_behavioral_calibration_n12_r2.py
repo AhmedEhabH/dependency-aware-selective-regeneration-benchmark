@@ -575,6 +575,47 @@ class TestBackendCommandContract:
         assert '"docker", "run", "--rm", "--network=none"' not in src
 
 
+class TestRunRootInvariant:
+    """Attempt-4: RUN_ROOT provenance invariant.
+
+    The runner's effective RUN_ROOT, the expected Attempt-4 root, and the
+    external_run_root written to PRE_EXECUTION_FREEZE.json must all agree
+    exactly.  This regression prevents another RUN_ROOT/freeze mismatch.
+    """
+
+    ACTIVITY4_ROOT = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13"
+
+    def test_effective_run_root_is_attempt4(self) -> None:
+        assert str(r2.RUN_ROOT) == self.ACTIVITY4_ROOT
+        assert str(r2.EXPECTED_RUN_ROOT) == self.ACTIVITY4_ROOT
+        assert r2.current_run_root() == r2.RUN_ROOT
+
+    def test_freeze_external_root_derived_from_runner(self) -> None:
+        payload = r2.write_freeze_record("4", {"prior": "0" * 40})
+        assert payload["external_run_root"] == self.ACTIVITY4_ROOT
+        assert payload["run_root_invariant"]["all_three_agree"] is True
+
+    def test_not_attempt2_or_attempt3(self) -> None:
+        a2 = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt2-2026-10-13"
+        a3 = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt3-2026-10-13"
+        a4 = r"D:\WP2\runs\r4-behavioral-calibration-n12-r2-attempt4-2026-10-13"
+        assert Path(a2) != r2.RUN_ROOT
+        assert Path(a3) != r2.RUN_ROOT
+        assert str(r2.RUN_ROOT) == a4
+
+    def test_attempt4_root_has_no_prior_execution(self) -> None:
+        a4 = Path(self.ACTIVITY4_ROOT)
+        assert a4.is_dir(), "attempt-4 run root missing"
+        # Empty placeholder sentinels are allowed; REAL execution evidence is not.
+        real_evidence = [
+            p for p in (a4 / "units").glob("*")
+            if p.name not in (".gitkeep",)
+        ]
+        assert not real_evidence, f"attempt-4 units dir already holds evidence: {real_evidence}"
+        if (a4 / "progress").joinpath("progress.json").exists():
+            raise AssertionError("attempt-4 already has progress.json (prior execution)")
+
+
 class TestInstrumentPersistBeforeParse:
     """Attempt-3 A: raw process evidence persisted BEFORE parse_output.
 
