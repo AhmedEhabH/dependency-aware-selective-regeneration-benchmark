@@ -1,0 +1,830 @@
+{
+  "N_EXECUTED": 12,
+  "N_FAIL": 0,
+  "N_PASS": 12,
+  "attempt": 6,
+  "category_coverage": {
+    "required": 27,
+    "uncovered": []
+  },
+  "counts": {
+    "build": 0,
+    "download": 0,
+    "pull": 0
+  },
+  "deterministic_semantic_hash": "8f6857c44861ffa897760cf25aefd252ebd358c596eb6700fb97bc380459504b",
+  "e3_evidence_identity": {
+    "final_verdict": "PASS_READY_FOR_BEHAVIORAL_CALIBRATION",
+    "population_identity": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac"
+  },
+  "exact_next_gate": "M17_D7_R4_FULL144_PREEXECUTION_FREEZE",
+  "exact_ordered_n12": [
+    "vu-b9808f19ace4",
+    "vu-692af9112c6d",
+    "vu-e4998719ee01",
+    "vu-db74b3640c98",
+    "vu-422bca69f329",
+    "vu-13c1de1de71e",
+    "vu-b78ebcf3e530",
+    "vu-bfe987de6e53",
+    "vu-eda4e9f82401",
+    "vu-457f26c93ff1",
+    "vu-ffe68ddec229",
+    "vu-0e0ef31c7634"
+  ],
+  "execution_image_binding": {
+    "path": "research/env-canon-r4/R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json",
+    "semantic_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2",
+    "unique_pair_count": 11
+  },
+  "external_run_root": "D:\\WP2\\runs\\r4-behavioral-calibration-n12-r2-attempt6-2026-10-14",
+  "failure_taxonomy": [],
+  "final_head": "18d2527daeb236e9053ba78870b3894928ceed89",
+  "generated_utc": "2026-10-14T00:01:41.260489+00:00",
+  "historical_composite_binding": {
+    "path": "research/env-canon-r4/R4_EXECUTION_IMAGE_COMPOSITE_BINDING.json",
+    "semantic_hash": "3878e75a7f5f4b676af3633cad5cd64eeab05d4b9155ef9b61b2b8c1dd9607b3"
+  },
+  "membership_hash": "613557a69e43fdfe67e760bd34388f7e4aa333abec37451ff2fa21b6a6e54f87",
+  "mission_id": "M17_D7_R4_BEHAVIORAL_CALIBRATION_N12_ATTEMPT6",
+  "network_state": "disabled (--network=none) for every scientific unit",
+  "plan_sha256": "8ec20f360f62c7f4d072ad03bb5fe042c85fa98bad64757715227b5c88de687d",
+  "population_identity": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+  "preexecution_freeze_head": "18d2527daeb236e9053ba78870b3894928ceed89",
+  "prohibited_action_flags": {
+    "docker_build": false,
+    "docker_pull": false,
+    "full_d7_executed": false,
+    "membership_changed": false,
+    "network_used": false,
+    "opws_executed": false,
+    "order_changed": false,
+    "semantic_retry": false,
+    "silent_skip": false
+  },
+  "r4c_symlink_successor_commit": "30d0abfa5323e93d5438a6665fa2529b6e2555e5",
+  "remote_equals_local": true,
+  "remote_head": "18d2527daeb236e9053ba78870b3894928ceed89",
+  "run_root_3way_agreement": true,
+  "runtime_toolhouse_repair_authority_commit": "f6ce802b33bcf3c21f611941801c563eb2d913dd",
+  "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/receipt/1.0",
+  "scientific_invariance": {
+    "build_toolhouse_only_dists": "UNCHANGED",
+    "n12": "UNCHANGED",
+    "population": "UNCHANGED",
+    "python_versions": "UNCHANGED",
+    "r3_gate_semantics": "UNCHANGED",
+    "r4c_symlink_successor": "UNCHANGED",
+    "r4d_plan": "UNCHANGED",
+    "recovery_overlay": "UNCHANGED",
+    "source_fidelity": "UNCHANGED"
+  },
+  "starting_head": "6f6dcf6f09a6e43bcde0dafc30e0cd748ce63254",
+  "total_elapsed_seconds": 2082.03,
+  "units": [
+    {
+      "calibration_index": 1,
+      "classification": "PASS",
+      "elapsed_seconds": 166.0,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 4714,
+          "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+          "task_id": "saleor-rc-e6198146186d",
+          "volume": "r4n12_vu_b9808f19ace4_saleor_rc_e6198146186d_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-e6198146186d"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "4beb95c151a03709ee46aa041ec0de143f65103f1ecb077baf95f9742cd25ad1",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 21656,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "version_probes": {
+          "authorizenet": "1.1.4",
+          "pyxb": "1.2.5"
+        },
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [
+        "PyXB==1.2.5",
+        "authorizenet==1.1.4"
+      ],
+      "validation_unit_id": "vu-b9808f19ace4",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 2,
+      "classification": "PASS",
+      "elapsed_seconds": 153.02,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013",
+      "immutable_image_id": "sha256:1be41dd22a934cc56ed10fa1046234a450f6d2946f8099d7bcb501f696f1d759",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 4711,
+          "target_commit": "19bb9b0709654010d1b4e4e9049af119d3b28815",
+          "task_id": "saleor-rc-19bb9b070965",
+          "volume": "r4n12_vu_692af9112c6d_saleor_rc_19bb9b070965_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-19bb9b070965"
+      ],
+      "provenance": "R4_COMPOSITE_REPAIR",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "7f78578c03b0274adea8c446209aaf0d1c06d25c3e73cbb413a5daf09c3fa644",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 20471,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "special_pyver": "3.12",
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "version_probes": {
+          "authorizenet": "1.1.4",
+          "pyxb": "1.2.5"
+        },
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [
+        "PyXB==1.2.5",
+        "authorizenet==1.1.4"
+      ],
+      "validation_unit_id": "vu-692af9112c6d",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 3,
+      "classification": "PASS",
+      "elapsed_seconds": 238.45,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 4090,
+          "target_commit": "438595033c608219a88583ae91d50f2e2415e558",
+          "task_id": "saleor-rc-438595033c60",
+          "volume": "r4n12_vu_e4998719ee01_saleor_rc_438595033c60_0"
+        },
+        {
+          "file_count": 4090,
+          "target_commit": "fa1ed1794a8a84bcebee8c3b8dbe47128fa44833",
+          "task_id": "saleor-rc-fa1ed1794a8a",
+          "volume": "r4n12_vu_e4998719ee01_saleor_rc_fa1ed1794a8a_1"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-438595033c60",
+        "saleor-rc-fa1ed1794a8a"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "18fbbce76633af4a3941e3589133cf0f503de0831e0ca4e34335b537dbbb7899",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 19701,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "import_wt1": "0",
+          "manage_wt0": "0",
+          "manage_wt1": "0",
+          "pytest_wt0": "0",
+          "pytest_wt1": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1",
+          "wt1": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-e4998719ee01",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 4,
+      "classification": "PASS",
+      "elapsed_seconds": 136.61,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 4094,
+          "target_commit": "80a33b28b80d7010adad6637bc1b954a243727aa",
+          "task_id": "saleor-rc-80a33b28b80d",
+          "volume": "r4n12_vu_db74b3640c98_saleor_rc_80a33b28b80d_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-80a33b28b80d"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "1639ae51a00820fe065321303d87d2912600068b122dfea7e4ddb653d35d4976",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {
+          "pipx": "/usr/bin/pipx"
+        },
+        "install_ms": 22003,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-db74b3640c98",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 5,
+      "classification": "PASS",
+      "elapsed_seconds": 137.0,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "immutable_image_id": "sha256:acad85904c7011374316d5b44ecb8967628eb3fd6da9ddd2744c0be396728be6",
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 4391,
+          "target_commit": "954887b39f13ab0beabb11a604bd3bf9de1b4c0e",
+          "task_id": "saleor-rc-954887b39f13",
+          "volume": "r4n12_vu_422bca69f329_saleor_rc_954887b39f13_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-954887b39f13"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "9dea614672dd1c8aa493c9200e1302420d7af7bffdddd87ff0c90ec2316e726f",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {
+          "pipx": "/usr/bin/pipx"
+        },
+        "install_ms": 21575,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-422bca69f329",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 6,
+      "classification": "PASS",
+      "elapsed_seconds": 139.21,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "immutable_image_id": "sha256:465462307d07236a5424b146f3e19f9462970121a21e17f331db849c8008d2ac",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "materialized": [
+        {
+          "file_count": 4580,
+          "target_commit": "e0f2933d58b973ae61ca26b22a89da026aaaa7ad",
+          "task_id": "saleor-rc-e0f2933d58b9",
+          "volume": "r4n12_vu_13c1de1de71e_saleor_rc_e0f2933d58b9_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-e0f2933d58b9"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "0d63037d95d4697532421dffb8107b15f4ab3b4f753f4f297b0c5aae1cb15bac",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 21416,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-13c1de1de71e",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 7,
+      "classification": "PASS",
+      "elapsed_seconds": 531.99,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "immutable_image_id": "sha256:7862b9ecf8aa34e536a5b9eee545baa79318d9ef38704fa38525aba9426c52a3",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "materialized": [
+        {
+          "file_count": 4484,
+          "target_commit": "3bf31ab2fefca154d841803c9fc71057938ce5f9",
+          "task_id": "saleor-rc-3bf31ab2fefc",
+          "volume": "r4n12_vu_b78ebcf3e530_saleor_rc_3bf31ab2fefc_0"
+        },
+        {
+          "file_count": 4451,
+          "target_commit": "95dbffbc523a5a8865ead2a2649913491ac8e89c",
+          "task_id": "saleor-rc-95dbffbc523a",
+          "volume": "r4n12_vu_b78ebcf3e530_saleor_rc_95dbffbc523a_1"
+        },
+        {
+          "file_count": 4467,
+          "target_commit": "b356a525ba2ab918b85b6b617ac4df499e70e247",
+          "task_id": "saleor-rc-b356a525ba2a",
+          "volume": "r4n12_vu_b78ebcf3e530_saleor_rc_b356a525ba2a_2"
+        },
+        {
+          "file_count": 4491,
+          "target_commit": "ce3b63edecef7c942ac88888a4bc77149086bbd3",
+          "task_id": "saleor-rc-ce3b63edecef",
+          "volume": "r4n12_vu_b78ebcf3e530_saleor_rc_ce3b63edecef_3"
+        },
+        {
+          "file_count": 4451,
+          "target_commit": "ffe3a3ece0fb29cfbb7c02a032c86da31d17e8b3",
+          "task_id": "saleor-rc-ffe3a3ece0fb",
+          "volume": "r4n12_vu_b78ebcf3e530_saleor_rc_ffe3a3ece0fb_4"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-3bf31ab2fefc",
+        "saleor-rc-95dbffbc523a",
+        "saleor-rc-b356a525ba2a",
+        "saleor-rc-ce3b63edecef",
+        "saleor-rc-ffe3a3ece0fb"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "ac582d9b298c0ba0dbd578ed36ff48a1cc4a99a9631760c82f61d6dc1c7f118f",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 22610,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "import_wt1": "0",
+          "import_wt2": "0",
+          "import_wt3": "0",
+          "import_wt4": "0",
+          "manage_wt0": "0",
+          "manage_wt1": "0",
+          "manage_wt2": "0",
+          "manage_wt3": "0",
+          "manage_wt4": "0",
+          "pytest_wt0": "0",
+          "pytest_wt1": "0",
+          "pytest_wt2": "0",
+          "pytest_wt3": "0",
+          "pytest_wt4": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1",
+          "wt1": "1",
+          "wt2": "1",
+          "wt3": "1",
+          "wt4": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-b78ebcf3e530",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 8,
+      "classification": "PASS",
+      "elapsed_seconds": 126.64,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "immutable_image_id": "sha256:a8687d9c7c5c8502ad019c1877e4c632ddc005f8c3b56a33a46bb3373c2ffb3a",
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "materialized": [
+        {
+          "file_count": 4391,
+          "target_commit": "0179b331be386e5075b69b868a8a16005a563b56",
+          "task_id": "saleor-rc-0179b331be38",
+          "volume": "r4n12_vu_bfe987de6e53_saleor_rc_0179b331be38_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-0179b331be38"
+      ],
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "python_version": "3.12",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "6467e3e28221d6b64c5a284380ea9fc819210f613e91a0fa8c5b66d9a4b1a50f",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 22596,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-bfe987de6e53",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "calibration_index": 9,
+      "classification": "PASS",
+      "elapsed_seconds": 96.68,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:b3e7e8903350e8c3c89801df6113009a114b0553cca428d096c0847ac6122403",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 1469,
+          "target_commit": "208833e2fa53e41a0ef8767961edafe09240a3f5",
+          "task_id": "saleor-rc-208833e2fa53",
+          "volume": "r4n12_vu_eda4e9f82401_saleor_rc_208833e2fa53_0"
+        },
+        {
+          "file_count": 1460,
+          "target_commit": "63a31dd3c8ca9f366b53756fc75c6679fd9768e5",
+          "task_id": "saleor-rc-63a31dd3c8ca",
+          "volume": "r4n12_vu_eda4e9f82401_saleor_rc_63a31dd3c8ca_1"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-208833e2fa53",
+        "saleor-rc-63a31dd3c8ca"
+      ],
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "python_version": "3.8",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "03846a3ab4a3293aabcffc86522edb816e7261471233bc71efa7517d820ef989",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 16276,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "import_wt1": "0",
+          "manage_wt0": "0",
+          "manage_wt1": "0",
+          "pytest_wt0": "0",
+          "pytest_wt1": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1",
+          "wt1": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-eda4e9f82401",
+      "wheelhouse_era": "py38"
+    },
+    {
+      "calibration_index": 10,
+      "classification": "PASS",
+      "elapsed_seconds": 155.14,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:94246e6bc8ae952f2172bac25973118a3d5d99f5fbed54bb451b55954067ac28",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 1931,
+          "target_commit": "10889526d151d0817d6ca41fdf876e95921a255d",
+          "task_id": "saleor-rc-10889526d151",
+          "volume": "r4n12_vu_457f26c93ff1_saleor_rc_10889526d151_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-10889526d151"
+      ],
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "python_version": "3.9",
+      "recovery_overlay_consumed": {
+        "expected_pylint": "2.9.6",
+        "installed_pylint": "2.9.6",
+        "manifest_sha256": "0ac1fa2bd7b078d99c05a92f90d2dba886454377f7c1d392065e6db4ec8ea902",
+        "overlay_path": "D:\\wp2_env_store\\recovery\\r4e_pylint_py39\\wheels\\pylint-2.9.6-py3-none-any.whl",
+        "wheel_filename": "pylint-2.9.6-py3-none-any.whl",
+        "wheel_sha256": "2e1a0eb2e8ab41d6b5dbada87f066492bb1557b12b76c47c2ee8aa8a11186594"
+      },
+      "requirements_lock_sha256": "8dd1665a0f93915aaec0361909496290726c3e9260babcd1c80e5e6bbedae7b2",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 18221,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "version_probes": {
+          "pylint": "2.9.6"
+        },
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-457f26c93ff1",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "calibration_index": 11,
+      "classification": "PASS",
+      "elapsed_seconds": 131.93,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:4332cce523045c92934bb5b1c6f422c9527d9c01fa70aa9dc7bb3b70d7776523",
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 3696,
+          "target_commit": "f4eeba7fab16c9ab74ea14e8ff9fe1b2d60f2438",
+          "task_id": "saleor-rc-f4eeba7fab16",
+          "volume": "r4n12_vu_ffe68ddec229_saleor_rc_f4eeba7fab16_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-f4eeba7fab16"
+      ],
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "python_version": "3.9",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "3769d72848da6509f0fbd982246e4b1e562c8a63b4e8b15af58cb2826a014710",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 21589,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-ffe68ddec229",
+      "wheelhouse_era": "py39"
+    },
+    {
+      "calibration_index": 12,
+      "classification": "PASS",
+      "elapsed_seconds": 69.36,
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f-runtimeclean:r4-toolhouse-clean-20261014",
+      "immutable_image_id": "sha256:8c90d36aca1393a619f4448e1adfd6c307f27518c44df7baa6320d1ebaaec3ae",
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "materialized": [
+        {
+          "file_count": 1731,
+          "target_commit": "add4064d238ea4b1f012786f72d3e566221b436b",
+          "task_id": "saleor-rc-add4064d238e",
+          "volume": "r4n12_vu_0e0ef31c7634_saleor_rc_add4064d238e_0"
+        }
+      ],
+      "member_task_ids": [
+        "saleor-rc-add4064d238e"
+      ],
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "python_version": "3.9",
+      "recovery_overlay_consumed": null,
+      "requirements_lock_sha256": "fcfc58087b4a0b5fcf98abeedab2a3a88b9b5b6a25087fc9da63987624e30638",
+      "result": "PASS",
+      "run": {
+        "exec_resolutions": {},
+        "install_ms": 16790,
+        "install_rc": 0,
+        "native_failures": [],
+        "network_status": "NETWORK_UNAVAILABLE",
+        "pipcheck_rc": 0,
+        "smoke": {
+          "import_wt0": "0",
+          "manage_wt0": "0",
+          "pytest_wt0": "0"
+        },
+        "stages": [
+          "STAGE_INSTALL_BEGIN",
+          "STAGE_INSTALL_END",
+          "STAGE_PIPCHECK_END",
+          "STAGE_NATIVE_END",
+          "STAGE_SPECIAL_PROBES_END",
+          "STAGE_SMOKE_BEGIN",
+          "STAGE_SMOKE_END"
+        ],
+        "toolhouse_present": [],
+        "wt_is_dir": {
+          "wt0": "1"
+        }
+      },
+      "source_fidelity_inputs": [],
+      "validation_unit_id": "vu-0e0ef31c7634",
+      "wheelhouse_era": "py39"
+    }
+  ],
+  "verdict": "PASS_READY_FOR_FULL144_PREEXECUTION_FREEZE"
+}
