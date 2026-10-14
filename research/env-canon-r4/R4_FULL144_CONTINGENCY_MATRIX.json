@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_DOCKER_IMAGE_FAILURE",
+      "cleanup_allowed": "volumes only",
+      "evidence_to_persist": "process_meta.json + raw logs + local vs frozen image id",
+      "failure_class": "missing_or_mismatched_local_image"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_ARTIFACT_RESOLUTION_FAILURE",
+      "cleanup_allowed": "none",
+      "evidence_to_persist": "resolution missing/incompatible lists",
+      "failure_class": "missing_local_artifact"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_LINUX_MATERIALIZATION_FAILURE",
+      "cleanup_allowed": "created volume",
+      "evidence_to_persist": "raw materialize stdout/stderr + volume state",
+      "failure_class": "linux_materialization_failure"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_OFFLINE_INSTALL_FAILURE",
+      "cleanup_allowed": "volumes",
+      "evidence_to_persist": "install.log + install_rc + pipfreeze",
+      "failure_class": "offline_install_failure"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_DEPENDENCY_CONSISTENCY_FAILURE",
+      "cleanup_allowed": "volumes",
+      "evidence_to_persist": "pipcheck.log + pipcheck_rc",
+      "failure_class": "pip_check_failure"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_NATIVE_PROBE_FAILURE",
+      "cleanup_allowed": "volumes",
+      "evidence_to_persist": "native.json + native_failures",
+      "failure_class": "native_probe_failure"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_IMPORT_SMOKE_FAILURE | ENV_FRAMEWORK_GATE_FAILURE | ENV_PYTEST_COLLECTION_FAILURE",
+      "cleanup_allowed": "volumes",
+      "evidence_to_persist": "smoke logs + rc markers",
+      "failure_class": "import_manage_pytest_failure"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "ENV_TIMEOUT",
+      "cleanup_allowed": "volumes",
+      "evidence_to_persist": "process_meta returncode=124 + raw logs",
+      "failure_class": "timeout"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "TOOLING_OR_INSTRUMENTATION_FAILURE",
+      "cleanup_allowed": "none",
+      "evidence_to_persist": "raw stdout/stderr + process_meta",
+      "failure_class": "instrumentation_failure"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "SCIENTIFIC_AUTHORITY_AMBIGUITY",
+      "cleanup_allowed": "none",
+      "evidence_to_persist": "conflicting authorities snapshot",
+      "failure_class": "authority_ambiguity"
+    },
+    {
+      "automatic_continuation": "NO",
+      "classification": "HOST_DISK_EXHAUSTION",
+      "cleanup_allowed": "temporary materialized merged wheels only",
+      "evidence_to_persist": "free-bytes snapshot",
+      "failure_class": "disk_exhaustion"
+    },
+    {
+      "automatic_continuation": "NO (next resume runs next unit only; partial unit STOP_OWNER_REVIEW)",
+      "classification": "HOST_INTERRUPTION",
+      "cleanup_allowed": "none",
+      "evidence_to_persist": "intent.json + progress.json",
+      "failure_class": "unexpected_host_interruption"
+    }
+  ],
+  "default": "FAIL_CLOSED",
+  "hash": "c34170fef1100e2ac489655faa99bbf2e6016a7723106692cce67afb368d50e5",
+  "mission_id": "M17_D7_R4_FULL144_PREEXECUTION_FREEZE",
+  "no_scientific_recovery": true,
+  "no_semantic_retry": true,
+  "schema_version": "env-canon-r4-full144/contingency/1.0"
+}
