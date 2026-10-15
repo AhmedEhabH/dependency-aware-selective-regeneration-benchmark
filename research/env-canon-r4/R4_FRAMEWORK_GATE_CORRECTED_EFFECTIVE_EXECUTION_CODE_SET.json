@@ -1,0 +1,47 @@
+{
+  "artifact": "R4_FRAMEWORK_GATE_CORRECTED_EFFECTIVE_EXECUTION_CODE_SET",
+  "mission_id": "M17_D7_R4_FRAMEWORK_GATE_PHASE3_REPAIR",
+  "schema_version": "env-canon-r4/framework-gate-corrected/effective-execution-code-set/1.0",
+  "purpose": "Freeze the exact effective execution-code set for the CORRECTED Full144 run (restart from Unit 1 under the Phase-2 Candidate-C manage-gate semantics). The only execution-code change vs the predecessor successor set is the corrected qualified runner (repo-authored pytest settings module resolved per worktree for the manage gate).",
+  "aggregate_hash_method": "SHA-256 over the LF-joined sorted lines '<sha256>  <path>', paths sorted lexicographically, one trailing LF (identical to the predecessor successor method; hashes are of git-blob LF-normalized bytes).",
+  "aggregate_hash": "a74f718ded7af8b03a68ae74547ad5279fc4d7d0784b8931b8d9bc0395b73ffb",
+  "members": [
+    {
+      "path": "src/benchmark/wp2/full144/driver.py",
+      "sha256": "a5932fab58d078561df535a2a6b42e458b1d1e7639018479d1d1947b06c532d0",
+      "git_blob_sha1": "66045d0e12a3c37a779720b9e0c86986beb9254f",
+      "role": "Full144 execution driver (additive refreeze: run root overridable via R4_FULL144_RUN_ROOT; default remains the frozen historical root)",
+      "successor_changed": false
+    },
+    {
+      "path": "src/benchmark/wp2/full144/population.py",
+      "sha256": "d8ecb8cfeed8da7e226ce39a2e915fd3a60de170ceca5fe24f9734dc97a56f44",
+      "git_blob_sha1": "647279be96fa21410dd5dc3e1194c77128989cec",
+      "role": "Frozen Full144 population/order/binding authority used by the driver",
+      "successor_changed": false
+    },
+    {
+      "path": "scripts/r4_behavioral_calibration_n12_r2.py",
+      "sha256": "f906539f259909c875219733e70fcf4d1e7bb6ac401c6a40f032417ed49dd838",
+      "git_blob_sha1": "94b797d8c0b6ac396b63988d02a4aa2186f2d1db",
+      "role": "CORRECTED qualified runner: manage-gate settings module resolved from the exact materialized worktree (repo-authored pytest settings module; Phase-2 Candidate C). All other behavioural semantics unchanged.",
+      "successor_changed": true
+    },
+    {
+      "path": "src/benchmark/wp2/env_r4/route_closure.py",
+      "sha256": "327ade0f5e535402c2941542a2ab2cd234ea4c67dfaecded6d7862c1b0d53952",
+      "git_blob_sha1": "2ce07d26751721039aa96cd05920528e5ae0b7a6",
+      "role": "Successor D7 install-route closure projection (reuses frozen R3 closure; generic route-authority rule; R4-B parser untouched)",
+      "successor_changed": false
+    }
+  ],
+  "excluded_unchanged_frozen": [
+    "src/benchmark/wp2/env_r4/contracts.py",
+    "src/benchmark/wp2/env_r4/uv_adapter.py",
+    "src/benchmark/wp2/env_r4/integrated_parser.py",
+    "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+    "src/benchmark/wp2/env_r4/linux_tree_wiring.py",
+    "src/benchmark/wp2/linux_adapter.py"
+  ],
+  "exclusion_rule": "Unchanged modules required by the execution path are already frozen by git blobs and covered by the frozen-invariance audit; only modules whose changed behaviour is required by the corrected path are members."
+}

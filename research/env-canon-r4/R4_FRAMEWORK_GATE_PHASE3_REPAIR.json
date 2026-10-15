@@ -1,0 +1,161 @@
+{
+  "mission_id": "M17_D7_R4_FRAMEWORK_GATE_PHASE3_REPAIR",
+  "schema_version": "env-canon-r4/framework-gate-phase3-repair/1.0",
+  "terminal_verdict": "PASS_FRAMEWORK_GATE_REPAIR_READY_FOR_CORRECTED_FULL144_EXECUTION",
+  "mission_type": "narrow implementation + targeted qualification + corrected Full144 pre-execution refreeze",
+  "phase2_authority": {
+    "decision_json": "research/env-canon-r4/R4_FRAMEWORK_GATE_PHASE2_DECISION.json",
+    "decision_md": "research/env-canon-r4/R4_FRAMEWORK_GATE_PHASE2_DECISION.md",
+    "decision_sha256": "0a54dbb003966438d3c7373949ec7a75d71e5b003161a3bddad1d231df0bdd1a",
+    "phase2_tag": "m17-d7-r4-framework-gate-phase2-decision-r1-2026-10-15",
+    "phase2_tag_peel": "06610ef13fcf635aafdfe5cf94128e160d2e799c",
+    "starting_head_verified": "06610ef13fcf635aafdfe5cf94128e160d2e799c",
+    "chosen_candidate": "C",
+    "rule": "manage.py check --settings=<repo-authored pytest Django settings module resolved from the exact materialized worktree>"
+  },
+  "phase1_frozen_audit_artifacts": {
+    "audit_json": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_AUDIT_144.json",
+    "signatures_json": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_SIGNATURES_144.json",
+    "probe_tsv": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_PROBE_219.tsv",
+    "modern_signature": {
+      "id": "ce2098d479b46173",
+      "commits": 218,
+      "units": 143,
+      "repo_pytest_settings_module": "saleor.tests.settings"
+    },
+    "legacy_signature": {
+      "id": "9b783a672de2042b",
+      "commit": "8220a53473bb67bbb247490cbd043c56dac4568c",
+      "units": 1,
+      "unit": 56,
+      "repo_pytest_settings_module": "tests.settings"
+    }
+  },
+  "exact_code_change": {
+    "file": "scripts/r4_behavioral_calibration_n12_r2.py",
+    "location": "manage-gate command inside container_script (formerly hardcoded --settings=saleor.tests.settings)",
+    "old": "python manage.py check --settings=saleor.tests.settings",
+    "new": "python manage.py check --settings=<resolved repo-authored pytest settings module>",
+    "added_artifacts": [
+      "scripts/r4_framework_gate_phase3_static_replay.py",
+      "scripts/r4_framework_gate_phase3_qualify.py",
+      "scripts/r4_full144_corrected_launcher.ps1",
+      "scripts/r4_full144_corrected_preflight.py",
+      "research/env-canon-r4/R4_FRAMEWORK_GATE_CORRECTED_EFFECTIVE_EXECUTION_CODE_SET.json",
+      "tests/unit/wp2/env_r4/test_r4_framework_gate_phase3_repair.py"
+    ]
+  },
+  "resolver_semantics": {
+    "sources_inspected": ["setup.cfg", "pytest.ini", "pyproject.toml"],
+    "extraction": "narrow port of Phase-1 pytest_ds_modules (--ds=<module>), order setup.cfg then pytest.ini then pyproject.toml",
+    "exactly_one_module": true,
+    "fail_closed_on": {
+      "zero_modules": "NO_REPO_AUTHORED_SETTINGS_MODULE",
+      "multiple_conflicting": "CONFLICTING_SETTINGS_MODULES",
+      "malformed": "MALFORMED_SETTINGS_MODULE",
+      "absent_from_worktree": "SETTINGS_MODULE_ABSENT"
+    },
+    "no_identity_selection": true,
+    "no_hardcoded_fallback": true
+  },
+  "static_replay": {
+    "script": "scripts/r4_framework_gate_phase3_static_replay.py",
+    "input": "frozen R4_FRAMEWORK_SEMANTICS_PROBE_219.tsv + R4_FRAMEWORK_SEMANTICS_AUDIT_144.json (no git rescan)",
+    "total_commits": 219,
+    "resolvable": 219,
+    "modern_saleor_tests_settings": 218,
+    "legacy_tests_settings": 1,
+    "unresolved": 0,
+    "conflicting": 0,
+    "frozen_repo_module_mismatches": 0,
+    "verdict": "PASS"
+  },
+  "targeted_tests": {
+    "file": "tests/unit/wp2/env_r4/test_r4_framework_gate_phase3_repair.py",
+    "run": "16 passed",
+    "coverage": [
+      "modern config resolves saleor.tests.settings",
+      "legacy config resolves tests.settings",
+      "missing settings declaration fails closed",
+      "conflicting settings declarations fail closed",
+      "referenced settings module absent from worktree fails closed",
+      "no task/unit/commit-specific selection exists",
+      "manage command uses the resolved module",
+      "pytest/import behavior unchanged",
+      "frozen 219/219 static replay consistent"
+    ]
+  },
+  "real_qualification": {
+    "root": "D:\\WP2\\runs\\r4-framework-gate-phase3-qualification-2026-10-15",
+    "network": "--network=none (no pulls/downloads/builds)",
+    "legacy_target": {
+      "validation_unit_id": "vu-cdcf3222cbb5",
+      "unit_index": 56,
+      "target_commit": "8220a53473bb67bbb247490cbd043c56dac4568c",
+      "task_id": "saleor-rc-8220a53473bb",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d-runtimeclean:r4-toolhouse-clean-20261014",
+      "resolved_manage_settings_module": "tests.settings",
+      "install_rc": 0,
+      "pipcheck_rc": 0,
+      "native_failures": [],
+      "import_rc": 0,
+      "manage_rc": 0,
+      "pytest_rc": 0,
+      "result": "PASS",
+      "classification": "PASS"
+    },
+    "modern_control": {
+      "validation_unit_id": "vu-eda4e9f82401",
+      "unit_index": 47,
+      "target_commits": ["208833e2fa53e41a0ef8767961edafe09240a3f5", "63a31dd3c8ca9f366b53756fc75c6679fd9768e5"],
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d-runtimeclean:r4-toolhouse-clean-20261014",
+      "resolved_manage_settings_module": "saleor.tests.settings",
+      "manage_rc_wt0": 0,
+      "manage_rc_wt1": 0,
+      "import_rc": [0, 0],
+      "pytest_rc": [0, 0],
+      "result": "PASS",
+      "classification": "PASS"
+    }
+  },
+  "invariance_statement": "Only the manage-gate settings-module resolution changed in the qualified runner (Phase-2 Candidate C). import smoke, pytest smoke, gate ordering, rc classification, timeout semantics, network semantics, install semantics, population definition/order, providers, lock closure, images, artifact store, source materializer, dependency rules are all UNCHANGED.",
+  "corrected_full144_run": {
+    "run_root": "D:\\WP2\\runs\\r4-full-d7-144-framework-corrected-2026-10-15",
+    "freeze_path": "D:\\WP2\\runs\\r4-full-d7-144-framework-corrected-2026-10-15\\freeze\\PRE_EXECUTION_FREEZE.json",
+    "launcher_path": "scripts/r4_full144_corrected_launcher.ps1",
+    "preflight_module": "scripts/r4_full144_corrected_preflight.py",
+    "effective_execution_code_set_manifest": "research/env-canon-r4/R4_FRAMEWORK_GATE_CORRECTED_EFFECTIVE_EXECUTION_CODE_SET.json",
+    "aggregate_hash": "a74f718ded7af8b03a68ae74547ad5279fc4d7d0784b8931b8d9bc0395b73ffb",
+    "corrected_runner_sha256": "f906539f259909c875219733e70fcf4d1e7bb6ac401c6a40f032417ed49dd838",
+    "restart_from_unit_1": true,
+    "no_prior_scientific_evidence_imported": true,
+    "sequential_concurrency_1": true,
+    "fail_fast_unchanged": true,
+    "no_skip_reorder_rerun": true,
+    "atomic_checkpoint_restart": true,
+    "network_policy": "--network=none; no pull/build/download/acquire",
+    "full144_scientific_units_executed": 0
+  },
+  "canonical_failed_run_untouched": {
+    "run_root": "D:\\WP2\\runs\\r4-full-d7-144-successor-2026-10-15",
+    "freeze_record_sha256": "5c3ec3bdec80c2e2bf1e48868aec463ccb2de428c9db50a5956f3d5c749e13a0",
+    "progress": "55 PASS + Unit 56 ENV_FRAMEWORK_GATE_FAILURE; stopped_early false; 56 unit dirs present",
+    "launcher_log_stop": "FAIL_CLOSED UNIT_FAIL vu-cdcf3222cbb5 -> ENV_FRAMEWORK_GATE_FAILURE (evidence persisted; run STOPPED)",
+    "no_modification_performed": true
+  },
+  "predecessor_worktree_unchanged": {
+    "path": "D:\\WP2\\active\\r4-full144-successor-refreeze",
+    "head": "def15aefde83ba9d590133b5215413bff183aa11",
+    "tracked_clean": true
+  },
+  "forbidden_actions_not_performed": [
+    "no Full144 scientific unit executed (scientific execution count = 0)",
+    "no evidence imported from the failed run",
+    "no task/unit/commit-specific conditional in resolver",
+    "no new universal hardcoded settings module",
+    "no manage-gate removal or weakening",
+    "no population/order/provider/lock/image/store/materializer change",
+    "no pytest/import command change",
+    "no new population census"
+  ]
+}

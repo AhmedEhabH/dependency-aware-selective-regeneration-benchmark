@@ -38,9 +38,11 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import time
+from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -706,6 +708,145 @@ def recovery_overlay_input() -> dict[str, Any]:
     raise CalibrationFailClosedError("recovery manifest missing pylint == 2.9.6")
 
 
+# ---------------------------------------------------------------------------
+# Manage-gate settings resolution (M17_D7_R4_FRAMEWORK_GATE_PHASE3_REPAIR)
+# ---------------------------------------------------------------------------
+# Phase-2 ruling (Candidate C): the manage gate must run
+# ``python manage.py check --settings=<repo-authored pytest Django settings
+# module>`` where the module is resolved from the EXACT materialized worktree.
+# This is a narrow port of the Phase-1 repository-authored extraction
+# (``pytest_ds_modules`` in ``scripts/r4_framework_semantics_audit_144.py``)
+# plus fail-closed resolution.  No task/unit/commit identity is ever used.
+REPO_PYTEST_DS_RE = re.compile(r"--ds\s*=\s*([^\s\"',\]]+)")
+DOTTED_MODULE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$")
+
+
+class SettingsResolutionError(CalibrationFailClosedError):
+    """Manage-gate settings-module resolution failure (fail closed)."""
+
+
+def pytest_ds_modules(setup_cfg: str, pytest_ini: str, pyproject: str) -> list[str]:
+    """Collect every ``--ds=<module>`` from pytest config files (Phase-1 semantics).
+
+    Order of inspection is exactly the Phase-1 order: ``setup.cfg``, then
+    ``pytest.ini``, then ``pyproject.toml``; duplicates are removed preserving
+    first occurrence.
+    """
+    found: list[str] = []
+    for content in (setup_cfg, pytest_ini, pyproject):
+        if not content:
+            continue
+        for m in REPO_PYTEST_DS_RE.finditer(content):
+            module = m.group(1).strip()
+            if module not in found:
+                found.append(module)
+    return found
+
+
+def resolve_repo_pytest_settings_from_texts(
+    setup_cfg: str,
+    pytest_ini: str,
+    pyproject: str,
+    module_exists: Callable[[str], bool],
+) -> str:
+    """Resolve exactly one repository-authored pytest Django settings module.
+
+    Fail closed (``SettingsResolutionError``) on:
+    * zero authored modules;
+    * multiple distinct authored modules (conflicting);
+    * a malformed dotted module;
+    * a referenced module absent from the exact materialized worktree.
+
+    Never falls back silently to any hardcoded module.
+    """
+    modules = pytest_ds_modules(setup_cfg, pytest_ini, pyproject)
+    if not modules:
+        raise SettingsResolutionError("NO_REPO_AUTHORED_SETTINGS_MODULE")
+    if len(modules) > 1:
+        raise SettingsResolutionError(f"CONFLICTING_SETTINGS_MODULES {modules}")
+    module = modules[0]
+    if not DOTTED_MODULE_RE.match(module):
+        raise SettingsResolutionError(f"MALFORMED_SETTINGS_MODULE {module!r}")
+    if not module_exists(module):
+        raise SettingsResolutionError(f"SETTINGS_MODULE_ABSENT {module!r}")
+    return module
+
+
+def _module_file_exists(wt: Path, module: str) -> bool:
+    rel = module.replace(".", "/")
+    return (wt / f"{rel}.py").is_file() or (wt / rel / "__init__.py").is_file()
+
+
+def resolve_repo_pytest_settings(wt: Path) -> str:
+    """Resolve the repository-authored pytest settings module from an exact worktree.
+
+    ``wt`` is the EXACT MATERIALIZED worktree being checked.  Only the
+    repository-authored pytest config files relevant to Django settings
+    resolution are inspected (``setup.cfg`` / ``pytest.ini`` / ``pyproject.toml``).
+    """
+    def _read(name: str) -> str:
+        p = wt / name
+        try:
+            return p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            return ""
+
+    return resolve_repo_pytest_settings_from_texts(
+        _read("setup.cfg"),
+        _read("pytest.ini"),
+        _read("pyproject.toml"),
+        lambda module: _module_file_exists(wt, module),
+    )
+
+
+# Self-contained resolver program executed INSIDE the container per worktree.
+# The host-side functions above mirror it exactly; the targeted tests run both
+# against identical fixture worktrees to prove byte-level semantic agreement.
+REPO_SETTINGS_RESOLVER_PROGRAM = r"""
+import os, re, sys
+
+def ds_modules(setup_cfg, pytest_ini, pyproject):
+    found = []
+    for content in (setup_cfg, pytest_ini, pyproject):
+        if not content:
+            continue
+        for m in re.finditer(r"--ds\s*=\s*([^\s\"',\]]+)", content):
+            module = m.group(1).strip()
+            if module not in found:
+                found.append(module)
+    return found
+
+def main(wt):
+    def read(name):
+        p = os.path.join(wt, name)
+        try:
+            with open(p, "r", encoding="utf-8", errors="replace") as fh:
+                return fh.read()
+        except OSError:
+            return ""
+    modules = ds_modules(read("setup.cfg"), read("pytest.ini"), read("pyproject.toml"))
+    if not modules:
+        print("FAIL:NO_REPO_AUTHORIZED_SETTINGS_MODULE")
+        return 1
+    if len(modules) > 1:
+        print("FAIL:CONFLICTING_SETTINGS_MODULES " + ",".join(modules))
+        return 1
+    module = modules[0]
+    if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$", module):
+        print("FAIL:MALFORMED_SETTINGS_MODULE " + module)
+        return 1
+    rel = module.replace(".", "/")
+    if not (os.path.isfile(os.path.join(wt, rel + ".py"))
+            or os.path.isfile(os.path.join(wt, rel, "__init__.py"))):
+        print("FAIL:SETTINGS_MODULE_ABSENT " + module)
+        return 1
+    print("OK:" + module)
+    return 0
+
+sys.exit(main(sys.argv[1]))
+"""
+
+
 def container_script(_uid: str, wt_count: int, native_pkgs: list[str],
                      special: dict[str, Any]) -> str:
     """Frozen D7/R3 behavioral container script (semantics reused verbatim)."""
@@ -858,8 +999,30 @@ PYEOF''',
             "    echo \"IMPORT_RC_$(basename $wt)=$?\"",
             "    cp /tmp/d7/import_$(basename $wt).log /out/import_$(basename $wt).log",
             "    if [ -f manage.py ]; then",
-            "      python manage.py check --settings=saleor.tests.settings >/tmp/d7/manage_$(basename $wt).log 2>&1",
-            "      echo \"MANAGE_RC_$(basename $wt)=$?\"",
+            "      R4_SETTINGS_RESULT=\"$(python - \"$wt\" <<'R4DS_PYEOF'",
+            *REPO_SETTINGS_RESOLVER_PROGRAM.strip("\n").splitlines(),
+            "R4DS_PYEOF",
+            ")\"",
+            "      R4_RESOLVE_RC=$?",
+            "      if [ \"$R4_RESOLVE_RC\" -eq 0 ]; then",
+            "        case \"$R4_SETTINGS_RESULT\" in",
+            "          OK:*)",
+            "            R4_SETTINGS_MODULE=\"${R4_SETTINGS_RESULT#OK:}\"",
+            "            python manage.py check --settings=\"$R4_SETTINGS_MODULE\" >/tmp/d7/manage_$(basename $wt).log 2>&1",  # noqa: E501
+            "            echo \"MANAGE_RC_$(basename $wt)=$?\"",
+            "            echo \"MANAGE_SETTINGS_$(basename $wt)=$R4_SETTINGS_MODULE\"",
+            "            ;;",
+            "          *)",
+            "            echo \"R4_MANAGE_SETTINGS_FAILURE $R4_SETTINGS_RESULT\" >/tmp/d7/manage_$(basename $wt).log 2>&1",  # noqa: E501
+            "            echo \"MANAGE_RC_$(basename $wt)=1\"",
+            "            echo \"MANAGE_SETTINGS_$(basename $wt)=RESOLUTION_FAIL:$R4_SETTINGS_RESULT\"",
+            "            ;;",
+            "        esac",
+            "      else",
+            "        echo \"R4_MANAGE_SETTINGS_FAILURE $R4_SETTINGS_RESULT\" >/tmp/d7/manage_$(basename $wt).log 2>&1",
+            "        echo \"MANAGE_RC_$(basename $wt)=1\"",
+            "        echo \"MANAGE_SETTINGS_$(basename $wt)=RESOLUTION_FAIL:$R4_SETTINGS_RESULT\"",
+            "      fi",
             "      cp /tmp/d7/manage_$(basename $wt).log /out/manage_$(basename $wt).log",
             "    else",
             "      echo \"MANAGE_RC_$(basename $wt)=SKIP\"",
