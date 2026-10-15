@@ -5,9 +5,10 @@
   "verdict": "PASS_POETRY_CLOSURE_SUCCESSOR_READY_FOR_FULL144_REFREEZE",
   "branch": "parallel/d7-r4-poetry21-closure-successor-2026-10-14",
   "starting_head": "783903d0fc22d1378291cf791c175d39eaa500be",
-  "final_commit": "b6580bd4f863e6fdc52ff99937bb7b4d97369a09",
-  "remote_equals_local": null,
-  "tracked_worktree_clean": null,
+  "final_commit": "3ca080ddc912623c3ad42bd5de84ec9497b15c80",
+  "successor_freeze_commit": "b6580bd4f863e6fdc52ff99937bb7b4d97369a09",
+  "remote_equals_local": true,
+  "tracked_worktree_clean": true,
   "exact_authority_decision": {
     "classification": "C_LOCK_CLOSURE_PARSER_DIVERGENCE",
     "ruling": "For D7 behavioral execution the frozen install-route authority governs runtime dependency semantics. For LOCK_FRAGMENT_MAIN_PLUS_DEV the required behavioral closure is the COMPLETE applicable main+dev dependency set per the frozen R3 behavioral authority and D7_REQUIRED_CLOSURE_AUDIT. The successor MUST NOT silently reduce that route to a package-marker-gated subset.",
