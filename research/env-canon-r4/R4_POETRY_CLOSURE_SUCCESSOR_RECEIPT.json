@@ -1,0 +1,60 @@
+{
+  "artifact": "R4_POETRY_CLOSURE_SUCCESSOR_RECEIPT",
+  "schema_version": "env-canon-r4/poetry-closure-successor/receipt/1.0",
+  "mission_id": "M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+  "verdict": "PASS_POETRY_CLOSURE_SUCCESSOR_READY_FOR_FULL144_REFREEZE",
+  "branch": "parallel/d7-r4-poetry21-closure-successor-2026-10-14",
+  "starting_head": "783903d0fc22d1378291cf791c175d39eaa500be",
+  "final_commit": "",
+  "remote_equals_local": null,
+  "tracked_worktree_clean": null,
+  "exact_authority_decision": {
+    "classification": "C_LOCK_CLOSURE_PARSER_DIVERGENCE",
+    "ruling": "For D7 behavioral execution the frozen install-route authority governs runtime dependency semantics. For LOCK_FRAGMENT_MAIN_PLUS_DEV the required behavioral closure is the COMPLETE applicable main+dev dependency set per the frozen R3 behavioral authority and D7_REQUIRED_CLOSURE_AUDIT. The successor MUST NOT silently reduce that route to a package-marker-gated subset.",
+    "ownership_layer": "D7 install-route semantics layer (scripts/r4_behavioral_calibration_n12_r2.py::runtime_pins) via src/benchmark/wp2/env_r4/route_closure.py; R4-B parser untouched",
+    "generic_successor_rule": "For install route LOCK_FRAGMENT_MAIN_PLUS_DEV with a poetry lock, the D7 behavioral closure projection derives the closure from the frozen R3 closure semantics (complete main+dev lock closure, python-versions filtered, then exactly the frozen R3 platform exclusions). All other routes unchanged. Unknown routes fail closed."
+  },
+  "hashes": {
+    "successor_route_closure": "295fc1f454fc205d64b3b30775df9b06d8e42d4555e14d1c8a5261ab405aae87",
+    "runner_runtime_pins": "f020226defb9100774a2f409d505843b5a3cb36b65e5124528f344d7abb3535f",
+    "authority_decision_json": "a20232a053260746b8c80c2c82d710d0b92921641ff30fa2fe8037ab0553468c",
+    "authority_decision_md": "7b9709fe9807949b8655aaae2ce414cee5e7cc43187fbc6529e5ba30a73a5330",
+    "population_audit": "833549b29bf7423836c8744f5aa03a7177a415346519fc7c8413aa74bed439df",
+    "delta_readiness": "589adc469d72f6212088dea7c883aeac9754c3535c20537fc73912d49ac0b408",
+    "invariance_audit": "f72280dc50a75ef46707bc781d6dc9c67e370d247d44e0cae88cf58fc354a74e",
+    "qualification_evidence": "aef3df01a37d22b2be21483683c950167b2998f3644e38c17f7258428d3b6efb",
+    "tests": "6aacc32bb72a1b21f305f70c17d9b3b783c2a60e348a387b216cfdbab341201a"
+  },
+  "population_audit": {
+    "n_units_accounted": 144,
+    "n_tasks_accounted": 219,
+    "n_changed_units": 3,
+    "changed_unit_ids": ["vu-0d8ddec94417", "vu-8228f26085f6", "vu-3a7ebc8e23c7"],
+    "n_semantic_disagreements": 0,
+    "zero_silent_skips": true,
+    "no_unknown_route": true
+  },
+  "artifact_readiness": {
+    "n_unique_added_requirements": 235,
+    "n_unresolved_newly_required": 0,
+    "resolved_ok": true
+  },
+  "qualification": {
+    "run_root": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14",
+    "units": [
+      {"index": 1, "validation_unit_id": "vu-0d8ddec94417", "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV", "result": "PASS", "pins": 252},
+      {"index": 2, "validation_unit_id": "vu-8228f26085f6", "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV", "result": "PASS", "pins": 248},
+      {"index": 3, "validation_unit_id": "vu-3a7ebc8e23c7", "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV", "result": "PASS", "pins": 248},
+      {"index": 4, "validation_unit_id": "vu-e4998719ee01", "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV", "result": "PASS", "pins": 233},
+      {"index": 5, "validation_unit_id": "vu-b68ee1b3ad18", "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV", "result": "PASS", "pins": 232},
+      {"index": 6, "validation_unit_id": "vu-117d7bd068d5", "install_route": "V2_EDITABLE_PLUS_LOCK_DEV", "result": "PASS", "pins": 232}
+    ],
+    "all_pass": true,
+    "n_pass": 6,
+    "n_fail": 0
+  },
+  "frozen_invariance": "FROZEN_INVARIANCE_PASS",
+  "full_d7_not_relaunched": true,
+  "network_download_pull_build": 0,
+  "exact_next_gate": "M17_D7_R4_FULL144_SUCCESSOR_REFREEZE"
+}

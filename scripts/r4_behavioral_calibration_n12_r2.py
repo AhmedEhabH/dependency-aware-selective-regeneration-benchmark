@@ -50,6 +50,7 @@ SRC = PROJECT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from benchmark.wp2.env_r4 import route_closure  # noqa: E402
 from benchmark.wp2.env_r4.contracts import (  # noqa: E402
     LockClosure,
     RuntimeTarget,
@@ -443,39 +444,59 @@ def runtime_pins(uid: str) -> dict[str, Any]:
 
     Uses the qualified R4-B integrated parser for the lock closure, then applies
     the frozen R3 platform exclusions (marker audit + pyproject ``platform=win32``).
+
+    For the ``LOCK_FRAGMENT_MAIN_PLUS_DEV`` poetry route the frozen R3 behavioral
+    authority requires the COMPLETE main+dev dependency closure; the successor
+    ``route_closure`` projection (which reuses the frozen R3 closure semantics)
+    supplies that closure so the route is never silently reduced to a
+    marker-gated subset.  All other routes keep their existing projection.
     """
     plan = load_plan()
     unit = next(c for c in plan["calibration_units"] if c["validation_unit_id"] == uid)
     lock_type = unit["lock_type"]
     python_version = unit["python_version"]
+    install_route = str(unit["install_route"])
     target = RuntimeTarget(python_version, "cpython", "linux", "x86_64")
-
-    bind_integrated_parser()
-    try:
-        closures: list[LockClosure] = []
-        for tid in unit["member_task_ids"]:
-            lock_path = LOCK_DIR / f"{tid}_{lock_type}.toml"
-            if not lock_path.is_file():
-                raise CalibrationFailClosedError(f"lock artifact missing: {lock_path}")
-            closure = parse_lock(lock_path, target)
-            if not closure.is_valid:
-                raise CalibrationFailClosedError(
-                    f"unit {uid} closure invalid: {closure.fail_closed_reasons}"
-                )
-            closures.append(closure)
-    finally:
-        unbind_lock_parser()
 
     # Deduplicate pins across member tasks deterministically.
     pins: dict[str, str] = {}
     editable_selfs: list[str] = []
-    for closure in closures:
-        if closure.editable_self is not None:
-            editable_selfs.append(
-                f"{closure.editable_self.normalized_name}=={closure.editable_self.version}"
-            )
-        for req in closure.requirements:
-            pins[req.normalized_name] = req.version
+
+    if route_closure.route_requires_complete_main_plus_dev(install_route, lock_type):
+        # Successor: frozen R3 complete main+dev closure (reuses d7_r3_closure).
+        for tid in unit["member_task_ids"]:
+            lock_path = LOCK_DIR / f"{tid}_{lock_type}.toml"
+            if not lock_path.is_file():
+                raise CalibrationFailClosedError(f"lock artifact missing: {lock_path}")
+            for pin in route_closure.complete_main_plus_dev_poetry_pins(
+                lock_path, python_version
+            ):
+                name, _, version = pin.partition("==")
+                pins[name] = version
+    else:
+        bind_integrated_parser()
+        try:
+            closures: list[LockClosure] = []
+            for tid in unit["member_task_ids"]:
+                lock_path = LOCK_DIR / f"{tid}_{lock_type}.toml"
+                if not lock_path.is_file():
+                    raise CalibrationFailClosedError(f"lock artifact missing: {lock_path}")
+                closure = parse_lock(lock_path, target)
+                if not closure.is_valid:
+                    raise CalibrationFailClosedError(
+                        f"unit {uid} closure invalid: {closure.fail_closed_reasons}"
+                    )
+                closures.append(closure)
+        finally:
+            unbind_lock_parser()
+
+        for closure in closures:
+            if closure.editable_self is not None:
+                editable_selfs.append(
+                    f"{closure.editable_self.normalized_name}=={closure.editable_self.version}"
+                )
+            for req in closure.requirements:
+                pins[req.normalized_name] = req.version
 
     excluded_marker = marker_excluded_names()
     excluded_codecov_versions = codecov_excluded_versions()

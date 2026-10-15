@@ -1,0 +1,6348 @@
+{
+  "artifact": "R4_POETRY_CLOSURE_SUCCESSOR_POPULATION_AUDIT",
+  "census_sha256": "f60668f88b42d8f7aebb6671dba97d705dc8d2bfbed4046ff7e4332361ec9240",
+  "mission_id": "M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+  "schema_version": "env-canon-r4/poetry-closure-successor-population-audit/1.0",
+  "source_audit_authority": "D:\\wp2_env_store\\manifests\\D7_REQUIRED_CLOSURE_AUDIT_R1.json",
+  "source_census": "D:\\WP2\\active\\r4-poetry21-closure-successor\\research\\env-canon-r4\\R4_I6_CORRECTED_ZERO_CONTAINER_CENSUS_144.json",
+  "summary": {
+    "changed_unit_ids": [
+      "vu-0d8ddec94417",
+      "vu-8228f26085f6",
+      "vu-3a7ebc8e23c7"
+    ],
+    "expected_tasks": 219,
+    "expected_units": 144,
+    "lock_absent": [],
+    "n_changed_units": 3,
+    "n_semantic_disagreements": 0,
+    "n_tasks_accounted": 219,
+    "n_units_accounted": 144,
+    "no_unknown_route": true,
+    "routes": {
+      "LOCK_FRAGMENT_MAIN_PLUS_DEV": 19,
+      "REQ_MAIN_PLUS_LOCK_DEV": 85,
+      "UV_EXPORT": 21,
+      "V2_EDITABLE_PLUS_LOCK_DEV": 19
+    },
+    "semantic_disagreement_ids": [],
+    "verdict_counts": {
+      "MATCH_AFTER_D4_R5_CODECOV": 85,
+      "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS": 59
+    },
+    "zero_silent_skips": true
+  },
+  "units": [
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==308",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 235,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-438595033c60",
+        "saleor-rc-fa1ed1794a8a"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-e4998719ee01"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 234,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-f5d2c47e47c3"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-b68ee1b3ad18"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5f8b1cc4db2d"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-262f45bffe92"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==308",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 250,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-80a33b28b80d"
+      ],
+      "old_r4_closure_count": 248,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 248,
+      "validation_unit_id": "vu-db74b3640c98"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 236,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-697cbdc85b4a",
+        "saleor-rc-8a03c74411d7",
+        "saleor-rc-8eb11da07f09"
+      ],
+      "old_r4_closure_count": 234,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 234,
+      "validation_unit_id": "vu-e878163db06a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 236,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-954887b39f13"
+      ],
+      "old_r4_closure_count": 234,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 234,
+      "validation_unit_id": "vu-422bca69f329"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 234,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-99f9e28f8b6f",
+        "saleor-rc-dea5ffb730ac"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-117d7bd068d5"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 254,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-d7b03a3eeec0"
+      ],
+      "old_r4_closure_count": 252,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 252,
+      "validation_unit_id": "vu-5321e03160a1"
+    },
+    {
+      "added_requirements": [
+        "adyen==4.0.0",
+        "amqp==5.3.1",
+        "aniso8601==7.0.0",
+        "annotated-types==0.7.0",
+        "anyio==4.8.0",
+        "asgiref==3.8.1",
+        "attrs==24.3.0",
+        "authlib==1.5.1",
+        "authorizenet==1.1.5",
+        "azure-common==1.1.28",
+        "azure-core==1.32.0",
+        "azure-storage-blob==12.24.0",
+        "azure-storage-common==2.1.0",
+        "babel==2.16.0",
+        "bcrypt==4.2.1",
+        "beautifulsoup4==4.7.1",
+        "beautifultable==0.7.0",
+        "billiard==4.2.1",
+        "boltons==21.0.0",
+        "boto3==1.37.13",
+        "botocore==1.37.13",
+        "bracex==2.5.post1",
+        "braintree==4.31.0",
+        "cachetools==5.5.0",
+        "celery==5.4.0",
+        "certifi==2024.12.14",
+        "cfgv==3.4.0",
+        "charset-normalizer==3.4.1",
+        "click-didyoumean==0.3.1",
+        "click-option-group==0.5.6",
+        "click-plugins==1.1.1",
+        "click-repl==0.3.0",
+        "click==8.1.8",
+        "coverage==7.6.10",
+        "cron-descriptor==1.4.5",
+        "cryptography==44.0.2",
+        "debugpy==1.8.11",
+        "defusedxml==0.7.1",
+        "deprecated==1.2.15",
+        "deptry==0.23.0",
+        "distlib==0.3.9",
+        "dj-database-url==2.3.0",
+        "dj-email-url==1.0.6",
+        "django-appconf==1.0.6",
+        "django-cache-url==3.4.5",
+        "django-celery-beat==2.7.0",
+        "django-countries==7.6.1",
+        "django-extensions==3.2.3",
+        "django-filter==24.3",
+        "django-js-asset==3.0.1",
+        "django-measurement==3.2.4",
+        "django-mptt==0.16.0",
+        "django-phonenumber-field==8.0.0",
+        "django-prices==2.3.0",
+        "django-storages==1.14.4",
+        "django-stubs-ext==5.1.1",
+        "django-stubs==4.2.7",
+        "django-timezone-field==7.0",
+        "django==4.2.18",
+        "docker==7.1.0",
+        "draftjs-sanitizer==1.0.0",
+        "enmerkar==0.7.1",
+        "et-xmlfile==2.0.0",
+        "execnet==2.1.1",
+        "face==24.0.0",
+        "faker==26.3.0",
+        "fakeredis==2.26.2",
+        "filelock==3.16.1",
+        "freezegun==1.5.1",
+        "glom==22.1.0",
+        "google-api-core==2.24.0",
+        "google-auth==2.37.0",
+        "google-cloud-core==2.4.1",
+        "google-cloud-pubsub==2.27.2",
+        "google-cloud-storage==2.19.0",
+        "google-crc32c==1.6.0",
+        "google-i18n-address==3.1.1",
+        "google-resumable-media==2.7.2",
+        "googleapis-common-protos==1.66.0",
+        "graphene==2.1.9",
+        "graphql-core==2.3.2",
+        "graphql-relay==2.0.1",
+        "grpc-google-iam-v1==0.14.0",
+        "grpcio-status==1.69.0",
+        "grpcio==1.69.0",
+        "h11==0.14.0",
+        "html-to-draftjs==1.0.1",
+        "httptools==0.6.4",
+        "identify==2.6.5",
+        "idna==3.10",
+        "importlib-metadata==8.5.0",
+        "iniconfig==2.0.0",
+        "ipdb==0.13.13",
+        "isodate==0.7.2",
+        "jaeger-client==4.8.0",
+        "jinja2==3.1.5",
+        "jmespath==1.0.1",
+        "jsonschema-specifications==2024.10.1",
+        "jsonschema==4.23.0",
+        "kombu==5.4.2",
+        "linkify-it-py==2.0.3",
+        "lxml==4.9.4",
+        "markdown-it-py==3.0.0",
+        "markdown==3.7",
+        "markupsafe==3.0.2",
+        "mdit-py-plugins==0.4.2",
+        "mdurl==0.1.2",
+        "measurement==3.2.2",
+        "memray==1.15.0",
+        "micawber==0.5.6",
+        "mpmath==1.3.0",
+        "multidict==6.1.0",
+        "mypy-extensions==1.0.0",
+        "mypy==1.7.1",
+        "nodeenv==1.9.1",
+        "oauthlib==3.2.2",
+        "openpyxl==3.1.5",
+        "opentelemetry-api==1.29.0",
+        "opentelemetry-sdk==1.29.0",
+        "opentelemetry-semantic-conventions==0.50b0",
+        "opentracing==2.4.0",
+        "packaging==24.2",
+        "pastel==0.2.1",
+        "peewee==3.17.8",
+        "petl==1.7.15",
+        "phonenumberslite==8.13.52",
+        "pillow-avif-plugin==1.4.6",
+        "pillow==11.1.0",
+        "platformdirs==4.3.6",
+        "pluggy==1.5.0",
+        "poethepoet==0.32.2",
+        "posuto==2025.1.0",
+        "pre-commit==4.0.1",
+        "prices==1.1.1",
+        "promise==2.3",
+        "prompt-toolkit==3.0.48",
+        "propcache==0.2.1",
+        "proto-plus==1.25.0",
+        "protobuf==5.29.2",
+        "psutil==6.1.1",
+        "psycopg-binary==3.2.3",
+        "psycopg==3.2.3",
+        "pyasn1-modules==0.4.1",
+        "pyasn1==0.6.1",
+        "pybars3==0.9.7",
+        "pydantic-core==2.33.0",
+        "pydantic==2.11.1",
+        "pygments==2.19.1",
+        "pyjwt==2.10.1",
+        "pymeta3==0.5.1",
+        "pytest-asyncio==0.25.1",
+        "pytest-celery==1.1.3",
+        "pytest-cov==6.0.0",
+        "pytest-django-queries==1.2.0",
+        "pytest-django==4.9.0",
+        "pytest-docker-tools==3.1.3",
+        "pytest-memray==1.7.0",
+        "pytest-mock==3.14.0",
+        "pytest-recording==0.13.2",
+        "pytest-socket==0.7.0",
+        "pytest-xdist==3.6.1",
+        "pytest==8.3.4",
+        "python-crontab==3.2.0",
+        "python-dateutil==2.9.0.post0",
+        "python-dotenv==1.0.1",
+        "python-http-client==3.3.7",
+        "python-json-logger==3.2.1",
+        "python-magic==0.4.27",
+        "pytimeparse==1.1.8",
+        "pywatchman==2.0.0",
+        "pyxb-x==1.2.6.2",
+        "pyyaml==6.0.2",
+        "razorpay==1.4.2",
+        "redis==5.2.1",
+        "referencing==0.35.1",
+        "requests-hardened==1.0.0",
+        "requests==2.32.3",
+        "requirements-parser==0.11.0",
+        "rich==13.9.4",
+        "rpds-py==0.22.3",
+        "rsa==4.9",
+        "ruamel-yaml==0.17.40",
+        "ruff==0.9.1",
+        "rx==1.6.3",
+        "s3transfer==0.11.4",
+        "semantic-version==2.10.0",
+        "semgrep==1.52.0",
+        "sendgrid==6.11.0",
+        "sentry-sdk==2.19.2",
+        "setuptools==76.0.0",
+        "six==1.17.0",
+        "sniffio==1.3.1",
+        "sortedcontainers==2.4.0",
+        "soupsieve==2.6",
+        "sqlparse==0.5.3",
+        "starkbank-ecdsa==2.2.0",
+        "stripe==3.5.0",
+        "sympy==1.13.3",
+        "tenacity==9.0.0",
+        "text-unidecode==1.3",
+        "textual==1.0.0",
+        "threadloop==1.0.2",
+        "thrift==0.21.0",
+        "tomli==2.0.2",
+        "tornado==6.4.2",
+        "types-certifi==2021.10.8.3",
+        "types-cffi==1.16.0.20241221",
+        "types-freezegun==1.1.10",
+        "types-mock==5.1.0.20240425",
+        "types-pyopenssl==24.1.0.20240722",
+        "types-python-dateutil==2.9.0.20241206",
+        "types-pytz==2024.2.0.20241221",
+        "types-pyyaml==6.0.12.20241230",
+        "types-redis==4.6.0.20241004",
+        "types-requests==2.31.0.6",
+        "types-setuptools==75.6.0.20241223",
+        "types-six==1.17.0.20241205",
+        "types-urllib3==1.26.25.14",
+        "typing-extensions==4.12.2",
+        "typing-inspection==0.4.0",
+        "tzdata==2024.2",
+        "uc-micro-py==1.0.3",
+        "urllib3==1.26.20",
+        "uvicorn==0.32.1",
+        "vcrpy==6.0.2",
+        "vine==5.1.0",
+        "virtualenv==20.28.1",
+        "watchfiles==1.0.3",
+        "wcmatch==8.5.2",
+        "wcwidth==0.2.13",
+        "websockets==14.1",
+        "wrapt==1.17.0",
+        "yarl==1.18.3",
+        "zipp==3.21.0"
+      ],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [
+        {
+          "pin": "adyen==4.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "amqp==5.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "aniso8601==7.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "annotated-types==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "anyio==4.8.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "asgiref==3.8.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "attrs==24.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "authlib==1.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "authorizenet==1.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-common==1.1.28",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-core==1.32.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-storage-blob==12.24.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-storage-common==2.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "babel==2.16.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "bcrypt==4.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "beautifulsoup4==4.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "beautifultable==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "billiard==4.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "boltons==21.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "boto3==1.37.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "botocore==1.37.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "bracex==2.5.post1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "braintree==4.31.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cachetools==5.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "celery==5.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "certifi==2024.12.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cfgv==3.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "charset-normalizer==3.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-didyoumean==0.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-option-group==0.5.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-plugins==1.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-repl==0.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click==8.1.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "coverage==7.6.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cron-descriptor==1.4.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cryptography==44.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "debugpy==1.8.11",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "defusedxml==0.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "deprecated==1.2.15",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "deptry==0.23.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "distlib==0.3.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "dj-database-url==2.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "dj-email-url==1.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-appconf==1.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-cache-url==3.4.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-celery-beat==2.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-countries==7.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-extensions==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-filter==24.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-js-asset==3.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-measurement==3.2.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-mptt==0.16.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-phonenumber-field==8.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-prices==2.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-storages==1.14.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-stubs-ext==5.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-stubs==4.2.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-timezone-field==7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django==4.2.18",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "docker==7.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "draftjs-sanitizer==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "enmerkar==0.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "et-xmlfile==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "execnet==2.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "face==24.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "faker==26.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "fakeredis==2.26.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "filelock==3.16.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "freezegun==1.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "glom==22.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-api-core==2.24.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-auth==2.37.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-core==2.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-pubsub==2.27.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-storage==2.19.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-crc32c==1.6.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-i18n-address==3.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-resumable-media==2.7.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "googleapis-common-protos==1.66.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphene==2.1.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphql-core==2.3.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphql-relay==2.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpc-google-iam-v1==0.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpcio-status==1.69.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpcio==1.69.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "h11==0.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "html-to-draftjs==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "httptools==0.6.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "identify==2.6.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "idna==3.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "importlib-metadata==8.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "iniconfig==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ipdb==0.13.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "isodate==0.7.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jaeger-client==4.8.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jinja2==3.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jmespath==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jsonschema-specifications==2024.10.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jsonschema==4.23.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "kombu==5.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "linkify-it-py==2.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "lxml==4.9.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markdown-it-py==3.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markdown==3.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markupsafe==3.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mdit-py-plugins==0.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mdurl==0.1.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "measurement==3.2.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "memray==1.15.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "micawber==0.5.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mpmath==1.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "multidict==6.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mypy-extensions==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mypy==1.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "nodeenv==1.9.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "oauthlib==3.2.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "openpyxl==3.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-api==1.29.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-sdk==1.29.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-semantic-conventions==0.50b0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentracing==2.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "packaging==24.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pastel==0.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "peewee==3.17.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "petl==1.7.15",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "phonenumberslite==8.13.52",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pillow-avif-plugin==1.4.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pillow==11.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "platformdirs==4.3.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pluggy==1.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "poethepoet==0.32.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "posuto==2025.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pre-commit==4.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "prices==1.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "promise==2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "prompt-toolkit==3.0.48",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "propcache==0.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "proto-plus==1.25.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "protobuf==5.29.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psutil==6.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psycopg-binary==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psycopg==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyasn1-modules==0.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyasn1==0.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pybars3==0.9.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pydantic-core==2.33.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pydantic==2.11.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pygments==2.19.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyjwt==2.10.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pymeta3==0.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-asyncio==0.25.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-celery==1.1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-cov==6.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-django-queries==1.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-django==4.9.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-docker-tools==3.1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-memray==1.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-mock==3.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-recording==0.13.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-socket==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-xdist==3.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest==8.3.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-crontab==3.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-dateutil==2.9.0.post0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-dotenv==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-http-client==3.3.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-json-logger==3.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-magic==0.4.27",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytimeparse==1.1.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywatchman==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==308",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyxb-x==1.2.6.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyyaml==6.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "razorpay==1.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "redis==5.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "referencing==0.35.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requests-hardened==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requests==2.32.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requirements-parser==0.11.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rich==13.9.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rpds-py==0.22.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rsa==4.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ruamel-yaml==0.17.40",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ruff==0.9.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rx==1.6.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "s3transfer==0.11.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "semantic-version==2.10.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "semgrep==1.52.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sendgrid==6.11.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sentry-sdk==2.19.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "setuptools==76.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "six==1.17.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sniffio==1.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sortedcontainers==2.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "soupsieve==2.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sqlparse==0.5.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "starkbank-ecdsa==2.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "stripe==3.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sympy==1.13.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tenacity==9.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "text-unidecode==1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "textual==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "threadloop==1.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "thrift==0.21.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tomli==2.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tornado==6.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-certifi==2021.10.8.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-cffi==1.16.0.20241221",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-freezegun==1.1.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-mock==5.1.0.20240425",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pyopenssl==24.1.0.20240722",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-python-dateutil==2.9.0.20241206",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pytz==2024.2.0.20241221",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pyyaml==6.0.12.20241230",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-redis==4.6.0.20241004",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-requests==2.31.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-setuptools==75.6.0.20241223",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-six==1.17.0.20241205",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-urllib3==1.26.25.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "typing-extensions==4.12.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "typing-inspection==0.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tzdata==2024.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "uc-micro-py==1.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "urllib3==1.26.20",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "uvicorn==0.32.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "vcrpy==6.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "vine==5.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "virtualenv==20.28.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "watchfiles==1.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wcmatch==8.5.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wcwidth==0.2.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "websockets==14.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wrapt==1.17.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "yarl==1.18.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "zipp==3.21.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 254,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-36a9a14e8d12"
+      ],
+      "old_r4_closure_count": 18,
+      "old_r4_exclusion_count": 236,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 252,
+      "validation_unit_id": "vu-0d8ddec94417"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 236,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-7b1e8cee95d5",
+        "saleor-rc-b97d1d9c7064"
+      ],
+      "old_r4_closure_count": 234,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 234,
+      "validation_unit_id": "vu-561a1a172143"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 234,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-3d304a30a5bc",
+        "saleor-rc-aea05da547c8"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-e40f7e955c05"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 236,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-e6198146186d"
+      ],
+      "old_r4_closure_count": 234,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 234,
+      "validation_unit_id": "vu-b9808f19ace4"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 235,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-07f02e2c40ae",
+        "saleor-rc-663543eaf563",
+        "saleor-rc-a9e79dac40a2",
+        "saleor-rc-bd11af3ea0a4",
+        "saleor-rc-ccd3960acd1d",
+        "saleor-rc-f623ab428821"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-148c254cdec8"
+    },
+    {
+      "added_requirements": [
+        "adyen==4.0.0",
+        "amqp==5.3.1",
+        "aniso8601==7.0.0",
+        "anyio==4.8.0",
+        "asgiref==3.8.1",
+        "attrs==24.3.0",
+        "authlib==1.5.1",
+        "authorizenet==1.1.5",
+        "azure-common==1.1.28",
+        "azure-core==1.32.0",
+        "azure-storage-blob==12.24.0",
+        "azure-storage-common==2.1.0",
+        "babel==2.16.0",
+        "bcrypt==4.2.1",
+        "beautifulsoup4==4.7.1",
+        "beautifultable==0.7.0",
+        "billiard==4.2.1",
+        "boltons==21.0.0",
+        "boto3==1.37.13",
+        "botocore==1.37.13",
+        "bracex==2.5.post1",
+        "braintree==4.31.0",
+        "cachetools==5.5.0",
+        "celery==5.4.0",
+        "certifi==2024.12.14",
+        "cfgv==3.4.0",
+        "charset-normalizer==3.4.1",
+        "click-didyoumean==0.3.1",
+        "click-option-group==0.5.6",
+        "click-plugins==1.1.1",
+        "click-repl==0.3.0",
+        "click==8.1.8",
+        "coverage==7.6.10",
+        "cron-descriptor==1.4.5",
+        "cryptography==44.0.2",
+        "debugpy==1.8.11",
+        "defusedxml==0.7.1",
+        "deprecated==1.2.15",
+        "deptry==0.23.0",
+        "distlib==0.3.9",
+        "dj-database-url==2.3.0",
+        "dj-email-url==1.0.6",
+        "django-appconf==1.0.6",
+        "django-cache-url==3.4.5",
+        "django-celery-beat==2.7.0",
+        "django-countries==7.6.1",
+        "django-extensions==3.2.3",
+        "django-filter==24.3",
+        "django-js-asset==3.0.1",
+        "django-measurement==3.2.4",
+        "django-mptt==0.16.0",
+        "django-phonenumber-field==8.0.0",
+        "django-prices==2.3.0",
+        "django-storages==1.14.4",
+        "django-stubs-ext==5.1.1",
+        "django-stubs==4.2.7",
+        "django-timezone-field==7.0",
+        "django==4.2.18",
+        "docker==7.1.0",
+        "draftjs-sanitizer==1.0.0",
+        "enmerkar==0.7.1",
+        "et-xmlfile==2.0.0",
+        "execnet==2.1.1",
+        "face==24.0.0",
+        "faker==26.3.0",
+        "fakeredis==2.26.2",
+        "filelock==3.16.1",
+        "freezegun==1.5.1",
+        "glom==22.1.0",
+        "google-api-core==2.24.0",
+        "google-auth==2.37.0",
+        "google-cloud-core==2.4.1",
+        "google-cloud-pubsub==2.27.2",
+        "google-cloud-storage==2.19.0",
+        "google-crc32c==1.6.0",
+        "google-i18n-address==3.1.1",
+        "google-resumable-media==2.7.2",
+        "googleapis-common-protos==1.66.0",
+        "graphene==2.1.9",
+        "graphql-core==2.3.2",
+        "graphql-relay==2.0.1",
+        "grpc-google-iam-v1==0.14.0",
+        "grpcio-status==1.69.0",
+        "grpcio==1.69.0",
+        "h11==0.14.0",
+        "html-to-draftjs==1.0.1",
+        "httptools==0.6.4",
+        "identify==2.6.5",
+        "idna==3.10",
+        "importlib-metadata==8.5.0",
+        "iniconfig==2.0.0",
+        "ipdb==0.13.13",
+        "isodate==0.7.2",
+        "jaeger-client==4.8.0",
+        "jinja2==3.1.5",
+        "jmespath==1.0.1",
+        "jsonschema-specifications==2024.10.1",
+        "jsonschema==4.23.0",
+        "kombu==5.4.2",
+        "linkify-it-py==2.0.3",
+        "lxml==4.9.4",
+        "markdown-it-py==3.0.0",
+        "markdown==3.7",
+        "markupsafe==3.0.2",
+        "mdit-py-plugins==0.4.2",
+        "mdurl==0.1.2",
+        "measurement==3.2.2",
+        "memray==1.15.0",
+        "micawber==0.5.6",
+        "mpmath==1.3.0",
+        "multidict==6.1.0",
+        "mypy-extensions==1.0.0",
+        "mypy==1.7.1",
+        "nodeenv==1.9.1",
+        "oauthlib==3.2.2",
+        "openpyxl==3.1.5",
+        "opentelemetry-api==1.29.0",
+        "opentelemetry-sdk==1.29.0",
+        "opentelemetry-semantic-conventions==0.50b0",
+        "opentracing==2.4.0",
+        "packaging==24.2",
+        "pastel==0.2.1",
+        "peewee==3.17.8",
+        "petl==1.7.15",
+        "phonenumberslite==8.13.52",
+        "pillow-avif-plugin==1.4.6",
+        "pillow==11.1.0",
+        "platformdirs==4.3.6",
+        "pluggy==1.5.0",
+        "poethepoet==0.32.2",
+        "posuto==2025.1.0",
+        "pre-commit==4.0.1",
+        "prices==1.1.1",
+        "promise==2.3",
+        "prompt-toolkit==3.0.48",
+        "propcache==0.2.1",
+        "proto-plus==1.25.0",
+        "protobuf==5.29.2",
+        "psutil==6.1.1",
+        "psycopg-binary==3.2.3",
+        "psycopg==3.2.3",
+        "pyasn1-modules==0.4.1",
+        "pyasn1==0.6.1",
+        "pybars3==0.9.7",
+        "pygments==2.19.1",
+        "pyjwt==2.10.1",
+        "pymeta3==0.5.1",
+        "pytest-asyncio==0.25.1",
+        "pytest-celery==1.1.3",
+        "pytest-cov==6.0.0",
+        "pytest-django-queries==1.2.0",
+        "pytest-django==4.9.0",
+        "pytest-docker-tools==3.1.3",
+        "pytest-memray==1.7.0",
+        "pytest-mock==3.14.0",
+        "pytest-recording==0.13.2",
+        "pytest-socket==0.7.0",
+        "pytest-xdist==3.6.1",
+        "pytest==8.3.4",
+        "python-crontab==3.2.0",
+        "python-dateutil==2.9.0.post0",
+        "python-dotenv==1.0.1",
+        "python-http-client==3.3.7",
+        "python-json-logger==3.2.1",
+        "python-magic==0.4.27",
+        "pytimeparse==1.1.8",
+        "pywatchman==2.0.0",
+        "pyxb-x==1.2.6.2",
+        "pyyaml==6.0.2",
+        "razorpay==1.4.2",
+        "redis==5.2.1",
+        "referencing==0.35.1",
+        "requests-hardened==1.0.0",
+        "requests==2.32.3",
+        "requirements-parser==0.11.0",
+        "rich==13.9.4",
+        "rpds-py==0.22.3",
+        "rsa==4.9",
+        "ruamel-yaml==0.17.40",
+        "ruff==0.9.1",
+        "rx==1.6.3",
+        "s3transfer==0.11.4",
+        "semantic-version==2.10.0",
+        "semgrep==1.52.0",
+        "sendgrid==6.11.0",
+        "sentry-sdk==2.19.2",
+        "setuptools==76.0.0",
+        "six==1.17.0",
+        "sniffio==1.3.1",
+        "sortedcontainers==2.4.0",
+        "soupsieve==2.6",
+        "sqlparse==0.5.3",
+        "starkbank-ecdsa==2.2.0",
+        "stripe==3.5.0",
+        "sympy==1.13.3",
+        "tenacity==9.0.0",
+        "text-unidecode==1.3",
+        "textual==1.0.0",
+        "threadloop==1.0.2",
+        "thrift==0.21.0",
+        "tomli==2.0.2",
+        "tornado==6.4.2",
+        "types-certifi==2021.10.8.3",
+        "types-cffi==1.16.0.20241221",
+        "types-freezegun==1.1.10",
+        "types-mock==5.1.0.20240425",
+        "types-pyopenssl==24.1.0.20240722",
+        "types-python-dateutil==2.9.0.20241206",
+        "types-pytz==2024.2.0.20241221",
+        "types-pyyaml==6.0.12.20241230",
+        "types-redis==4.6.0.20241004",
+        "types-requests==2.31.0.6",
+        "types-setuptools==75.6.0.20241223",
+        "types-six==1.17.0.20241205",
+        "types-urllib3==1.26.25.14",
+        "typing-extensions==4.12.2",
+        "tzdata==2024.2",
+        "uc-micro-py==1.0.3",
+        "urllib3==1.26.20",
+        "uvicorn==0.32.1",
+        "vcrpy==6.0.2",
+        "vine==5.1.0",
+        "virtualenv==20.28.1",
+        "watchfiles==1.0.3",
+        "wcmatch==8.5.2",
+        "wcwidth==0.2.13",
+        "websockets==14.1",
+        "wrapt==1.17.0",
+        "yarl==1.18.3",
+        "zipp==3.21.0"
+      ],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [
+        {
+          "pin": "adyen==4.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "amqp==5.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "aniso8601==7.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "anyio==4.8.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "asgiref==3.8.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "attrs==24.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "authlib==1.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "authorizenet==1.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-common==1.1.28",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-core==1.32.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-storage-blob==12.24.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-storage-common==2.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "babel==2.16.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "bcrypt==4.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "beautifulsoup4==4.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "beautifultable==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "billiard==4.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "boltons==21.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "boto3==1.37.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "botocore==1.37.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "bracex==2.5.post1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "braintree==4.31.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cachetools==5.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "celery==5.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "certifi==2024.12.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cfgv==3.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "charset-normalizer==3.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-didyoumean==0.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-option-group==0.5.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-plugins==1.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-repl==0.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click==8.1.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "coverage==7.6.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cron-descriptor==1.4.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cryptography==44.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "debugpy==1.8.11",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "defusedxml==0.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "deprecated==1.2.15",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "deptry==0.23.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "distlib==0.3.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "dj-database-url==2.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "dj-email-url==1.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-appconf==1.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-cache-url==3.4.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-celery-beat==2.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-countries==7.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-extensions==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-filter==24.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-js-asset==3.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-measurement==3.2.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-mptt==0.16.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-phonenumber-field==8.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-prices==2.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-storages==1.14.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-stubs-ext==5.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-stubs==4.2.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-timezone-field==7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django==4.2.18",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "docker==7.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "draftjs-sanitizer==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "enmerkar==0.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "et-xmlfile==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "execnet==2.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "face==24.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "faker==26.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "fakeredis==2.26.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "filelock==3.16.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "freezegun==1.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "glom==22.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-api-core==2.24.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-auth==2.37.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-core==2.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-pubsub==2.27.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-storage==2.19.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-crc32c==1.6.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-i18n-address==3.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-resumable-media==2.7.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "googleapis-common-protos==1.66.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphene==2.1.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphql-core==2.3.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphql-relay==2.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpc-google-iam-v1==0.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpcio-status==1.69.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpcio==1.69.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "h11==0.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "html-to-draftjs==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "httptools==0.6.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "identify==2.6.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "idna==3.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "importlib-metadata==8.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "iniconfig==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ipdb==0.13.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "isodate==0.7.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jaeger-client==4.8.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jinja2==3.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jmespath==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jsonschema-specifications==2024.10.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jsonschema==4.23.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "kombu==5.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "linkify-it-py==2.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "lxml==4.9.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markdown-it-py==3.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markdown==3.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markupsafe==3.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mdit-py-plugins==0.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mdurl==0.1.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "measurement==3.2.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "memray==1.15.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "micawber==0.5.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mpmath==1.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "multidict==6.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mypy-extensions==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mypy==1.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "nodeenv==1.9.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "oauthlib==3.2.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "openpyxl==3.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-api==1.29.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-sdk==1.29.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-semantic-conventions==0.50b0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentracing==2.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "packaging==24.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pastel==0.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "peewee==3.17.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "petl==1.7.15",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "phonenumberslite==8.13.52",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pillow-avif-plugin==1.4.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pillow==11.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "platformdirs==4.3.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pluggy==1.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "poethepoet==0.32.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "posuto==2025.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pre-commit==4.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "prices==1.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "promise==2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "prompt-toolkit==3.0.48",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "propcache==0.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "proto-plus==1.25.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "protobuf==5.29.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psutil==6.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psycopg-binary==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psycopg==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyasn1-modules==0.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyasn1==0.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pybars3==0.9.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pygments==2.19.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyjwt==2.10.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pymeta3==0.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-asyncio==0.25.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-celery==1.1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-cov==6.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-django-queries==1.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-django==4.9.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-docker-tools==3.1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-memray==1.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-mock==3.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-recording==0.13.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-socket==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-xdist==3.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest==8.3.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-crontab==3.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-dateutil==2.9.0.post0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-dotenv==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-http-client==3.3.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-json-logger==3.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-magic==0.4.27",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytimeparse==1.1.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywatchman==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==308",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyxb-x==1.2.6.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyyaml==6.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "razorpay==1.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "redis==5.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "referencing==0.35.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requests-hardened==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requests==2.32.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requirements-parser==0.11.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rich==13.9.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rpds-py==0.22.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rsa==4.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ruamel-yaml==0.17.40",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ruff==0.9.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rx==1.6.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "s3transfer==0.11.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "semantic-version==2.10.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "semgrep==1.52.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sendgrid==6.11.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sentry-sdk==2.19.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "setuptools==76.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "six==1.17.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sniffio==1.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sortedcontainers==2.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "soupsieve==2.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sqlparse==0.5.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "starkbank-ecdsa==2.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "stripe==3.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sympy==1.13.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tenacity==9.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "text-unidecode==1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "textual==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "threadloop==1.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "thrift==0.21.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tomli==2.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tornado==6.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-certifi==2021.10.8.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-cffi==1.16.0.20241221",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-freezegun==1.1.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-mock==5.1.0.20240425",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pyopenssl==24.1.0.20240722",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-python-dateutil==2.9.0.20241206",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pytz==2024.2.0.20241221",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pyyaml==6.0.12.20241230",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-redis==4.6.0.20241004",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-requests==2.31.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-setuptools==75.6.0.20241223",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-six==1.17.0.20241205",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-urllib3==1.26.25.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "typing-extensions==4.12.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tzdata==2024.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "uc-micro-py==1.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "urllib3==1.26.20",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "uvicorn==0.32.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "vcrpy==6.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "vine==5.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "virtualenv==20.28.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "watchfiles==1.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wcmatch==8.5.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wcwidth==0.2.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "websockets==14.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wrapt==1.17.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "yarl==1.18.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "zipp==3.21.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 250,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5477b7dd3867"
+      ],
+      "old_r4_closure_count": 18,
+      "old_r4_exclusion_count": 232,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 248,
+      "validation_unit_id": "vu-8228f26085f6"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-dacded922b1f",
+        "saleor-rc-eb61406cecc5",
+        "saleor-rc-fe6e46266e81"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-33422e2343f1"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 236,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-9c032845e29b"
+      ],
+      "old_r4_closure_count": 234,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 234,
+      "validation_unit_id": "vu-a1f3d1a5d841"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 242,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-19bb9b070965"
+      ],
+      "old_r4_closure_count": 241,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 241,
+      "validation_unit_id": "vu-692af9112c6d"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 254,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-f74a5394c7f1"
+      ],
+      "old_r4_closure_count": 252,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 252,
+      "validation_unit_id": "vu-021cfd4955e7"
+    },
+    {
+      "added_requirements": [
+        "adyen==4.0.0",
+        "amqp==5.3.1",
+        "aniso8601==7.0.0",
+        "anyio==4.8.0",
+        "asgiref==3.8.1",
+        "attrs==24.3.0",
+        "authlib==1.4.0",
+        "authorizenet==1.1.5",
+        "azure-common==1.1.28",
+        "azure-core==1.32.0",
+        "azure-storage-blob==12.24.0",
+        "azure-storage-common==2.1.0",
+        "babel==2.16.0",
+        "bcrypt==4.2.1",
+        "beautifulsoup4==4.7.1",
+        "beautifultable==0.7.0",
+        "billiard==4.2.1",
+        "boltons==21.0.0",
+        "boto3==1.37.13",
+        "botocore==1.37.13",
+        "bracex==2.5.post1",
+        "braintree==4.31.0",
+        "cachetools==5.5.0",
+        "celery==5.4.0",
+        "certifi==2024.12.14",
+        "cfgv==3.4.0",
+        "charset-normalizer==3.4.1",
+        "click-didyoumean==0.3.1",
+        "click-option-group==0.5.6",
+        "click-plugins==1.1.1",
+        "click-repl==0.3.0",
+        "click==8.1.8",
+        "coverage==7.6.10",
+        "cron-descriptor==1.4.5",
+        "cryptography==44.0.2",
+        "debugpy==1.8.11",
+        "defusedxml==0.7.1",
+        "deprecated==1.2.15",
+        "deptry==0.23.0",
+        "distlib==0.3.9",
+        "dj-database-url==2.3.0",
+        "dj-email-url==1.0.6",
+        "django-appconf==1.0.6",
+        "django-cache-url==3.4.5",
+        "django-celery-beat==2.7.0",
+        "django-countries==7.6.1",
+        "django-extensions==3.2.3",
+        "django-filter==24.3",
+        "django-js-asset==3.0.1",
+        "django-measurement==3.2.4",
+        "django-mptt==0.16.0",
+        "django-phonenumber-field==8.0.0",
+        "django-prices==2.3.0",
+        "django-storages==1.14.4",
+        "django-stubs-ext==5.1.1",
+        "django-stubs==4.2.7",
+        "django-timezone-field==7.0",
+        "django==4.2.18",
+        "docker==7.1.0",
+        "draftjs-sanitizer==1.0.0",
+        "enmerkar==0.7.1",
+        "et-xmlfile==2.0.0",
+        "execnet==2.1.1",
+        "face==24.0.0",
+        "faker==26.3.0",
+        "fakeredis==2.26.2",
+        "filelock==3.16.1",
+        "freezegun==1.5.1",
+        "glom==22.1.0",
+        "google-api-core==2.24.0",
+        "google-auth==2.37.0",
+        "google-cloud-core==2.4.1",
+        "google-cloud-pubsub==2.27.2",
+        "google-cloud-storage==2.19.0",
+        "google-crc32c==1.6.0",
+        "google-i18n-address==3.1.1",
+        "google-resumable-media==2.7.2",
+        "googleapis-common-protos==1.66.0",
+        "graphene==2.1.9",
+        "graphql-core==2.3.2",
+        "graphql-relay==2.0.1",
+        "grpc-google-iam-v1==0.14.0",
+        "grpcio-status==1.69.0",
+        "grpcio==1.69.0",
+        "h11==0.14.0",
+        "html-to-draftjs==1.0.1",
+        "httptools==0.6.4",
+        "identify==2.6.5",
+        "idna==3.10",
+        "importlib-metadata==8.5.0",
+        "iniconfig==2.0.0",
+        "ipdb==0.13.13",
+        "isodate==0.7.2",
+        "jaeger-client==4.8.0",
+        "jinja2==3.1.5",
+        "jmespath==1.0.1",
+        "jsonschema-specifications==2024.10.1",
+        "jsonschema==4.23.0",
+        "kombu==5.4.2",
+        "linkify-it-py==2.0.3",
+        "lxml==4.9.4",
+        "markdown-it-py==3.0.0",
+        "markdown==3.7",
+        "markupsafe==3.0.2",
+        "mdit-py-plugins==0.4.2",
+        "mdurl==0.1.2",
+        "measurement==3.2.2",
+        "memray==1.15.0",
+        "micawber==0.5.6",
+        "mpmath==1.3.0",
+        "multidict==6.1.0",
+        "mypy-extensions==1.0.0",
+        "mypy==1.7.1",
+        "nodeenv==1.9.1",
+        "oauthlib==3.2.2",
+        "openpyxl==3.1.5",
+        "opentelemetry-api==1.29.0",
+        "opentelemetry-sdk==1.29.0",
+        "opentelemetry-semantic-conventions==0.50b0",
+        "opentracing==2.4.0",
+        "packaging==24.2",
+        "pastel==0.2.1",
+        "peewee==3.17.8",
+        "petl==1.7.15",
+        "phonenumberslite==8.13.52",
+        "pillow-avif-plugin==1.4.6",
+        "pillow==11.1.0",
+        "platformdirs==4.3.6",
+        "pluggy==1.5.0",
+        "poethepoet==0.32.2",
+        "posuto==2025.1.0",
+        "pre-commit==4.0.1",
+        "prices==1.1.1",
+        "promise==2.3",
+        "prompt-toolkit==3.0.48",
+        "propcache==0.2.1",
+        "proto-plus==1.25.0",
+        "protobuf==5.29.2",
+        "psutil==6.1.1",
+        "psycopg-binary==3.2.3",
+        "psycopg==3.2.3",
+        "pyasn1-modules==0.4.1",
+        "pyasn1==0.6.1",
+        "pybars3==0.9.7",
+        "pygments==2.19.1",
+        "pyjwt==2.10.1",
+        "pymeta3==0.5.1",
+        "pytest-asyncio==0.25.1",
+        "pytest-celery==1.1.3",
+        "pytest-cov==6.0.0",
+        "pytest-django-queries==1.2.0",
+        "pytest-django==4.9.0",
+        "pytest-docker-tools==3.1.3",
+        "pytest-memray==1.7.0",
+        "pytest-mock==3.14.0",
+        "pytest-recording==0.13.2",
+        "pytest-socket==0.7.0",
+        "pytest-xdist==3.6.1",
+        "pytest==8.3.4",
+        "python-crontab==3.2.0",
+        "python-dateutil==2.9.0.post0",
+        "python-dotenv==1.0.1",
+        "python-http-client==3.3.7",
+        "python-json-logger==3.2.1",
+        "python-magic==0.4.27",
+        "pytimeparse==1.1.8",
+        "pywatchman==2.0.0",
+        "pyxb-x==1.2.6.2",
+        "pyyaml==6.0.2",
+        "razorpay==1.4.2",
+        "redis==5.2.1",
+        "referencing==0.35.1",
+        "requests-hardened==1.0.0",
+        "requests==2.32.3",
+        "requirements-parser==0.11.0",
+        "rich==13.9.4",
+        "rpds-py==0.22.3",
+        "rsa==4.9",
+        "ruamel-yaml==0.17.40",
+        "ruff==0.9.1",
+        "rx==1.6.3",
+        "s3transfer==0.11.4",
+        "semantic-version==2.10.0",
+        "semgrep==1.52.0",
+        "sendgrid==6.11.0",
+        "sentry-sdk==2.19.2",
+        "setuptools==76.0.0",
+        "six==1.17.0",
+        "sniffio==1.3.1",
+        "sortedcontainers==2.4.0",
+        "soupsieve==2.6",
+        "sqlparse==0.5.3",
+        "starkbank-ecdsa==2.2.0",
+        "stripe==3.5.0",
+        "sympy==1.13.3",
+        "tenacity==9.0.0",
+        "text-unidecode==1.3",
+        "textual==1.0.0",
+        "threadloop==1.0.2",
+        "thrift==0.21.0",
+        "tomli==2.0.2",
+        "tornado==6.4.2",
+        "types-certifi==2021.10.8.3",
+        "types-cffi==1.16.0.20241221",
+        "types-freezegun==1.1.10",
+        "types-mock==5.1.0.20240425",
+        "types-pyopenssl==24.1.0.20240722",
+        "types-python-dateutil==2.9.0.20241206",
+        "types-pytz==2024.2.0.20241221",
+        "types-pyyaml==6.0.12.20241230",
+        "types-redis==4.6.0.20241004",
+        "types-requests==2.31.0.6",
+        "types-setuptools==75.6.0.20241223",
+        "types-six==1.17.0.20241205",
+        "types-urllib3==1.26.25.14",
+        "typing-extensions==4.12.2",
+        "tzdata==2024.2",
+        "uc-micro-py==1.0.3",
+        "urllib3==1.26.20",
+        "uvicorn==0.32.1",
+        "vcrpy==6.0.2",
+        "vine==5.1.0",
+        "virtualenv==20.28.1",
+        "watchfiles==1.0.3",
+        "wcmatch==8.5.2",
+        "wcwidth==0.2.13",
+        "websockets==14.1",
+        "wrapt==1.17.0",
+        "yarl==1.18.3",
+        "zipp==3.21.0"
+      ],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [
+        {
+          "pin": "adyen==4.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "amqp==5.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "aniso8601==7.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "anyio==4.8.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "asgiref==3.8.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "attrs==24.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "authlib==1.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "authorizenet==1.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-common==1.1.28",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-core==1.32.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-storage-blob==12.24.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "azure-storage-common==2.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "babel==2.16.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "bcrypt==4.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "beautifulsoup4==4.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "beautifultable==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "billiard==4.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "boltons==21.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "boto3==1.37.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "botocore==1.37.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "bracex==2.5.post1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "braintree==4.31.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cachetools==5.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "celery==5.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "certifi==2024.12.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cfgv==3.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "charset-normalizer==3.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-didyoumean==0.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-option-group==0.5.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-plugins==1.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click-repl==0.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "click==8.1.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "coverage==7.6.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cron-descriptor==1.4.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "cryptography==44.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "debugpy==1.8.11",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "defusedxml==0.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "deprecated==1.2.15",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "deptry==0.23.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "distlib==0.3.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "dj-database-url==2.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "dj-email-url==1.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-appconf==1.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-cache-url==3.4.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-celery-beat==2.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-countries==7.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-extensions==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-filter==24.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-js-asset==3.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-measurement==3.2.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-mptt==0.16.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-phonenumber-field==8.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-prices==2.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-storages==1.14.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-stubs-ext==5.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-stubs==4.2.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django-timezone-field==7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "django==4.2.18",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "docker==7.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "draftjs-sanitizer==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "enmerkar==0.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "et-xmlfile==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "execnet==2.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "face==24.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "faker==26.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "fakeredis==2.26.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "filelock==3.16.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "freezegun==1.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "glom==22.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-api-core==2.24.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-auth==2.37.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-core==2.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-pubsub==2.27.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-cloud-storage==2.19.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-crc32c==1.6.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-i18n-address==3.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "google-resumable-media==2.7.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "googleapis-common-protos==1.66.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphene==2.1.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphql-core==2.3.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "graphql-relay==2.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpc-google-iam-v1==0.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpcio-status==1.69.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "grpcio==1.69.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "h11==0.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "html-to-draftjs==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "httptools==0.6.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "identify==2.6.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "idna==3.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "importlib-metadata==8.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "iniconfig==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ipdb==0.13.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "isodate==0.7.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jaeger-client==4.8.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jinja2==3.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jmespath==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jsonschema-specifications==2024.10.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "jsonschema==4.23.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "kombu==5.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "linkify-it-py==2.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "lxml==4.9.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markdown-it-py==3.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markdown==3.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "markupsafe==3.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mdit-py-plugins==0.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mdurl==0.1.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "measurement==3.2.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "memray==1.15.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "micawber==0.5.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mpmath==1.3.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "multidict==6.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mypy-extensions==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "mypy==1.7.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "nodeenv==1.9.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "oauthlib==3.2.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "openpyxl==3.1.5",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-api==1.29.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-sdk==1.29.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentelemetry-semantic-conventions==0.50b0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "opentracing==2.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "packaging==24.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pastel==0.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "peewee==3.17.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "petl==1.7.15",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "phonenumberslite==8.13.52",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pillow-avif-plugin==1.4.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pillow==11.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "platformdirs==4.3.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pluggy==1.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "poethepoet==0.32.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "posuto==2025.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pre-commit==4.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "prices==1.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "promise==2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "prompt-toolkit==3.0.48",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "propcache==0.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "proto-plus==1.25.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "protobuf==5.29.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psutil==6.1.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psycopg-binary==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "psycopg==3.2.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyasn1-modules==0.4.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyasn1==0.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pybars3==0.9.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pygments==2.19.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyjwt==2.10.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pymeta3==0.5.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-asyncio==0.25.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-celery==1.1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-cov==6.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-django-queries==1.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-django==4.9.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-docker-tools==3.1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-memray==1.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-mock==3.14.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-recording==0.13.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-socket==0.7.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest-xdist==3.6.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytest==8.3.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-crontab==3.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-dateutil==2.9.0.post0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-dotenv==1.0.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-http-client==3.3.7",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-json-logger==3.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "python-magic==0.4.27",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pytimeparse==1.1.8",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywatchman==2.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==308",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyxb-x==1.2.6.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pyyaml==6.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "razorpay==1.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "redis==5.2.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "referencing==0.35.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requests-hardened==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requests==2.32.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "requirements-parser==0.11.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rich==13.9.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rpds-py==0.22.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rsa==4.9",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ruamel-yaml==0.17.40",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "ruff==0.9.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "rx==1.6.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "s3transfer==0.11.4",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "semantic-version==2.10.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "semgrep==1.52.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sendgrid==6.11.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sentry-sdk==2.19.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "setuptools==76.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "six==1.17.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sniffio==1.3.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sortedcontainers==2.4.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "soupsieve==2.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sqlparse==0.5.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "starkbank-ecdsa==2.2.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "stripe==3.5.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "sympy==1.13.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tenacity==9.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "text-unidecode==1.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "textual==1.0.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "threadloop==1.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "thrift==0.21.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tomli==2.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tornado==6.4.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-certifi==2021.10.8.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-cffi==1.16.0.20241221",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-freezegun==1.1.10",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-mock==5.1.0.20240425",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pyopenssl==24.1.0.20240722",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-python-dateutil==2.9.0.20241206",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pytz==2024.2.0.20241221",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-pyyaml==6.0.12.20241230",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-redis==4.6.0.20241004",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-requests==2.31.0.6",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-setuptools==75.6.0.20241223",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-six==1.17.0.20241205",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "types-urllib3==1.26.25.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "typing-extensions==4.12.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "tzdata==2024.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "uc-micro-py==1.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "urllib3==1.26.20",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "uvicorn==0.32.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "vcrpy==6.0.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "vine==5.1.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "virtualenv==20.28.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "watchfiles==1.0.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wcmatch==8.5.2",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wcwidth==0.2.13",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "websockets==14.1",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "wrapt==1.17.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "yarl==1.18.3",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "zipp==3.21.0",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 250,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-659af1b19239"
+      ],
+      "old_r4_closure_count": 18,
+      "old_r4_exclusion_count": 232,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 248,
+      "validation_unit_id": "vu-3a7ebc8e23c7"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==308",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 252,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1a8b592913a0",
+        "saleor-rc-d4fcbd22a853"
+      ],
+      "old_r4_closure_count": 250,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 250,
+      "validation_unit_id": "vu-f4038beff05f"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-78c9081e2731"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-dcd39990cb98"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-4800fa0beb60"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-0a27b4b8eb0a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 236,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-aa814bd5f355"
+      ],
+      "old_r4_closure_count": 234,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 234,
+      "validation_unit_id": "vu-dade0b4b5b60"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 254,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-0e895847d8ae",
+        "saleor-rc-b79cf8f91f04",
+        "saleor-rc-f6a3751a8bc2"
+      ],
+      "old_r4_closure_count": 252,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 252,
+      "validation_unit_id": "vu-c94437ca6633"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==310",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 235,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5144ee6bd55f",
+        "saleor-rc-a1e1e2554327"
+      ],
+      "old_r4_closure_count": 233,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 233,
+      "validation_unit_id": "vu-4b390d4acaf6"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 230,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-e0f2933d58b9"
+      ],
+      "old_r4_closure_count": 228,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 228,
+      "validation_unit_id": "vu-13c1de1de71e"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 237,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-3bf31ab2fefc",
+        "saleor-rc-95dbffbc523a",
+        "saleor-rc-b356a525ba2a",
+        "saleor-rc-ce3b63edecef",
+        "saleor-rc-ffe3a3ece0fb"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-b78ebcf3e530"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 232,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-11756ee6b65a"
+      ],
+      "old_r4_closure_count": 230,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 230,
+      "validation_unit_id": "vu-9d7a49485c23"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 237,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-032b98afff20"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-5d6c9a0e0c10"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 238,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-0ad61b3f0096"
+      ],
+      "old_r4_closure_count": 236,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 236,
+      "validation_unit_id": "vu-70bfccaf270a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 230,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-3cac33590b90"
+      ],
+      "old_r4_closure_count": 228,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 228,
+      "validation_unit_id": "vu-a213391f6471"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 232,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-30b4edece5aa",
+        "saleor-rc-e0890780bf56"
+      ],
+      "old_r4_closure_count": 230,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 230,
+      "validation_unit_id": "vu-1b6e1e44d2b8"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 232,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-22a30bf2e4cc",
+        "saleor-rc-333febd35223",
+        "saleor-rc-fd463c8aae38"
+      ],
+      "old_r4_closure_count": 230,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 230,
+      "validation_unit_id": "vu-a75c2a6f15c3"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 230,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-46456e7317ca"
+      ],
+      "old_r4_closure_count": 228,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 228,
+      "validation_unit_id": "vu-167dda0843d5"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 232,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-d6656e0f2a1d"
+      ],
+      "old_r4_closure_count": 230,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 230,
+      "validation_unit_id": "vu-c25b088a37f7"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 239,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-d361479ab7da"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-b01a5665c996"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 232,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-07c8859c0ac3",
+        "saleor-rc-481c2d367c6f"
+      ],
+      "old_r4_closure_count": 230,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 230,
+      "validation_unit_id": "vu-fddb2fe50625"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 237,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-0179b331be38"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-bfe987de6e53"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 237,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-138ee68c3818",
+        "saleor-rc-2c770c685a57",
+        "saleor-rc-c31fb4cfd08f"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-b772fe8ae517"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 239,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-7e42fc67ce72",
+        "saleor-rc-e7175003a542"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-766af1c5d395"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 234,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-796f4a0fd969"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-c1cf6680490b"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 230,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-224bf29fb39f",
+        "saleor-rc-8e6164e3d123"
+      ],
+      "old_r4_closure_count": 228,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 228,
+      "validation_unit_id": "vu-7aa21cafb78c"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 232,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-db5440f7994f"
+      ],
+      "old_r4_closure_count": 230,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 230,
+      "validation_unit_id": "vu-2964dfd4c127"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 237,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-b35783838e51"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-1418395d176d"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 230,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-d498167dcd30",
+        "saleor-rc-e8733aee630a"
+      ],
+      "old_r4_closure_count": 228,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 228,
+      "validation_unit_id": "vu-fa3b1afc1fc7"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [
+        {
+          "pin": "python-magic-bin==0.4.14",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        },
+        {
+          "pin": "pywin32==311",
+          "reason": "R3_PLATFORM_EXCLUDED"
+        }
+      ],
+      "frozen_expected_count": 237,
+      "install_route": "UV_EXPORT",
+      "lock_type": "uv",
+      "member_task_ids": [
+        "saleor-rc-0f16ed78b02b",
+        "saleor-rc-940b8d83ec5c"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 2,
+      "python_version": "3.12",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-69dc51c7f829"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 188,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-208833e2fa53",
+        "saleor-rc-63a31dd3c8ca"
+      ],
+      "old_r4_closure_count": 187,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 187,
+      "validation_unit_id": "vu-eda4e9f82401"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 205,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-85d416c024e1"
+      ],
+      "old_r4_closure_count": 204,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 204,
+      "validation_unit_id": "vu-895115c0587f"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 182,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-367b8038f6b9"
+      ],
+      "old_r4_closure_count": 181,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 181,
+      "validation_unit_id": "vu-be8f8b160f49"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 198,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-99041211cf9e"
+      ],
+      "old_r4_closure_count": 197,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 197,
+      "validation_unit_id": "vu-e087af14cbdc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 206,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-05bdc7feb9ac",
+        "saleor-rc-30fe250747ae",
+        "saleor-rc-9057e82cea23"
+      ],
+      "old_r4_closure_count": 205,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 205,
+      "validation_unit_id": "vu-9148a5fac7f7"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 197,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1fa6a637c7fc"
+      ],
+      "old_r4_closure_count": 196,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 196,
+      "validation_unit_id": "vu-2a340620f37b"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 191,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1f6fbe2ebf9b"
+      ],
+      "old_r4_closure_count": 190,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 190,
+      "validation_unit_id": "vu-6657777e194c"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 205,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-03be7057c1f1"
+      ],
+      "old_r4_closure_count": 204,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 204,
+      "validation_unit_id": "vu-c17ac95f2f69"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 205,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-2c218aadc9b7",
+        "saleor-rc-37a3a7bbec31",
+        "saleor-rc-6370f4a6b8a5"
+      ],
+      "old_r4_closure_count": 204,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 204,
+      "validation_unit_id": "vu-93d83a7dfa9a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 181,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-8220a53473bb"
+      ],
+      "old_r4_closure_count": 180,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 180,
+      "validation_unit_id": "vu-cdcf3222cbb5"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 199,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5c50110d46a2"
+      ],
+      "old_r4_closure_count": 198,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 198,
+      "validation_unit_id": "vu-56c3822062f3"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 198,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-32f73ff32b2b",
+        "saleor-rc-f3a1ec65571f"
+      ],
+      "old_r4_closure_count": 197,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 197,
+      "validation_unit_id": "vu-31452711b5ad"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 205,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-12007c00e480",
+        "saleor-rc-305415e0f8b7"
+      ],
+      "old_r4_closure_count": 204,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 204,
+      "validation_unit_id": "vu-ebc9a2321b77"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 205,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-cd076fed6118"
+      ],
+      "old_r4_closure_count": 204,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 204,
+      "validation_unit_id": "vu-d70446795f77"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 202,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-ab6c29ba265d"
+      ],
+      "old_r4_closure_count": 201,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.8",
+      "removed_requirements": [],
+      "successor_closure_count": 201,
+      "validation_unit_id": "vu-75b210e72939"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 215,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-10889526d151"
+      ],
+      "old_r4_closure_count": 215,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 215,
+      "validation_unit_id": "vu-457f26c93ff1"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-2a59d31fc839"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-2483fd026a5e"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 219,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-7b3fbb77c331",
+        "saleor-rc-eaf1577585a2",
+        "saleor-rc-f953990d221b"
+      ],
+      "old_r4_closure_count": 219,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 219,
+      "validation_unit_id": "vu-34976fcfcdb9"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-f4eeba7fab16"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-ffe68ddec229"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 210,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-add4064d238e"
+      ],
+      "old_r4_closure_count": 210,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 210,
+      "validation_unit_id": "vu-0e0ef31c7634"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 219,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-54bbb04b8954",
+        "saleor-rc-a17f11cf7e87"
+      ],
+      "old_r4_closure_count": 219,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 219,
+      "validation_unit_id": "vu-431fd44d4e16"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 237,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-55ff6b5b2b65"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-fe57def0dadc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 233,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-7691de1ea22e"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-fe7a88128f65"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 220,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-884327b653cc",
+        "saleor-rc-bd0c56fc787e",
+        "saleor-rc-c87441bb1464",
+        "saleor-rc-c9c1cc0968d3",
+        "saleor-rc-d3ab58054844"
+      ],
+      "old_r4_closure_count": 220,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 220,
+      "validation_unit_id": "vu-9a5ec59e6d06"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 223,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-484ce8815cf4"
+      ],
+      "old_r4_closure_count": 223,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 223,
+      "validation_unit_id": "vu-cd262bbb641d"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-a7a2bf4146ba"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-37c7da0c0820"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-0df62b3144b0"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-c5caaf2a1d6f"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 213,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-d8a4cd122bf0"
+      ],
+      "old_r4_closure_count": 213,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 213,
+      "validation_unit_id": "vu-04c71da705ac"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 219,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1b4da5a88d08"
+      ],
+      "old_r4_closure_count": 219,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 219,
+      "validation_unit_id": "vu-cf9b71629fb0"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-67cd71a9e0b7"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-cfed8240ddbc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 207,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-52a797b00af3"
+      ],
+      "old_r4_closure_count": 207,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 207,
+      "validation_unit_id": "vu-eba04e0cfe0e"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 224,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-45301d74fb45"
+      ],
+      "old_r4_closure_count": 224,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 224,
+      "validation_unit_id": "vu-3cc575189c53"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5d2721a36364",
+        "saleor-rc-c4dac9df4baf",
+        "saleor-rc-ddb8921a6744",
+        "saleor-rc-e429b8be07fd"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-930970ddfe91"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 215,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-6c928b72daa4"
+      ],
+      "old_r4_closure_count": 215,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 215,
+      "validation_unit_id": "vu-9218196782bc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 213,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-03c5a9916858"
+      ],
+      "old_r4_closure_count": 213,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 213,
+      "validation_unit_id": "vu-c3065f6a2b55"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-18430f2a7a16"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-b634339e1f8a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 242,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-e28ca6ad6442"
+      ],
+      "old_r4_closure_count": 241,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 241,
+      "validation_unit_id": "vu-f98d47987c04"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-e129a4d6f9b1"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-894cec50f546"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-95db464ad4ea"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-2dc07b65457d"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 248,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-74fbba6d0734",
+        "saleor-rc-f605058a13e8"
+      ],
+      "old_r4_closure_count": 247,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 247,
+      "validation_unit_id": "vu-7fc2380ce441"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-df7c7d4e8466"
+      ],
+      "old_r4_closure_count": 238,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 238,
+      "validation_unit_id": "vu-f65903cda35f"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 207,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-28799575c518",
+        "saleor-rc-29c2d1abdce0",
+        "saleor-rc-ba4ff17faab4",
+        "saleor-rc-ef4d31a09e7c"
+      ],
+      "old_r4_closure_count": 207,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 207,
+      "validation_unit_id": "vu-6e164d4710fa"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-3513064157fa",
+        "saleor-rc-a9121e630814"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-ef2b9ed85c06"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-349d88efcfec",
+        "saleor-rc-bcd9f60d2aef"
+      ],
+      "old_r4_closure_count": 238,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 238,
+      "validation_unit_id": "vu-449f84e63781"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 206,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-693eb302968c"
+      ],
+      "old_r4_closure_count": 206,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 206,
+      "validation_unit_id": "vu-1bc025c648a9"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-9b96c1602b1f",
+        "saleor-rc-b8786c1bf4d3"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-211923a4bbb9"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-2c44b8eccc2c"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-c80b536f2407"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 213,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-bf938e731bd8"
+      ],
+      "old_r4_closure_count": 213,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 213,
+      "validation_unit_id": "vu-1322f72e5363"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 220,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1f47b503f69e"
+      ],
+      "old_r4_closure_count": 220,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 220,
+      "validation_unit_id": "vu-25266c00d332"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 217,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-b60266933f7a"
+      ],
+      "old_r4_closure_count": 217,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 217,
+      "validation_unit_id": "vu-18938eea2931"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 236,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-0fd3a4d986a0"
+      ],
+      "old_r4_closure_count": 236,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 236,
+      "validation_unit_id": "vu-69576eeb06f2"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-17c8d807b3d1"
+      ],
+      "old_r4_closure_count": 238,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 238,
+      "validation_unit_id": "vu-bedcd6ce97ff"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 222,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-571a3b145aea",
+        "saleor-rc-8b0cbe2fb72f"
+      ],
+      "old_r4_closure_count": 222,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 222,
+      "validation_unit_id": "vu-d0ceadc7a5d0"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 255,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-c38263743e9e"
+      ],
+      "old_r4_closure_count": 254,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 254,
+      "validation_unit_id": "vu-a199ad1732dc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-66907b149076"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-ff51c2dbdaf7"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 233,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-b0245506e69b",
+        "saleor-rc-d299e27e5f04"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-27136572a530"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 233,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-349fe0c194a1"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-648e07c887c6"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-c428b47bddc5"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-d391fc5c988e"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-0c1062eb0da6",
+        "saleor-rc-4386f322f659",
+        "saleor-rc-65dfc61ec9fc",
+        "saleor-rc-b41168d9077d",
+        "saleor-rc-ba0f225cc7d3"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-bd505dbe0e91"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 207,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-24f9b244d6bc",
+        "saleor-rc-5821309aed09",
+        "saleor-rc-6a1f884168d2",
+        "saleor-rc-fd5b7971c5d2"
+      ],
+      "old_r4_closure_count": 207,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 207,
+      "validation_unit_id": "vu-9af2f5398149"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1af1c3a368ec",
+        "saleor-rc-dd8ead382526",
+        "saleor-rc-ea98ffa79753"
+      ],
+      "old_r4_closure_count": 238,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 238,
+      "validation_unit_id": "vu-c4f8d5ea7e5a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 233,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-45cfb26218c8"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-0925adc62ab4"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 208,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-50eff94aa37c",
+        "saleor-rc-fbfc66e3a46b"
+      ],
+      "old_r4_closure_count": 208,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 208,
+      "validation_unit_id": "vu-b38ed89dc9a4"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-63a25a0c46d5",
+        "saleor-rc-f3a0bc28797b"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-b0971c77cd3b"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 210,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-b2622810adf1"
+      ],
+      "old_r4_closure_count": 210,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 210,
+      "validation_unit_id": "vu-2bcc39756c5a"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 217,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-f1d4e82c1dea"
+      ],
+      "old_r4_closure_count": 217,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 217,
+      "validation_unit_id": "vu-e009f3a36367"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 255,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-8c8d9db54d63"
+      ],
+      "old_r4_closure_count": 254,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 254,
+      "validation_unit_id": "vu-3975af462f4e"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-02dfdad9985b",
+        "saleor-rc-14a682044ca4"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-a49265fc9017"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 255,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-506cd1157e9c"
+      ],
+      "old_r4_closure_count": 254,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 254,
+      "validation_unit_id": "vu-27e8f29e8efc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-4e45b83e7475",
+        "saleor-rc-65643ec7c37f"
+      ],
+      "old_r4_closure_count": 238,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 238,
+      "validation_unit_id": "vu-60d3684b344f"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1f9b5c53a63a",
+        "saleor-rc-bd64d6fdbe4b"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-25c83915bd75"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-4931e989d82d"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-481aef932595"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 223,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-b0672eea0422"
+      ],
+      "old_r4_closure_count": 223,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 223,
+      "validation_unit_id": "vu-bbb37661a274"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 255,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-843a2c1905ad"
+      ],
+      "old_r4_closure_count": 254,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 254,
+      "validation_unit_id": "vu-afe5a5c0e422"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 213,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-a5e831779345"
+      ],
+      "old_r4_closure_count": 213,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 213,
+      "validation_unit_id": "vu-0f0447cc3e76"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-1abda1e0d36e"
+      ],
+      "old_r4_closure_count": 237,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 237,
+      "validation_unit_id": "vu-f36465a05af1"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 233,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-a650f8f05c02",
+        "saleor-rc-c0d4785abd74"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-87c9ec56b2bc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-255d39da978a",
+        "saleor-rc-c12e83aac8f6"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-b6f3aa535043"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 208,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5f78ba7b1647"
+      ],
+      "old_r4_closure_count": 208,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 208,
+      "validation_unit_id": "vu-3f1261723b37"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 257,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-373efa067922"
+      ],
+      "old_r4_closure_count": 256,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 256,
+      "validation_unit_id": "vu-92d8208bc063"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 238,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-4adf36dfdbe7"
+      ],
+      "old_r4_closure_count": 238,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 238,
+      "validation_unit_id": "vu-5985a7f5c711"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 246,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-cae629dc4166",
+        "saleor-rc-cbd7310268c6"
+      ],
+      "old_r4_closure_count": 245,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 245,
+      "validation_unit_id": "vu-c9fbfeece4f3"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-b2e3652af826"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-38186b1280dd"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 223,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-81d02e76b22e",
+        "saleor-rc-c6220233ccb1"
+      ],
+      "old_r4_closure_count": 223,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 223,
+      "validation_unit_id": "vu-9ed193747002"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 226,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-094b1ec0f610"
+      ],
+      "old_r4_closure_count": 226,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 226,
+      "validation_unit_id": "vu-6a7d0c94de02"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 224,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-27b65eae2a9a"
+      ],
+      "old_r4_closure_count": 224,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 224,
+      "validation_unit_id": "vu-27ae8fa10bfc"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-c7207e71e0d3"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-2864e8ec8e21"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 235,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-33010c0d5f7f"
+      ],
+      "old_r4_closure_count": 235,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 235,
+      "validation_unit_id": "vu-28c3ab8a0637"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 226,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-9b88221ba8c2"
+      ],
+      "old_r4_closure_count": 226,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 226,
+      "validation_unit_id": "vu-5cf74906951d"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 213,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-a93a877388ae"
+      ],
+      "old_r4_closure_count": 213,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 213,
+      "validation_unit_id": "vu-a677a0561630"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 239,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-0b46c89dfd9e"
+      ],
+      "old_r4_closure_count": 239,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 239,
+      "validation_unit_id": "vu-d5a8e4885ae5"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 215,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-585562cf1cec"
+      ],
+      "old_r4_closure_count": 215,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 215,
+      "validation_unit_id": "vu-f393f956c6ee"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 236,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-14f2176b5d8c"
+      ],
+      "old_r4_closure_count": 236,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 236,
+      "validation_unit_id": "vu-048cdcee7907"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 207,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-e089e93419bf"
+      ],
+      "old_r4_closure_count": 207,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 207,
+      "validation_unit_id": "vu-cff7c5fc6d8e"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 242,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-a36d8a8d0c0c"
+      ],
+      "old_r4_closure_count": 241,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 241,
+      "validation_unit_id": "vu-6fa34a604db4"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_R3_PLATFORM_EXCLUSIONS",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 233,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-a576e993bab7"
+      ],
+      "old_r4_closure_count": 232,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 232,
+      "validation_unit_id": "vu-101c124a89c7"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 213,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-5c458f26276d"
+      ],
+      "old_r4_closure_count": 213,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 213,
+      "validation_unit_id": "vu-00c65e6f8459"
+    },
+    {
+      "added_requirements": [],
+      "equality_verdict": "MATCH_AFTER_D4_R5_CODECOV",
+      "exclusions_and_reasons": [],
+      "frozen_expected_count": 211,
+      "install_route": "REQ_MAIN_PLUS_LOCK_DEV",
+      "lock_type": "poetry",
+      "member_task_ids": [
+        "saleor-rc-aa2bcdd0c218"
+      ],
+      "old_r4_closure_count": 211,
+      "old_r4_exclusion_count": 0,
+      "python_version": "3.9",
+      "removed_requirements": [],
+      "successor_closure_count": 211,
+      "validation_unit_id": "vu-ef6a56039231"
+    }
+  ]
+}

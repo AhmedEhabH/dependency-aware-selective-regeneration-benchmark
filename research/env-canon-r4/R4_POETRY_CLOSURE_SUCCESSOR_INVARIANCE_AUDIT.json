@@ -1,0 +1,1158 @@
+{
+  "artifact": "R4_POETRY_CLOSURE_SUCCESSOR_INVARIANCE_AUDIT",
+  "execution_image_pairs": [
+    {
+      "affected_unit_count": 7,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-02b9bb45ba01:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:465462307d07236a5424b146f3e19f9462970121a21e17f331db849c8008d2ac",
+      "member_validation_unit_ids": [
+        "vu-13c1de1de71e",
+        "vu-2964dfd4c127",
+        "vu-7aa21cafb78c",
+        "vu-9d7a49485c23",
+        "vu-a213391f6471",
+        "vu-c25b088a37f7",
+        "vu-fddb2fe50625"
+      ],
+      "native_profile_id": "nat-02b9bb45ba01",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 2,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-0728db662cde:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:a8687d9c7c5c8502ad019c1877e4c632ddc005f8c3b56a33a46bb3373c2ffb3a",
+      "member_validation_unit_ids": [
+        "vu-69dc51c7f829",
+        "vu-bfe987de6e53"
+      ],
+      "native_profile_id": "nat-0728db662cde",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 11,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "member_validation_unit_ids": [
+        "vu-0a27b4b8eb0a",
+        "vu-117d7bd068d5",
+        "vu-262f45bffe92",
+        "vu-33422e2343f1",
+        "vu-a1f3d1a5d841",
+        "vu-b68ee1b3ad18",
+        "vu-b9808f19ace4",
+        "vu-dade0b4b5b60",
+        "vu-dcd39990cb98",
+        "vu-e40f7e955c05",
+        "vu-e4998719ee01"
+      ],
+      "native_profile_id": "nat-34c1a3756742",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 12,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-591718dce38a:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:7862b9ecf8aa34e536a5b9eee545baa79318d9ef38704fa38525aba9426c52a3",
+      "member_validation_unit_ids": [
+        "vu-1418395d176d",
+        "vu-167dda0843d5",
+        "vu-1b6e1e44d2b8",
+        "vu-5d6c9a0e0c10",
+        "vu-70bfccaf270a",
+        "vu-766af1c5d395",
+        "vu-a75c2a6f15c3",
+        "vu-b01a5665c996",
+        "vu-b772fe8ae517",
+        "vu-b78ebcf3e530",
+        "vu-c1cf6680490b",
+        "vu-fa3b1afc1fc7"
+      ],
+      "native_profile_id": "nat-591718dce38a",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 12,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "member_validation_unit_ids": [
+        "vu-021cfd4955e7",
+        "vu-0d8ddec94417",
+        "vu-148c254cdec8",
+        "vu-3a7ebc8e23c7",
+        "vu-4b390d4acaf6",
+        "vu-5321e03160a1",
+        "vu-561a1a172143",
+        "vu-8228f26085f6",
+        "vu-c94437ca6633",
+        "vu-db74b3640c98",
+        "vu-e878163db06a",
+        "vu-f4038beff05f"
+      ],
+      "native_profile_id": "nat-a39687f3d19c",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 1,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-cc2f641e9e04:latest",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:acad85904c7011374316d5b44ecb8967628eb3fd6da9ddd2744c0be396728be6",
+      "member_validation_unit_ids": [
+        "vu-422bca69f329"
+      ],
+      "native_profile_id": "nat-cc2f641e9e04",
+      "provenance": "EXISTING_QUALIFIED_NATIVE_IMAGE",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 1,
+      "docker_profile_id": "dk-py312-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-py312-bookworm:r4-composite-20261013",
+      "frozen_python_version": "3.12",
+      "immutable_image_id": "sha256:1be41dd22a934cc56ed10fa1046234a450f6d2946f8099d7bcb501f696f1d759",
+      "member_validation_unit_ids": [
+        "vu-692af9112c6d"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd",
+      "provenance": "R4_COMPOSITE_REPAIR",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "affected_unit_count": 15,
+      "docker_profile_id": "dk-py38-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d-runtimeclean:r4-toolhouse-clean-20261014",
+      "frozen_python_version": "3.8",
+      "immutable_image_id": "sha256:b3e7e8903350e8c3c89801df6113009a114b0553cca428d096c0847ac6122403",
+      "member_validation_unit_ids": [
+        "vu-2a340620f37b",
+        "vu-31452711b5ad",
+        "vu-56c3822062f3",
+        "vu-6657777e194c",
+        "vu-75b210e72939",
+        "vu-895115c0587f",
+        "vu-9148a5fac7f7",
+        "vu-93d83a7dfa9a",
+        "vu-be8f8b160f49",
+        "vu-c17ac95f2f69",
+        "vu-cdcf3222cbb5",
+        "vu-d70446795f77",
+        "vu-e087af14cbdc",
+        "vu-ebc9a2321b77",
+        "vu-eda4e9f82401"
+      ],
+      "native_profile_id": "nat-62bc3631c27d",
+      "parent_image_id": "sha256:a8b198cf86806747c521d6c3256961822bd81702369af4fec1de8a3430d9caff",
+      "parent_image_ref": "envcanon/saleor-env-native-nat-62bc3631c27d:latest",
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "removed_toolhouse_dists": [
+        "wheel"
+      ],
+      "wheelhouse_era": "py38"
+    },
+    {
+      "affected_unit_count": 24,
+      "docker_profile_id": "dk-py39-bookworm",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd-runtimeclean:r4-toolhouse-clean-20261014",
+      "frozen_python_version": "3.9",
+      "immutable_image_id": "sha256:4332cce523045c92934bb5b1c6f422c9527d9c01fa70aa9dc7bb3b70d7776523",
+      "member_validation_unit_ids": [
+        "vu-0925adc62ab4",
+        "vu-101c124a89c7",
+        "vu-27136572a530",
+        "vu-27e8f29e8efc",
+        "vu-3975af462f4e",
+        "vu-648e07c887c6",
+        "vu-6fa34a604db4",
+        "vu-7fc2380ce441",
+        "vu-87c9ec56b2bc",
+        "vu-894cec50f546",
+        "vu-92d8208bc063",
+        "vu-930970ddfe91",
+        "vu-a199ad1732dc",
+        "vu-a49265fc9017",
+        "vu-afe5a5c0e422",
+        "vu-b0971c77cd3b",
+        "vu-b6f3aa535043",
+        "vu-bd505dbe0e91",
+        "vu-c5caaf2a1d6f",
+        "vu-c9fbfeece4f3",
+        "vu-cfed8240ddbc",
+        "vu-f98d47987c04",
+        "vu-fe7a88128f65",
+        "vu-ffe68ddec229"
+      ],
+      "native_profile_id": "nat-f65b9bf250fd",
+      "parent_image_id": "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24",
+      "parent_image_ref": "envcanon/saleor-env-native-nat-f65b9bf250fd:latest",
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "removed_toolhouse_dists": [
+        "wheel"
+      ],
+      "wheelhouse_era": "py39"
+    },
+    {
+      "affected_unit_count": 53,
+      "docker_profile_id": "dk-py39-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4-runtimeclean:r4-toolhouse-clean-20261014",
+      "frozen_python_version": "3.9",
+      "immutable_image_id": "sha256:94246e6bc8ae952f2172bac25973118a3d5d99f5fbed54bb451b55954067ac28",
+      "member_validation_unit_ids": [
+        "vu-00c65e6f8459",
+        "vu-048cdcee7907",
+        "vu-04c71da705ac",
+        "vu-0f0447cc3e76",
+        "vu-1322f72e5363",
+        "vu-18938eea2931",
+        "vu-211923a4bbb9",
+        "vu-2483fd026a5e",
+        "vu-25266c00d332",
+        "vu-25c83915bd75",
+        "vu-27ae8fa10bfc",
+        "vu-2864e8ec8e21",
+        "vu-28c3ab8a0637",
+        "vu-2bcc39756c5a",
+        "vu-2dc07b65457d",
+        "vu-34976fcfcdb9",
+        "vu-37c7da0c0820",
+        "vu-38186b1280dd",
+        "vu-3cc575189c53",
+        "vu-431fd44d4e16",
+        "vu-449f84e63781",
+        "vu-457f26c93ff1",
+        "vu-481aef932595",
+        "vu-5985a7f5c711",
+        "vu-5cf74906951d",
+        "vu-60d3684b344f",
+        "vu-69576eeb06f2",
+        "vu-6a7d0c94de02",
+        "vu-6e164d4710fa",
+        "vu-9218196782bc",
+        "vu-9a5ec59e6d06",
+        "vu-9af2f5398149",
+        "vu-9ed193747002",
+        "vu-a677a0561630",
+        "vu-b634339e1f8a",
+        "vu-bbb37661a274",
+        "vu-bedcd6ce97ff",
+        "vu-c3065f6a2b55",
+        "vu-c4f8d5ea7e5a",
+        "vu-c80b536f2407",
+        "vu-cd262bbb641d",
+        "vu-cf9b71629fb0",
+        "vu-d0ceadc7a5d0",
+        "vu-d391fc5c988e",
+        "vu-d5a8e4885ae5",
+        "vu-e009f3a36367",
+        "vu-ef2b9ed85c06",
+        "vu-ef6a56039231",
+        "vu-f36465a05af1",
+        "vu-f393f956c6ee",
+        "vu-f65903cda35f",
+        "vu-fe57def0dadc",
+        "vu-ff51c2dbdaf7"
+      ],
+      "native_profile_id": "nat-d35546f097f4",
+      "parent_image_id": "sha256:d6f910882d1d27ce878df535815630a190a57b19932ab58dcb96d193665f2796",
+      "parent_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4:latest",
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "removed_toolhouse_dists": [
+        "wheel"
+      ],
+      "wheelhouse_era": "py39"
+    },
+    {
+      "affected_unit_count": 6,
+      "docker_profile_id": "dk-py39-bullseye",
+      "execution_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f-runtimeclean:r4-toolhouse-clean-20261014",
+      "frozen_python_version": "3.9",
+      "immutable_image_id": "sha256:8c90d36aca1393a619f4448e1adfd6c307f27518c44df7baa6320d1ebaaec3ae",
+      "member_validation_unit_ids": [
+        "vu-0e0ef31c7634",
+        "vu-1bc025c648a9",
+        "vu-3f1261723b37",
+        "vu-b38ed89dc9a4",
+        "vu-cff7c5fc6d8e",
+        "vu-eba04e0cfe0e"
+      ],
+      "native_profile_id": "nat-d7d5ae76a87f",
+      "parent_image_id": "sha256:dc6a421b28d86aab1c6bca0a32b11b40fefc74535105c4240348208ca3773233",
+      "parent_image_ref": "envcanon/saleor-env-native-nat-d7d5ae76a87f:latest",
+      "provenance": "R4_RUNTIME_TOOLHOUSE_CLEAN",
+      "removed_toolhouse_dists": [
+        "wheel"
+      ],
+      "wheelhouse_era": "py39"
+    }
+  ],
+  "failed_d7_evidence": {
+    "present": true,
+    "requirements_lock_sha256": "487f9ebc9bfcdbf2d083dc25800b02c5f87aa2b1951aa2afa8a9bc746e7ee933",
+    "unit_result_sha256": "214b128912ba94874a9eda11641de4be90a9cf90659540c8b89431fdb4f7629a"
+  },
+  "frozen_36a9_lock": {
+    "expected": "4f027ba1f7e02d798022418b0b129eb66b3c8b7c7de0520d18cf58391a398b80",
+    "ok": true,
+    "sha256": "4f027ba1f7e02d798022418b0b129eb66b3c8b7c7de0520d18cf58391a398b80"
+  },
+  "mission_id": "M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+  "n12_evidence_present": true,
+  "native_profiles": [
+    "nat-02b9bb45ba01",
+    "nat-0728db662cde",
+    "nat-34c1a3756742",
+    "nat-591718dce38a",
+    "nat-62bc3631c27d",
+    "nat-a39687f3d19c",
+    "nat-cc2f641e9e04",
+    "nat-d35546f097f4",
+    "nat-d7d5ae76a87f",
+    "nat-f65b9bf250fd"
+  ],
+  "population": {
+    "binding_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2",
+    "identity": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+    "n_units": 144,
+    "ordered_membership_hash": "8eb4a7242e12bb03715adac5fffdea2e4340585843fc137ececd38952ad6a19e",
+    "python_assignment_count": 144,
+    "strata": {
+      "3.12_poetry": 25,
+      "3.12_uv": 21,
+      "3.8_poetry": 15,
+      "3.9_poetry": 83
+    },
+    "unique_pairs": 11
+  },
+  "python_version_assignment": [
+    [
+      "vu-e4998719ee01",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-b68ee1b3ad18",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-262f45bffe92",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-db74b3640c98",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-e878163db06a",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-422bca69f329",
+      "3.12",
+      "nat-cc2f641e9e04"
+    ],
+    [
+      "vu-117d7bd068d5",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-5321e03160a1",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-0d8ddec94417",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-561a1a172143",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-e40f7e955c05",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-b9808f19ace4",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-148c254cdec8",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-8228f26085f6",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-33422e2343f1",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-a1f3d1a5d841",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-692af9112c6d",
+      "3.12",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-021cfd4955e7",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-3a7ebc8e23c7",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-f4038beff05f",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-dcd39990cb98",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-0a27b4b8eb0a",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-dade0b4b5b60",
+      "3.12",
+      "nat-34c1a3756742"
+    ],
+    [
+      "vu-c94437ca6633",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-4b390d4acaf6",
+      "3.12",
+      "nat-a39687f3d19c"
+    ],
+    [
+      "vu-13c1de1de71e",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-b78ebcf3e530",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-9d7a49485c23",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-5d6c9a0e0c10",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-70bfccaf270a",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-a213391f6471",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-1b6e1e44d2b8",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-a75c2a6f15c3",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-167dda0843d5",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-c25b088a37f7",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-b01a5665c996",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-fddb2fe50625",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-bfe987de6e53",
+      "3.12",
+      "nat-0728db662cde"
+    ],
+    [
+      "vu-b772fe8ae517",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-766af1c5d395",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-c1cf6680490b",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-7aa21cafb78c",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-2964dfd4c127",
+      "3.12",
+      "nat-02b9bb45ba01"
+    ],
+    [
+      "vu-1418395d176d",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-fa3b1afc1fc7",
+      "3.12",
+      "nat-591718dce38a"
+    ],
+    [
+      "vu-69dc51c7f829",
+      "3.12",
+      "nat-0728db662cde"
+    ],
+    [
+      "vu-eda4e9f82401",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-895115c0587f",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-be8f8b160f49",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-e087af14cbdc",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-9148a5fac7f7",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-2a340620f37b",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-6657777e194c",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-c17ac95f2f69",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-93d83a7dfa9a",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-cdcf3222cbb5",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-56c3822062f3",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-31452711b5ad",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-ebc9a2321b77",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-d70446795f77",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-75b210e72939",
+      "3.8",
+      "nat-62bc3631c27d"
+    ],
+    [
+      "vu-457f26c93ff1",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-2483fd026a5e",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-34976fcfcdb9",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-ffe68ddec229",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-0e0ef31c7634",
+      "3.9",
+      "nat-d7d5ae76a87f"
+    ],
+    [
+      "vu-431fd44d4e16",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-fe57def0dadc",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-fe7a88128f65",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-9a5ec59e6d06",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-cd262bbb641d",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-37c7da0c0820",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-c5caaf2a1d6f",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-04c71da705ac",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-cf9b71629fb0",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-cfed8240ddbc",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-eba04e0cfe0e",
+      "3.9",
+      "nat-d7d5ae76a87f"
+    ],
+    [
+      "vu-3cc575189c53",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-930970ddfe91",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-9218196782bc",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-c3065f6a2b55",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-b634339e1f8a",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-f98d47987c04",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-894cec50f546",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-2dc07b65457d",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-7fc2380ce441",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-f65903cda35f",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-6e164d4710fa",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-ef2b9ed85c06",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-449f84e63781",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-1bc025c648a9",
+      "3.9",
+      "nat-d7d5ae76a87f"
+    ],
+    [
+      "vu-211923a4bbb9",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-c80b536f2407",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-1322f72e5363",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-25266c00d332",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-18938eea2931",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-69576eeb06f2",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-bedcd6ce97ff",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-d0ceadc7a5d0",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-a199ad1732dc",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-ff51c2dbdaf7",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-27136572a530",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-648e07c887c6",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-d391fc5c988e",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-bd505dbe0e91",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-9af2f5398149",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-c4f8d5ea7e5a",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-0925adc62ab4",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-b38ed89dc9a4",
+      "3.9",
+      "nat-d7d5ae76a87f"
+    ],
+    [
+      "vu-b0971c77cd3b",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-2bcc39756c5a",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-e009f3a36367",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-3975af462f4e",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-a49265fc9017",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-27e8f29e8efc",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-60d3684b344f",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-25c83915bd75",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-481aef932595",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-bbb37661a274",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-afe5a5c0e422",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-0f0447cc3e76",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-f36465a05af1",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-87c9ec56b2bc",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-b6f3aa535043",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-3f1261723b37",
+      "3.9",
+      "nat-d7d5ae76a87f"
+    ],
+    [
+      "vu-92d8208bc063",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-5985a7f5c711",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-c9fbfeece4f3",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-38186b1280dd",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-9ed193747002",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-6a7d0c94de02",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-27ae8fa10bfc",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-2864e8ec8e21",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-28c3ab8a0637",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-5cf74906951d",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-a677a0561630",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-d5a8e4885ae5",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-f393f956c6ee",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-048cdcee7907",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-cff7c5fc6d8e",
+      "3.9",
+      "nat-d7d5ae76a87f"
+    ],
+    [
+      "vu-6fa34a604db4",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-101c124a89c7",
+      "3.9",
+      "nat-f65b9bf250fd"
+    ],
+    [
+      "vu-00c65e6f8459",
+      "3.9",
+      "nat-d35546f097f4"
+    ],
+    [
+      "vu-ef6a56039231",
+      "3.9",
+      "nat-d35546f097f4"
+    ]
+  ],
+  "r3_harness_manifest": {
+    "files": [
+      {
+        "expected": "fd06ebb2fcc29f128c15af0a1986f90684ba4d4c62dbfcb6493ed863fb98dfa5",
+        "file": "D7_R3_HARNESS_CONTRACT.md",
+        "ok": true,
+        "sha256": "fd06ebb2fcc29f128c15af0a1986f90684ba4d4c62dbfcb6493ed863fb98dfa5"
+      },
+      {
+        "expected": "88eec826d6c099831c9116e8269d402053624e8d4049ab6337c42daab3b54f58",
+        "file": "d7_r3_closure.py",
+        "ok": true,
+        "sha256": "88eec826d6c099831c9116e8269d402053624e8d4049ab6337c42daab3b54f58"
+      },
+      {
+        "expected": "c14e9d2e7b56f02774b96449ba6755a083cd7f819c62e683b070579c7655620e",
+        "file": "d7_r3_light_pack.py",
+        "ok": true,
+        "sha256": "c14e9d2e7b56f02774b96449ba6755a083cd7f819c62e683b070579c7655620e"
+      },
+      {
+        "expected": "051608c37840a8a4d5b01c6bf5fb0d653624227ca723bef656af64846508b44c",
+        "file": "d7_r3_native_specs.py",
+        "ok": true,
+        "sha256": "051608c37840a8a4d5b01c6bf5fb0d653624227ca723bef656af64846508b44c"
+      },
+      {
+        "expected": "04a395ce0069321f11b5b419d48569d94a1e81891ab767b564fd0c89aa35bad9",
+        "file": "d7_r3_probes.py",
+        "ok": true,
+        "sha256": "04a395ce0069321f11b5b419d48569d94a1e81891ab767b564fd0c89aa35bad9"
+      },
+      {
+        "expected": "658f316961948041f908a6447736cd3169dedd26123d70c7942bdf4dea8aea40",
+        "file": "d7_r3_validation_driver.py",
+        "ok": true,
+        "sha256": "658f316961948041f908a6447736cd3169dedd26123d70c7942bdf4dea8aea40"
+      },
+      {
+        "expected": "e5e7d83846c90d61988190a6c0115565fb762fdebfed757fa1012356fe03312e",
+        "file": "d7_r3_wheeltags.py",
+        "ok": true,
+        "sha256": "e5e7d83846c90d61988190a6c0115565fb762fdebfed757fa1012356fe03312e"
+      },
+      {
+        "expected": "aff86c25b341f851c7689e0e81c92b5a57d3ee3825de58e03a1a5568fccdcc77",
+        "file": "tests/pytest.ini",
+        "ok": true,
+        "sha256": "aff86c25b341f851c7689e0e81c92b5a57d3ee3825de58e03a1a5568fccdcc77"
+      },
+      {
+        "expected": "5a138cf112fcfdd17c144e804d89babb058b64f665e8b54be1802a61f60fdfdb",
+        "file": "tests/test_d7_r3_harness.py",
+        "ok": true,
+        "sha256": "5a138cf112fcfdd17c144e804d89babb058b64f665e8b54be1802a61f60fdfdb"
+      }
+    ],
+    "ok": true
+  },
+  "r4c_symlink_commits": [
+    "032b98afff2026468336882ffc04f235243fc4fc",
+    "07c8859c0ac3031174d6946371341c93175d176a",
+    "0ad61b3f0096a50a0ec8e80b2c1905b06e11aa7d",
+    "11756ee6b65a255869f551e838edec1742b1c2ce",
+    "138ee68c3818affda0de12010f561fbf4d2caf9e",
+    "224bf29fb39fd14645a5adfda42008ea5fb8d799",
+    "22a30bf2e4ccda91e1e43673d77e25d439f61746",
+    "2c770c685a57466c11d3cc9a0e9e12ed10243408",
+    "30b4edece5aa284f5a1e344e70350a680e43d9cd",
+    "333febd3522379220788fabac4c716f426ccd76d",
+    "3bf31ab2fefca154d841803c9fc71057938ce5f9",
+    "3cac33590b90fd34e33ac593180c67f014d9a372",
+    "46456e7317ca5729241a9f62ff7250e3cf0b00a1",
+    "481c2d367c6ffe14a5dff85aa983adbea911285c",
+    "796f4a0fd9690c374195135488c36e8641833f24",
+    "7e42fc67ce72770720440781fc83685a48bd91b8",
+    "8e6164e3d12327496660f91f836d5c3222d8d2b6",
+    "95dbffbc523a5a8865ead2a2649913491ac8e89c",
+    "b356a525ba2ab918b85b6b617ac4df499e70e247",
+    "c31fb4cfd08f5578c90b9109f98f662b119e208a",
+    "ce3b63edecef7c942ac88888a4bc77149086bbd3",
+    "d361479ab7da3060cf26e8dbb52c9aab89fab0c0",
+    "d498167dcd3037b15682c8ec8278d38ab1a465dd",
+    "d6656e0f2a1d955b64a48fe21a7fd733203a8cd8",
+    "db5440f7994f02f85c621a604d9813329db43e56",
+    "e0890780bf56856d2b20ac14b1786749309450ae",
+    "e0f2933d58b973ae61ca26b22a89da026aaaa7ad",
+    "e7175003a542258f15e341a90a305f6c4cc61df2",
+    "e8733aee630a007e0ec031e772ed517ce6c20e9d",
+    "fd463c8aae38b120f3d984fa881c1c7c61817591",
+    "ffe3a3ece0fb29cfbb7c02a032c86da31d17e8b3"
+  ],
+  "recovery_artifacts_ok": true,
+  "schema_version": "env-canon-r4/poetry-closure-successor/invariance-audit/1.0",
+  "source_fidelity_artifacts_ok": true,
+  "source_fidelity_manifest": "",
+  "verdict": "FROZEN_INVARIANCE_PASS"
+}

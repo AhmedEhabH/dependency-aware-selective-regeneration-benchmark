@@ -1,0 +1,136 @@
+{
+  "all_pass": true,
+  "artifact": "R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION_EVIDENCE",
+  "image_bindings": [
+    {
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "index": 1,
+      "validation_unit_id": "vu-0d8ddec94417",
+      "verified": true
+    },
+    {
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "index": 2,
+      "validation_unit_id": "vu-8228f26085f6",
+      "verified": true
+    },
+    {
+      "execution_image_ref": "envcanon/saleor-env-native-nat-a39687f3d19c:latest",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "index": 3,
+      "validation_unit_id": "vu-3a7ebc8e23c7",
+      "verified": true
+    },
+    {
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "index": 4,
+      "validation_unit_id": "vu-e4998719ee01",
+      "verified": true
+    },
+    {
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "index": 5,
+      "validation_unit_id": "vu-b68ee1b3ad18",
+      "verified": true
+    },
+    {
+      "execution_image_ref": "envcanon/saleor-env-native-nat-34c1a3756742:latest",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "index": 6,
+      "validation_unit_id": "vu-117d7bd068d5",
+      "verified": true
+    }
+  ],
+  "mission_id": "M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+  "n_fail": 0,
+  "n_pass": 6,
+  "results": [
+    {
+      "classification": "PASS",
+      "elapsed_seconds": 172.13,
+      "evidence_dir": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14\\units\\vu-0d8ddec94417",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "index": 1,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "requirements_lock_sha256": "bf15f59380302ee197f94ef0e1f01432abfc23ceaced41285680b0fef5d0ed1d",
+      "result": "PASS",
+      "runtime_pins_count": 252,
+      "validation_unit_id": "vu-0d8ddec94417"
+    },
+    {
+      "classification": "PASS",
+      "elapsed_seconds": 134.85,
+      "evidence_dir": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14\\units\\vu-8228f26085f6",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "index": 2,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "requirements_lock_sha256": "eca9e0b9e2db27cf18dc1822ae0f14fcfc28c8312366578e1d91857f04add97d",
+      "result": "PASS",
+      "runtime_pins_count": 248,
+      "validation_unit_id": "vu-8228f26085f6"
+    },
+    {
+      "classification": "PASS",
+      "elapsed_seconds": 135.87,
+      "evidence_dir": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14\\units\\vu-3a7ebc8e23c7",
+      "immutable_image_id": "sha256:998e20c52603c7915c42b525fc1cd3d524df91cabbea89082d5abc5db60b8893",
+      "index": 3,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "requirements_lock_sha256": "436659abb591482d3ac783fe6c808ae6f204453472ee98ce9a501d6998e48d25",
+      "result": "PASS",
+      "runtime_pins_count": 248,
+      "validation_unit_id": "vu-3a7ebc8e23c7"
+    },
+    {
+      "classification": "PASS",
+      "elapsed_seconds": 234.77,
+      "evidence_dir": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14\\units\\vu-e4998719ee01",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "index": 4,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "requirements_lock_sha256": "18fbbce76633af4a3941e3589133cf0f503de0831e0ca4e34335b537dbbb7899",
+      "result": "PASS",
+      "runtime_pins_count": 233,
+      "validation_unit_id": "vu-e4998719ee01"
+    },
+    {
+      "classification": "PASS",
+      "elapsed_seconds": 130.57,
+      "evidence_dir": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14\\units\\vu-b68ee1b3ad18",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "index": 5,
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "requirements_lock_sha256": "562067be7e5b592d3df870435cd891172bc48880be3a854ad36db51bf6863d39",
+      "result": "PASS",
+      "runtime_pins_count": 232,
+      "validation_unit_id": "vu-b68ee1b3ad18"
+    },
+    {
+      "classification": "PASS",
+      "elapsed_seconds": 240.32,
+      "evidence_dir": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14\\units\\vu-117d7bd068d5",
+      "immutable_image_id": "sha256:24b7945d2f6c62c90a71efa0e6433d32147f1632aca7fce5add2566d62f5bc4b",
+      "index": 6,
+      "install_route": "V2_EDITABLE_PLUS_LOCK_DEV",
+      "requirements_lock_sha256": "dc3fb0e948f16609421ee623218ba5652d2f66bea8708e7f3418a607166abc7f",
+      "result": "PASS",
+      "runtime_pins_count": 232,
+      "validation_unit_id": "vu-117d7bd068d5"
+    }
+  ],
+  "run_root": "D:\\WP2\\runs\\r4-poetry-closure-successor-qualification-2026-10-14",
+  "schema_version": "env-canon-r4/poetry-closure-successor/qualification/1.0",
+  "stopped_early": false,
+  "unit_order": [
+    "vu-0d8ddec94417",
+    "vu-8228f26085f6",
+    "vu-3a7ebc8e23c7",
+    "vu-e4998719ee01",
+    "vu-b68ee1b3ad18",
+    "vu-117d7bd068d5"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "artifact": "R4_POETRY_CLOSURE_SUCCESSOR_DELTA_ARTIFACT_READINESS",
+  "mission_id": "M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+  "n_changed_units": 3,
+  "n_unique_added_requirements": 235,
+  "n_unresolved_newly_required": 0,
+  "resolved_ok": true,
+  "schema_version": "env-canon-r4/poetry-closure-successor/delta-artifact-readiness/1.0",
+  "source_audit": "D:\\WP2\\active\\r4-poetry21-closure-successor\\research\\env-canon-r4\\R4_POETRY_CLOSURE_SUCCESSOR_POPULATION_AUDIT.json",
+  "units": [
+    {
+      "added_count": 234,
+      "incompatible": [],
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "missing": [],
+      "python_version": "3.12",
+      "resolved_count": 234,
+      "resolved_sample": [
+        "adyen==4.0.0",
+        "amqp==5.3.1",
+        "aniso8601==7.0.0",
+        "annotated-types==0.7.0",
+        "anyio==4.8.0",
+        "asgiref==3.8.1",
+        "attrs==24.3.0",
+        "authlib==1.5.1",
+        "authorizenet==1.1.5",
+        "azure-common==1.1.28"
+      ],
+      "validation_unit_id": "vu-0d8ddec94417",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "added_count": 230,
+      "incompatible": [],
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "missing": [],
+      "python_version": "3.12",
+      "resolved_count": 230,
+      "resolved_sample": [
+        "adyen==4.0.0",
+        "amqp==5.3.1",
+        "aniso8601==7.0.0",
+        "anyio==4.8.0",
+        "asgiref==3.8.1",
+        "attrs==24.3.0",
+        "authlib==1.5.1",
+        "authorizenet==1.1.5",
+        "azure-common==1.1.28",
+        "azure-core==1.32.0"
+      ],
+      "validation_unit_id": "vu-8228f26085f6",
+      "wheelhouse_era": "py312"
+    },
+    {
+      "added_count": 230,
+      "incompatible": [],
+      "install_route": "LOCK_FRAGMENT_MAIN_PLUS_DEV",
+      "missing": [],
+      "python_version": "3.12",
+      "resolved_count": 230,
+      "resolved_sample": [
+        "adyen==4.0.0",
+        "amqp==5.3.1",
+        "aniso8601==7.0.0",
+        "anyio==4.8.0",
+        "asgiref==3.8.1",
+        "attrs==24.3.0",
+        "authlib==1.4.0",
+        "authorizenet==1.1.5",
+        "azure-common==1.1.28",
+        "azure-core==1.32.0"
+      ],
+      "validation_unit_id": "vu-3a7ebc8e23c7",
+      "wheelhouse_era": "py312"
+    }
+  ]
+}

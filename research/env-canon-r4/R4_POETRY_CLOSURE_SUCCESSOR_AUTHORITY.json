@@ -1,0 +1,96 @@
+{
+  "artifact": "R4_POETRY_CLOSURE_SUCCESSOR_AUTHORITY",
+  "mission_id": "M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+  "created_at_utc": "2026-10-14T00:00:00+00:00",
+  "schema_version": "env-canon-r4/poetry-closure-successor-authority/1.0",
+  "decision_classification": "C_LOCK_CLOSURE_PARSER_DIVERGENCE",
+  "authority_precedence": [
+    {
+      "rank": 1,
+      "authority": "OWNER_RULING_THIS_MISSION",
+      "source": "mission authorization M17_D7_R4_POETRY_CLOSURE_SUCCESSOR_QUALIFICATION",
+      "binding_rule": "For D7 behavioral execution, the frozen install-route authority governs runtime dependency semantics. For LOCK_FRAGMENT_MAIN_PLUS_DEV the required behavioral dependency closure is the COMPLETE applicable main+dev dependency set. V2_EDITABLE_PLUS_LOCK_DEV shares the frozen complete-main+dev authority and MUST be audited for the same divergence. UV_EXPORT and REQ_MAIN_PLUS_LOCK_DEV remain unchanged unless their own authority proves a violation."
+    },
+    {
+      "rank": 2,
+      "authority": "D7_R3_HARNESS_CONTRACT",
+      "source": "D:\\wp2_env_store\\harness\\d7_r3\\D7_R3_HARNESS_CONTRACT.md (SHA fd06ebb2fcc29f128c15af0a1986f90684ba4d4c62dbfcb6493ed863fb98dfa5)",
+      "binding_rule": "The runtime closure is the unit's frozen lock fragment FULLY. Both LOCK_FRAGMENT_MAIN_PLUS_DEV and V2_EDITABLE_PLUS_LOCK_DEV include the complete main+dev dependency set recorded in the frozen lock. Exactly two platform exclusions apply (no new rule, no outcome-tuning): pywin32 -> MARKER_EXCLUDED_ON_LINUX; python-magic-bin -> platform=\"win32\"."
+    },
+    {
+      "rank": 3,
+      "authority": "D7_R3_CLOSURE_IMPL",
+      "source": "D:\\wp2_env_store\\harness\\d7_r3\\d7_r3_closure.py (SHA 88eec826d6c099831c9116e8269d402053624e8d4049ab6337c42daab3b54f58)",
+      "binding_rule": "poetry_pins returns the complete lock closure (python-versions filtered). derive_runtime_closure applies exactly the two frozen platform exclusions. NO dependency is pruned merely because it looks dev-only; tools such as ruff/semgrep/deptry stay in the closure."
+    },
+    {
+      "rank": 4,
+      "authority": "D7_REQUIRED_CLOSURE_AUDIT",
+      "source": "D:\\wp2_env_store\\manifests\\D7_REQUIRED_CLOSURE_AUDIT.json (superseded by D7_REQUIRED_CLOSURE_AUDIT_R1.json) — machine-readable expected main/dev closure per unit",
+      "binding_rule": "Provides the frozen expected main/dev closure identity and count per unit. For unit vu-0d8ddec94417 (saleor-rc-36a9a14e8d12): required_package_count=254 (150 main + 104 dev), lock_version 2.1, group_semantics=groups."
+    },
+    {
+      "rank": 5,
+      "authority": "R4_SHARED_INTERFACE",
+      "source": "research/env-canon-r4/R4_SHARED_INTERFACE.md + src/benchmark/wp2/env_r4/contracts.py (frozen, byte-immutable)",
+      "binding_rule": "The R4-B lock parser behind the frozen interface is a GENERIC parser. It must remain marker-aware for other consumers (UV_EXPORT, source-fidelity, census). It is NOT the owner of D7 install-route semantics and must NOT be globally weakened."
+    },
+    {
+      "rank": 6,
+      "authority": "36A9_OWNER_REVIEW",
+      "source": "D:\\WP2\\active\\r4-full144-preexecution\\session-ses_ec83.md — completed 36A9 owner review (C_LOCK_CLOSURE_PARSER_DIVERGENCE)",
+      "binding_rule": "Established R3-vs-R4-B closure divergence on the exact frozen artifact (254 [[package]] entries). Owner review recorded R3 runtime closure=253 and R4-B requirements=18; the divergence classification is frozen. The successor reproduces the frozen R3 closure semantics EXACTLY (d7_r3_closure.py), which yields 252 install pins for 36A9 after both frozen platform exclusions (pywin32 + python-magic-bin), matching the actual R3 calibration evidence."
+    }
+  ],
+  "exact_semantic_divergence": {
+    "mechanism": "The R4-B generic poetry parser (uv_adapter._parse_poetry_lock) applies package-level marker evaluation (marker_applicable + _pyv_matches) to every lock [[package]] entry. For the frozen 36A9 lock (Poetry lock-version 2.1), packages such as django, pillow-avif-plugin, celery, pytest carry markers='platform_python_implementation == \"PyPy\"' that evaluate False on CPython -> R4-B drops them. Result: 18 requirements. The frozen R3 behavioral authority (d7_r3_closure.py) IGNORES package-level markers and includes the COMPLETE main+dev closure (all lock entries, python-versions filtered), applying only the exactly-two frozen platform exclusions -> 252 install pins.",
+    "example_artifact_sha256": "4f027ba1f7e02d798022418b0b129eb66b3c8b7c7de0520d18cf58391a398b80",
+    "lock_entries": 254,
+    "r3_runtime_closure_owner_review": 253,
+    "r3_runtime_closure_actual_calibration": 252,
+    "r4b_runtime_requirements": 18,
+    "intersection": 18,
+    "r3_only": 235,
+    "r4b_only": 0,
+    "successor_closure_for_36a9": 252,
+    "audit_expected_for_36a9": 254
+  },
+  "correct_code_ownership_layer": {
+    "layer": "D7_install_route_semantics",
+    "owner": "scripts/r4_behavioral_calibration_n12_r2.py::runtime_pins() (the qualified Attempt-6 runner, reused byte-for-byte by src/benchmark/wp2/full144/driver.py)",
+    "justification": "The frozen R3 install-route authority defines what closure each install route must install. The runner's runtime_pins() is the D7 install-route projection layer. R4-B is a generic lock parser that MUST stay marker-aware for UV_EXPORT, source-fidelity and the census; therefore the correction is a route-aware behavioral closure projection at the runner layer, NOT a global weakening of R4-B.",
+    "r4b_unchanged": true,
+    "contracts_unchanged": true
+  },
+  "generic_successor_rule": {
+    "rule": "For install route LOCK_FRAGMENT_MAIN_PLUS_DEV with a poetry lock, the D7 behavioral closure projection derives the closure from the frozen R3 closure semantics (complete main+dev lock closure, python-versions-filtered, then exactly the frozen R3 platform exclusions). All other routes (UV_EXPORT, REQ_MAIN_PLUS_LOCK_DEV, V2_EDITABLE_PLUS_LOCK_DEV) keep their existing R4-B closure projection unchanged. Unknown install routes fail closed.",
+    "no_task_id_conditionals": true,
+    "no_commit_id_conditionals": true,
+    "no_package_name_allowlist": true,
+    "no_version_heuristic": true,
+    "reuses_frozen_r3_closure": "d7_r3_closure.py poetry_pins / derive_runtime_closure (qualified frozen closure implementation, already imported by the runner for win32_platform_names)"
+  },
+  "routes_changed": ["LOCK_FRAGMENT_MAIN_PLUS_DEV"],
+  "routes_unchanged": [
+    {"route": "V2_EDITABLE_PLUS_LOCK_DEV", "reason": "Audit proves existing implementation already produces the complete main+dev closure (V2 locks carry no package-level markers that R4-B gates out; R4-B parse == full lock for all 19 V2 units). Per OWNER_RULING, do not change V2 unless the audit proves a violation; no violation exists."},
+    {"route": "UV_EXPORT", "reason": "uv.lock single-environment semantics; R4-B uv parse matches the audit expected closure minus legitimately target-excluded win32-only packages (pywin32/python-magic-bin), consistent with the frozen I6 install-route authority. No violation of UV_EXPORT's own route semantics."},
+    {"route": "REQ_MAIN_PLUS_LOCK_DEV", "reason": "R4-B parse returns the complete lock closure for all REQ units (no marker gating in those locks). Codecov 2.1.11 inclusion matches D4 R5 amendment (affected_versions up to 2.1.10; codecov 2.1.11 recovered as ARCHIVED_EXACT_ARTIFACT). No violation of REQ's own route semantics."}
+  ],
+  "why_not_result_driven_patching": {
+    "general_rule_encoded": "The successor encodes a GENERAL install-route rule keyed to the frozen authority of the route, not to any task/unit/package/commit identity.",
+    "no_known_failure_special_cases": true,
+    "derived_from_frozen_authority": "D7_R3_HARNESS_CONTRACT + d7_r3_closure.py + D7_REQUIRED_CLOSURE_AUDIT define the complete main+dev closure semantics; the successor merely makes the D7 install-route layer consume that frozen authority instead of the marker-gated generic parse.",
+    "r4b_preserved_for_other_consumers": true,
+    "population_verified": "S4 population audit computes successor closure for all 144 units / 219 tasks; the actual delta scope is measured, not assumed."
+  },
+  "frozen_invariance_intent": {
+    "population_identity": "UNCHANGED (144 units / 219 tasks, exact order preserved)",
+    "python_assignment": "UNCHANGED",
+    "images_binding_runtime_clean": "UNCHANGED",
+    "r4c_linux_materialization": "UNCHANGED",
+    "source_fidelity_and_r4e_recovery": "UNCHANGED",
+    "historical_lock_bytes_and_failed_d7_evidence": "UNCHANGED",
+    "n12_accepted_evidence": "UNCHANGED",
+    "only_successor_implementation_tests_evidence_may_differ": true
+  }
+}
