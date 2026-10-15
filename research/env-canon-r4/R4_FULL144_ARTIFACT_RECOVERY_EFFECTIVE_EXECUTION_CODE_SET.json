@@ -1,0 +1,47 @@
+{
+  "artifact": "R4_FULL144_ARTIFACT_RECOVERY_EFFECTIVE_EXECUTION_CODE_SET",
+  "mission_id": "M17_D7_R4_FULL144_ARTIFACT_RECOVERY_SUCCESSOR",
+  "schema_version": "env-canon-r4/full144-artifact-recovery/effective-execution-code-set/1.0",
+  "purpose": "Freeze the exact effective execution-code set for the artifact-recovery successor Full144 run (restart from Unit 1). The ONLY execution-code change vs the corrected set is the generalized evidence-driven R4-E recovery binding in the qualified runner plus the generalized recovery consumed-record in the driver.",
+  "aggregate_hash_method": "SHA-256 over the LF-joined sorted lines '<sha256>  <path>', paths sorted lexicographically, one trailing LF (identical to the predecessor method; hashes are of git-blob LF-normalized bytes).",
+  "aggregate_hash": "423d31c7cbdb12512e1b56eccb2d257b459982220fa5c866643f5a96c97a0bcc",
+  "members": [
+    {
+      "path": "src/benchmark/wp2/full144/driver.py",
+      "sha256": "7113e3951a66af7b8192af6a905e339d60ee984d77c92a4545273b800cbb75ac",
+      "git_blob_sha1": "a572bec4aac7298cf4ceabacc5cbdabca4de8c53",
+      "role": "Full144 execution driver (additive refreeze: run root overridable via R4_FULL144_RUN_ROOT; generalized evidence-driven recovery consumed record)",
+      "successor_changed": false
+    },
+    {
+      "path": "src/benchmark/wp2/full144/population.py",
+      "sha256": "debcb2b75b7bc5b40d597a67d1b6a1f8757a7c1fc48628139352beba72ec9bc9",
+      "git_blob_sha1": "49c83621dbfe64ec0e16bafded9b0b017f689b1e",
+      "role": "Frozen Full144 population/order/binding authority used by the driver (dead RECOVERY_UNIT constant removed)",
+      "successor_changed": false
+    },
+    {
+      "path": "scripts/r4_behavioral_calibration_n12_r2.py",
+      "sha256": "e4a868f5008c4de87e7b80e2522eea0b7b94752225a2e1707c3f4db0532f56a4",
+      "git_blob_sha1": "0da2fb7f45dbd7e3715bf8a4a9428867b8c15c5c",
+      "role": "CORRECTED qualified runner: evidence-driven pin-selected R4-E recovery binding replacing the N12-only pylint special case; all other behavioural semantics unchanged",
+      "successor_changed": true
+    },
+    {
+      "path": "src/benchmark/wp2/env_r4/route_closure.py",
+      "sha256": "327ade0f5e535402c2941542a2ab2cd234ea4c67dfaecded6d7862c1b0d53952",
+      "git_blob_sha1": "2ce07d26751721039aa96cd05920528e5ae0b7a6",
+      "role": "Successor D7 install-route closure projection (reuses frozen R3 closure; generic route-authority rule; R4-B parser untouched)",
+      "successor_changed": false
+    }
+  ],
+  "excluded_unchanged_frozen": [
+    "src/benchmark/wp2/env_r4/contracts.py",
+    "src/benchmark/wp2/env_r4/uv_adapter.py",
+    "src/benchmark/wp2/env_r4/integrated_parser.py",
+    "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+    "src/benchmark/wp2/env_r4/linux_tree_wiring.py",
+    "src/benchmark/wp2/linux_adapter.py"
+  ],
+  "exclusion_rule": "Unchanged modules required by the execution path are already frozen by git blobs and covered by the frozen-invariance audit; only modules whose changed behaviour is required by the artifact-recovery path are members."
+}
