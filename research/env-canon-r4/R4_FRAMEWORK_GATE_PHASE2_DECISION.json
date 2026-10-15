@@ -1,0 +1,171 @@
+{
+  "mission_id": "M17_D7_R4_FRAMEWORK_GATE_PHASE2_DECISION",
+  "schema_version": "env-canon-r4/framework-gate-phase2-decision/1.0",
+  "verdict": "PASS_FRAMEWORK_GATE_DECISION_READY_FOR_PHASE3",
+  "generated_utc": "2026-10-15T11:13:25.517447Z",
+  "mission_type": "scientific design/decision review only; NO implementation",
+  "phase1_authority": {
+    "worktree": "D:\\WP2\\active\\r4-framework-semantics-phase2",
+    "required_starting_head": "e357c7993344e471f1670996df6d7b39603a7ba7",
+    "verified_head": "e357c7993344e471f1670996df6d7b39603a7ba7",
+    "phase1_immutable_tag": "m17-d7-r4-framework-semantics-audit-r1-2026-10-15",
+    "phase1_tag_peel": "e357c7993344e471f1670996df6d7b39603a7ba7",
+    "audit_terminal_verdict": "PASS_FRAMEWORK_SEMANTICS_AUDIT_READY_FOR_PHASE2",
+    "audit_json": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_AUDIT_144.json",
+    "audit_md": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_AUDIT_144.md",
+    "signatures_json": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_SIGNATURES_144.json",
+    "gap_analysis": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_AUDIT_GAP_ANALYSIS.md",
+    "probe_tsv": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_PROBE_219.tsv",
+    "evidence_hashes_verified": {
+      "probe_tsv_sha256": "089fb1990563c719bde0c1d50b3213478667d8005a5536369157e674b567a936",
+      "signatures_json_sha256": "a53536d4551088af4f1b9b8a166e4d40eeb5b4af62aee279d102caa25b422a3c",
+      "deterministic_payload_sha256": "61a92159a8eba7c5bcf151011d6baa72548234bf95d9bc0168f04bca58c43c56"
+    },
+    "audit_facts": {
+      "units_audited": 144,
+      "tasks_audited": 219,
+      "distinct_target_commits": 219,
+      "current_gate_match": 143,
+      "current_gate_mismatch": 1,
+      "semantics_unresolved": 0,
+      "sole_mismatch_unit": 56,
+      "units_1_55_mismatches": 0,
+      "units_57_144_predicted_same_mismatch": 0
+    }
+  },
+  "q1_manage_gate_semantics": {
+    "chosen_candidate": "C",
+    "rule": "The manage-gate settings module shall be the exact historical revision's repository-authored pytest Django settings module (the settings module the repository itself authors for its pytest workload, i.e. the repo pytest --ds / DJANGO_SETTINGS_MODULE-for-tests value), resolved from the exact materialized worktree. The manage check command is: python manage.py check --settings=<repo-authored pytest settings module>.",
+    "modern_signature_rule": "python manage.py check --settings=saleor.tests.settings",
+    "legacy_signature_rule": "python manage.py check --settings=tests.settings",
+    "why_not_merely_unit56_fix": "Candidate C is the faithful generalization of the frozen D7 R3 smoke semantics (manage gate runs against the repository's TEST settings module) to the full population. For 218 commits the repo-authored pytest settings module IS saleor.tests.settings (effective command byte-identical to current). For the single legacy commit 8220a534... the repository authors tests.settings, which exists in its exact tree. The same general repository/semantics-based rule handles both; it is not keyed to task/commit/unit identity."
+  },
+  "q2_test_settings_vs_default": {
+    "decision": "INTENTIONALLY_USE_TEST_SETTINGS",
+    "ruling": "Manage-gate semantics intentionally use the repository-authored TEST (pytest) settings module, NOT the repository's normal manage.py default settings (saleor.settings).",
+    "evidence": [
+      "Frozen D7 R3 harness contract (research/env-canon-evidence/d7-r3/harness/D7_R3_HARNESS_CONTRACT.md, section F Smoke) preserves the manage smoke gate as `manage.py check --settings=saleor.tests.settings` — the manage gate is frozen against the repository's TEST settings module, not against manage.py's default.",
+      "The manage.py default is `saleor.settings` in BOTH signatures (Phase-1 signatures JSON); the frozen R3 smoke semantics deliberately overrides it with the test settings module. The audit flagged this as 'a deliberate semantic override that Phase 2 should confirm is intended' (R4_FRAMEWORK_SEMANTICS_AUDIT_144.md section 9). This decision confirms it is intended.",
+      "The manage gate is a framework gate: it verifies the installed environment can run Django system checks under the same settings configuration the repository's own test suite (pytest) uses. The pytest gate already inherits the repo --ds config; the manage gate validating the same repo-authored test settings module is the semantically consistent framework check.",
+      "Using manage.py's default (saleor.settings) would change the effective framework-gate command for ALL 143 matching units (to `python manage.py check` without --settings) and would not reflect the settings under which the workload's tests actually run."
+    ]
+  },
+  "manage_vs_pytest_decoupled": {
+    "decision": true,
+    "explanation": "Manage and pytest semantics remain intentionally decoupled at the mechanism level. The manage gate FORCES the settings module explicitly via --settings; the pytest gate INHERITS the repository-authored config (--ds) without forcing. Under Candidate C both resolve to the SAME repository-authored settings module (saleor.tests.settings for the modern signature, tests.settings for the legacy signature), so they are semantically consistent while remaining mechanically decoupled. Neither gate is merged into the other."
+  },
+  "alternatives_considered": [
+    {
+      "candidate": "A",
+      "name": "Universal hardcoded --settings=saleor.tests.settings",
+      "accept_reject": "REJECT",
+      "evidence": "Phase-1 assumption inventory item #3 classifies the forced manage settings module as HISTORICALLY_FALSE_FOR_SOME_POPULATION: saleor/tests/settings.py exists in 218/219 commits but is absent in commit 8220a534 (Unit 56). A universal hardcoded module contradicts a frozen revision (Unit 56's exact tree) and is precisely the proven defect."
+    },
+    {
+      "candidate": "B",
+      "name": "Repository manage.py default (python manage.py check, default saleor.settings)",
+      "accept_reject": "REJECT",
+      "evidence": "Changes the effective framework-gate command for ALL 143 CURRENT_GATE_MATCH units away from the frozen R3 smoke semantics; uses production settings (saleor.settings) rather than the repository's test settings module; not the settings under which the workload's tests run. Contradicts the frozen D7 R3 smoke semantics which intentionally force the test settings module."
+    },
+    {
+      "candidate": "C",
+      "name": "Repository-authored pytest/test settings module per exact revision",
+      "accept_reject": "ACCEPT",
+      "evidence": "General repository/semantics-based rule. For 218 commits resolves to --settings=saleor.tests.settings (byte-identical to the current effective command, so the 143 CURRENT_GATE_MATCH units keep their exact effective gate). For commit 8220a534 resolves to --settings=tests.settings, which exists in that exact tree (tests/settings.py present, probe-verified). Not task/commit/unit-specific. Not a new universal hardcoded module. Preserves the frozen R3 smoke intent (manage gate under the repo test settings module)."
+    }
+  ],
+  "effective_expected_rules": {
+    "modern_signature_ce2098d479b46173": {
+      "n_commits": 218,
+      "n_units": 143,
+      "manage_default_settings_module": "saleor.settings",
+      "repo_pytest_settings_module": "saleor.tests.settings",
+      "manage_gate_command": "python manage.py check --settings=saleor.tests.settings"
+    },
+    "legacy_signature_9b783a672de2042b": {
+      "n_commits": 1,
+      "commit": "8220a53473bb67bbb247490cbd043c56dac4568c",
+      "n_units": 1,
+      "unit": 56,
+      "manage_default_settings_module": "saleor.settings",
+      "repo_pytest_settings_module": "tests.settings",
+      "manage_gate_command": "python manage.py check --settings=tests.settings"
+    }
+  },
+  "q3_units_1_55_retention": {
+    "decision": "RETAIN",
+    "effective_gate_change": "NONE",
+    "ruling": "Units 1..55 PASS evidence is retained. The chosen successor rule (Candidate C) resolves to exactly `python manage.py check --settings=saleor.tests.settings` for every unit 1..55 (all CURRENT_GATE_MATCH, modern signature) — the SAME effective framework-gate command and semantics under which they already passed. Retention is evidence-backed: Phase-1 audit shows 0 mismatches among Units 1..55, all are CURRENT_GATE_MATCH (the forced settings module exists in each exact tree and matches repo-authored semantics), and empirically all 55 units passed with manage_rc=0 (91 manage-rc=0 markers).",
+    "assessment": "Retention is sufficient for scientific evidence: their framework-gate evidence is semantically identical to what the corrected successor rule prescribes for them, so no unit's PASS was gated on repository semantics its own revision does not author."
+  },
+  "q4_resume_vs_restart": {
+    "decision": "RESTART_FROM_UNIT_1",
+    "frozen_authority": [
+      "research/env-canon-r4/R4_FULL144_CONTINGENCY_MATRIX.json: ENV_FRAMEWORK_GATE_FAILURE -> automatic_continuation NO; no_semantic_retry true; no_scientific_recovery true; default FAIL_CLOSED.",
+      "D:\\WP2\\runs\\r4-full-d7-144-successor-2026-10-15\\freeze\\PRE_EXECUTION_FREEZE.json: checkpoint_restart_policy 'intent before start; atomic progress checkpoint after PASS; fail closed on progress/evidence mismatch; never rerun completed PASS; partial unit -> STOP_OWNER_REVIEW'; fail_fast_policy 'first mandatory unit failure stops the run; no skip/reorder/rerun'.",
+      "src/benchmark/wp2/full144/driver.py: run_unit refuses to rerun a completed unit; fail-fast refuses to run later units if a prior unit FAILED ('prior unit ... FAILED; refusing to run later units'); reconcile() requires progress.json and per-unit evidence to agree exactly; NO evidence-import/adoption mechanism exists."
+    ],
+    "distinctions": {
+      "preserve_old_failed_run_as_immutable_evidence": "YES - the canonical run D:\\WP2\\runs\\r4-full-d7-144-successor-2026-10-15 is preserved as immutable FAIL_CLOSED evidence (ENV_FRAMEWORK_GATE_FAILURE at Unit 56, run STOPPED per launcher.log).",
+      "create_new_corrected_successor_run": "YES - Phase 3 creates a new corrected-successor run under the Candidate C gate rule.",
+      "reuse_import_units_1_55_evidence": "NO - the frozen protocol provides no evidence-import/adoption mechanism; the contingency matrix marks ENV_FRAMEWORK_GATE_FAILURE as no-recovery/no-semantic-retry; importing evidence into a new run would be inventing continuation semantics (forbidden).",
+      "actually_execute_units_1_55_again": "YES - the new corrected-successor run executes from Unit 1 (fresh run root, full 144-unit execution under the corrected gate rule)."
+    },
+    "ruling": "Resume-from-56 is NOT permitted by the frozen protocol. The canonical failed run is immutable FAIL_CLOSED evidence. A new corrected-successor run must restart from Unit 1 and actually execute all 144 units under the corrected general manage-gate rule. Units 1..55 PASS evidence is retained (Q3) as valid scientific evidence, but is not imported into the new run."
+  },
+  "impact": {
+    "units_1_55": "NO effective framework-gate change; effective command remains python manage.py check --settings=saleor.tests.settings for all; PASS evidence retained.",
+    "unit_56": "Effective manage-gate settings module changes from saleor.tests.settings (module absent in exact tree -> ENV_FRAMEWORK_GATE_FAILURE) to tests.settings (repository-authored pytest settings module present in exact tree). The same general rule handles it; manage gate is NOT skipped or weakened.",
+    "units_57_144": "0 predicted instances of the mismatch; all modern-signature; effective command unchanged (--settings=saleor.tests.settings)."
+  },
+  "phase3_implementation_contract": [
+    "1. Change ONLY the manage-gate settings-module resolution in the qualified runner (scripts/r4_behavioral_calibration_n12_r2.py, manage-gate command at line 861) so that --settings=<module> is derived from the exact revision's repository-authored pytest Django settings module, resolved from the exact materialized worktree (repo-authored pytest --ds / test-settings module), NOT from a hardcoded universal module.",
+    "2. The rule is general and repository/semantics-based: keyed to the frozen per-revision repository-authored pytest settings module. No task-ID / unit-ID / commit-SHA-specific conditionals. No new universal hardcoded module.",
+    "3. The manage gate itself is UNCHANGED in strength: python manage.py check --settings=<repo-authored module> runs for every unit where manage.py exists; rc==0 PASS, SKIP only where manage.py absent, anything else SMOKE_FAIL. No gate removal, no skip of the gate, no weakening.",
+    "4. If a revision does not author a resolvable pytest/test settings module, FAIL CLOSED (never guess, never skip).",
+    "5. pytest smoke gate and import smoke remain unchanged (pytest inherits repo --ds; import saleor unchanged).",
+    "6. No other runner/driver/providers/population/order/images/network/install-route semantics change.",
+    "7. Create a NEW corrected-successor run root with a fresh PRE_EXECUTION_FREEZE; restart from Unit 1 (full 144-unit execution). Do NOT modify the canonical failed run. Do NOT import/rewrite evidence from the canonical run.",
+    "8. The legacy signature (Unit 56) is covered by the same general rule: --settings=tests.settings resolves in its exact tree."
+  ],
+  "required_decision_quality": {
+    "1_one_general_rule": "PASS - Candidate C selected as the single general framework-gate rule.",
+    "2_repository_based_not_task_specific": "PASS - keyed to repository-authored pytest settings module per exact revision.",
+    "3_preserves_143_matching_units": "PASS - effective command for all 143 CURRENT_GATE_MATCH units is byte-identical (--settings=saleor.tests.settings); no semantic change.",
+    "4_unit_56_same_general_rule": "PASS - handled by the same general rule (--settings=tests.settings, repo-authored for that exact revision).",
+    "5_no_gate_removed_or_weakened": "PASS - manage check still runs for every unit with manage.py; FAIL CLOSED if no repo-authored module.",
+    "6_units_1_55_retention_evidence_backed": "PASS - 0 mismatches, all CURRENT_GATE_MATCH, identical effective command; evidence-backed retention.",
+    "7_resume_restart_authority_backed": "PASS - contingency matrix (FAIL_CLOSED, no recovery/retry), pre-execution freeze policies, and driver fail-fast/reconcile semantics mandate a fresh run from Unit 1.",
+    "8_phase3_exact_contract": "PASS - 8-item narrow implementation contract above.",
+    "9_no_scientific_execution_or_repair": "PASS - no runner/driver edits, no unit execution, no Docker, no new utilities; only decision artifacts written."
+  },
+  "canonical_run_immutability_verified": {
+    "run_root": "D:\\WP2\\runs\\r4-full-d7-144-successor-2026-10-15",
+    "freeze_record_present": true,
+    "pre_execution_freeze_sha256": "5c3ec3bdec80c2e2bf1e48868aec463ccb2de428c9db50a5956f3d5c749e13a0",
+    "progress_matches_frozen_facts": "55 PASS + Unit 56 ENV_FRAMEWORK_GATE_FAILURE; stopped_early false; 56 unit dirs present",
+    "launcher_log_stop_line": "FAIL_CLOSED UNIT_FAIL vu-cdcf3222cbb5 -> ENV_FRAMEWORK_GATE_FAILURE (evidence persisted; run STOPPED)",
+    "no_modification_performed": true,
+    "verification_note": "Verified via existing cheap receipts (freeze record hash, progress.json, launcher.log tail, unit-dir count); full 4GB tree not rescanned."
+  },
+  "immutability_contracts_respected": {
+    "canonical_failed_run": "untouched",
+    "predecessor_successor_refreeze": "D:\\WP2\\active\\r4-full144-successor-refreeze untouched",
+    "phase1_audit_artifacts": "untouched (hashes re-verified)"
+  },
+  "unresolved_questions": [],
+  "forbidden_actions_not_performed": [
+    "no edit to behavioral runner",
+    "no edit to Full144 driver",
+    "no corrected launcher created",
+    "no Docker run",
+    "no Unit-56 / Full-D7 execution",
+    "no install/download/acquire",
+    "no web/PyPI/GitHub access",
+    "no image rebuild",
+    "no canonical run modification",
+    "no 144/219 census",
+    "no new audit utility",
+    "no new test infrastructure"
+  ]
+}
