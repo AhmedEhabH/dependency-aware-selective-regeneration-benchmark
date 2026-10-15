@@ -20,8 +20,10 @@ semantics:
 * The frozen D7/R3 behavioral container semantics are reused verbatim
   (``--network=none``, netprobe, wheel-only offline install, toolhouse audit,
   pip check, native probes, import/manage/pytest smoke).
-* Source-fidelity (units 1,2) and R4-E recovery overlay (unit 10) inputs are
-  the exact qualified frozen artifacts.
+* Source-fidelity (units 1,2) and R4-E recovery overlay inputs are the exact
+  qualified frozen artifacts.  R4-E recovery is selected evidence-driven by the
+  ACTUAL runtime pin (normalized package name + exact version) from the frozen
+  acquisition manifest; no unit/task/index/commit special casing.
 
 Execution rules: exactly one unit at a time, deterministic frozen order,
 checkpoint after each unit, fail closed on the first mandatory gate failure,
@@ -97,7 +99,6 @@ OLD_PY39_REF = "envcanon/saleor-env-native-nat-f65b9bf250fd:latest"
 OLD_PY39_ID = "sha256:baea6c4b01e1b5bfb40b5910074c4b145c91c2c1d19b815889df4f1d76d86f24"
 
 SOURCE_FIDELITY_UNITS = ("vu-b9808f19ace4", "vu-692af9112c6d")
-RECOVERY_UNIT = "vu-457f26c93ff1"
 REPAIRED_UNIT = "vu-692af9112c6d"
 
 FROZEN_UNIT_ORDER = (
@@ -571,7 +572,7 @@ def build_unit_wheelhouse(
     so the frozen overlay artifact is what the container install consumes.
     """
     base = build_merged_wheelhouse(era)
-    needs_overlay = uid in SOURCE_FIDELITY_UNITS or uid == RECOVERY_UNIT
+    needs_overlay = bool(sf_inputs) or recovery_input is not None
     if not needs_overlay:
         return base
     dest = MATERIALIZED_DIR / "unit_wheelhouse" / uid
@@ -604,14 +605,18 @@ def _resolve_pin_wheels(
     era: str,
     *,
     wheel_dir: Path | None = None,
+    wheel_names: list[str] | None = None,
 ) -> dict[str, Any]:
     """R4-A era-aware resolution of every runtime pin against a wheel input.
 
     Defaults to the era merged wheelhouse; ``wheel_dir`` may point at a
     per-unit wheelhouse that already includes SF/recovery overlay wheels.
+    ``wheel_names`` overrides the wheel name set (overlay-override applied by
+    the caller) while keeping every resolution/wheel-tag semantic identical.
     """
     merged = wheel_dir or build_merged_wheelhouse(era)
-    wheel_names = sorted(p.name for p in merged.glob("*.whl"))
+    if wheel_names is None:
+        wheel_names = sorted(p.name for p in merged.glob("*.whl"))
     target = RuntimeTarget({"py312": "3.12", "py39": "3.9", "py38": "3.8"}[era], "cpython", "linux", "x86_64")
     bind_integrated_parser()
     try:
@@ -681,31 +686,123 @@ def source_fidelity_overlay_inputs(uid: str) -> list[dict[str, Any]]:
     return out
 
 
-def recovery_overlay_input() -> dict[str, Any]:
-    """Frozen R4-E recovery overlay wheel (pylint==2.9.6) for unit 10."""
+def _recovery_overlay_input_for_pin(package: str, version: str) -> dict[str, Any]:
+    """Frozen R4-E recovery overlay input for one exact required runtime pin.
+
+    Deterministic evidence chain: normalized package name + exact version ->
+    frozen E2 acquisition manifest -> exact artifact filename -> exact recorded
+    hash -> local wheel existence/hash verification.  Fails closed on absent,
+    duplicate/conflicting, malformed, hash-drifted, non-promoted, or
+    R4-A-incompatible recovery evidence.  Never consults a unit id, task id,
+    calibration index or commit.
+    """
     manifest = _read_json(RECOVERY_MANIFEST)
-    for art in manifest.get("artifacts", []):
-        if str(art.get("version")) != "2.9.6":
-            continue
-        wpath = RECOVERY_WHEELS / str(art["filename"])
-        if not wpath.is_file():
-            raise CalibrationFailClosedError(f"recovery wheel missing: {wpath}")
-        disk = _sha256_file(wpath)
-        expected = art.get("actual_sha256")
-        if not expected or disk != expected:
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list):
+        raise CalibrationFailClosedError(
+            "R4-E recovery manifest malformed: artifacts must be a list"
+        )
+    key = (normalize_name(package), version)
+    matches: list[dict[str, Any]] = []
+    for art in artifacts:
+        if not isinstance(art, dict):
             raise CalibrationFailClosedError(
-                f"recovery wheel hash mismatch: expected {expected} got {disk}"
+                "R4-E recovery manifest malformed: entry is not an object"
             )
-        return {
-            "package": art.get("package"),
-            "version": art.get("version"),
-            "filename": art.get("filename"),
-            "sha256": disk,
-            "overlay_path": str(wpath),
-            "manifest_sha256": _sha256_file(RECOVERY_MANIFEST),
-            "e2_receipt_mission": _read_json(E2_RECEIPT_PATH).get("mission_id"),
-        }
-    raise CalibrationFailClosedError("recovery manifest missing pylint == 2.9.6")
+        pkg = art.get("package")
+        ver = art.get("version")
+        if not isinstance(pkg, str) or not pkg.strip():
+            raise CalibrationFailClosedError(
+                "R4-E recovery manifest malformed: entry missing package"
+            )
+        if not isinstance(ver, str) or not ver.strip():
+            raise CalibrationFailClosedError(
+                f"R4-E recovery manifest malformed: entry {pkg!r} missing version"
+            )
+        meta = art.get("metadata_name")
+        if isinstance(meta, str) and meta.strip() and normalize_name(meta) != normalize_name(pkg):
+            raise CalibrationFailClosedError(
+                f"R4-E recovery manifest conflicting metadata name for {pkg}=={ver}"
+            )
+        if (normalize_name(pkg), ver) == key:
+            matches.append(art)
+    if not matches:
+        raise CalibrationFailClosedError(
+            f"R4-E recovery evidence absent for {package}=={version}"
+        )
+    promoted = [m for m in matches if m.get("promoted") is True]
+    if not promoted:
+        raise CalibrationFailClosedError(
+            f"R4-E recovery entry not promoted for {package}=={version}"
+        )
+    if len(promoted) != 1:
+        raise CalibrationFailClosedError(
+            f"R4-E recovery manifest duplicate/conflicting entries "
+            f"for {package}=={version} ({len(promoted)})"
+        )
+    art = promoted[0]
+    if art.get("r4a_compatibility") is not True:
+        raise CalibrationFailClosedError(
+            f"R4-E recovery entry not R4-A compatible for {package}=={version}"
+        )
+    filename = art.get("filename")
+    if not isinstance(filename, str) or not filename.endswith(".whl"):
+        raise CalibrationFailClosedError(
+            f"R4-E recovery entry malformed filename for {package}=={version}"
+        )
+    wpath = RECOVERY_WHEELS / filename
+    if not wpath.is_file():
+        raise CalibrationFailClosedError(f"recovery wheel missing: {wpath}")
+    disk = _sha256_file(wpath)
+    expected = art.get("actual_sha256")
+    if not isinstance(expected, str) or not expected:
+        raise CalibrationFailClosedError(
+            f"R4-E recovery entry missing recorded hash for {package}=={version}"
+        )
+    if disk != expected:
+        raise CalibrationFailClosedError(
+            f"recovery wheel hash drift {filename}: expected {expected} got {disk}"
+        )
+    return {
+        "package": str(art.get("package")),
+        "version": version,
+        "filename": filename,
+        "sha256": disk,
+        "overlay_path": str(wpath),
+        "manifest_sha256": _sha256_file(RECOVERY_MANIFEST),
+        "e2_receipt_mission": _read_json(E2_RECEIPT_PATH).get("mission_id"),
+    }
+
+
+def recovery_overlay_inputs_for_pins(pins: list[str], era: str) -> list[dict[str, Any]]:
+    """R4-E recovery overlay wheels selected by the actual runtime pins.
+
+    Base-first: the era merged wheelhouse is resolved under existing wheel
+    semantics.  ONLY a runtime pin the base cannot satisfy (R4-A ``missing``)
+    may consult the frozen R4-E recovery manifest; every such pin selects the
+    exact manifest artifact via :func:`_recovery_overlay_input_for_pin`.
+    Deterministic function of the pin alone -- no unit/task/index/commit id.
+
+    Returns ``[]`` when the base wheelhouse already satisfies every pin (no
+    recovery needed): non-recovery units behave exactly as before.
+    """
+    base = build_merged_wheelhouse(era)
+    base_res = _resolve_pin_wheels(pins, era, wheel_dir=base)
+    out: list[dict[str, Any]] = []
+    for pin in sorted(set(base_res["missing"])):
+        pname, _, pver = pin.partition("==")
+        out.append(_recovery_overlay_input_for_pin(pname, pver))
+    return out
+
+
+def recovery_evidence_unit_ids() -> set[str]:
+    """Frozen E3 revalidation affected-unit ids (read-only evidence marker).
+
+    Used ONLY to record which units consume the R4-E recovery overlay in frozen
+    evidence summaries.  The artifact selection itself is pin-driven via
+    :func:`recovery_overlay_inputs_for_pins`; this set never gates resolution.
+    """
+    return {str(u) for u in _read_json(E3_RECEIPT_PATH).get("per_unit_result", {})}
 
 
 # ---------------------------------------------------------------------------
@@ -1263,13 +1360,12 @@ class UnitRunner:
         out_dir = UNITS_DIR / uid
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        # Source-fidelity / recovery overlay inputs (bounded to exact units).
+        # Source-fidelity / recovery overlay inputs (evidence-driven, no unit special casing).
         sf_inputs: list[dict[str, Any]] = []
-        recovery_input: dict[str, Any] | None = None
         if uid in SOURCE_FIDELITY_UNITS:
             sf_inputs = source_fidelity_overlay_inputs(uid)
-        if uid == RECOVERY_UNIT:
-            recovery_input = recovery_overlay_input()
+        recovery_inputs = recovery_overlay_inputs_for_pins(pins, era)
+        recovery_input = recovery_inputs[0] if recovery_inputs else None
 
         wheel_input = build_unit_wheelhouse(uid, era, sf_inputs, recovery_input)
         resolution = _resolve_pin_wheels(pins, era, wheel_dir=wheel_input)
@@ -1306,8 +1402,8 @@ class UnitRunner:
             if uid in SOURCE_FIDELITY_UNITS:
                 for art in sf_inputs:
                     special["version_probes"][art["dependency_name"]] = art["declared_version"]
-            if uid == RECOVERY_UNIT and recovery_input:
-                special["version_probes"]["pylint"] = "2.9.6"
+            if recovery_input:
+                special["version_probes"][recovery_input["package"]] = recovery_input["version"]
 
             script = container_script(uid, len(member_tasks), native_pkgs, special)
             volumes_flag = []
@@ -1411,7 +1507,9 @@ class UnitRunner:
         }
         if recovery_input:
             record["recovery_overlay_consumed"] = {
-                "expected_pylint": "2.9.6",
+                "package": recovery_input["package"],
+                "expected_version": recovery_input["version"],
+                "expected_pylint": recovery_input["version"],
                 "wheel_filename": recovery_input["filename"],
                 "wheel_sha256": recovery_input["sha256"],
                 "overlay_path": recovery_input["overlay_path"],
@@ -1504,11 +1602,10 @@ def verify_readiness() -> dict[str, Any]:
         uid = c["validation_unit_id"]
         pins_info = runtime_pins(uid)
         sf_inputs: list[dict[str, Any]] = []
-        recovery_input: dict[str, Any] | None = None
         if uid in SOURCE_FIDELITY_UNITS:
             sf_inputs = source_fidelity_overlay_inputs(uid)
-        if uid == RECOVERY_UNIT:
-            recovery_input = recovery_overlay_input()
+        recovery_inputs = recovery_overlay_inputs_for_pins(pins_info["runtime_pins"], c["wheelhouse_era"])
+        recovery_input = recovery_inputs[0] if recovery_inputs else None
         wheel_input = build_unit_wheelhouse(uid, c["wheelhouse_era"], sf_inputs, recovery_input)
         resolution = _resolve_pin_wheels(pins_info["runtime_pins"], c["wheelhouse_era"],
                                          wheel_dir=wheel_input)
@@ -1591,7 +1688,7 @@ def write_binding_evidence() -> dict[str, Any]:
                 "execution_image_ref": image["execution_image_ref"],
                 "immutable_image_id": image["immutable_image_id"],
                 "source_fidelity_overlay": uid in SOURCE_FIDELITY_UNITS,
-                "recovery_overlay": uid == RECOVERY_UNIT,
+                "recovery_overlay": uid in recovery_evidence_unit_ids(),
             }
         )
     BINDING_OUT.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")

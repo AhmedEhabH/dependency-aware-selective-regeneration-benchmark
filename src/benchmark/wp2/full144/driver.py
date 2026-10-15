@@ -260,7 +260,9 @@ class Full144UnitRunner(r2.UnitRunner):
         }
         if recovery_input:
             record["recovery_overlay_consumed"] = {
-                "expected_pylint": "2.9.6",
+                "package": recovery_input["package"],
+                "expected_version": recovery_input["version"],
+                "expected_pylint": recovery_input["version"],
                 "wheel_filename": recovery_input["filename"],
                 "wheel_sha256": recovery_input["sha256"],
                 "overlay_path": recovery_input["overlay_path"],

@@ -406,11 +406,34 @@ class TestF13SourceFidelityMissing:
 
 @pytest.mark.skipif(not HAS_STORE, reason="store unavailable")
 class TestF14F15RecoveryOverlay:
-    def test_recovery_overlay_returns_pylint_296(self) -> None:
-        info = r2.recovery_overlay_input()
+    _WHEELS = {
+        "2.9.6": (
+            "pylint-2.9.6-py3-none-any.whl",
+            "2e1a0eb2e8ab41d6b5dbada87f066492bb1557b12b76c47c2ee8aa8a11186594",
+        ),
+        "2.15.3": (
+            "pylint-2.15.3-py3-none-any.whl",
+            "7f6aad1d8d50807f7bc64f89ac75256a9baf8e6ed491cc9bc65592bc3f462cf1",
+        ),
+        "2.17.7": (
+            "pylint-2.17.7-py3-none-any.whl",
+            "27a8d4c7ddc8c2f8c18aa0050148f89ffc09838142193fdbe98f172781a3ff87",
+        ),
+    }
+
+    @pytest.mark.parametrize("version,exp", sorted(_WHEELS.items()))
+    def test_recovery_overlay_pin_driven(self, version: str, exp: tuple[str, str]) -> None:
+        filename, sha256 = exp
+        info = r2._recovery_overlay_input_for_pin("pylint", version)
+        assert info["version"] == version
+        assert info["filename"] == filename
+        assert info["sha256"] == sha256
+        assert info["package"] == "pylint"
+
+    def test_recovery_overlay_no_unit_special_casing(self) -> None:
+        """Selection key is (package, version); unit/task/index ids are irrelevant."""
+        info = r2._recovery_overlay_input_for_pin("pylint", "2.9.6")
         assert info["version"] == "2.9.6"
-        assert info["filename"] == "pylint-2.9.6-py3-none-any.whl"
-        assert info["sha256"] == "2e1a0eb2e8ab41d6b5dbada87f066492bb1557b12b76c47c2ee8aa8a11186594"
 
     def test_wrong_pylint_version_fails_closed(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
         manifest = json.loads(r2.RECOVERY_MANIFEST.read_text(encoding="utf-8"))
@@ -422,7 +445,7 @@ class TestF14F15RecoveryOverlay:
         p.write_text(json.dumps(manifest), encoding="utf-8")
         monkeypatch.setattr(r2, "RECOVERY_MANIFEST", p)
         with pytest.raises(r2.CalibrationFailClosedError):
-            r2.recovery_overlay_input()
+            r2._recovery_overlay_input_for_pin("pylint", "2.9.6")
 
 
 class TestF16InstallFailure:
