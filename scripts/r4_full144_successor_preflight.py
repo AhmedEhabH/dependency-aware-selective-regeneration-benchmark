@@ -169,6 +169,10 @@ def preflight(run_root: Path) -> dict[str, object]:
 
     code_hash = effective_code_set_hash_from_worktree()
     frozen_code_hash = str(freeze.get("effective_execution_code_set_hash", ""))
+    if not frozen_code_hash:
+        code_set = freeze.get("effective_execution_code_set")
+        if isinstance(code_set, dict):
+            frozen_code_hash = str(code_set.get("aggregate_hash", ""))
     if code_hash != frozen_code_hash:
         raise LauncherError(f"effective code-set hash {code_hash} != frozen {frozen_code_hash}")
 
@@ -313,6 +317,7 @@ def freeze_record(run_root: Path, starting_head: str, final_head: str, remote_he
         "runtime_clean_binding_hash": pop["binding_hash"],
         "execution_image_pairs": image_pairs,
         "n_execution_image_pairs": len(image_pairs),
+        "effective_execution_code_set_hash": code_hash,
         "effective_execution_code_set": {
             "aggregate_hash": code_hash,
             "members": code_members,
