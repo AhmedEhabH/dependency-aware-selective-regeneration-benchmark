@@ -33,7 +33,10 @@ from . import population  # noqa: E402
 # ---------------------------------------------------------------------------
 # Canonical Full-D7 run root (reserved fresh external root)
 # ---------------------------------------------------------------------------
-FULL144_ROOT = Path(r"D:\WP2\runs\r4-full-d7-144-2026-10-14")
+# Canonical Full-D7 run root.  Default is the frozen historical root; the
+# successor launcher overrides it to the fresh successor root via
+# R4_FULL144_RUN_ROOT so the SAME frozen driver bytes run at the new root.
+FULL144_ROOT = Path(os.environ.get("R4_FULL144_RUN_ROOT", r"D:\WP2\runs\r4-full-d7-144-2026-10-14"))
 FREEZE_DIR = FULL144_ROOT / "freeze"
 UNITS_DIR = FULL144_ROOT / "units"
 LOGS_DIR = FULL144_ROOT / "logs"
@@ -146,7 +149,7 @@ def configure_runner() -> None:
 # ---------------------------------------------------------------------------
 # Full144 unit runner (inherits ALL Attempt-6 behavioral semantics)
 # ---------------------------------------------------------------------------
-class Full144UnitRunner(r2.UnitRunner):  # type: ignore[misc]
+class Full144UnitRunner(r2.UnitRunner):
     """Executes exactly one Full-D7 unit under the qualified Attempt-6 semantics.
 
     Only the Docker volume naming differs (distinct ``r4full144_`` namespace so

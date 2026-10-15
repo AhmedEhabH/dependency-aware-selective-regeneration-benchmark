@@ -1,0 +1,47 @@
+{
+  "artifact": "R4_FULL144_SUCCESSOR_EFFECTIVE_EXECUTION_CODE_SET",
+  "mission_id": "M17_D7_R4_FULL144_SUCCESSOR_REFREEZE",
+  "schema_version": "env-canon-r4/full144-successor/effective-execution-code-set/1.0",
+  "purpose": "Freeze the exact effective execution-code set for the successor Full144 run. The old Full144 freeze recorded only the driver hash; the effective behaviour also depends on the imported qualified runner and the successor route-closure projection.",
+  "aggregate_hash_method": "SHA-256 over the LF-joined sorted lines '<sha256>  <path>', paths sorted lexicographically, one trailing LF.",
+  "aggregate_hash": "eb2a0c4dca00c31a8f4bdc57c337f79e5b51c000125d945f3eb7b3fb57c2c8b3",
+  "members": [
+    {
+      "path": "src/benchmark/wp2/full144/driver.py",
+      "sha256": "a5932fab58d078561df535a2a6b42e458b1d1e7639018479d1d1947b06c532d0",
+      "git_blob_sha1": "66045d0e12a3c37a779720b9e0c86986beb9254f",
+      "role": "Full144 execution driver (additive refreeze: run root overridable via R4_FULL144_RUN_ROOT; default remains the frozen historical root)",
+      "successor_changed": false
+    },
+    {
+      "path": "src/benchmark/wp2/full144/population.py",
+      "sha256": "d8ecb8cfeed8da7e226ce39a2e915fd3a60de170ceca5fe24f9734dc97a56f44",
+      "git_blob_sha1": "647279be96fa21410dd5dc3e1194c77128989cec",
+      "role": "Frozen Full144 population/order/binding authority used by the driver",
+      "successor_changed": false
+    },
+    {
+      "path": "scripts/r4_behavioral_calibration_n12_r2.py",
+      "sha256": "10770d5fbade3e635b31ee630d7f26befad53b8a801a8808cc4e1ccb6a88aee6",
+      "git_blob_sha1": "48c9fbbf28b34a18bfa37375f67838c43733917e",
+      "role": "Qualified Attempt-6 runner reused by the driver for ALL behavioural semantics (successor runtime_pins route projection)",
+      "successor_changed": true
+    },
+    {
+      "path": "src/benchmark/wp2/env_r4/route_closure.py",
+      "sha256": "327ade0f5e535402c2941542a2ab2cd234ea4c67dfaecded6d7862c1b0d53952",
+      "git_blob_sha1": "2ce07d26751721039aa96cd05920528e5ae0b7a6",
+      "role": "Successor D7 install-route closure projection (reuses frozen R3 closure; generic route-authority rule; R4-B parser untouched)",
+      "successor_changed": true
+    }
+  ],
+  "excluded_unchanged_frozen": [
+    "src/benchmark/wp2/env_r4/contracts.py",
+    "src/benchmark/wp2/env_r4/uv_adapter.py",
+    "src/benchmark/wp2/env_r4/integrated_parser.py",
+    "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+    "src/benchmark/wp2/env_r4/linux_tree_wiring.py",
+    "src/benchmark/wp2/linux_adapter.py"
+  ],
+  "exclusion_rule": "Unchanged modules required by the execution path are already frozen by git blobs and covered by the frozen-invariance audit; only modules whose changed behaviour is required by the successor path are members."
+}
