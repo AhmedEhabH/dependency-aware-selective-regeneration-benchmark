@@ -1,0 +1,35 @@
+{
+  "artifact": "R4_PHASE1B_SUCCESSOR_ARTIFACT_CLOSURE_AUTHORITY",
+  "mission_id": "M17_D7_R4_PHASE1B_SCIENTIFIC_SUCCESSOR_RESOLUTION_REPAIR",
+  "schema_version": "env-canon-r4/phase1b/successor-artifact-closure-authority/1.0",
+  "predecessor": {
+    "authority_file": "research/env-canon-r4/R4_FULL144_ARTIFACT_CLOSURE_144.json",
+    "semantic_closure_hash": "991ba2402736554d4fa1304ba345912ba6f969c4bbcb27dc66fe6511370836fa"
+  },
+  "successor": {
+    "closure_evidence_file": "research/env-canon-r4/R4_PHASE1B_SUCCESSOR_ARTIFACT_CLOSURE_144.json",
+    "content_hash_method": "SHA-256 over the closure JSON bytes with LF-normalized line endings (git-blob content hash)",
+    "content_hash": "71cc7fb72e34fbf707e0a7e8052d3ea2d49fc726cb3a16d9d678271f4a6404e1"
+  },
+  "semantic_invariance_note": "The semantic closure summary hash (991ba240...) is BY DESIGN invariant: N_UNITS=144, N_RESOLVABLE=144, N_MISSING=0, N_INCOMPATIBLE=0, population identity and ordered-membership hash are all UNCHANGED. The successor closure CONTENT changed: the GENERAL rule added posuto==2021.10.0 to Unit 71 runtime pins (resolved_wheels_count 223 -> 224) and setuptools==59.6.0 entered the py39 merged resolver pool.",
+  "per_unit_delta": {
+    "unit_71_vu_cd262bbb641d": {
+      "runtime_pins_count": "223 -> 224",
+      "resolved_wheels_count": "223 -> 224",
+      "resolvable": true,
+      "new_pin": "posuto==2021.10.0"
+    }
+  },
+  "pool_delta": {
+    "py39_merged_pool": "setuptools-59.6.0-py3-none-any.whl added to shared wheelhouse (candidate for celery>=59.1.1,<59.7.0)"
+  },
+  "static_closure_verdict": "PASS_FULL144_STATIC_ARTIFACT_CLOSURE 144/144 (precondition only; NOT final acceptance - dynamic qualification remains decisive)",
+  "population": {
+    "n_validation_units": 144,
+    "n_mapped_tasks": 219,
+    "population_identity": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+    "ordered_membership_hash": "8eb4a7242e12bb03715adac5fffdea2e4340585843fc137ececd38952ad6a19e",
+    "image_binding_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2"
+  },
+  "recorded_utc": "2026-10-16T00:00:00Z"
+}
