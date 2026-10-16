@@ -2658,4 +2658,3 @@ frozen exact-tree-fidelity contract.
   into the shared py39 wheelhouse; offline uv resolver selects it for celery>=59.1.1,<59.7.0.
 - FRESH_CALIBRATION_REQUIRED: old Calibration-12 remains evidence for the OLD code
   set only; successor Calibration-12 required before real Full144. OPWS stays closed/unbound.
-

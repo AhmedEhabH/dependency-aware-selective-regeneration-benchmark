@@ -1,0 +1,49 @@
+{
+  "artifact": "R4_PHASE1B_EFFECTIVE_EXECUTION_CODE_SET",
+  "mission_id": "M17_D7_R4_PHASE1B_SCIENTIFIC_SUCCESSOR_RESOLUTION_REPAIR",
+  "schema_version": "env-canon-r4/phase1b/effective-execution-code-set/1.0",
+  "purpose": "Freeze the exact effective execution-code set for the successor scientific/execution/qualification chain after the GENERAL declared-but-unlocked pin rule repair. The ONLY execution-code changes vs the framework-gate Phase4 set are the addition of the GENERAL rule (declared-but-unlocked exact pin injection) in the runner and the route-closure projection. No other scientific/execution semantics change.",
+  "predecessor_artifact": "R4_FRAMEWORK_GATE_PHASE4_EFFECTIVE_EXECUTION_CODE_SET",
+  "predecessor_aggregate_hash": "4f3a651199b5d5626b6bea971a6d5d47cd14f73e66e55c24993f9ecc94c998ec",
+  "aggregate_hash_method": "SHA-256 over the LF-joined sorted lines '<sha256>  <path>', paths sorted lexicographically, one trailing LF (identical to the predecessor method; hashes are of git-blob LF-normalized bytes).",
+  "aggregate_hash": "72d3d1262133505dd3046a78e9fc0130d004cfaf6e8ca89169b67620335584c0",
+  "members": [
+    {
+      "path": "src/benchmark/wp2/full144/driver.py",
+      "sha256": "6bea131c41023187a326243b34b2800f5afa44e6f9866972e61063fa254838b0",
+      "git_blob_sha1": "3240b73f053338335a31d15e524e30d16d637f75",
+      "role": "Full144 execution driver (unchanged; contingency taxonomy already repaired in Phase4)",
+      "successor_changed": false
+    },
+    {
+      "path": "src/benchmark/wp2/full144/population.py",
+      "sha256": "debcb2b75b7bc5b40d597a67d1b6a1f8757a7c1fc48628139352beba72ec9bc9",
+      "git_blob_sha1": "49c83621dbfe64ec0e16bafded9b0b017f689b1e",
+      "role": "Frozen Full144 population/order/binding authority used by the driver (unchanged)",
+      "successor_changed": false
+    },
+    {
+      "path": "scripts/r4_behavioral_calibration_n12_r2.py",
+      "sha256": "c0f8877c34e52d3c21236d959024dd0f7ac0d55f29888ba240145fa75d22f8e2",
+      "git_blob_sha1": "1402d3e38f9fc3c1d239b8f730261da274916178",
+      "role": "Qualified runner CHANGED: GENERAL declared-but-unlocked pin rule wired into runtime_pins via declared_pins_for_commit (owner decision #1). All other behavioural semantics unchanged.",
+      "successor_changed": true
+    },
+    {
+      "path": "src/benchmark/wp2/env_r4/route_closure.py",
+      "sha256": "51034b91e527b595094853cda6eee01b6a5be4fa656e8be4649f9426a2ef51f9",
+      "git_blob_sha1": "a2cb8da5396434c156c65e1dcf7df2977246d5b6",
+      "role": "Successor D7 install-route closure projection CHANGED: GENERAL declared_exact_pin_but_unlocked_pins rule added (owner decision #1).",
+      "successor_changed": true
+    }
+  ],
+  "excluded_unchanged_frozen": [
+    "src/benchmark/wp2/env_r4/contracts.py",
+    "src/benchmark/wp2/env_r4/uv_adapter.py",
+    "src/benchmark/wp2/env_r4/integrated_parser.py",
+    "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+    "src/benchmark/wp2/env_r4/linux_tree_wiring.py",
+    "src/benchmark/wp2/linux_adapter.py"
+  ],
+  "exclusion_rule": "Unchanged modules required by the execution path are already frozen by git blobs and covered by the frozen-invariance audit; only modules whose changed behaviour is required by the successor path are members."
+}
