@@ -49,9 +49,11 @@ mismatch or selection FAIL; 2 = unexpected internal error.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from datetime import UTC, datetime
@@ -97,10 +99,13 @@ RECEIPT_NAME = "R3_SELECTION_RECEIPT.json"
 PROGRESS_NAME = "R3_PROGRESS.json"
 NON_SCIENTIFIC_MARKER = "R3_ROOT_NON_SCIENTIFIC.txt"
 
+# Qualification disk guard (M17_D7_R4_PHASE1C_R31): before EACH unit.
+DISK_WARN_GIB = 160.0
+DISK_STOP_GIB = 120.0
+
 WSL_DISTRO = "Ubuntu-24.04"
 WSL_REPO = "/opt/wp2_v2/saleor-cache"
 DRIVE = "D:"
-DISK_STOP_GIB = 120.0
 
 
 class R3Error(Exception):
@@ -148,6 +153,34 @@ def _run(cmd: list[str], cwd: Path | None = None, timeout: int = 120) -> subproc
 
 def utcnow() -> str:
     return datetime.now(UTC).isoformat()
+
+
+# ---------------------------------------------------------------------------
+# Disk guard (M17_D7_R4_PHASE1C_R31, Task D).  Runs BEFORE each unit on the
+# real execution path (run_selection_sweep).  Classified operational, not
+# scientific: it never changes which units run, only stops when host disk
+# cannot safely fit the next unit's transient materialization.
+# ---------------------------------------------------------------------------
+def disk_free_gib(path: Path | None = None) -> float:
+    probe = str(path or DRIVE + "\\")
+    return shutil.disk_usage(probe).free / (1024**3)
+
+
+def check_disk_before_unit(name: str, root: Path) -> dict[str, Any]:
+    """Fail-closed disk guard.  STOPS before the next unit when free < 120 GiB."""
+    free = disk_free_gib(root)
+    if free < DISK_STOP_GIB:
+        raise R3Error(
+            f"DISK_HARD_STOP {name}: free {free:.1f} GiB < {DISK_STOP_GIB} GiB; "
+            "refusing to start next unit"
+        )
+    if free < DISK_WARN_GIB:
+        print(
+            f"DISK_WARNING {name}: free {free:.1f} GiB < {DISK_WARN_GIB} GiB; continuing",
+            file=sys.stderr,
+        )
+        return {"action": "WARN_CONTINUE", "free_gib": round(free, 2)}
+    return {"action": "CONTINUE", "free_gib": round(free, 2)}
 
 
 def load_authority() -> dict[str, Any]:
@@ -633,7 +666,7 @@ def write_receipt(name: str, aggregate: dict[str, Any]) -> Path:
     m = load_selection(name)
     root = run_root_for(name)
     (root / NON_SCIENTIFIC_MARKER).write_text(
-        f"NON-SCIENTIFIC R3 {name} selection root (M17_D7_R4_PHASE1C_HARNESS_R3)\n",
+        f"NON-SCIENTIFIC R3.1 {name} selection root (M17_D7_R4_PHASE1C_HARNESS_R31)\n",
         encoding="utf-8",
     )
     payload: dict[str, Any] = {
@@ -703,6 +736,10 @@ def configure_driver(name: str, root: Path) -> Any:
     Mirrors the frozen driver's configure_runner() parameterization (the SAME
     per-unit execution/gate path used by population qualification).  Only the
     selection membership/order/root differ.
+
+    R3.1 repair: also rebind ``r2.PROGRESS_JSON`` to the R3 selection progress
+    file so the frozen runner's fail-fast gate and the R3 aggregate/pred receipt
+    always read the SAME checkpoint (previously they could diverge).
     """
     os.environ["R4_FULL144_RUN_ROOT"] = str(root)
     from benchmark.wp2.full144 import driver
@@ -712,43 +749,243 @@ def configure_driver(name: str, root: Path) -> Any:
     driver.r2.FROZEN_UNIT_ORDER = tuple(m["ordered_unit_ids"])
     driver.r2.load_plan = lambda: selection_plan(name)
     driver.PROGRESS_JSON = root / PROGRESS_NAME
+    driver.r2.PROGRESS_JSON = root / PROGRESS_NAME
     driver.RECEIPTS_DIR = root / "receipts"
     return driver
 
 
+def _append_progress(root: Path, entry: dict[str, Any]) -> None:
+    """Atomic checkpoint append (tmp + os.replace) after every completed unit."""
+    path = root / PROGRESS_NAME
+    progress: dict[str, Any] = {"completed": []}
+    if path.is_file():
+        progress = _read_json(path)
+    completed = [
+        c
+        for c in progress.get("completed", [])
+        if c.get("validation_unit_id") != entry["validation_unit_id"]
+    ]
+    completed.append(entry)
+    progress["completed"] = completed
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(progress, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def _completed_units(root: Path) -> list[dict[str, Any]]:
+    path = root / PROGRESS_NAME
+    if not path.is_file():
+        return []
+    return list(_read_json(path).get("completed", []))
+
+
+def _cleanup_unit_wheelhouse(root: Path, uid: str) -> None:
+    """R3-first-owned temp per-unit wheelhouse/materialization cleanup.
+
+    ONLY the per-unit wheelhouse under the selection run root is removed
+    (best-effort after each unit, including unit-level failure where safe).
+    The canonical shared wheel store, the R3-run shared merged wheelhouse cache,
+    and the Docker volumes (already removed by the FROZEN runner's finally path)
+    are intentionally left untouched - never duplicated here.
+    """
+    target = root / "materialized" / "unit_wheelhouse" / uid
+    with contextlib.suppress(Exception):
+        if target.is_dir():
+            shutil.rmtree(target, ignore_errors=True)
+
+
+def _restore_run_root_env(prev: str | None) -> None:
+    if prev is None:
+        os.environ.pop("R4_FULL144_RUN_ROOT", None)
+    else:
+        os.environ["R4_FULL144_RUN_ROOT"] = prev
+
+
 def run_selection_sweep(name: str, root: Path) -> dict[str, Any]:
-    """Fail-closed, deterministic, resumable execution sweep over one selection.
+    """Fail-closed TARGETED3/CAL12 sweep.
+
+    TARGETED3: any non-PASS => STOP immediately.
+    CAL12:     any non-PASS => STOP immediately.
 
     Zero network: every unit container runs with --network=none through the
-    frozen per-unit path.  Checkpointed atomically after each unit; a non-PASS
-    result stops the sweep (no skip/reorder/rerun).  Returns the aggregate.
+    frozen per-unit path.  Disk guard (Task D) runs before EACH unit.
+
+    Progress/checkpoint for this fail-fast path is persisted by the FROZEN
+    driver's own atomic checkpoint (driver.run_unit -> _save_progress writes to
+    R3_PROGRESS.json); the harness never duplicates it.  The frozen driver's
+    fail-fast gate + UNIT_FAIL stop the sweep on the first non-PASS.
     """
     m = load_selection(name)
-    driver = configure_driver(name, root)
-    for idx in range(1, int(m["expected_count"]) + 1):
-        record = driver.run_unit(idx)
-        if record.get("result") != "PASS":
-            raise ReceiptError(
-                f"{name} unit {idx} {record['validation_unit_id']} non-PASS "
-                f"({record.get('classification')}); sweep stopped"
-            )
-    return aggregate_progress(name)
+    prev_env = os.environ.get("R4_FULL144_RUN_ROOT")
+    try:
+        driver = configure_driver(name, root)
+        completed = {c["calibration_index"] for c in _completed_units(root)}
+        for idx in range(1, int(m["expected_count"]) + 1):
+            if idx in completed:
+                continue
+            check_disk_before_unit(name, root)
+            try:
+                record = driver.run_unit(idx)
+            except Exception as exc:
+                raise R3Error(
+                    f"{name} unit {idx} fail-fast STOP ({exc!r})"
+                ) from exc
+            if record.get("result") != "PASS":
+                raise ReceiptError(
+                    f"{name} unit {idx} {record['validation_unit_id']} non-PASS "
+                    f"({record.get('classification')}); sweep stopped immediately"
+                )
+            _cleanup_unit_wheelhouse(root, record["validation_unit_id"])
+        return aggregate_progress(name)
+    finally:
+        _restore_run_root_env(prev_env)
+
+
+def _bind_qualification_unit(
+    driver: Any, m: dict[str, Any], idx: int, uid: str, root: Path
+) -> Any:
+    """Bind the FROZEN Full144UnitRunner to ONE unit (idx==1, no prior gate).
+
+    FULL144 QUALIFICATION is NON-scientific: ordinary per-unit non-PASS must
+    NOT stop the sweep, so each unit runs through the SAME frozen per-unit
+    execution path as an isolated single-unit qualification (the established
+    R3/R4 qualification pattern).  This never alters the frozen runner/driver;
+    it only presents a fresh single-unit plan + a scratch progress file so the
+    frozen runner's own gate never blocks continuation around a local blocker.
+    """
+    rec = m["unit_records"][idx - 1]
+    plan: dict[str, Any] = {
+        "schema_version": "env-canon-r4/r3-selection/plan/1.0",
+        "selection_name": m["selection_name"],
+        "calibration_units": [
+            {
+                "validation_unit_id": rec["validation_unit_id"],
+                "member_task_ids": rec["member_task_ids"],
+                "docker_profile_id": rec["docker_profile_id"],
+                "native_profile_id": rec["native_profile_id"],
+                "python_version": rec["python_version"],
+                "lock_type": rec["lock_type"],
+                "install_route": rec["install_route"],
+                "wheelhouse_era": rec["wheelhouse_era"],
+                "source_fidelity_overlay_required": bool(
+                    rec.get("source_fidelity_overlay_required", False)
+                ),
+            }
+        ],
+        "population": {"n_validation_units": 1, "n_mapped_tasks": len(rec["member_task_ids"])},
+    }
+    driver.r2.FROZEN_UNIT_ORDER = (uid,)
+    driver.r2.load_plan = lambda: plan
+    scratch = (root / "materialized" / "qualification_scratch" / f"unit_{idx}.json")
+    scratch.parent.mkdir(parents=True, exist_ok=True)
+    driver.r2.PROGRESS_JSON = scratch
+    driver.PROGRESS_JSON = scratch
+    return driver.Full144UnitRunner()
+
+
+def run_qualification_sweep(name: str, root: Path) -> dict[str, Any]:
+    """NON-SCIENTIFIC R3.1 FULL144 QUALIFICATION sweep (continue-on-local-failure).
+
+    Ordinary per-unit non-PASS is a LOCAL blocker: it is persisted/checkpointed
+    and the sweep continues to the next unit in frozen order, collecting ALL
+    local blockers in one population sweep.  Final PASS requires exactly
+    144/144 PASS; any non-PASS makes the final qualification receipt non-PASS.
+
+    GLOBAL failures remain immediate STOP (R3Error propagates):
+      scientific/operational authority drift (verified before the sweep),
+      corrupted/mismatched checkpoint, population/order drift, image drift,
+      network fallback, disk < 120 GiB, unsafe Docker/runtime infrastructure,
+      malformed progress/receipt state.
+
+    Each unit runs through the SAME frozen per-unit path (Full144UnitRunner) in
+    frozen order; the harness never reorders, never skips a pending unit, and
+    never reruns an already valid completed unit.
+    """
+    if name != "FULL144":
+        raise SelectionError(f"run_qualification_sweep reserved for FULL144, got {name}")
+    m = load_selection(name)
+    prev_env = os.environ.get("R4_FULL144_RUN_ROOT")
+    try:
+        driver = configure_driver(name, root)
+        completed = _completed_units(root)
+        if completed:
+            got = [c["validation_unit_id"] for c in completed]
+            expected_prefix = m["ordered_unit_ids"][: len(completed)]
+            if got != expected_prefix:
+                raise ReceiptError(
+                    f"corrupt/mismatched checkpoint: completed prefix {got[:5]}... "
+                    f"!= frozen order prefix {expected_prefix[:5]}..."
+                )
+        start = len(completed) + 1
+        for idx in range(start, int(m["expected_count"]) + 1):
+            check_disk_before_unit(name, root)
+            uid = m["ordered_unit_ids"][idx - 1]
+            try:
+                runner = _bind_qualification_unit(driver, m, idx, uid, root)
+                record = runner.run_unit(1)
+            except Exception as exc:
+                raise R3Error(
+                    f"QUALIFICATION_GLOBAL_STOP {name} unit {idx} {uid}: {exc!r}"
+                ) from exc
+            _append_progress(root, {
+                "calibration_index": idx,
+                "validation_unit_id": uid,
+                "result": record.get("result"),
+                "classification": record.get("classification"),
+            })
+            if record.get("result") != "PASS":
+                print(
+                    f"QUALIFICATION_LOCAL_BLOCKER {name} unit {idx} {uid} -> "
+                    f"{record.get('classification')} (checkpointed; sweep continues)",
+                    flush=True,
+                )
+            _cleanup_unit_wheelhouse(root, uid)
+        return aggregate_qualification(root, m)
+    finally:
+        _restore_run_root_env(prev_env)
+
+
+def aggregate_qualification(root: Path, m: dict[str, Any]) -> dict[str, Any]:
+    """Full 144-unit qualification aggregate: order preserved; non-PASS allowed.
+
+    Used for the NON-SCIENTIFIC qualification receipt.  The progression report
+    requires N_EXECUTED == expected AND frozen order; PASS-ness is data.
+    """
+    completed = _completed_units(root)
+    if len(completed) != int(m["expected_count"]):
+        raise ReceiptError(
+            f"qualification aggregate {len(completed)} != {m['expected_count']}"
+        )
+    order = [c["validation_unit_id"] for c in completed]
+    if order != m["ordered_unit_ids"]:
+        raise ReceiptError("qualification aggregate order mismatch")
+    return {
+        "N_EXECUTED": len(completed),
+        "N_PASS": sum(1 for c in completed if c.get("result") == "PASS"),
+        "N_NON_PASS": sum(1 for c in completed if c.get("result") != "PASS"),
+        "order_preserved": order == m["ordered_unit_ids"],
+        "units": completed,
+    }
 
 
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="M17_D7_R4_PHASE1C Harness R3")
-    ap.add_argument("--preflight", metavar="SELECTION", type=str.upper, default=None,
-                    help="TARGETED3 | CAL12 | FULL144")
-    ap.add_argument("--exec", metavar="SELECTION", type=str.upper, default=None,
-                    help="fail-closed operator execution gate (not run in OpenCode)")
-    ap.add_argument("--status", metavar="SELECTION", type=str.upper, default=None,
-                    help="status of one selection run root")
-    ap.add_argument("--verify-selection", metavar="SELECTION", type=str.upper, default=None,
-                    help="recompute + compare a selection manifest hash")
-    args = ap.parse_args(argv)
+    ap = argparse.ArgumentParser(description="M17_D7_R4_PHASE1C_HARNESS_R31")
+    grp = ap.add_mutually_exclusive_group(required=True)
+    grp.add_argument("--preflight", metavar="SELECTION", type=str.upper, default=None,
+                     help="TARGETED3 | CAL12 | FULL144")
+    grp.add_argument("--exec", metavar="SELECTION", type=str.upper, default=None,
+                     help="fail-closed operator execution gate (not run in OpenCode)")
+    grp.add_argument("--status", metavar="SELECTION", type=str.upper, default=None,
+                     help="status of one selection run root")
+    grp.add_argument("--verify-selection", metavar="SELECTION", type=str.upper, default=None,
+                     help="recompute + compare a selection manifest hash")
+    try:
+        args = ap.parse_args(argv)
+    except SystemExit:
+        return 1
 
     try:
         if args.preflight:
@@ -792,20 +1029,32 @@ def main(argv: list[str] | None = None) -> int:
             root = run_root_for(args.exec)
             root.mkdir(parents=True, exist_ok=True)
             (root / NON_SCIENTIFIC_MARKER).write_text(
-                f"NON-SCIENTIFIC R3 {args.exec} selection root "
-                f"(M17_D7_R4_PHASE1C_HARNESS_R3)\n",
+                f"NON-SCIENTIFIC R3.1 {args.exec} selection root "
+                f"(M17_D7_R4_PHASE1C_HARNESS_R31)\n",
                 encoding="utf-8",
             )
-            aggregate = run_selection_sweep(args.exec, root)
+            if args.exec == "FULL144":
+                aggregate = run_qualification_sweep(args.exec, root)
+            else:
+                aggregate = run_selection_sweep(args.exec, root)
             receipt = write_receipt(args.exec, aggregate)
+            qual_non_pass = bool(args.exec == "FULL144" and aggregate.get("N_NON_PASS", 0) > 0)
             print(json.dumps(
                 {"selection": args.exec, "authority": "VALID",
                  "predecessor": pred["status"], "gate": "PASS",
                  "N_EXECUTED": aggregate["N_EXECUTED"],
                  "N_PASS": aggregate["N_PASS"],
                  "N_NON_PASS": aggregate["N_NON_PASS"],
+                 "qualification_receipt_non_pass": qual_non_pass,
                  "receipt": str(receipt)},
                 indent=2, sort_keys=True))
+            if qual_non_pass:
+                print(
+                    f"QUALIFICATION_RECEIPT_NON_PASS {args.exec} "
+                    f"{aggregate['N_PASS']}/{aggregate['N_EXECUTED']} PASS",
+                    file=sys.stderr,
+                )
+                return 1
             return 0
     except R3Error as exc:
         print(f"FAIL_CLOSED {exc}", file=sys.stderr)
@@ -815,7 +1064,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     ap.print_help()
-    return 0
+    return 1
 
 
 if __name__ == "__main__":

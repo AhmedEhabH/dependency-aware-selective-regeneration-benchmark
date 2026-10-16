@@ -1,19 +1,22 @@
 #requires -Version 7
 <#
 .SYNOPSIS
-  M17_D7_R4_PHASE1C Harness R3 operator launcher (m17-d7-r4-population-
-  qualification-harness-r3-2026-10-16).  Invokes the FINAL tagged R3 release
-  sitting at the current HEAD.  ZERO external-agent / model / network dependency.
-  All scientific units run with --network=none.
+  M17_D7_R4_PHASE1C Harness R3.1 operator launcher (m17-d7-r4-population-
+  qualification-harness-r3-1-2026-10-16).  Invokes the FINAL tagged R3.1
+  release sitting at the current HEAD.  ZERO external-agent / model / network
+  dependency.  All scientific units run with --network=none.
 
 .DESCRIPTION
-  Operator commands for the frozen R3 selection harness.  Every command fails
-  closed on authority drift (HEAD != peeled R3 tag, dirty tracked tree, code-set
+  Operator commands for the frozen R3.1 selection harness.  Every command fails
+  closed on authority drift (HEAD != peeled R3.1 tag, dirty tracked tree, code-set
   or closure or population/order/image drift, wrong branch).  Dependency chain:
   TARGETED3 -> CAL12 -> FULL144.  CAL12 refuses to start unless a fresh
-  TARGETED3 receipt (same R3 release) says 3 completed / 3 PASS / 0 non-PASS.
+  TARGETED3 receipt (same R3.1 release) says 3 completed / 3 PASS / 0 non-PASS.
   FULL144 refuses unless a fresh CAL12 receipt says 12 completed / 12 PASS /
-  0 non-PASS.  This launcher has ZERO external-agent / model / network dependency;
+  0 non-PASS.  The R3.1 FULL144 is the NON-SCIENTIFIC qualification sweep: an
+  ordinary per-unit non-PASS is checkpointed and the sweep continues to collect
+  ALL local blockers; the final qualification receipt is non-PASS unless 144/144
+  PASS.  This launcher has ZERO external-agent / model / network dependency;
   all scientific units run with --network=none.
 
 .PARAMETER Selection
@@ -62,12 +65,12 @@ function Resolve-Python {
 }
 
 function Invoke-Harness {
-    param([string[]]$Args)
-    & $Python.App $Python.Args $Harness @Args 2>&1
+    param([string[]]$HarnessArgs)
+    & $Python.App $Python.Args $Harness @HarnessArgs 2>&1
     $rc = $LASTEXITCODE
     if ($rc -ne 0) {
         Write-Host "R3_FAIL_CLOSED rc=$rc"
-        exit 1
+        exit $rc
     }
     Write-Host "R3_COMMAND_OK rc=$rc"
 }
@@ -77,21 +80,21 @@ try {
     Write-Host "R3_LAUNCHER selection=$Selection worktree=$script:Project"
 
     if ($Status) {
-        Invoke-Harness @("--status", $Selection)
-        exit 0
+        Invoke-Harness -HarnessArgs @("--status", $Selection)
+        exit $LASTEXITCODE
     }
     if ($Preflight) {
-        Invoke-Harness @("--preflight", $Selection)
-        exit 0
+        Invoke-Harness -HarnessArgs @("--preflight", $Selection)
+        exit $LASTEXITCODE
     }
     if ($Exec) {
-        Invoke-Harness @("--exec", $Selection)
-        exit 0
+        Invoke-Harness -HarnessArgs @("--exec", $Selection)
+        exit $LASTEXITCODE
     }
 
     # default: preflight
-    Invoke-Harness @("--preflight", $Selection)
-    exit 0
+    Invoke-Harness -HarnessArgs @("--preflight", $Selection)
+    exit $LASTEXITCODE
 }
 catch {
     Write-Host "R3_LAUNCHER_STOPPED $_"
