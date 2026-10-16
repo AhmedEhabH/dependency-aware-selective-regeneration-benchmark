@@ -1,0 +1,54 @@
+{
+  "schema_version": "env-canon-r4-phase1b-posuto/1.0",
+  "mission_id": "M17_D7_R4_PHASE1B_SCIENTIFIC_SUCCESSOR_RESOLUTION_REPAIR",
+  "task": "B_POSUTO_SOURCE_ACQUISITION_AND_NETWORK_ISOLATED_BUILD",
+  "source_authority": "official PyPI / files.pythonhosted.org only",
+  "metadata_url": "https://pypi.org/pypi/posuto/2021.10.0/json",
+  "source_filename": "posuto-2021.10.0.tar.gz",
+  "source_size_bytes": 6737926,
+  "source_sha256": "937dcd337b8bd162dae97b0e479ba97dfbf515925b970cb339fed3efa79603b4",
+  "source_url": "https://files.pythonhosted.org/packages/f6/c4/7eccb23552ed62173810966cc3f3bc5efe2d9bf767026c06a7710092d9f0/posuto-2021.10.0.tar.gz",
+  "official_pypi_metadata_sha256_match": true,
+  "build_environment_identity": {
+    "image": "envcanon/saleor-env-base-py39-bullseye:latest",
+    "image_id": "940fc6d02e84",
+    "python": "3.9.23",
+    "pip": "23.0.1",
+    "setuptools": "58.1.0",
+    "wheel": "0.45.1"
+  },
+  "network_isolation": {
+    "docker_network": "none",
+    "docker_flag": "--network=none",
+    "in_container_route_check": "NET_ISOLATION_CHECK: route table has no active routes",
+    "pip_flags": "--no-index --no-build-isolation --no-deps --find-links /toolhouse",
+    "network_fallback_prevented": true,
+    "index_access_prevented": true,
+    "build_backend_download_prevented": true,
+    "implicit_remote_metadata_prevented": true
+  },
+  "offline_build_inputs": [
+    "setuptools_scm-10.3.4-py3-none-any.whl",
+    "vcs_versioning-2.6.0-py3-none-any.whl",
+    "packaging-26.3-py3-none-any.whl",
+    "typing_extensions-4.16.0-py3-none-any.whl",
+    "tomli-2.5.0-py3-none-any.whl"
+  ],
+  "requires_dist": [],
+  "requires_dist_source": "built wheel dist-info/METADATA",
+  "resulting_wheel_filename": "posuto-2021.10.0-py3-none-any.whl",
+  "resulting_wheel_sha256": "3a31df33033b62614397a84b8538e5dbedd6648062e544c93a2da9a3ffb61975",
+  "resulting_wheel_size_bytes": 5733914,
+  "resulting_wheel_py39_compatible": true,
+  "wheel_tags": "py3-none-any",
+  "canonical_destination": "D:\\wp2_env_store\\built_wheelhouse\\canon_r4b\\py39\\posuto__2021.10.0____py39\\wheels\\posuto-2021.10.0-py3-none-any.whl",
+  "install_zero_network": true,
+  "import_smoke": "from posuto import Posuto -> OK",
+  "package_version_exact": "2021.10.0",
+  "measured_network_bytes": {
+    "download_bytes": 6737926,
+    "metadata_requests": 1,
+    "artifact_requests": 1
+  },
+  "recorded_utc": "2026-10-16T00:00:00Z"
+}

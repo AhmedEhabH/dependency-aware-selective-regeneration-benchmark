@@ -1,0 +1,31 @@
+{
+  "census_equality": true,
+  "implemented_rule_census": {
+    "affected_package_version_pairs": 1,
+    "affected_unique_commits": 1,
+    "affected_validation_units": 1,
+    "hits": {
+      "484ce8815cf4c6724d49ce26dce5da7fc07ba174": {
+        "commit": "484ce8815cf4c6724d49ce26dce5da7fc07ba174",
+        "lock_type": "poetry",
+        "pins": [
+          "posuto==2021.10.0"
+        ],
+        "task_id": "saleor-rc-484ce8815cf4",
+        "validation_units": [
+          "vu-cd262bbb641d"
+        ]
+      }
+    }
+  },
+  "phase1a_census": {
+    "affected_package_version_pairs": 1,
+    "affected_unique_commits": 1,
+    "affected_validation_units": 1,
+    "hit": {
+      "commit": "484ce8815cf4c6724d49ce26dce5da7fc07ba174",
+      "pin": "posuto==2021.10.0",
+      "validation_unit": "vu-cd262bbb641d"
+    }
+  }
+}

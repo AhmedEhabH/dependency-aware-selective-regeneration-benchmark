@@ -2636,3 +2636,26 @@ frozen exact-tree-fidelity contract.
   qualification. No scientific-method change; frozen Attempt-4 evidence,
   population, plan, binding, providers, gates, timeout policy unchanged.
 - Evidence: research/env-canon-r4/R4C_SYMLINK_MODE_CENSUS.json.
+
+# M17_D7_R4_PHASE1B - GENERAL declared-but-unlocked pin rule (2026-10-16)
+
+- Owner decision #1 (GENERAL declared-but-unlocked rule): at the exact historical
+  commit, if a package is a direct dependency declared by pyproject.toml, has an
+  exact name==version pin in an authoritative same-commit requirements file, and is
+  absent from poetry.lock, that exact pin is added to the runtime pin set. No
+  compatible-version inference, no newest-version selection, no package/unit/commit
+  special case.
+- Implemented in src/benchmark/wp2/env_r4/route_closure.py
+  (declared_exact_pin_but_unlocked_pins) and wired into runtime_pins via
+  declared_pins_for_commit in scripts/r4_behavioral_calibration_n12_r2.py.
+  Canonical name semantics = existing normalize_name (PEP 503).
+- Implemented-rule census over the frozen 219 mapped commits == exactly 1 hit
+  (484ce881 / vu-cd262bbb641d / posuto==2021.10.0), equal to Phase-1A census.
+  Evidence: research/env-canon-r4/R4_PHASE1B_IMPLEMENTED_RULE_CENSUS.json.
+- posuto==2021.10.0 acquired from official PyPI (sdist sha256
+  937dcd33...) and built offline (--network=none) to a py3-none-any wheel; frozen
+  in the canonical py39 store. setuptools==59.6.0 wheel (sha256 4ce92f1e...) frozen
+  into the shared py39 wheelhouse; offline uv resolver selects it for celery>=59.1.1,<59.7.0.
+- FRESH_CALIBRATION_REQUIRED: old Calibration-12 remains evidence for the OLD code
+  set only; successor Calibration-12 required before real Full144. OPWS stays closed/unbound.
+

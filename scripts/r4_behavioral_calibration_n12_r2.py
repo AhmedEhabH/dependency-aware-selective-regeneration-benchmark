@@ -344,6 +344,66 @@ def task_target_commit(tid: str) -> str:
     raise CalibrationFailClosedError(f"task {tid} missing from TASK_ENV_MATRIX")
 
 
+def _commit_file(commit: str, filename: str) -> str | None:
+    """Read one file object-authoritatively from the historical commit.
+
+    Reads the local Git object store (WSL) at the EXACT target commit -- never
+    the Windows working tree.  ``None`` when the file does not exist at the
+    commit (decline injection).
+    """
+    r = subprocess.run(
+        ["wsl", "-d", WSL_DISTRO, "--", "git", "-C", WSL_REPO, "show", f"{commit}:{filename}"],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    if r.returncode != 0:
+        return None
+    return r.stdout
+
+
+def task_lock_pin_names(tid: str, lock_type: str, python_version: str) -> set[str] | None:
+    """Canonical lock package names for one member task's poetry lock.
+
+    Returns ``None`` for non-poetry locks (the general declared-but-unlocked
+    rule is keyed to poetry.lock membership).  Same derivation as the runtime
+    pin path so the census and scientific execution share one code path.
+    """
+    if lock_type != "poetry":
+        return None
+    lock_path = LOCK_DIR / f"{tid}_{lock_type}.toml"
+    if not lock_path.is_file():
+        raise CalibrationFailClosedError(f"lock artifact missing: {lock_path}")
+    return {
+        pin.partition("==")[0]
+        for pin in route_closure.complete_main_plus_dev_poetry_pins(lock_path, python_version)
+    }
+
+
+def declared_pins_for_commit(commit: str, lock_pin_names: set[str]) -> list[str]:
+    """GENERAL declared-but-unlocked rule applied at one exact historical commit.
+
+    Owner decision #1: at the exact historical commit, a package that is
+    declared by pyproject.toml, exactly pinned ``name==version`` in an
+    authoritative same-commit requirements file, and absent from poetry.lock
+    gets that exact pin added to the runtime pin set.  Everything else fails
+    closed or declines injection.
+    """
+    pyproject = _commit_file(commit, "pyproject.toml")
+    if pyproject is None:
+        return []
+    reqs: dict[str, str] = {}
+    for fn in ("requirements.txt", "requirements_dev.txt"):
+        text = _commit_file(commit, fn)
+        if text is not None:
+            reqs[fn] = text
+    return route_closure.declared_exact_pin_but_unlocked_pins(
+        lock_pin_names=lock_pin_names,
+        pyproject_toml=pyproject,
+        requirements_texts=reqs,
+    )
+
+
 def resolve_execution_image(dp: str, np_id: str) -> dict[str, str]:
     """General execution-image resolution (composite binding; no special cases)."""
     binding = _read_json(BINDING_PATH)
@@ -504,6 +564,22 @@ def runtime_pins(uid: str) -> dict[str, Any]:
                 )
             for req in closure.requirements:
                 pins[req.normalized_name] = req.version
+
+    # GENERAL declared-but-unlocked rule (owner decision #1).  At the exact
+    # historical commit, a package declared by pyproject.toml that carries an
+    # exact same-commit requirements pin and is absent from that commit's
+    # poetry.lock has that exact pin added to the runtime pin set.  No package /
+    # unit / commit literals; the predicate is derived from the historical
+    # dependency authorities only.  Non-poetry locks and any non-satisfying
+    # predicate decline injection, leaving lock-complete commits unchanged.
+    for tid in unit["member_task_ids"]:
+        lock_names = task_lock_pin_names(tid, lock_type, python_version)
+        if lock_names is None:
+            continue
+        commit = task_target_commit(tid)
+        for pin in declared_pins_for_commit(commit, lock_names):
+            name, _, version = pin.partition("==")
+            pins[name] = version
 
     excluded_marker = marker_excluded_names()
     excluded_codecov_versions = codecov_excluded_versions()
