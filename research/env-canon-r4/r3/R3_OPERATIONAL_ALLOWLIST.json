@@ -1,0 +1,69 @@
+{
+  "artifact": "R3_OPERATIONAL_ALLOWLIST",
+  "files": [
+    {
+      "blob_sha256_at_support_head": "6bea131c41023187a326243b34b2800f5afa44e6f9866972e61063fa254838b0",
+      "path": "src/benchmark/wp2/full144/driver.py",
+      "role": "Full144 execution driver (frozen per-unit path)"
+    },
+    {
+      "blob_sha256_at_support_head": "debcb2b75b7bc5b40d597a67d1b6a1f8757a7c1fc48628139352beba72ec9bc9",
+      "path": "src/benchmark/wp2/full144/population.py",
+      "role": "Frozen population/order/binding authority"
+    },
+    {
+      "blob_sha256_at_support_head": "c0f8877c34e52d3c21236d959024dd0f7ac0d55f29888ba240145fa75d22f8e2",
+      "path": "scripts/r4_behavioral_calibration_n12_r2.py",
+      "role": "Qualified Attempt-6 runner (behavioral semantics)"
+    },
+    {
+      "blob_sha256_at_support_head": "51034b91e527b595094853cda6eee01b6a5be4fa656e8be4649f9426a2ef51f9",
+      "path": "src/benchmark/wp2/env_r4/route_closure.py",
+      "role": "Successor D7 install-route closure projection"
+    },
+    {
+      "blob_sha256_at_support_head": "159b8501175768c8f104f5329a72a8be0f7b51a3db564fddb3c25d9176f0d123",
+      "path": "src/benchmark/wp2/env_r4/contracts.py",
+      "role": "R4 contracts/parser semantics"
+    },
+    {
+      "blob_sha256_at_support_head": "8696b1c307e30a7a9fae3672ea29a1ca8713db554d41a8aee2465de64a6a7580",
+      "path": "src/benchmark/wp2/env_r4/uv_adapter.py",
+      "role": "R4-B uv adapter"
+    },
+    {
+      "blob_sha256_at_support_head": "66f9e581aa1f7c964043f74af6a72837d4c983c8dad792101965f672a2215c73",
+      "path": "src/benchmark/wp2/env_r4/integrated_parser.py",
+      "role": "R4 integrated lock parser"
+    },
+    {
+      "blob_sha256_at_support_head": "350659b41298f72c371374d1d70b2a3f42abcf130525f87369d8a98ff2a8b8b8",
+      "path": "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+      "role": "R4-C Linux-faithful materializer"
+    },
+    {
+      "blob_sha256_at_support_head": "916c3c7c63272a227ac65ca5a03320fcc0a9afe3746840ff70593e57d73dcf69",
+      "path": "src/benchmark/wp2/env_r4/linux_tree_wiring.py",
+      "role": "R4-C materialization wiring"
+    },
+    {
+      "blob_sha256_at_support_head": "054bc881feb3ac10a6da1033829703b34f91d0a7bebc60c416afb16db0f1e92d",
+      "path": "src/benchmark/wp2/env_r4/wheel_tags.py",
+      "role": "R4-A wheel tag semantics"
+    },
+    {
+      "blob_sha256_at_support_head": "5b4604d22e4b41d389f698957885ef25aaf665b69c09670e903c57f0924214f1",
+      "path": "src/benchmark/wp2/linux_adapter.py",
+      "role": "WSL Docker backend"
+    },
+    {
+      "blob_sha256_at_support_head": "d9145484cfc070eecc6967974fc9147ee1b3f4eadaec28c6eed7f8aa45f74080",
+      "path": "scripts/r4_full144_preexecution.py",
+      "role": "Full144 preexecution CLI (freeze + unit gate)"
+    }
+  ],
+  "generated_utc": "2026-10-16T00:00:00Z",
+  "note": "Recomputed against SUPPORT_EVIDENCE_HEAD (beeff152); supersedes the R2 3-path allowlist. Scientific frozen files must match these blob hashes at the R3 release HEAD.",
+  "relative_to_head": "beeff152de2307b2067c8cd9f469542ef8200b95",
+  "schema_version": "env-canon-r4/r3/operational-allowlist/1.0"
+}

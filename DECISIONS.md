@@ -2658,3 +2658,30 @@ frozen exact-tree-fidelity contract.
   into the shared py39 wheelhouse; offline uv resolver selects it for celery>=59.1.1,<59.7.0.
 - FRESH_CALIBRATION_REQUIRED: old Calibration-12 remains evidence for the OLD code
   set only; successor Calibration-12 required before real Full144. OPWS stays closed/unbound.
+
+
+## M17_D7_R4_PHASE1C_HARNESS_R3_RELEASE (2026-10-16) - Harness R3 release
+
+BUILD / TEST / FREEZE / PREFLIGHT ONLY - no scientific unit executed inside OpenCode.
+
+- TWO-HEAD MODEL: scientific authority head 5171a4e7 (tag peel verified) vs support
+  evidence head beeff152 (descendant carrying committed successor receipts/manifests/
+  closure authority). Harness R3 layers on SUPPORT_EVIDENCE_HEAD while its scientific
+  binding remains SCIENTIFIC_AUTHORITY_HEAD. Scientific tag never moved.
+- CALIBRATION_PATH_EQUIVALENCE = PASS: Calibration-12 is a frozen 12-unit selection run
+  through the SAME per-unit execution/gate path as population qualification (UnitRunner
+  + classify_unit + failure taxonomy + timeout/retry + frozen order + aggregation),
+  with calibration-specific selection/stratum metadata and receipt aggregation only.
+- ONE additive Harness R3 (scripts/r4_r3_selection_harness.py + launcher) with three
+  committed frozen selection manifests: TARGETED3 (3), CAL12 (12), FULL144 (144).
+  Membership hashes: TARGETED3 d39710c6..., CAL12 613557a6..., FULL144 8eb4a724....
+- Dependency chain enforced: CAL12 refuses start unless fresh TARGETED3 receipt (same
+  R3 release) says 3/3/0; FULL144 refuses unless fresh CAL12 receipt says 12/12/0.
+- CLOSURE HASH RULE honored: committed closure content hash 71cc7fb7 verified against
+  the exact committed closure blob; no requirement that a fresh re-derivation reproduce
+  volatile serialization bytes; semantic footprint 8831e9c7 for re-derived comparison.
+- R3 release tag: m17-d7-r4-population-qualification-harness-r3-2026-10-16 (final tag
+  created on the release commit; post-tag preflight runs exactly from that HEAD).
+- Successor PRE_EXECUTION_FREEZE NOT created in Phase 1C; old PRE_EXECUTION_FREEZE NOT
+  reused. A later post-qualification mission freezes Full144 PRE_EXECUTION_FREEZE only
+  after operator TARGETED3 3/3, CAL12 12/12, FULL144 144/144 PASS.
