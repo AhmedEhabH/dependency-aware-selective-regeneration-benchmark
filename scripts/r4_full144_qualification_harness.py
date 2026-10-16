@@ -60,11 +60,28 @@ if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
 # ---------------------------------------------------------------------------
-# Frozen Phase4 authority (git-blob LF-normalized hashes; see
+# Frozen authorities (git-blob LF-normalized hashes; see
 # R4_FRAMEWORK_GATE_PHASE4_EFFECTIVE_EXECUTION_CODE_SET.json)
+#
+# Two identities are kept strictly separate (post-freeze R2 repair):
+#   A. FROZEN_SCIENTIFIC_HEAD  — the frozen scientific authority/base commit.
+#      It is the ONLY git SHA hardcoded here.
+#   B. HARNESS_RELEASE_TAG     — the final corrective harness release TAG NAME.
+#      NO harness commit SHA appears anywhere in this code; the release HEAD is
+#      resolved at runtime from the tag and must equal the current HEAD.
 # ---------------------------------------------------------------------------
 FROZEN_BRANCH = "parallel/r4-population-qualification-144-2026-10-16"
-FROZEN_HEAD = "581cd2dd607fe15b1bebc415abd3ca268a3afd16"
+FROZEN_SCIENTIFIC_HEAD = "581cd2dd607fe15b1bebc415abd3ca268a3afd16"
+HARNESS_RELEASE_TAG = "m17-d7-r4-population-qualification-harness-r2-2026-10-16"
+# Paths the harness is allowed to add/change on top of the scientific base.  Any
+# other path changed between base and HEAD fails closed (structural authority).
+HARNESS_ALLOWED_CHANGED_PATHS = frozenset(
+    {
+        "scripts/r4_full144_qualification_harness.py",
+        "scripts/r4_full144_qualification_launcher.ps1",
+        "tests/unit/wp2/env_r4/test_r4_full144_qualification_harness.py",
+    }
+)
 FROZEN_CODE_SET_AGGREGATE = "4f3a651199b5d5626b6bea971a6d5d47cd14f73e66e55c24993f9ecc94c998ec"
 FROZEN_CODE_SET_MANIFEST = (
     PROJECT / "research" / "env-canon-r4" / "R4_FRAMEWORK_GATE_PHASE4_EFFECTIVE_EXECUTION_CODE_SET.json"
@@ -212,6 +229,29 @@ def git_clean_tracked() -> bool:
     return proc.stdout.strip() == ""
 
 
+def git_peel(tag_name: str) -> str:
+    """Resolve a tag to its peeled commit at runtime.  A missing tag is a
+    GlobalIntegrityError (fail closed), never a default."""
+    proc = _run(["git", "rev-parse", f"{tag_name}^{{}}"], cwd=PROJECT)
+    if proc.returncode != 0 or not (proc.stdout or "").strip():
+        raise GlobalIntegrityError(f"release tag missing/unresolvable: {tag_name}")
+    return proc.stdout.strip()
+
+
+def git_is_ancestor(ancestor: str, head: str) -> bool:
+    proc = _run(["git", "merge-base", "--is-ancestor", ancestor, head], cwd=PROJECT)
+    if proc.returncode not in (0, 1):
+        raise QualificationError(f"git merge-base --is-ancestor failed: {proc.stderr.strip()}")
+    return proc.returncode == 0
+
+
+def git_diff_name_only(base: str, head: str) -> list[str]:
+    proc = _run(["git", "diff", "--name-only", base, head], cwd=PROJECT)
+    if proc.returncode != 0:
+        raise QualificationError(f"git diff --name-only failed: {proc.stderr.strip()}")
+    return [line.strip() for line in (proc.stdout or "").splitlines() if line.strip()]
+
+
 def effective_code_set_hash_from_worktree() -> str:
     """Recompute the Phase4 aggregate execution-code hash from committed blobs.
 
@@ -343,15 +383,55 @@ def verify_artifact_closure() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Global preflight / freshness gate (runs before ANY root file is created)
 # ---------------------------------------------------------------------------
-def freshness_check() -> dict[str, Any]:
+def verify_release_identity() -> dict[str, Any]:
+    """Tag-based harness release identity + structural scientific authority.
+
+    Runtime freshness requires (ADDENDUM A/B):
+      * branch == FROZEN_BRANCH
+      * tracked worktree clean
+      * current HEAD == peeled HARNESS_RELEASE_TAG (resolved at runtime; a
+        missing tag is a GlobalIntegrityError)
+      * FROZEN_SCIENTIFIC_HEAD is an ancestor of HEAD
+      * no path changed between base and HEAD outside the harness allowlist
+    """
     branch = git_branch()
     if branch != FROZEN_BRANCH:
         raise GlobalIntegrityError(f"branch {branch} != frozen {FROZEN_BRANCH}")
-    head = git_head()
-    if head != FROZEN_HEAD:
-        raise GlobalIntegrityError(f"git HEAD {head} != frozen {FROZEN_HEAD}")
+
     if not git_clean_tracked():
         raise GlobalIntegrityError("tracked worktree is not clean")
+
+    head = git_head()
+    release_head = git_peel(HARNESS_RELEASE_TAG)
+    if head != release_head:
+        raise GlobalIntegrityError(
+            f"git HEAD {head} != harness release HEAD {release_head} "
+            f"(tag {HARNESS_RELEASE_TAG})"
+        )
+
+    # Structural scientific-authority check: the frozen scientific base must be
+    # an ancestor of HEAD, and only the harness allowlist may have changed.
+    if not git_is_ancestor(FROZEN_SCIENTIFIC_HEAD, head):
+        raise GlobalIntegrityError(
+            f"scientific authority {FROZEN_SCIENTIFIC_HEAD} is not an ancestor of HEAD"
+        )
+    extra = sorted(set(git_diff_name_only(FROZEN_SCIENTIFIC_HEAD, head)) - HARNESS_ALLOWED_CHANGED_PATHS)
+    if extra:
+        raise GlobalIntegrityError(
+            f"paths changed outside harness allowlist vs scientific base: {extra}"
+        )
+
+    return {
+        "branch": branch,
+        "git_head": head,
+        "harness_release_head": release_head,
+        "harness_release_tag": HARNESS_RELEASE_TAG,
+        "scientific_authority_head": FROZEN_SCIENTIFIC_HEAD,
+    }
+
+
+def freshness_check() -> dict[str, Any]:
+    identity = verify_release_identity()
 
     code_hash = effective_code_set_hash_from_worktree()
     if code_hash != FROZEN_CODE_SET_AGGREGATE:
@@ -384,8 +464,11 @@ def freshness_check() -> dict[str, Any]:
         raise GlobalIntegrityError(f"unsafe low disk: {free:.1f} GiB < {DISK_STOP_GIB:.0f} GiB")
 
     return {
-        "branch": branch,
-        "git_head": head,
+        "branch": identity["branch"],
+        "git_head": identity["git_head"],
+        "harness_release_head": identity["harness_release_head"],
+        "harness_release_tag": identity["harness_release_tag"],
+        "scientific_authority_head": identity["scientific_authority_head"],
         "tracked_clean": True,
         "effective_execution_code_set_hash": code_hash,
         "population_identity": pop["population_identity"],
@@ -427,7 +510,9 @@ def new_manifest(fresh: dict[str, Any], closure: dict[str, Any]) -> dict[str, An
         "mission_id": "M17_D7_R4_POPULATION_QUALIFICATION_144_HARNESS",
         "non_scientific_root": True,
         "qualification_root": str(QUAL_ROOT),
-        "frozen_git_head": fresh["git_head"],
+        "scientific_authority_head": fresh["scientific_authority_head"],
+        "harness_release_head": fresh["harness_release_head"],
+        "harness_release_tag": fresh["harness_release_tag"],
         "frozen_branch": fresh["branch"],
         "frozen_execution_code_hash": fresh["effective_execution_code_set_hash"],
         "population_identity": fresh["population_identity"],
@@ -465,10 +550,17 @@ def load_manifest() -> dict[str, Any] | None:
     return data
 
 
-def verify_manifest_frozen(manifest: dict[str, Any], closure: dict[str, Any]) -> None:
-    """Resume rejects code/population/artifact/image hash drift (P2 #14)."""
+def verify_manifest_frozen(
+    manifest: dict[str, Any], fresh: dict[str, Any], closure: dict[str, Any]
+) -> None:
+    """Resume rejects code/population/artifact/image authority drift (P2 #14).
+
+    Drift of EITHER the scientific authority or the harness release identity
+    fails closed."""
     checks = {
-        "frozen_git_head": FROZEN_HEAD,
+        "scientific_authority_head": FROZEN_SCIENTIFIC_HEAD,
+        "harness_release_head": fresh["harness_release_head"],
+        "harness_release_tag": HARNESS_RELEASE_TAG,
         "frozen_branch": FROZEN_BRANCH,
         "frozen_execution_code_hash": FROZEN_CODE_SET_AGGREGATE,
     }
@@ -609,7 +701,7 @@ def run_sweep() -> dict[str, Any]:
         manifest = new_manifest(fresh, closure)
         _atomic_write_json(QUAL_ROOT / MANIFEST_NAME, manifest)
     else:
-        verify_manifest_frozen(manifest, closure)
+        verify_manifest_frozen(manifest, fresh, closure)
 
     # Roots created only AFTER freshness validation (P2 guard #2: no
     # stdout/stderr redirect files inside a root before freshness).

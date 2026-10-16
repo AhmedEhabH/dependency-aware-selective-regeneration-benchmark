@@ -86,7 +86,10 @@ def _isolate(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(harness, "load_driver", lambda: fake)
     monkeypatch.setattr(harness, "freshness_check", lambda: {
         "branch": harness.FROZEN_BRANCH,
-        "git_head": harness.FROZEN_HEAD,
+        "git_head": harness.FROZEN_SCIENTIFIC_HEAD,
+        "harness_release_head": harness.FROZEN_SCIENTIFIC_HEAD,
+        "harness_release_tag": harness.HARNESS_RELEASE_TAG,
+        "scientific_authority_head": harness.FROZEN_SCIENTIFIC_HEAD,
         "tracked_clean": True,
         "effective_execution_code_set_hash": harness.FROZEN_CODE_SET_AGGREGATE,
         "population_identity": "p" * 64,
@@ -368,6 +371,10 @@ class TestManifestFields:
         closure = harness.verify_artifact_closure()
         manifest = harness.new_manifest(fresh, closure)
         for key in (
+            "scientific_authority_head",
+            "harness_release_head",
+            "harness_release_tag",
+            "frozen_branch",
             "frozen_execution_code_hash",
             "population_identity",
             "population_order_hash",
@@ -385,3 +392,90 @@ class TestManifestFields:
         assert manifest["total"] == 144
         assert manifest["zero_network"] is True
         assert set(manifest["disk_free_gib"]) == {"start", "current", "minimum"}
+        assert manifest["scientific_authority_head"] == harness.FROZEN_SCIENTIFIC_HEAD
+        assert manifest["harness_release_tag"] == harness.HARNESS_RELEASE_TAG
+        assert manifest["frozen_execution_code_hash"] == harness.FROZEN_CODE_SET_AGGREGATE
+
+
+# ---------------------------------------------------------------------------
+# Post-freeze R2 regression — tag-based release identity + structural
+# scientific authority (the R1 defect: preflight failed at the harness commit)
+# ---------------------------------------------------------------------------
+class TestReleaseIdentity:
+    """verify_release_identity() with mocked git helpers.
+
+    Positive: scientific authority is the base, current HEAD is a descendant
+    harness commit equal to the peeled release tag -> PASS.
+    Negative (all fail closed): missing tag, tag != HEAD, base not ancestor,
+    extra changed path outside the allowlist.
+    """
+
+    HEAD = "ab" * 20
+    RELEASE = "ab" * 20
+
+    def _patch(
+        self, monkeypatch: pytest.MonkeyPatch, *, peel: str | None = None, head: str | None = None
+    ) -> None:
+        monkeypatch.setattr(harness, "git_branch", lambda: harness.FROZEN_BRANCH)
+        monkeypatch.setattr(harness, "git_clean_tracked", lambda: True)
+        monkeypatch.setattr(harness, "git_head", lambda: head or self.HEAD)
+        monkeypatch.setattr(harness, "git_peel", lambda tag: peel or self.RELEASE)
+        monkeypatch.setattr(harness, "git_is_ancestor", lambda a, h: True)
+        monkeypatch.setattr(
+            harness,
+            "git_diff_name_only",
+            lambda a, h: [
+                "scripts/r4_full144_qualification_harness.py",
+                "scripts/r4_full144_qualification_launcher.ps1",
+                "tests/unit/wp2/env_r4/test_r4_full144_qualification_harness.py",
+            ],
+        )
+
+    def test_preflight_passes_at_release_head(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._patch(monkeypatch)
+        identity = harness.verify_release_identity()
+        assert identity["git_head"] == self.HEAD
+        assert identity["harness_release_head"] == self.RELEASE
+        assert identity["harness_release_tag"] == harness.HARNESS_RELEASE_TAG
+        assert identity["scientific_authority_head"] == harness.FROZEN_SCIENTIFIC_HEAD
+
+    def test_missing_tag_fails_closed(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._patch(monkeypatch)
+
+        def _missing(_tag: str) -> str:
+            raise harness.GlobalIntegrityError("release tag missing/unresolvable")
+
+        monkeypatch.setattr(harness, "git_peel", _missing)
+        with pytest.raises(harness.GlobalIntegrityError, match="release tag"):
+            harness.verify_release_identity()
+
+    def test_tag_not_equal_head_fails_closed(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._patch(monkeypatch, peel="1" * 40)
+        with pytest.raises(harness.GlobalIntegrityError, match="harness release HEAD"):
+            harness.verify_release_identity()
+
+    def test_base_not_ancestor_fails_closed(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._patch(monkeypatch)
+        monkeypatch.setattr(harness, "git_is_ancestor", lambda a, h: False)
+        with pytest.raises(harness.GlobalIntegrityError, match="not an ancestor"):
+            harness.verify_release_identity()
+
+    def test_extra_changed_path_fails_closed(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        self._patch(monkeypatch)
+
+        def _extra(_a: str, _h: str) -> list[str]:
+            return ["scripts/r4_full144_qualification_harness.py", "src/benchmark/wp2/full144/driver.py"]
+
+        monkeypatch.setattr(harness, "git_diff_name_only", _extra)
+        with pytest.raises(harness.GlobalIntegrityError, match="outside harness allowlist"):
+            harness.verify_release_identity()
+
+    def test_only_scientific_sha_hardcoded_in_source(self) -> None:
+        """ADDENDUM A: the harness source hardcodes ONLY the R2 tag name plus
+        the scientific authority SHA — never a harness release commit SHA."""
+        import re
+
+        src = (SCRIPTS / "r4_full144_qualification_harness.py").read_text(encoding="utf-8")
+        shas = set(re.findall(r"\b[0-9a-f]{40}\b", src))
+        assert shas == {harness.FROZEN_SCIENTIFIC_HEAD}
+        assert harness.HARNESS_RELEASE_TAG in src
