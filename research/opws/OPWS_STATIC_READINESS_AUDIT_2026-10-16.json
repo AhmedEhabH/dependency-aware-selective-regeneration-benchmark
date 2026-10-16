@@ -1,0 +1,124 @@
+{
+  "mission": "M17_OPWS_STATIC_READINESS_AUDIT",
+  "date": "2026-10-16",
+  "branch": "parallel/opws-static-audit-2026-10-16",
+  "head": "9038df3ea80d7d478c2f949b2d3fae75754bb6e1",
+  "audit_type": "STRICTLY_STATIC_READ_ONLY",
+  "verdict_class": "PASS",
+  "verdict": "PASS_OPWS_STATIC_READY_WAITING_FOR_FULL_D7_BIND",
+  "summary": "Frozen OPWS protocol R1 (2026-10-12) is internally consistent, machine-validated PASS, population correctly UNBOUND, all statically checkable path/hash/file contracts resolve, and the frozen protocol is compatible with the Full-D7 Phase4 population facts (144 units / 219 mapped commits) supplied by the mission. Full-D7 scientific execution is NOT complete (repo current-state: Full D7 unauthorized, R3 Calibration-12 11 PASS/1 FAIL, fresh Calibration-12 pending), so OPWS population correctly remains unbound until Full-D7 is frozen PASS.",
+  "protocol_consistency": {
+    "status": "PASS",
+    "frozen_files": "research/opws-protocol-r1/ (17 artifacts: OPWS_PROTOCOL_R1.json/.md, OPWS_ARM_REGISTRY_R1.json, OPWS_METRIC_CONTRACT_R1.json, OPWS_POPULATION_BINDING_SCHEMA_R1.json, OPWS_OUTPUT_SCHEMAS_R1.json, OPWS_ELIGIBILITY_FUNNEL_R1.json, OPWS_SCOPE_SEMANTICS_R1.json, OPWS_GOLD_SELECT_ALL_VALIDITY_R1.json, OPWS_EXECUTION_REUSE_DEDUP_R1.json, OPWS_OUTCOME_TAXONOMY_R1.json, OPWS_PROTOCOL_VALIDATION_REPORT.json, OPWS_PROTOCOL_INVARIANCE_AUDIT.json, OPWS_ANALYSIS_PLAN_R1.md, OPWS_EXISTING_ASSET_INVENTORY.json, ANTI_OUTCOME_PEEKING_RECEIPT.json)",
+    "md_json_agreement": "OPWS_PROTOCOL_R1.md and OPWS_PROTOCOL_R1.json agree (freeze 2026-10-12, mission M17_OPWS_PROTOCOL_FREEZE_R1, mission_start_head 83399ff875c7793286d66311afb6c62071ea04b3, status FROZEN_BEFORE_FULL_D7_POPULATION_BINDING_AND_BEFORE_ANY_OPWS_EXECUTION, all population fields UNBOUND_PENDING_FULL_D7). .md declares .json governs machine validation; both describe the same contract.",
+    "no_stale_or_conflicting_versions": "Single protocol/schema version set (schema_version opws_output_schema_v1, opws_metric_contract_v1; no v0/v1 conflict). Single bootstrap constants (N_BOOTSTRAP=10000, BOOTSTRAP_SEED=20261012, RANDOM_SEED=20261012). Single NI-margin policy (NONE). Single 12-arm registry. Single population binding state (UNBOUND in all 13 binding fields and in protocol binding_boundary).",
+    "threshold_and_command_assumptions": "Consistent: M17 pool rule n_READY>=40 (descriptive below) is preserved verbatim in binding schema binding_rules. Operative authority paths and command vocabulary (controller/plan_m17_v1_main.json, scripts/wp2_m17_contract.py, wp2_m15r_run.py, wp2_m14r_run.py, wp2_m14a_evalcore.py, wp2_m14a_evalcore_e1.py, wp2_m14a_readiness.py) all exist and agree.",
+    "machine_validation": "scripts/opws_protocol_r1_validate.py runs clean: OPWS_PROTOCOL_R1_VALIDATION=PASS (all 15 check groups). Targeted P2P/F2P unit suite tests/unit/wp2/test_opws_protocol_r1.py: 41/41 PASS (Python 3.11.5, pytest 9.1.1). Cross-track current-state docs suite tests/unit/test_m17_cross_track_current_state_docs.py: 23/23 PASS."
+  },
+  "population_binding_state": {
+    "status": "UNBOUND",
+    "expected_population": "OPWS expects the FUTURE Full-D7 READY census population, bound at task level via ordered_task_ids. Membership = frozen MAIN_297 manifest (297 task IDs) intersect the future Full-D7 frame (funnel STAGE_1). Each bound task must resolve frozen arm prediction artifacts (MAIN_297 coverage), gold proxies, behavior contract (adapter+E1+F2P nodes) and Full-D7 environment readiness.",
+    "d7_phase4_population_facts": {
+      "population": "144 validation units / 219 mapped commits",
+      "cross_check_in_repo": "D7_CALIBRATION_12_PLAN.json (research/env-canon-evidence/d7-r3/manifests/) reports validation_units_total=144 and tasks_total=219, matching the mission facts. Sampled member_task_ids (saleor-rc-438595033c60, saleor-rc-fa1ed1794a8a, saleor-rc-7b1e8cee95d5, saleor-rc-e6198146186d) are all present in the frozen MAIN_297 manifest, so per-task arm artifacts resolve for the D7 universe.",
+      "population_identity_hash": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+      "ordered_membership_hash": "8eb4a7242e12bb03715adac5fffdea2e4340585843fc137ececd38952ad6a19e",
+      "runtime_binding_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2"
+    },
+    "currently_bound": false,
+    "evidence_of_unbound": "All 13 OPWS_POPULATION_BINDING_SCHEMA_R1.json current_values == UNBOUND_PENDING_FULL_D7; protocol binding_boundary full_d7_ready_population_hash, full_d7_ready_task_count, opws_bound_population_hash == UNBOUND_PENDING_FULL_D7. Enforced by validator + test_p3_full_d7_population_unbound. Mission Phase4 hashes are NOT written into this worktree (expected: external D7-track facts; binding forbidden until Full-D7 frozen PASS per owner correction #3).",
+    "not_bound_in_this_mission": true,
+    "required_binding_inputs_after_full_d7": [
+      "full_d7_evidence_commit: Full-D7 frozen evidence commit that produced the READY census",
+      "full_d7_tag: Full-D7 frozen evidence tag",
+      "full_d7_ready_population_file: path to the frozen Full-D7 READY population file",
+      "full_d7_ready_population_sha256: sha256 of that READY population file (expected mapping for population identity hash ce51d2ec...)",
+      "n_env_ready: number of environment-READY tasks in the frozen census",
+      "behavior_contract_manifest: path to the frozen behavior-contract manifest (adapter + evaluator contract per task)",
+      "behavior_contract_manifest_sha256: sha256 of the behavior-contract manifest",
+      "n_opws_eligible: OPWS_ELIGIBILITY_FUNNEL_R1.json stage count",
+      "n_primary_paired: PRIMARY_PAIRED_ELIGIBLE count (RM-CSS vs AGENT paired population)",
+      "ordered_task_ids: ordered, deduplicated, deterministic bound task-ID list (expected mapping for 219 mapped commits)",
+      "ordered_task_ids_sha256: canonical sha256 of ordered task-ID list (expected mapping for ordered membership hash 8eb4a724...)",
+      "binding_created_at: UTC ISO timestamp at binding record write",
+      "protocol_sha256: sha256 of the released OPWS protocol freeze (tag peel hash at binding time)",
+      "plus: instantiated eligibility manifest (per-task stage outcomes + reason codes) and a self-hashed immutable binding record"
+    ],
+    "binding_rules_applicable": "Binding may fill only the schema fields; must not change any protocol semantic, folder, estimand, seed, bootstrap, or taxonomy. If Full-D7 READY count < 40 the OPWS analysis is descriptive/supporting only."
+  },
+  "schema_config_issues": {
+    "status": "NONE",
+    "frozen_schemas": "OPWS_OUTPUT_SCHEMAS_R1.json (10 output artifacts, each with mandatory fields: execution manifest, task-arm results, physical execution map, failure taxonomy counts, arm summary, paired comparisons, bootstrap results, sufficiency-scope frontier, invalid tasks, execution receipt). OPWS_POPULATION_BINDING_SCHEMA_R1.json (13 fields). OPWS_METRIC_CONTRACT_R1.json (schema_version v1). OPWS_ELIGIBILITY_FUNNEL_R1.json (7 stages, distinct ENV_READY / OPWS_ELIGIBLE / PRIMARY_PAIRED_ELIGIBLE markers). OPWS_OUTCOME_TAXONOMY_R1.json (12 classes, fail-closed). OPWS_EXECUTION_REUSE_DEDUP_R1.json (5-tuple dedup identity).",
+    "stale_contracts_relative_to_full_d7_phase4": "None found. Every Full-D7-derived contract (behavior_contract_manifest, environment identity, eligibility manifest, READY census, F2P node set) is explicitly deferred to binding time and correctly marked UNBOUND now. No stale values, no mutated knobs, no threshold drift.",
+    "frame_note": "OPWS arm artifacts cover MAIN_297 (297); M17 design frame is 220; D7 population is 144 units/219 commits. The funnel STAGE_1 explicitly intersects the MAIN_297 manifest with the future Full-D7 frame, so the population-size difference is handled by design, not a conflict.",
+    "validators_run": "scripts/opws_protocol_r1_validate.py PASS; 41/41 OPWS protocol unit tests PASS; 23/23 cross-track current-state docs tests PASS."
+  },
+  "missing_stale_path_hash_contracts": {
+    "status": "NONE",
+    "in_repo_paths_resolved": [
+      "controller/plan_m17_v1_main.json",
+      "scripts/wp2_m17_contract.py",
+      "scripts/wp2_m15r_run.py",
+      "scripts/wp2_m14r_run.py",
+      "scripts/wp2_m14a_evalcore.py",
+      "scripts/wp2_m14a_evalcore_e1.py",
+      "scripts/wp2_m14a_readiness.py",
+      "docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md",
+      "research/wp2/m15r_v1/m15r_design_freeze_v1.json",
+      "research/wp1a/sip_rmcss_per_task_predictions.json",
+      "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json",
+      "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+      "research/wp2/m17_v1/* (design freeze, qualification gate, guard, controller state, membership records)"
+    ],
+    "external_readonly_authorities_resolved": [
+      "D:/wp2_comp_baselines/research/competitor-baselines-r2/BASELINE_PROTOCOL_FREEZE_R2.json",
+      "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+      "D:/wp2_agentless_main297/research/competitor-agentless-r1/AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json",
+      "D:/wp2_agentless_main297/research/competitor-agentless-r1/agentless_r1_prediction_freeze.json"
+    ],
+    "per_task_universe": "benchmark_data/real_commit_impact_saleor/scientific/<task>/public/candidate_universe.json exists for sampled D7/MAIN_297 tasks (e.g., saleor-rc-438595033c60, saleor-rc-7b1e8cee95d5); inventory asserts 297/297 present.",
+    "full_d7_inputs_not_in_worktree": "The three Full-D7 Phase4 hashes (ce51d2ec..., 8eb4a724..., 5169c69d...) are NOT present in this worktree; they are external D7-track facts. Expected and correct - they are future binding-time inputs and must not be materialized here before Full-D7 freeze. No evidence was modified.",
+    "no_opws_execution_outputs": "No OPWS_EXECUTION_MANIFEST / TASK_ARM_RESULTS / RECEIPT etc. exist (validator confirms) - consistent with zero execution.",
+    "mutable_dependency_check": "None of the in-repo or external authority files are mutable or ambiguous; every named arm's frozen prediction artifact is identified unambiguously (arm_artifact_resolution all_core_arms_resolved=true)."
+  },
+  "full_d7_handoff_compatibility": {
+    "status": "COMPATIBLE",
+    "ordering_correct": "OPWS protocol R1 was frozen BEFORE Full-D7 population binding and BEFORE any OPWS execution (status FROZEN_BEFORE_FULL_D7_POPULATION_BINDING_AND_BEFORE_ANY_OPWS_EXECUTION). binding_boundary requires Full-D7 scope/census issue resolved AND a valid population hash frozen before binding. This is the correct pre-registration ordering.",
+    "full_d7_execution_state": "NOT COMPLETE. Repo current-state (README / 00_CURRENT_RESEARCH_STATE.md / START_HERE_CURRENT_2026-09-21b.md) consistently states Full D7 is NOT authorized: R3 Calibration-12 executed 12/12 -> 11 PASS / 1 FAIL (BLOCKED_STOP, root cause C_LOCK_RECONSTRUCTION_DEFECT); Source-Fidelity R1 frozen (142/144 unchanged, 2/144 changed); next is a fresh Source-Fidelity Calibration-12 from zero; Full D7 unauthorized until exactly 12 PASS / 0 FAIL. Cross-track docs test 23/23 PASS confirms no current-state doc claims Full D7 authorized.",
+    "mission_facts_consistent": "Mission facts (population = 144 units / 219 mapped commits; population identity ce51d2ec...; ordered membership 8eb4a724...; runtime binding 5169c69d...; Full-D7 scientific execution NOT complete; OPWS population must remain unbound until Full-D7 frozen PASS) are fully consistent with the frozen OPWS protocol and the repo current-state.",
+    "expected_hash_mapping_at_binding": {
+      "population_identity_ce51d2ec": "maps to full_d7_ready_population_sha256 / protocol binding_boundary full_d7_ready_population_hash",
+      "ordered_membership_8eb4a724": "maps to ordered_task_ids_sha256",
+      "runtime_binding_5169c69d": "expected to map to opws_bound_population_hash (the runtime-bound population identity) or the Full-D7 runtime environment binding consumed as OPWS environment_id / behavior-contract manifest identity; the exact field assignment must be recorded in the binding record at Full-D7 freeze",
+      "note": "Forward binding-time bookkeeping item only; it does not affect the current static readiness verdict because no binding is permitted before Full-D7 frozen PASS."
+    },
+    "boundary_respected": "OPWS population remains UNBOUND (correct). No binding performed in this audit."
+  },
+  "exact_blockers": {
+    "static_readiness_blockers": [],
+    "forward_execution_gate": [
+      "Full-D7 scientific execution is NOT complete: R3 Calibration-12 11 PASS / 1 FAIL (C_LOCK_RECONSTRUCTION_DEFECT) unresolved; fresh Source-Fidelity Calibration-12 pending; Full D7 unauthorized until exactly 12 PASS / 0 FAIL.",
+      "OPWS population binding and OPWS execution are therefore NOT authorized (protocol owner corrections #3 and #8).",
+      "At Full-D7 binding time, the exact semantic of the runtime binding hash (5169c69d...) relative to the OPWS binding schema fields (opws_bound_population_hash vs environment_id vs behavior_contract_manifest_sha256) must be recorded explicitly in the binding record."
+    ]
+  },
+  "exact_next_action_after_full_d7_pass": [
+    "Confirm fresh Source-Fidelity Calibration-12 = exactly 12 PASS / 0 FAIL, then obtain owner authorization for Full D7.",
+    "Run Full D7 to completion and freeze the READY census as frozen PASS evidence (evidence commit + tag).",
+    "Record full_d7_evidence_commit and full_d7_tag; write the frozen READY population file and its sha256 (population identity ce51d2ec...).",
+    "Instantiate the OPWS eligibility funnel on the final frozen census to produce per-task stage outcomes + reason codes, deriving n_env_ready, n_opws_eligible, n_primary_paired (funnel STAGE_1..7).",
+    "Build the ordered_task_ids list and ordered_task_ids_sha256 (ordered membership 8eb4a724...) from the READY census.",
+    "Fill all 13 OPWS_POPULATION_BINDING_SCHEMA_R1.json fields (binding_may_only write the schema; no protocol semantic change), set opws_bound_population_hash (runtime binding 5169c69d... per the binding record mapping), and set protocol_sha256 = release tag peel hash.",
+    "Self-hash and store the immutable binding record under the mission artifacts.",
+    "Re-run scripts/opws_protocol_r1_validate.py and tests/unit/wp2/test_opws_protocol_r1.py (must still PASS); then and only then start OPWS execution per controller/plan_m17_v1_main.json (Q08 scopes -> Q09 opws-evaluate)."
+  ],
+  "validation_performed": {
+    "no_edits_made": true,
+    "validator": "scripts/opws_protocol_r1_validate.py -> OPWS_PROTOCOL_R1_VALIDATION=PASS (report content byte-identical to frozen; working tree restored after the tool's line-ending-only rewrite)",
+    "targeted_tests": "tests/unit/wp2/test_opws_protocol_r1.py 41/41 PASS; tests/unit/test_m17_cross_track_current_state_docs.py 23/23 PASS (Python 3.11.5, pytest 9.1.1)",
+    "py_compile": "NOT RUN - zero Python files edited",
+    "git_diff_check": "PASS - working tree clean (git status --short empty; git diff --check clean)",
+    "no_docker_no_network_no_downloads": true,
+    "no_scientific_results_generated": true
+  }
+}
