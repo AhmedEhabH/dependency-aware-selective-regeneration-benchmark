@@ -1,0 +1,47 @@
+{
+    "artifact": "R4_FRAMEWORK_GATE_PHASE4_EFFECTIVE_EXECUTION_CODE_SET",
+    "mission_id": "M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR_AND_REFREEZE",
+    "schema_version": "env-canon-r4/framework-gate-phase4/effective-execution-code-set/1.0",
+    "purpose": "Freeze the exact effective execution-code set for the framework-gate Phase4-repair successor Full144 run (restart from Unit 1). The ONLY execution-code change vs the artifact-recovery successor set is the removal of the synthetic python manage.py check framework gate in the qualified runner plus the truthful contingency-taxonomy update in the driver.",
+    "aggregate_hash_method": "SHA-256 over the LF-joined sorted lines '<sha256>  <path>', paths sorted lexicographically, one trailing LF (identical to the predecessor method; hashes are of git-blob LF-normalized bytes).",
+    "aggregate_hash": "4f3a651199b5d5626b6bea971a6d5d47cd14f73e66e55c24993f9ecc94c998ec",
+    "members": [
+        {
+            "path": "src/benchmark/wp2/full144/driver.py",
+            "sha256": "6bea131c41023187a326243b34b2800f5afa44e6f9866972e61063fa254838b0",
+            "git_blob_sha1": "3240b73f053338335a31d15e524e30d16d637f75",
+            "role": "Full144 execution driver (repaired contingency taxonomy: manage-gate failure class removed; all frozen population/order/binding/image/network semantics unchanged)",
+            "successor_changed": true
+        },
+        {
+            "path": "src/benchmark/wp2/full144/population.py",
+            "sha256": "debcb2b75b7bc5b40d597a67d1b6a1f8757a7c1fc48628139352beba72ec9bc9",
+            "git_blob_sha1": "49c83621dbfe64ec0e16bafded9b0b017f689b1e",
+            "role": "Frozen Full144 population/order/binding authority used by the driver (unchanged)",
+            "successor_changed": false
+        },
+        {
+            "path": "scripts/r4_behavioral_calibration_n12_r2.py",
+            "sha256": "010e1b3e438fc22f84542e2b767f4868921e29e1973ce7db2cbe79a03b49534b",
+            "git_blob_sha1": "e3b02add550c820db3c392ca4287cc0d42c1889d",
+            "role": "REPAIRED qualified runner: synthetic python manage.py check framework gate REMOVED (M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR); per-worktree explicit NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED marker; import/pytest smoke and all other behavioural semantics unchanged",
+            "successor_changed": true
+        },
+        {
+            "path": "src/benchmark/wp2/env_r4/route_closure.py",
+            "sha256": "327ade0f5e535402c2941542a2ab2cd234ea4c67dfaecded6d7862c1b0d53952",
+            "git_blob_sha1": "2ce07d26751721039aa96cd05920528e5ae0b7a6",
+            "role": "Successor D7 install-route closure projection (unchanged)",
+            "successor_changed": false
+        }
+    ],
+    "excluded_unchanged_frozen": [
+        "src/benchmark/wp2/env_r4/contracts.py",
+        "src/benchmark/wp2/env_r4/uv_adapter.py",
+        "src/benchmark/wp2/env_r4/integrated_parser.py",
+        "src/benchmark/wp2/env_r4/linux_tree_materialize.py",
+        "src/benchmark/wp2/env_r4/linux_tree_wiring.py",
+        "src/benchmark/wp2/linux_adapter.py"
+    ],
+    "exclusion_rule": "Unchanged modules required by the execution path are already frozen by git blobs and covered by the frozen-invariance audit; only modules whose changed behaviour is required by the Phase4-repair path are members."
+}

@@ -1,18 +1,25 @@
 """M17_D7_R4_FRAMEWORK_GATE_PHASE3_REPAIR - manage-gate settings resolution tests.
 
-Mission M17_D7_R4_FRAMEWORK_GATE_PHASE3_REPAIR_AND_REFREEZE (T3).
+Mission M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR_AND_REFREEZE (T3).
 
-These tests are OFFLINE: no real container is run.  They prove the corrected
-manage-gate semantics required by the Phase-2 frozen ruling (Candidate C):
+M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR SUPERSEDES the Phase-2/Phase-3 ruling
+ONLY with respect to making ``python manage.py check`` a mandatory gate:
+population-wide evidence (219 audited commits, exact-string ``manage.py check``
+hits = 0) shows the command is NOT a repository-authored behavior, and the
+persisted Unit63 ``ENV_FRAMEWORK_GATE_FAILURE`` was an instrumentation false
+failure.  The settings-resolution machinery below is retained as non-executed
+compatibility code (still exercised by the frozen Phase-1 static replay).
 
-  1. modern config resolves saleor.tests.settings;
-  2. legacy config resolves tests.settings;
-  3. missing settings declaration fails closed;
-  4. conflicting settings declarations fail closed;
-  5. referenced settings module absent from worktree fails closed;
-  6. no task/unit/commit-specific selection exists;
-  7. manage command uses the resolved module;
-  8. pytest/import smoke behavior is unchanged.
+These tests are OFFLINE: no real container is run.  They prove:
+
+  1. the settings-resolution compatibility code still resolves the frozen
+     Phase-1 modules (modern saleor.tests.settings / legacy tests.settings);
+  2. missing / conflicting / malformed / absent settings fail closed in the
+     compatibility resolver;
+  3. no task/unit/commit-specific selection exists;
+  4. the container script NO LONGER executes ``python manage.py check`` and
+     records an explicit NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED state;
+  5. import/pytest smoke behavior is unchanged and still fail closed.
 
 Plus a frozen Phase-1 static replay: 219/219 resolvable, 218 modern, 1 legacy,
 0 unresolved, 0 conflicting (uses the frozen probe/audit artifacts only).
@@ -158,15 +165,15 @@ class TestNoIdentitySelection:
 
 
 # ---------------------------------------------------------------------------
-# 7 / 8 - manage gate uses resolved module; pytest/import unchanged
+# 4 / 5 - manage gate REMOVED (Phase-4); import/pytest smoke unchanged
 # ---------------------------------------------------------------------------
 class TestManageGateAndSmokeUnchanged:
-    def test_manage_command_uses_resolved_module(self) -> None:
+    def test_manage_gate_not_executed(self) -> None:
         script = r2.container_script("vu-test", 2, [], {"version_probes": {}})
-        assert "python manage.py check --settings=\"$R4_SETTINGS_MODULE\"" in script
-        assert "saleor.tests.settings" not in script  # no hardcoded universal module
-        assert "R4_SETTINGS_MODULE" in script
-        assert "MANAGE_RC_$(basename $wt)=SKIP" in script
+        assert "python manage.py check" not in script
+        assert "MANAGE_RC_" not in script
+        assert "R4_SETTINGS_MODULE" not in script
+        assert "MANAGE_GATE_$(basename $wt)=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED" in script
 
     def test_import_smoke_unchanged(self) -> None:
         script = r2.container_script("vu-test", 1, [], {"version_probes": {}})
@@ -179,30 +186,42 @@ class TestManageGateAndSmokeUnchanged:
         assert "PYTEST_RC_$(basename $wt)=$?" in script
         assert "PYTEST_RC_$(basename $wt)=SKIP" in script
 
-    def test_gate_ordering_unchanged(self) -> None:
+    def test_smoke_order_unchanged(self) -> None:
         script = r2.container_script("vu-test", 1, [], {"version_probes": {}})
         idx_import = script.index('python -c "import saleor"')
-        idx_manage = script.index("python manage.py check")
         idx_pytest = script.index("python -m pytest --collect-only")
-        assert idx_import < idx_manage < idx_pytest
+        assert idx_import < idx_pytest
 
     def test_rc_classification_preserved(self) -> None:
-        # MANAGE_RC semantics unchanged: 0 => pass, SKIP when no manage.py,
-        # anything else => framework smoke failure.
+        # A manage-command failure can no longer independently classify a unit
+        # as ENV_FRAMEWORK_GATE_FAILURE because the command is no longer
+        # executed as a mandatory gate.  No fake manage success is emitted: the
+        # container records an explicit NOT_APPLICABLE state instead.
         parsed = r2.parse_output(
             "NET_STATUS=NETWORK_UNAVAILABLE\n"
             "INSTALL_RC=0\nINSTALL_MS=1\nPIPCHECK_RC=0\n"
             "WT_wt0_IS_DIR=1\n"
-            "IMPORT_RC_wt0=0\nMANAGE_RC_wt0=0\nPYTEST_RC_wt0=0\n"
+            "IMPORT_RC_wt0=0\nMANAGE_GATE_wt0=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\nPYTEST_RC_wt0=0\n"
         )
+        assert parsed["manage_gate"] == {"wt0": "NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED"}
+        assert "manage_wt0" not in parsed.get("smoke", {})
         assert r2.classify_unit(parsed, special={"version_probes": {}}, wt_count=1) == "PASS"
+        # import failure still fails closed
         parsed = r2.parse_output(
             "NET_STATUS=NETWORK_UNAVAILABLE\n"
             "INSTALL_RC=0\nINSTALL_MS=1\nPIPCHECK_RC=0\n"
             "WT_wt0_IS_DIR=1\n"
-            "IMPORT_RC_wt0=0\nMANAGE_RC_wt0=7\nPYTEST_RC_wt0=0\n"
+            "IMPORT_RC_wt0=1\nMANAGE_GATE_wt0=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\nPYTEST_RC_wt0=0\n"
         )
-        assert r2.classify_unit(parsed, special={"version_probes": {}}, wt_count=1) == r2.F_ENV_FRAMEWORK_GATE
+        assert r2.classify_unit(parsed, special={"version_probes": {}}, wt_count=1) == r2.F_ENV_IMPORT_SMOKE
+        # pytest failure still fails closed
+        parsed = r2.parse_output(
+            "NET_STATUS=NETWORK_UNAVAILABLE\n"
+            "INSTALL_RC=0\nINSTALL_MS=1\nPIPCHECK_RC=0\n"
+            "WT_wt0_IS_DIR=1\n"
+            "IMPORT_RC_wt0=0\nMANAGE_GATE_wt0=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\nPYTEST_RC_wt0=5\n"
+        )
+        assert r2.classify_unit(parsed, special={"version_probes": {}}, wt_count=1) == r2.F_ENV_PYTEST_COLLECTION
 
 
 # ---------------------------------------------------------------------------

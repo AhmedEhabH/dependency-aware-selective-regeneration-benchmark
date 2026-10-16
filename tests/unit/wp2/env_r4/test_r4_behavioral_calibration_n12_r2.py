@@ -38,7 +38,8 @@ F2P (F1..F27):
   F17 — pip check failure classifies ENV_DEPENDENCY_CONSISTENCY_FAILURE.
   F18 — native probe failure classifies ENV_NATIVE_PROBE_FAILURE.
   F19 — import/smoke failure classifies ENV_IMPORT_SMOKE_FAILURE.
-  F20 — framework/manage failure classifies ENV_FRAMEWORK_GATE_FAILURE.
+  F20 — synthetic manage gate removed: manage markers never classify
+        ENV_FRAMEWORK_GATE_FAILURE; explicit removed-gate state recorded.
   F21 — pytest collect failure classifies ENV_PYTEST_COLLECTION_FAILURE.
   F22 — timeout classifies ENV_TIMEOUT.
   F23 — failed prior unit prevents later-unit execution.
@@ -484,12 +485,40 @@ class TestF19ImportSmoke:
         assert r2.classify_unit(run, special={}) == r2.F_ENV_IMPORT_SMOKE
 
 
-class TestF20FrameworkManage:
-    def test_manage_failure_classifies(self) -> None:
+class TestF20FrameworkGateRemoved:
+    """M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR — synthetic manage gate removed.
+
+    A. A manage-command failure can no longer independently classify a unit as
+       ENV_FRAMEWORK_GATE_FAILURE because that command is no longer executed as
+       a mandatory gate.
+    B. No fake manage success is emitted: the container records an explicit
+       NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED state, never MANAGE_RC_=0.
+    """
+
+    def test_manage_marker_no_longer_classifies(self) -> None:
+        # Even a legacy manage_* smoke key must not classify as the removed gate.
         run = {"network_status": "NETWORK_UNAVAILABLE", "install_rc": 0,
                "toolhouse_present": [], "pipcheck_rc": 0, "native_failures": [],
                "smoke": {"import_wt0": "0", "manage_wt0": "3", "pytest_wt0": "0"}}
-        assert r2.classify_unit(run, special={}) == r2.F_ENV_FRAMEWORK_GATE
+        assert r2.classify_unit(run, special={}) == "PASS"
+
+    def test_container_emits_explicit_removed_state(self) -> None:
+        script = r2.container_script("vu-test", 1, [], {"version_probes": {}})
+        assert "MANAGE_GATE_$(basename $wt)=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED" in script
+        assert "python manage.py check" not in script
+        assert "MANAGE_RC_$(basename $wt)=0" not in script
+        assert "MANAGE_RC_" not in script
+
+    def test_parse_records_removed_gate_state(self) -> None:
+        parsed = r2.parse_output(
+            "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\nINSTALL_MS=1\nPIPCHECK_RC=0\n"
+            "WT_wt0_IS_DIR=1\n"
+            "IMPORT_RC_wt0=0\nMANAGE_GATE_wt0=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\n"
+            "PYTEST_RC_wt0=0\n"
+        )
+        assert parsed["manage_gate"] == {"wt0": "NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED"}
+        assert "manage_wt0" not in parsed.get("smoke", {})
+        assert r2.classify_unit(parsed, special={"version_probes": {}}, wt_count=1) == "PASS"
 
 
 class TestF21PytestCollect:
@@ -716,7 +745,8 @@ class TestInstrumentFailClosedParse:
         parsed = r2.parse_output(
             "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\nPIPCHECK_RC=0\n"
             "NATIVE_FAILURES=[]\nTOOLHOUSE_PRESENT=[]\nWT_wt0_IS_DIR=1\n"
-            "IMPORT_RC_wt0=0\nMANAGE_RC_wt0=0\nPYTEST_RC_wt0=0\n"
+            "IMPORT_RC_wt0=0\nMANAGE_GATE_wt0=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\n"
+            "PYTEST_RC_wt0=0\n"
         )
         special: dict = {"version_probes": {}}
         assert r2.classify_unit(parsed, special=special, wt_count=1) == "PASS"
@@ -739,7 +769,8 @@ class TestInstrumentStageMarkers:
         parsed = r2.parse_output(
             "NET_STATUS=NETWORK_UNAVAILABLE\nINSTALL_RC=0\nPIPCHECK_RC=0\n"
             "NATIVE_FAILURES=[]\nTOOLHOUSE_PRESENT=[]\n"
-            "IMPORT_RC_wt0=0\nMANAGE_RC_wt0=0\nPYTEST_RC_wt0=0\n"
+            "IMPORT_RC_wt0=0\nMANAGE_GATE_wt0=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\n"
+            "PYTEST_RC_wt0=0\n"
         )
         special: dict = {"version_probes": {}}
         assert r2.classify_unit(parsed, special=special, wt_count=1) == r2.F_ENV_IMPORT_SMOKE

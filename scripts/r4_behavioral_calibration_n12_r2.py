@@ -19,7 +19,11 @@ semantics:
   materialization uses the qualified R4-C materializer.
 * The frozen D7/R3 behavioral container semantics are reused verbatim
   (``--network=none``, netprobe, wheel-only offline install, toolhouse audit,
-  pip check, native probes, import/manage/pytest smoke).
+  pip check, native probes, import/pytest smoke).  The synthetic
+  ``python manage.py check`` framework gate is REMOVED
+  (M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR: population-wide audit shows zero
+  repository-authored ``manage.py check`` invocations across the 219 audited
+  commits; Unit63 demonstrated the concrete instrumentation false failure).
 * Source-fidelity (units 1,2) and R4-E recovery overlay inputs are the exact
   qualified frozen artifacts.  R4-E recovery is selected evidence-driven by the
   ACTUAL runtime pin (normalized package name + exact version) from the frozen
@@ -808,12 +812,17 @@ def recovery_evidence_unit_ids() -> set[str]:
 # ---------------------------------------------------------------------------
 # Manage-gate settings resolution (M17_D7_R4_FRAMEWORK_GATE_PHASE3_REPAIR)
 # ---------------------------------------------------------------------------
-# Phase-2 ruling (Candidate C): the manage gate must run
-# ``python manage.py check --settings=<repo-authored pytest Django settings
-# module>`` where the module is resolved from the EXACT materialized worktree.
-# This is a narrow port of the Phase-1 repository-authored extraction
-# (``pytest_ds_modules`` in ``scripts/r4_framework_semantics_audit_144.py``)
-# plus fail-closed resolution.  No task/unit/commit identity is ever used.
+# SUPERSEDED by M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR: the synthetic
+# ``python manage.py check`` framework gate is REMOVED.  Population-wide
+# evidence (219 audited commits, exact-string ``manage.py check`` hits = 0)
+# shows this command is NOT a repository-authored behavior; the persisted
+# Unit63 ``ENV_FRAMEWORK_GATE_FAILURE`` was an instrumentation false failure.
+#
+# The Phase-2/Phase-3 settings-resolution machinery below is retained ONLY as
+# non-executed compatibility code (still exercised by the frozen Phase-1 static
+# replay and its targeted tests).  It is no longer referenced by the container
+# script and it never gates unit classification.  No task/unit/commit identity
+# is ever used.
 REPO_PYTEST_DS_RE = re.compile(r"--ds\s*=\s*([^\s\"',\]]+)")
 DOTTED_MODULE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$")
 
@@ -1095,35 +1104,7 @@ PYEOF''',
             "    python -c \"import saleor\" >/tmp/d7/import_$(basename $wt).log 2>&1",
             "    echo \"IMPORT_RC_$(basename $wt)=$?\"",
             "    cp /tmp/d7/import_$(basename $wt).log /out/import_$(basename $wt).log",
-            "    if [ -f manage.py ]; then",
-            "      R4_SETTINGS_RESULT=\"$(python - \"$wt\" <<'R4DS_PYEOF'",
-            *REPO_SETTINGS_RESOLVER_PROGRAM.strip("\n").splitlines(),
-            "R4DS_PYEOF",
-            ")\"",
-            "      R4_RESOLVE_RC=$?",
-            "      if [ \"$R4_RESOLVE_RC\" -eq 0 ]; then",
-            "        case \"$R4_SETTINGS_RESULT\" in",
-            "          OK:*)",
-            "            R4_SETTINGS_MODULE=\"${R4_SETTINGS_RESULT#OK:}\"",
-            "            python manage.py check --settings=\"$R4_SETTINGS_MODULE\" >/tmp/d7/manage_$(basename $wt).log 2>&1",  # noqa: E501
-            "            echo \"MANAGE_RC_$(basename $wt)=$?\"",
-            "            echo \"MANAGE_SETTINGS_$(basename $wt)=$R4_SETTINGS_MODULE\"",
-            "            ;;",
-            "          *)",
-            "            echo \"R4_MANAGE_SETTINGS_FAILURE $R4_SETTINGS_RESULT\" >/tmp/d7/manage_$(basename $wt).log 2>&1",  # noqa: E501
-            "            echo \"MANAGE_RC_$(basename $wt)=1\"",
-            "            echo \"MANAGE_SETTINGS_$(basename $wt)=RESOLUTION_FAIL:$R4_SETTINGS_RESULT\"",
-            "            ;;",
-            "        esac",
-            "      else",
-            "        echo \"R4_MANAGE_SETTINGS_FAILURE $R4_SETTINGS_RESULT\" >/tmp/d7/manage_$(basename $wt).log 2>&1",
-            "        echo \"MANAGE_RC_$(basename $wt)=1\"",
-            "        echo \"MANAGE_SETTINGS_$(basename $wt)=RESOLUTION_FAIL:$R4_SETTINGS_RESULT\"",
-            "      fi",
-            "      cp /tmp/d7/manage_$(basename $wt).log /out/manage_$(basename $wt).log",
-            "    else",
-            "      echo \"MANAGE_RC_$(basename $wt)=SKIP\"",
-            "    fi",
+            "    echo \"MANAGE_GATE_$(basename $wt)=NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED\"",
             "    if [ -f pytest.ini ] || [ -f pyproject.toml ]; then",
             "      python -m pytest --collect-only -q >/tmp/d7/pytest_$(basename $wt).log 2>&1",
             "      echo \"PYTEST_RC_$(basename $wt)=$?\"",
@@ -1177,9 +1158,9 @@ def parse_output(out: str) -> dict[str, Any]:
         elif line.startswith("IMPORT_RC_"):
             k = line.split("=", 1)[0][len("IMPORT_RC_"):]
             res.setdefault("smoke", {})[f"import_{k}"] = line.split("=", 1)[1]
-        elif line.startswith("MANAGE_RC_"):
-            k = line.split("=", 1)[0][len("MANAGE_RC_"):]
-            res.setdefault("smoke", {})[f"manage_{k}"] = line.split("=", 1)[1]
+        elif line.startswith("MANAGE_GATE_"):
+            k = line.split("=", 1)[0][len("MANAGE_GATE_"):]
+            res.setdefault("manage_gate", {})[k] = line.split("=", 1)[1]
         elif line.startswith("PYTEST_RC_"):
             k = line.split("=", 1)[0][len("PYTEST_RC_"):]
             res.setdefault("smoke", {})[f"pytest_{k}"] = line.split("=", 1)[1]
@@ -1230,9 +1211,9 @@ def classify_unit(run: dict[str, Any], *, special: dict[str, Any],
     for k, v in smoke.items():
         if k.startswith("import_") and v not in ("0", "SKIP"):
             return F_ENV_IMPORT_SMOKE
-    for k, v in smoke.items():
-        if k.startswith("manage_") and v not in ("0", "SKIP"):
-            return F_ENV_FRAMEWORK_GATE
+    # The synthetic manage.py check gate is REMOVED (Phase-4 repair).  A unit is
+    # never classified ENV_FRAMEWORK_GATE_FAILURE; the explicit per-worktree
+    # MANAGE_GATE_ marker is recorded as NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED.
     for k, v in smoke.items():
         if k.startswith("pytest_") and v not in ("0", "SKIP"):
             return F_ENV_PYTEST_COLLECTION
@@ -1475,7 +1456,7 @@ class UnitRunner:
         if stderr:
             (out_dir / "docker_stderr.log").write_text(stderr, encoding="utf-8")
         record: dict[str, Any] = {
-            "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/1.0",
+            "schema_version": "env-canon-r4-behavioral-calibration-n12-r2/1.1",
             "calibration_index": idx,
             "validation_unit_id": uid,
             "member_task_ids": member_tasks,

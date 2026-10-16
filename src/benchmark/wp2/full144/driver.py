@@ -594,8 +594,8 @@ CONTINGENCY_MATRIX: list[dict[str, str]] = [
         "automatic_continuation": "NO",
     },
     {
-        "failure_class": "import_manage_pytest_failure",
-        "classification": "ENV_IMPORT_SMOKE_FAILURE | ENV_FRAMEWORK_GATE_FAILURE | ENV_PYTEST_COLLECTION_FAILURE",
+        "failure_class": "import_pytest_failure",
+        "classification": "ENV_IMPORT_SMOKE_FAILURE | ENV_PYTEST_COLLECTION_FAILURE",
         "evidence_to_persist": "smoke logs + rc markers",
         "cleanup_allowed": "volumes",
         "automatic_continuation": "NO",

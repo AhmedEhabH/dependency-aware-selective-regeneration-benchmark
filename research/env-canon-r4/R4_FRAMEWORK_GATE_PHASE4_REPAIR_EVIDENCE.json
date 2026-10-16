@@ -1,0 +1,91 @@
+{
+  "schema_version": "env-canon-r4/framework-gate-phase4-repair/evidence/1.0",
+  "mission_id": "M17_D7_R4_FRAMEWORK_GATE_PHASE4_REPAIR_AND_REFREEZE",
+  "terminal_verdict": "PASS_FRAMEWORK_GATE_PHASE4_REPAIR_READY_FOR_FRESH_FULL144_SUCCESSOR_EXECUTION",
+  "generated_utc": "2026-10-16T00:00:00+00:00",
+  "population_evidence": {
+    "audited_commits": 219,
+    "exact_string_manage_py_check_hits": 0,
+    "source_evidence": "research/env-canon-r4/R4_FRAMEWORK_SEMANTICS_AUDIT_144.json",
+    "wsl_repo": "/opt/wp2_v2/saleor-cache",
+    "method": "deterministic git-object census + exact-string `git grep -F 'manage.py check'` over the exact 219 unique audited commits; zero network",
+    "processed_set_matches_audit_set": true
+  },
+  "unit63_old_failure_summary": {
+    "validation_unit_id": "vu-2483fd026a5e",
+    "task": "saleor-rc-2a59d31fc839",
+    "target_commit": "2a59d31fc8398dd13f2a63c1bc23f44791ea3239",
+    "old_run_root": "D:\\WP2\\runs\\r4-full-d7-144-artifact-recovery-successor-2026-10-15",
+    "old_classification": "ENV_FRAMEWORK_GATE_FAILURE",
+    "install_rc": 0,
+    "pipcheck_rc": 0,
+    "import_smoke_rc": 0,
+    "pytest_smoke_rc": 0,
+    "pytest_collected": 8433,
+    "manage_gate_rc": 1,
+    "failure_cause": "repository circular-import path saleor.payment.utils / saleor.payment.gateway; synthetic manage-gate instrumentation false failure",
+    "verdict": "instrumentation_false_failure_not_scientific"
+  },
+  "semantic_change": {
+    "removed_gate": "python manage.py check --settings=<repo-authored settings>",
+    "removed_as_mandatory_execution_classification_gate": true,
+    "evidence_representation": "NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED",
+    "removed_gate_is_never_PASS": true,
+    "removed_gate_is_never_FAILURE": true,
+    "import_smoke_fail_closed": true,
+    "pytest_smoke_fail_closed": true,
+    "no_unit_task_commit_special_casing": true,
+    "saleor_source_unmodified": true
+  },
+  "changed_files_hashes": {
+    "scripts/r4_behavioral_calibration_n12_r2.py": "ca195bda86ec95e099a00c66fe733d54165d5a16a1a9adf52cd5f8b50c295529",
+    "src/benchmark/wp2/full144/driver.py": "cd9e12e47be1de1a524a6d3bc6e58f295eab5ce81dbb85ab76ac4d9996271c8b",
+    "tests/unit/wp2/env_r4/test_r4_behavioral_calibration_n12_r2.py": "70dd863a94d57bc5dbb3b48fef5a88d07b1cc8b056a2fc2babc4f6878db7b7b1",
+    "tests/unit/wp2/env_r4/test_r4_framework_gate_phase3_repair.py": "b6f73ff2adffe67a6a8cdfd82335c42d205aa7a6947f39d106df60c1a5ddd315",
+    "scripts/r4_framework_gate_phase4_qualify.py": "de6c095d3e544a0036f00c349f178fe9e2fffe5e555fe4d8d389b9eb797c93a4"
+  },
+  "targeted_validation_results": {
+    "pytest_r4_behavioral_calibration_n12_r2": "87 passed (1 pre-existing environment failure test_attempt6_root_is_fresh, reproduced on pristine base)",
+    "pytest_r4_framework_gate_phase3_repair": "passed",
+    "pytest_r4_full144_preexecution_successor_artifact_recovery": "63 passed (1 pre-existing environment failure test_run_root_is_canonical, reproduced on pristine base)",
+    "py_compile": "PASS",
+    "ruff": "PASS",
+    "mypy_strict_full144": "PASS (no issues in 3 source files)",
+    "git_diff_check": "PASS"
+  },
+  "unit63_qualification_result": {
+    "qualification_root": "D:\\WP2\\runs\\r4-framework-gate-phase4-unit63-qualification-2026-10-16",
+    "result": "PASS",
+    "classification": "PASS",
+    "network_status": "NETWORK_UNAVAILABLE",
+    "install_rc": 0,
+    "pipcheck_rc": 0,
+    "native_failures": [],
+    "import_smoke_rc": 0,
+    "pytest_smoke_rc": 0,
+    "pytest_collected": 8433,
+    "manage_gate_state": "NOT_APPLICABLE_SYNTHETIC_GATE_REMOVED",
+    "manage_gate_executed": false,
+    "pylint_recovered_version": "2.15.3",
+    "execution_image_ref": "envcanon/saleor-env-native-nat-d35546f097f4-runtimeclean:r4-toolhouse-clean-20261014",
+    "immutable_image_id": "sha256:94246e6bc8ae952f2172bac25973118a3d5d99f5fbed54bb451b55954067ac28"
+  },
+  "unchanged_identities": {
+    "population_units": 144,
+    "population_unique_units": 144,
+    "population_mapped_tasks": 219,
+    "population_identity_sha256": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+    "ordered_membership_hash": "8eb4a7242e12bb03715adac5fffdea2e4340585843fc137ececd38952ad6a19e",
+    "artifact_closure_verdict": "PASS_FULL144_STATIC_ARTIFACT_CLOSURE",
+    "artifact_closure_N_UNITS": 144,
+    "artifact_closure_N_RESOLVABLE": 144,
+    "artifact_closure_N_MISSING": 0,
+    "artifact_closure_N_INCOMPATIBLE": 0,
+    "artifact_closure_units_consuming_recovery": 65,
+    "image_binding_unique_pairs": 11,
+    "image_binding_semantic_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2",
+    "network_policy": "--network=none for every scientific unit; no pull/build/download/acquire",
+    "concurrency": 1
+  },
+  "old_run_disposition": "old run root D:\\WP2\\runs\\r4-full-d7-144-artifact-recovery-successor-2026-10-15 is immutable historical evidence and is NOT reused; the next scientific Full144 execution starts fresh from Unit1"
+}
