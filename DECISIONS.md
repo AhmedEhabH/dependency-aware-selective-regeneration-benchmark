@@ -2685,3 +2685,37 @@ BUILD / TEST / FREEZE / PREFLIGHT ONLY - no scientific unit executed inside Open
 - Successor PRE_EXECUTION_FREEZE NOT created in Phase 1C; old PRE_EXECUTION_FREEZE NOT
   reused. A later post-qualification mission freezes Full144 PRE_EXECUTION_FREEZE only
   after operator TARGETED3 3/3, CAL12 12/12, FULL144 144/144 PASS.
+
+## M17_D7_R4_POSTQUAL_SUCCESSOR_PREEXECUTION_FREEZE (2026-10-17) - successor freeze for scientific Full144
+
+- Operator qualification chain PASSED (fresh receipts, verified independently, not just
+  console): TARGETED3 3/3/0, CAL12 12/12/0, FULL144 qualification 144/144/0; all under
+  R3.1 release m17-d7-r4-population-qualification-harness-r3-1-2026-10-16 / HEAD
+  b143d12e (R3.1 tag peel verified), zero_network=true, exact run roots.
+- Independent verification (124 checks): receipt schemas, R3.1 tag/peel/head, selection
+  manifests/membership/manifest-sha256, two-head authority (5171a4e7 / beeff152),
+  execution-code-set 72d3d126, closure 71cc7fb7 + footprint 8831e9c7, population
+  ce51d2ec, order 8eb4a724, image 5169c69d, 144 unique unit dirs + result.json all PASS.
+- Successor scientific Full144 is DISTINCT from the non-scientific R3.1 qualification
+  (continue-on-local-failure).  The scientific run uses the SAME frozen per-unit path
+  (Full144UnitRunner -> qualified Attempt-6 runner) with SCIENTIFIC fail-fast semantics:
+  no qualification-only continue-on-local-failure import, no new policy/threshold.
+- Additive successor PRE_EXECUTION_FREEZE created (historical freeze NOT modified; run-root
+  record following the frozen driver FREEZE_DIR pattern):
+  D:\WP2\runs\r4-scientific-full144-successor-2026-10-17\freeze\PRE_EXECUTION_FREEZE.json
+  (authoritative SHA-256 recorded at generation inside the external record and reprinted in
+  the mission handoff; generated at the successor release HEAD).  Seeds/determinism recorded
+  NOT_APPLICABLE with justification (no stochastic component in the four execution-code
+  members).
+- RUN_TO_RUN_DETERMINISM_SECONDARY_ANALYSIS frozen prospectively (in the freeze record +
+  scripts/r4_run_to_run_secondary_analysis.py): per-unit agreement vs qualification,
+  fields result/classification + predeclared immutable_image_id / requirements_lock_sha256
+  / runtime_pins_count / resolved_wheels_count; disagreements = instability, never
+  resolved by rerunning a disagreeing unit.
+- Successor operator launcher scripts/r4_full144_successor_scientific_launcher.ps1 +
+  r4_full144_successor_scientific_preflight.py: Status / Preflight fail closed on
+  branch/HEAD/tag/authority/code-set/closure/population/order/image/receipt/fresh-root/
+  disk/network drift.  ZERO scientific units executed.  Scientific root
+  D:\WP2\runs\r4-scientific-full144-successor-2026-10-17 fresh (0 unit dirs).
+- Operator Exec for the scientific run delegates to the frozen driver
+  (r4_full144_preexecution.py --next) under R4_FULL144_RUN_ROOT=scientific root.
