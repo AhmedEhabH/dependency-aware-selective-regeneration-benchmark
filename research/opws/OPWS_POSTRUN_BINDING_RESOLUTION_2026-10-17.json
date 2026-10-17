@@ -1,0 +1,119 @@
+{
+  "artifact": "OPWS_POSTRUN_BINDING_RESOLUTION",
+  "schema_version": "opws_binding_resolution/2026-10-17/1.0",
+  "mission_id": "M17_D7_R4_SCIENTIFIC_FULL144_POSTRUN_VALIDATION",
+  "date": "2026-10-17",
+  "mode": "TASK_G_BINDING_INPUT_RESOLUTION_ONLY",
+  "opws_executed": false,
+  "static_audit_commit": "a117edae1c3c3365ed3f630738c1329a6494e82f",
+  "protocol_frozen_commit": "9038df3ea80d7d478c2f949b2d3fae75754bb6e1",
+  "protocol_tag": "m17-opws-protocol-r1-frozen-2026-10-12",
+  "binding_state": "UNBOUND_PENDING_OWNER_DECISION",
+  "full_d7_scientific_state": "COMPLETE_144_144_PASS (validated 2026-10-17)",
+  "note": "This resolution records, per the frozen OPWS_POPULATION_BINDING_SCHEMA_R1 13-field schema and the static readiness audit (a117edae), the current resolvable candidates and the REQUIRED semantic mappings that remain ambiguous. No binding field is invented; no protocol semantic is changed.",
+  "inputs": {
+    "full_d7_evidence_commit": {
+      "candidate": "0fea61c799b3b3ded9d0c74a0a20ea3535d103c1 (additive scientific Full144 result-artifact commit)",
+      "schema_semantic": "the Full-D7 frozen evidence commit that produced the READY census",
+      "status": "AMBIGUOUS",
+      "reason": "Schema semantic is the evidence commit that produced the OPWS READY census (M17 Q06/Q07 readiness artifacts). Those artifacts do not exist yet. Whether the scientific Full144 PASS evidence commit (0fea61c7) is accepted as the full_d7_evidence_commit is an owner decision."
+    },
+    "full_d7_tag": {
+      "candidate": "m17-d7-r4-scientific-full144-successor-pass-2026-10-17 (peel 0fea61c7)",
+      "schema_semantic": "the Full-D7 frozen evidence tag",
+      "status": "AMBIGUOUS",
+      "reason": "Same acceptance question as full_d7_evidence_commit (scientific PASS evidence tag vs future M17 READY-census evidence tag)."
+    },
+    "full_d7_ready_population_file": {
+      "candidate": "research/env-canon-r4/R4_I6_CORRECTED_ZERO_CONTAINER_CENSUS_144.json (144 units / 219 tasks)",
+      "schema_semantic": "path to the frozen Full-D7 READY population file",
+      "status": "AMBIGUOUS",
+      "reason": "The frozen I6 census exists and is authoritative (identity ce51d2ec). Whether it is accepted as the post-readiness READY population file (vs a future M17 Q07 ready-freeze file) is an owner decision."
+    },
+    "full_d7_ready_population_sha256": {
+      "candidate": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac (frozen population identity)",
+      "schema_semantic": "sha256 of the frozen Full-D7 READY population file",
+      "status": "RESOLVABLE_IF_READY_FILE_ACCEPTED",
+      "reason": "Matches the static audit expected mapping (population_identity ce51d2ec -> full_d7_ready_population_sha256)."
+    },
+    "n_env_ready": {
+      "candidate": "144 (all 144 scientific Full144 units PASS full environment resolution: install_rc=0, pipcheck_rc=0, native ok, import/pytest smoke ok, wt_is_dir=1)",
+      "schema_semantic": "number of environment-READY tasks in the frozen census",
+      "status": "AMBIGUOUS",
+      "reason": "The OPWS eligibility funnel STAGE_4 defines ENV_READY via 'Full-D7 readiness records (negative + positive controls; READY decision) at final frozen census' (M17 Q06/Q07). The Full144 scientific run provides per-unit environment-resolution evidence but not the M17 readiness record format. Whether 144 is accepted as n_env_ready is an owner decision."
+    },
+    "behavior_contract_manifest": {
+      "candidate": null,
+      "schema_semantic": "path to the frozen behavior-contract manifest (adapter + evaluator contract per task)",
+      "status": "MISSING",
+      "reason": "No frozen per-task behavior-contract manifest for the D7 tasks exists in the current worktree (adapter/E1/F2P per-task contract records are M17 Q02/Q03/Q05 artifacts that do not exist yet)."
+    },
+    "behavior_contract_manifest_sha256": {
+      "candidate": null,
+      "schema_semantic": "sha256 of the behavior-contract manifest",
+      "status": "UNKNOWN",
+      "reason": "Depends on behavior_contract_manifest (missing)."
+    },
+    "n_opws_eligible": {
+      "candidate": null,
+      "schema_semantic": "number of OPWS-eligible tasks (funnel stages)",
+      "status": "AMBIGUOUS",
+      "reason": "Requires the instantiated eligibility manifest (funnel STAGE_2 F2P evidence + STAGE_3 adapter + STAGE_5 behavior-executable), which the frozen funnel explicitly declares a 'LATER population-binding-era artifact'. Cannot be derived now without running the funnel (not authorized)."
+    },
+    "n_primary_paired": {
+      "candidate_upper_bound": 219,
+      "schema_semantic": "number of PRIMARY_PAIRED_ELIGIBLE tasks (RM-CSS vs AGENT paired population)",
+      "status": "AMBIGUOUS",
+      "reason": "Prediction-artifact prerequisite is fully satisfied: all 219 D7 task IDs are covered by MAIN_297 (219/219), RM-CSS/SIP (219/219), AGENT (219/219), GOLD proxies (219/219). Exact PRIMARY_PAIRED_ELIGIBLE count requires the instantiated eligibility funnel (n_opws_eligible AND RM_CSS+AGENT+GOLD validity), which is a future binding-era artifact. Upper bound 219."
+    },
+    "ordered_task_ids": {
+      "candidate": "219 distinct D7 task IDs in frozen census order (ordered by unit order, deduplicated)",
+      "schema_semantic": "ordered, deduplicated, deterministic list of bound task IDs",
+      "status": "DERIVABLE_AS_LIST",
+      "reason": "List is derivable from the frozen census member_tasks in deterministic order. Serialization/hash semantic is ambiguous (see ordered_task_ids_sha256)."
+    },
+    "ordered_task_ids_sha256": {
+      "candidate_compact_219": "5972b20d6b08095a555e4c49b9f03703ccd24cfeeabd27c42bcd748cf7cd1364",
+      "candidate_compact_144_unit_ids": "8eb4a7242e12bb03715adac5fffdea2e4340585843fc137ececd38952ad6a19e",
+      "schema_semantic": "canonical sha256 of the ordered task-ID list",
+      "status": "AMBIGUOUS",
+      "reason": "The static audit maps ordered_membership_hash 8eb4a724 (144-unit-ID hash) to ordered_task_ids_sha256, but the schema defines ordered_task_ids as the bound task-ID list (219 tasks). The compact sha256 of the 219-task list is 5972b20d..., which differs from 8eb4a724. Whether the canonical serialization is the 144-unit list or the 219-task list (and which JSON serialization) is a REQUIRED semantic mapping that is not resolved by any frozen artifact."
+    },
+    "binding_created_at": {
+      "candidate": null,
+      "schema_semantic": "UTC ISO timestamp when the binding record is written (after Full D7 freeze)",
+      "status": "FUTURE",
+      "reason": "Written only at binding time; not applicable now."
+    },
+    "protocol_sha256": {
+      "candidate": "9038df3ea80d7d478c2f949b2d3fae75754bb6e1 (tag peel of m17-opws-protocol-r1-frozen-2026-10-12)",
+      "schema_semantic": "sha256 of the released OPWS protocol freeze (tag peel hash at binding time)",
+      "status": "RESOLVABLE_WITH_NOTE",
+      "reason": "The protocol release tag exists and peels to 9038df3e. Note: git peel hashes are SHA-1 (40 hex), while the schema label says 'sha256'; the static audit expects the tag-peel hash. This notational looseness should be recorded in the binding record."
+    }
+  },
+  "additional_required_items": {
+    "runtime_environment_binding_identity_and_schema_field_mapping": {
+      "value": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2 (11-pair immutable execution-image binding)",
+      "status": "AMBIGUOUS",
+      "reason": "The static audit explicitly states 5169c69d 'is expected to map to opws_bound_population_hash OR the Full-D7 runtime environment binding consumed as environment_id / behavior_contract_manifest_sha256; the exact field assignment must be recorded in the binding record at Full-D7 freeze'. No frozen artifact resolves this mapping. REQUIRED SEMANTIC MAPPING AMBIGUOUS -> owner decision."
+    },
+    "environment_id_dedup_identity": {
+      "value": "undefined",
+      "status": "AMBIGUOUS",
+      "reason": "OPWS_EXECUTION_REUSE_DEDUP_R1 5-tuple physical identity includes ENVIRONMENT_ID, but no frozen artifact defines environment_id for the D7/OPWS runtime (execution_image_ref? immutable_image_id? native_profile_id? binding hash?). REQUIRED SEMANTIC MAPPING AMBIGUOUS -> owner decision."
+    },
+    "instantiated_eligibility_manifest": {
+      "value": "not produced",
+      "status": "AMBIGUOUS",
+      "reason": "OPWS_ELIGIBILITY_FUNNEL_R1 binding_note declares the instantiated per-task eligibility manifest (stage outcomes + reason codes) a 'LATER population-binding-era artifact'. Not present."
+    },
+    "immutable_self_hashed_binding_record": {
+      "value": "not produced",
+      "status": "FUTURE",
+      "reason": "Binding schema binding_rules require the binding record to be self-hashed and stored immutably under mission artifacts at binding time."
+    }
+  },
+  "verdict": "STOP_OWNER_DECISION_REQUIRED",
+  "verdict_reason": "Multiple REQUIRED semantic mappings remain ambiguous per the frozen OPWS protocol/static-audit: (1) runtime/environment binding hash 5169c69d -> OPWS schema field (opws_bound_population_hash vs environment_id vs behavior_contract_manifest_sha256); (2) environment_id definition for the dedup 5-tuple; (3) ordered_task_ids_sha256 canonical serialization (144-unit hash 8eb4a724 vs 219-task hash 5972b20d); (4) acceptance of scientific Full144 PASS evidence as full_d7_evidence_commit/tag vs future M17 READY-census artifacts; (5) n_env_ready / n_opws_eligible / n_primary_paired require the not-yet-instantiated eligibility/readiness artifacts. No binding field mapping is invented."
+}

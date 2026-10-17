@@ -1,0 +1,119 @@
+{
+  "artifact": "OPWS_DISK_RETENTION_AUDIT",
+  "schema_version": "disk_retention_audit/2026-10-17/1.0",
+  "mission_id": "M17_D7_R4_SCIENTIFIC_FULL144_POSTRUN_VALIDATION",
+  "date": "2026-10-17",
+  "mode": "READ_ONLY_AUDIT_NO_DELETION",
+  "nothing_deleted": true,
+  "findings": [
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\materialized\\unit_wheelhouse",
+      "size_gib": 182.84,
+      "classification": "SAFE_TO_DELETE_AFTER_EVIDENCE_FREEZE",
+      "content": "per-unit wheelhouse copies (67 unit subdirs, ~2.78 GiB each) used as offline install input during the scientific run",
+      "downstream_reference_proof": "Primary scientific evidence validation reads only units/<uid>/result.json + sidecars (hashes: requirements_lock_sha256, artifact_provenance.resolved_wheels, runtime_pins_count) - never wheel bytes. scripts/r4_run_to_run_secondary_analysis.py reads units/<uid>/result.json only. OPWS R1 plan/controller/executor use frozen prediction artifacts + Linux git-object worktrees + canonical stores + 11 frozen images; they do not read this run root's wheelhouse. result.json wheel_input_dir is metadata, not consumed post-run.",
+      "why_reconstructible": "sampled 40 wheels across 10 unit dirs: 40/40 byte-identical copies present in canonical authorities (materialized/merged + D:\\wp2_env_store\\recovery + research/source-fidelity-r1/artifacts/wheels). Per-unit wheelhouses are copies of wheels that exist in the canonical merged store and canonical overlay stores.",
+      "not_a_canonical_authority": "merged store (materialized/merged, 4.25 GiB) is the canonical materialized wheel-store authority for the run; unit_wheelhouse is per-unit copies, not a canonical store.",
+      "reclaimable_gib": 182.84
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\materialized\\merged",
+      "size_gib": 4.25,
+      "classification": "KEEP",
+      "content": "canonical merged wheel store (py312/py38/py39), identical to the qualification/CAL12 merged stores",
+      "reason": "canonical wheel/store authority for the scientific run; required for reproducibility obligations"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\materialized\\tmp_pyproject_refs",
+      "size_gib": 0.0,
+      "classification": "KEEP",
+      "content": "tiny cached pyproject refs",
+      "reason": "trivial size; canonical cache authority; do not delete"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\units",
+      "size_gib": 0.25,
+      "classification": "DO_NOT_DELETE",
+      "content": "144 unit evidence dirs (result.json, netprobe, native, logs, lock, wheel provenance)",
+      "reason": "primary scientific evidence (Task B validated 144/144 PASS)"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\progress",
+      "size_gib": 0.0,
+      "classification": "DO_NOT_DELETE",
+      "content": "progress.json (144 completed, stopped_early=false) + intent journal",
+      "reason": "execution/reproducibility evidence"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\freeze",
+      "size_gib": 0.0,
+      "classification": "DO_NOT_DELETE",
+      "content": "PRE_EXECUTION_FREEZE.json (frozen authority)",
+      "reason": "frozen scientific authority"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-scientific-full144-successor-2026-10-17\\scientific-full144-console.log",
+      "size_gib": 0.0,
+      "classification": "DO_NOT_DELETE",
+      "content": "operator console log (sha256 a277cc6d...)",
+      "reason": "required log, hashed into result artifact"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-qualification144-2026-10-16\\materialized\\merged",
+      "size_gib": 4.25,
+      "classification": "KEEP",
+      "content": "canonical merged wheel store of the R3.1 FULL144 qualification root",
+      "reason": "canonical wheel/store authority (qualification reproducibility)"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-qualification144-2026-10-16\\materialized\\qualification_scratch",
+      "size_gib": 0.0,
+      "classification": "KEEP",
+      "content": "empty/harness scratch",
+      "reason": "trivial"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-qualification144-2026-10-16\\units",
+      "size_gib": 0.25,
+      "classification": "DO_NOT_DELETE",
+      "content": "R3.1 FULL144 qualification unit evidence",
+      "reason": "run A of the frozen run-to-run secondary analysis (scripts/r4_run_to_run_secondary_analysis.py reads units/<uid>/result.json from this root)"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-cal12-2026-10-16\\materialized\\merged",
+      "size_gib": 4.25,
+      "classification": "KEEP",
+      "content": "canonical merged wheel store of the CAL12 root",
+      "reason": "canonical wheel/store authority"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-cal12-2026-10-16\\units",
+      "size_gib": 0.03,
+      "classification": "DO_NOT_DELETE",
+      "content": "CAL12 qualification unit evidence",
+      "reason": "receipt-verified evidence (12/12 PASS)"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-targeted3-2026-10-16\\materialized\\merged",
+      "size_gib": 2.78,
+      "classification": "KEEP",
+      "content": "canonical merged wheel store of the TARGETED3 root",
+      "reason": "canonical wheel/store authority"
+    },
+    {
+      "path": "D:\\WP2\\runs\\r4-successor-r3-targeted3-2026-10-16\\units",
+      "size_gib": 0.0,
+      "classification": "DO_NOT_DELETE",
+      "content": "TARGETED3 qualification unit evidence",
+      "reason": "receipt-verified evidence (3/3 PASS)"
+    }
+  ],
+  "summary": {
+    "KEEP_count": 6,
+    "SAFE_TO_DELETE_AFTER_EVIDENCE_FREEZE_count": 1,
+    "DO_NOT_DELETE_count": 7,
+    "total_reclaimable_gib": 182.84,
+    "note_duplicate_merged_stores": "materialized/merged (~4.25 GiB) is duplicated across scientific/qualification/CAL12 (and TARGETED3 2.78 GiB). All classified KEEP as canonical wheel/store authorities; dedup across roots is NOT authorized by this mission (mission forbids deleting canonical wheel/store/cache authorities). Observation for a future owner decision only.",
+    "no_files_deleted": true
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "artifact": "OPWS_DISK_NETWORK_EXECUTION_PROJECTION",
+  "schema_version": "opws_projection/2026-10-17/1.0",
+  "mission_id": "M17_D7_R4_SCIENTIFIC_FULL144_POSTRUN_VALIDATION",
+  "date": "2026-10-17",
+  "mode": "TASK_H_PROJECTION_ONLY",
+  "opws_executed": false,
+  "derived_from": {
+    "opws_r1_protocol": "m17-opws-protocol-r1-frozen-2026-10-12 (9038df3e)",
+    "opws_r1_arm_registry": "OPWS_ARM_REGISTRY_R1.json (12 arms)",
+    "opws_r1_eligibility_funnel": "OPWS_ELIGIBILITY_FUNNEL_R1.json (7 stages)",
+    "opws_r1_dedup_contract": "OPWS_EXECUTION_REUSE_DEDUP_R1.json (5-tuple identity)",
+    "opws_r1_analysis_plan": "OPWS_ANALYSIS_PLAN_R1.md",
+    "m17_controller": "controller/plan_m17_v1_main.json (Q08 scopes -> Q09 opws-evaluate)",
+    "m17_resource_contract": "research/wp2/m17_v1/m17_resource_contract.json",
+    "opws_dynamic_executor": "scripts/wp2_m17_run.py opws-evaluate -> M17_MAIN_NOT_AUTHORIZED stub (MAIN plan DESIGN_ONLY_NOT_AUTHORIZED)",
+    "full144_measured": "scientific root retained 187.09 GiB (materialized/unit_wheelhouse 182.84 GiB + merged 4.25 GiB); qualification root retained 4.25 GiB (per-unit wheelhouse cleaned)"
+  },
+  "1_population": {
+    "n_env_ready": {"value": "UNKNOWN (candidate 144)", "reason": "Funnel STAGE_4 requires M17 Q06/Q07 readiness records (not produced). Full144 scientific run shows all 144 units env-resolve PASS."},
+    "n_opws_eligible": {"value": "UNKNOWN", "reason": "Requires instantiated eligibility manifest (funnel STAGE_2/3/5) - future binding-era artifact."},
+    "n_primary_paired": {"value": "UNKNOWN (upper bound 219)", "reason": "All 219 D7 tasks have RM-CSS/AGENT/GOLD artifacts; exact PRIMARY_PAIRED_ELIGIBLE requires eligibility funnel."}
+  },
+  "2_logical_opws_evaluations": {
+    "primary_analysis_arms": ["RM_CSS", "AGENT"],
+    "diagnostic_control_arms": ["GOLD (validity)", "SELECT_ALL (ceiling)"],
+    "additional_frozen_arms": ["RANDOM_SIZE_MATCHED_RM_CSS", "AGENTLESS_STYLE_ADAPTATION", "SIP", "DENSE_K3", "DENSE_K10", "BM25_K3", "BM25_K10", "BM25_TO_CIA_1HOP"],
+    "repetitions": {"preservation_p2p_u": "STABLE over 3 reps (outcome-blind cap-200)", "note": "P2P-U unchanged-test stability requires 3 repetitions; other arms/repetitions not declared in frozen plan."},
+    "controller_scope": "Q09 opws-evaluate runs on the ENTIRE READY census (n depends on binding-time n_opws_eligible).",
+    "note": "Exact per-task arm schedule is NOT fully pinned by frozen artifacts: the opws-evaluate executor is not implemented (M17_MAIN_NOT_AUTHORIZED stub), and per-arm execution depends on the binding-time eligibility funnel instantiation. Logical count = sum over eligible tasks of the arms applicable to each task's eligibility class."
+  },
+  "3_physical_execution_count_after_dedup": {
+    "value": "UNKNOWN",
+    "upper_bound": "logical evaluations count",
+    "reason": "OPWS_EXECUTION_REUSE_DEDUP_R1 collapses physical executions sharing the 5-tuple (TASK_ID, SCOPE_HASH, REFERENCE_PATCH_HASH, TEST_CONTRACT_HASH, ENVIRONMENT_ID). Scope/patch hashes per arm-task are derivable from frozen prediction artifacts, but test-contract hash + environment_id require the future executor's hash computation; environment_id itself is undefined (Task G). Not computable before the executor exists."
+  },
+  "4_materialization_environment_reuse": {
+    "shared_across_tasks_and_arms": ["canonical merged wheel store", "11 frozen immutable execution images (binding 5169c69d)", "WSL saleor git-object store (/opt/wp2_v2/saleor-cache)", "frozen prediction/behavior/preservation artifacts"],
+    "task_specific": ["Linux worktree (parent-commit state) per physical execution", "OPWS patch (scoped reference patch) per arm-task"],
+    "execution_specific": ["v3 per-task containers (ephemeral docker run --rm)", "temp DB per task"],
+    "ordering": "task-major ordering (dedup contract) enables safe immutable environment reuse per task"
+  },
+  "5_cleanup_semantics": {
+    "per_physical_execution": "task-by-task cleanup of Linux worktrees + temp DBs ONLY after evidence is durably hashed (m17_resource_contract rules)",
+    "containers": "ephemeral (docker run --rm)",
+    "persistent_until_completion": "per-task evidence records, eligibility/readiness manifests, merged wheel store (already present), 11 images (already present)",
+    "persistent_after_completion": "evidence + analysis outputs (compact)",
+    "explicit_forbidden": ["no blanket docker prune", "no recursive junction delete", "evidence files never deleted during run"]
+  },
+  "6_disk_projection": {
+    "optimistic_peak_additional_gib": "~5-10 GiB",
+    "expected_best_supported_peak_additional_gib": "bounded by single-task working set (workers=1) + accumulated evidence; contract-supported (per-task cleanup after hashing)",
+    "conservative_peak_additional_gib": "up to ~187 GiB IF the frozen per-task cleanup rule were not honored (scientific-path-like retention); this violates the frozen m17_resource_contract",
+    "worst_supported_bound": "contract-supported worst = single-task peak (not yet measurable); executor not implemented",
+    "required_starting_free_space_recommendation": ">= 120 GiB (frozen scientific preflight DISK_STOP_GIB hard stop); >= 160 GiB recommended (R3.1 harness guard). Current D: free = ~197.3 GiB. AFTER Task-I SAFE_TO_DELETE (182.84 GiB unit_wheelhouse) free would rise to ~380 GiB, comfortably above any projection.",
+    "unknown_must_measure": "per-task peak materialization of the not-yet-implemented executor must be measured in a zero-outcome smoke/preflight BEFORE launch; do NOT assume the OPWS lifecycle equals either the scientific (187 GiB) or qualification (4.25 GiB) path without the executor's measured behavior"
+  },
+  "7_empirical_full144_inputs_used": {
+    "scientific_materialized_retained": "187.09 GiB (144 units; unit_wheelhouse 182.84 GiB retained, merged 4.25 GiB)",
+    "qualification_materialized_retained": "4.25 GiB (per-unit wheelhouse cleaned by harness)",
+    "opws_lifecycle_not_assumed_equal_to_either": true
+  },
+  "8_network_api": {
+    "model_api_calls": {"required": false, "evidence": "wp2_m17_run.py runner header 'no model/API client'; m17_resource_contract no_model_api_calls=true; OPWS behavior/preservation contracts are local frozen evaluators"},
+    "internet_network_required": {"required": false, "evidence": "patch from local git objects; behavior contract = frozen evaluator + E1; preservation = P2P local; zero-network policy inherited"},
+    "docker_pull_build_downloads": {"required": "false_if_images_present", "evidence": "11 frozen immutable execution images (binding 5169c69d) already present locally (verified for Full144); no pull/build allowed in frozen path"},
+    "local_only_prerequisites_to_prove_present": ["11/11 frozen images with exact immutable IDs", "WSL /opt/wp2_v2/saleor-cache (present, 359M)", "canonical wheel store D:\\wp2_env_store (present, 30.11 GiB)", "frozen prediction artifacts (219/219 D7 coverage)"],
+    "network_fallback": "NONE in frozen contracts; any future executor must fail-closed (--network=none equivalent) before launch"
+  },
+  "9_runtime": {
+    "historical_6_12h": "HISTORICAL ONLY (previous WP2 runs; not successor evidence)",
+    "successor_estimate": "NOT YET MEASURED - physical execution count unknown (funnel-dependent) and opws-evaluate executor not implemented; Full144 (7h25m for 144 env-resolution units) is NOT an OPWS-timing proxy (OPWS adds per-arm patch-apply + behavior test + preservation test)"
+  }
+}
