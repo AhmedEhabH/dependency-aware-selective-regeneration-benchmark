@@ -1,0 +1,719 @@
+{
+  "artifact": "opws_instrument_gap_inventory",
+  "mission": "M17_OPWS_INSTRUMENT_GAP_INVENTORY",
+  "date": "2026-10-17",
+  "mode": "STRICTLY_STATIC_READ_ONLY_INVENTORY",
+  "no_opws_execution": true,
+  "no_scientific_outcomes": true,
+  "no_instrument_build": true,
+  "verdict": "PASS_OPWS_INSTRUMENT_GAP_INVENTORY_COMPLETE_BUILD_NOT_AUTHORIZED",
+  "execution_identity": {
+    "provider": "opencode",
+    "branch": "parallel/opws-instrument-gap-inventory-2026-10-17",
+    "head": "0fea61c799b3b3ded9d0c74a0a20ea3535d103c1",
+    "origin_main": "1661ec215ede6ae96e82735148db4febffb21580",
+    "tree_state": "CLEAN",
+    "required_head_ok": true,
+    "required_branch_ok": true,
+    "scientific_tag": "m17-d7-r4-scientific-full144-successor-pass-2026-10-17",
+    "scientific_tag_peel": "0fea61c799b3b3ded9d0c74a0a20ea3535d103c1",
+    "scientific_tag_peels_to_head": true,
+    "accepted_static_opws_audit_commit": "a117edae1c3c3365ed3f630738c1329a6494e82f"
+  },
+
+  "task_A_scope_and_authority": {
+    "head_verified": true,
+    "branch_verified": true,
+    "tag_verified": true,
+    "clean_tree_verified": true,
+    "frozen_opws_r1_protocol_authorities": {
+      "source_commit": "a117edae1c3c3365ed3f630738c1329a6494e82f",
+      "source_branch": "parallel/opws-static-audit-2026-10-16",
+      "location_in_tree": "research/opws-protocol-r1/",
+      "artifacts": [
+        "OPWS_PROTOCOL_R1.json",
+        "OPWS_PROTOCOL_R1.md",
+        "OPWS_ANALYSIS_PLAN_R1.md",
+        "OPWS_ARM_REGISTRY_R1.json",
+        "OPWS_ELIGIBILITY_FUNNEL_R1.json",
+        "OPWS_EXECUTION_REUSE_DEDUP_R1.json",
+        "OPWS_GOLD_SELECT_ALL_VALIDITY_R1.json",
+        "OPWS_METRIC_CONTRACT_R1.json",
+        "OPWS_OUTCOME_TAXONOMY_R1.json",
+        "OPWS_OUTPUT_SCHEMAS_R1.json",
+        "OPWS_POPULATION_BINDING_SCHEMA_R1.json",
+        "OPWS_SCOPE_SEMANTICS_R1.json",
+        "OPWS_PROTOCOL_INVARIANCE_AUDIT.json",
+        "OPWS_PROTOCOL_VALIDATION_REPORT.json",
+        "OPWS_EXISTING_ASSET_INVENTORY.json",
+        "ANTI_OUTCOME_PEEKING_RECEIPT.json",
+        "OPWS_SCOPE_SEMANTICS_R1.json"
+      ],
+      "validator": "scripts/opws_protocol_r1_validate.py",
+      "tests": "tests/unit/wp2/test_opws_protocol_r1.py",
+      "note": "Protocol was frozen 2026-10-12 on branch parallel/opws-protocol-r1-2026-10-12 (freeze commits 9038df3e, bff4844b), and the accepted static audit commit a117edae (branch parallel/opws-static-audit-2026-10-16) carries the full frozen set. These protocol files are NOT in the current HEAD tree (0fea61c); they were read via git show from a117edae (read-only)."
+    },
+    "full_d7_scientific_evidence_authority": {
+      "commit": "0fea61c799b3b3ded9d0c74a0a20ea3535d103c1",
+      "tag": "m17-d7-r4-scientific-full144-successor-pass-2026-10-17",
+      "result_artifact": "research/env-canon-r4/R4_SCIENTIFIC_FULL144_SUCCESSOR_RESULT_2026-10-17.json",
+      "result_counts": {"total": 144, "validated": 144, "PASS": 144, "non_PASS": 0},
+      "secondary_analysis": "research/env-canon-r4/R4_RUN_TO_RUN_SECONDARY_ANALYSIS_SUCCESSOR_2026-10-17.json",
+      "secondary_counts": {"compared": 144, "agreement_count": 144, "disagreement_count": 0, "verdict": "STABLE"},
+      "population_identity": "ce51d2ec0eb28f6b720fbab13a852618e2de0f0a1111a3cc19dc64b1d19defac",
+      "ordered_membership_hash": "8eb4a7242e12bb03715adac5fffdea2e4340585843fc137ececd38952ad6a19e",
+      "image_binding_hash": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2"
+    },
+    "allowed_files_to_create": [
+      "research/opws/OPWS_INSTRUMENT_GAP_INVENTORY_2026-10-17.json",
+      "D:/WP2/handoffs/M17_OPWS_INSTRUMENT_GAP_INVENTORY_HANDOFF.md"
+    ],
+    "commit_scope": "ONLY the JSON artifact (research/opws/OPWS_INSTRUMENT_GAP_INVENTORY_2026-10-17.json); NO TAG; NO PUSH",
+    "stop_conditions": [
+      "ANY OPWS arm/task execution, GOLD/RM-CSS/Agent outcome generation, or scientific binding value creation",
+      "ANY modification of frozen OPWS protocol semantics or scientific Full144 evidence",
+      "ANY owner decision invented",
+      "ANY network use / Docker pull/build/download / long test suite",
+      "ANY authority conflict that changes scientific meaning"
+    ]
+  },
+
+  "task_B_executable_path_inventory": {
+    "controller_plan": "controller/plan_m17_v1_main.json",
+    "plan_status": "DESIGN_ONLY_NOT_AUTHORIZED",
+    "full_path": [
+      {"stage": "Q00_KIT_SELFTEST", "cmd": "python -m pytest -q tests/unit/wp2/m17", "status": "IMPLEMENTED", "note": "zero network / zero Docker / zero WSL unit tests"},
+      {"stage": "Q01_GUARD", "cmd": "python scripts/wp2_m17_run.py guard --stage main", "status": "IMPLEMENTED", "note": "shared real command (also used by qualification)"},
+      {"stage": "Q02_ADAPTER_VERIFY", "cmd": "python scripts/wp2_m17_run.py adapter-verify", "status": "IMPLEMENTED", "note": "shared real command; adapter_report.json main_resolved=219/220, main_unresolved=1 (saleor-rc-f76d0093b450 ADAPTER_UNRESOLVED)"},
+      {"stage": "Q03_ORACLE", "cmd": "python scripts/wp2_m17_run.py oracle --frame all --resumable --max-items 1", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"},
+      {"stage": "Q04_ELIGIBILITY_FREEZE", "cmd": "python scripts/wp2_m17_run.py eligibility-freeze", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"},
+      {"stage": "Q05_EVALSETS", "cmd": "python scripts/wp2_m17_run.py evalsets --resumable --max-items 1", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"},
+      {"stage": "Q06_READINESS", "cmd": "python scripts/wp2_m17_run.py readiness --resumable --max-items 1", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"},
+      {"stage": "Q07_READY_FREEZE", "cmd": "python scripts/wp2_m17_run.py ready-freeze", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized; pool gate n_READY>=40"},
+      {"stage": "Q08_SCOPES", "cmd": "python scripts/wp2_m17_run.py scopes", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized; materialize frozen RM-CSS + Agent MAIN scopes"},
+      {"stage": "Q09_OPWS", "cmd": "python scripts/wp2_m17_run.py opws-evaluate --resumable --max-items 1", "status": "DESIGN_ONLY_STUB", "note": "THE target command; routes to _main_not_authorized"},
+      {"stage": "Q10_COMPLETENESS", "cmd": "python scripts/wp2_m17_run.py opws-complete", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"},
+      {"stage": "Q11_ANALYSIS", "cmd": "python scripts/wp2_m17_run.py analyze", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"},
+      {"stage": "Q12_SUMMARY", "cmd": "python scripts/wp2_m17_run.py summary", "status": "DESIGN_ONLY_STUB", "note": "routes to _main_not_authorized"}
+    ],
+    "current_opws_evaluate_implementation": {
+      "file": "scripts/wp2_m17_run.py",
+      "line": 605,
+      "code": "\"opws-evaluate\": lambda: _main_not_authorized(\"opws-evaluate\")",
+      "behavior": "raises Stop with MAIN_GATE_TOKEN=M17_MAIN_NOT_AUTHORIZED; message 'MAIN command opws-evaluate is DESIGN_ONLY_NOT_AUTHORIZED; requires a separate brain authorization'; exit EXIT_PREFLIGHT=33",
+      "classification": "DESIGN_ONLY_STUB (fail-closed; not a real executor)"
+    },
+    "callable_real_task_executors_anywhere_in_repo": [
+      {
+        "path": "scripts/wp2_m15r_run.py",
+        "functions": ["opws_paths", "opws_plan", "opws_evaluate", "opws_complete", "compute_opws_summary"],
+        "real_executed": true,
+        "history": "M15-R Pilot-B n=10 descriptive (research/wp2/m15r_v1/opws_summary.json, 34 evaluated/reused)",
+        "classification": "REUSABLE_EXISTING_COMPONENT / REUSE_SEMANTICS_ONLY (per OPWS_EXISTING_ASSET_INVENTORY)",
+        "reuse_limit": "reuse semantics only; R1 redesigns record/summary fields, joint taxonomy, dedup map"
+      },
+      {
+        "path": "scripts/wp2_m14r_run.py",
+        "functions": ["scoped_gold_diff", "readiness_task", "readiness"],
+        "real_executed": true,
+        "history": "Pilot-A/B readiness",
+        "classification": "REUSABLE_EXISTING_COMPONENT / REUSE_SEMANTICS_ONLY",
+        "reuse_limit": "git diff <parent> <target> -- <selected> patch semantics reused verbatim"
+      },
+      {
+        "path": "scripts/wp2_m14a_evalcore.py + scripts/wp2_m14a_evalcore_e1.py",
+        "functions": ["evaluate_state_safe", "evaluate_state_e1", "EvalInfraError"],
+        "classification": "REUSABLE_EXISTING_COMPONENT / REUSE_SEMANTICS_ONLY",
+        "reuse_limit": "executable behavior-contract boundary (E1 evaluator)"
+      },
+      {
+        "path": "scripts/wp2_m17_exec.py",
+        "class": "RealExecutor.run_task",
+        "real_executed": false,
+        "real_executed_note": "M17 MAIN not authorized",
+        "classification": "REUSABLE_EXISTING_COMPONENT / REUSE_COMMAND_VOCABULARY",
+        "reuse_limit": "oracle/readiness-stage executor; OPWS stage would need R1 joint contract wiring"
+      },
+      {
+        "path": "src/benchmark/wp2/full144/driver.py",
+        "class": "Full144UnitRunner (r2.UnitRunner)",
+        "real_executed": true,
+        "real_executed_note": "scientific Full144 144/144 PASS",
+        "classification": "REUSABLE_EXISTING_COMPONENT / environment-validation harness",
+        "reuse_limit": "validates environment install/test contract; NOT an OPWS scoped-reference-patch executor (it runs the full target tree, not parent+scoped reference patch)"
+      }
+    ],
+    "m15r_m16_reuse_assessment": {
+      "m15r_reuse": "SAFE as REUSE_SEMANTICS_ONLY; frozen asset inventory (OPWS_EXISTING_ASSET_INVENTORY.json) explicitly prescribes this; no R1 semantics change required",
+      "m16_reuse": "M16 closed pre-experiment (M16_ADAPTER_FAIL at R02); CONTEXT_LESSON only; OPWS R1 execution handoff must keep adapter/behavior-contract resolution a mandatory pre-execution gate",
+      "conclusion": "M15-R/M16 code can be reused WITHOUT changing frozen R1 semantics, but only as semantic precedent / vocabulary / patch convention; a new R1-compliant OPWS task executor still must be built"
+    },
+    "missing_between_controller_command_and_one_real_opws_physical_execution": [
+      "real opws-evaluate implementation (currently DESIGN_ONLY stub)",
+      "population binding (13 OPWS_POPULATION_BINDING_SCHEMA_R1 fields all UNBOUND_PENDING_FULL_D7)",
+      "behavior_contract_manifest (not produced; binding field UNBOUND)",
+      "environment_id semantics (not defined in any frozen artifact)",
+      "OPWS_EXECUTION_MANIFEST / OPWS_SCOPE_MANIFEST materialization (output schema exists, no instance)",
+      "OPWS_TASK_ARM_RESULTS.jsonl writer",
+      "OPWS_PHYSICAL_EXECUTION_MAP.json writer (dedup)",
+      "OPWS_INVALID_TASKS.json writer",
+      "scope-hash computation pipeline over the bound population + 12 arms (Q08 scopes)",
+      "Linux worktree materialization + scoped reference patch application harness (parent + selected reference non-test patch)",
+      "behavior evaluator invocation on OPWS-patched worktree (frozen F2P node set via evaluator + E1)",
+      "preservation evaluator invocation (frozen P2P-S/P2P-U STABLE identities)",
+      "evidence hashing / checkpointing / resume / fail-closed handling",
+      "cleanup (worktree removal, disk guards)",
+      "summary / statistics stage (Q11/Q12; paired bootstrap exists as reusable src/benchmark/wp1b/main_scoring.py algorithm)"
+    ]
+  },
+
+  "task_C_behavior_contract_manifest_inventory": {
+    "frozen_required_info_per_task": {
+      "source_stages": ["STAGE_2_TEST_EVIDENCE", "STAGE_3_BEHAVIOR_CONTRACT_RESOLVED", "STAGE_5_BEHAVIOR_CONTRACT_EXECUTABLE"],
+      "fields": [
+        "frozen per-task F2P count > 0 and node identities resolvable (BEHAVIORAL_F2P / SYMBOL_ABSENCE_F2P)",
+        "adapter resolved for the task",
+        "test command determined (deterministic)",
+        "evaluator boundary instantiable (E1)",
+        "behavior contract executable on OPWS worktree (dry preflight, no PATCH_APPLICATION_INVALID / TEST_CONTRACT_INVALID)"
+      ]
+    },
+    "existing_artifacts_that_contain_those_values": {
+      "research/wp2/m17_v1/adapter/adapter_report.json": "adapter resolution per task (main_resolved=219, main_unresolved=1)",
+      "research/wp2/oracle_confirmation_linux_v2_2026-09-23/per_task_v2.jsonl": "per-task F2P counts (BEHAVIORAL_F2P / SYMBOL_ABSENCE_F2P), eligibility, test_command, environment_fingerprint, classification (220 tasks)",
+      "scripts/wp2_m17_contract.py": "F2P node set extraction (f2p_node_set_from_frozen), task_resolvable, terminal classification vocabulary",
+      "scripts/wp2_m14a_evalcore_e1.py": "E1 evaluator boundary (evaluate_state_e1)",
+      "scripts/wp2_p2p_s_freeze_v1.py / wp2_p2p_u_v2_exec.py": "preservation contract identities (P2P-S / P2P-U STABLE)",
+      "research/wp2/wp2_saleor_main297_census_2026-09-22.json": "test-command inference, parent/target commits, F2P candidacy",
+      "src/benchmark/wp2/full144/driver.py + R4_FULL144_READINESS_MANIFEST.json": "environment readiness / test-contract executable evidence"
+    },
+    "mechanically_generatable": true,
+    "mechanical_generation_assessment": {
+      "feasibility": "PURELY_MECHANICAL given frozen artifacts (adapter report + per_task_v2 + census + contract scripts). No scientific/owner policy needed to SELECT the values.",
+      "caveat": "The manifest SCHEMA itself is not frozen (binding schema only names behavior_contract_manifest + sha256 as fields). The builder is MISSING_IMPLEMENTATION; schema definition is instrument construction, not owner semantic decision (P5)."
+    },
+    "missing_fields": [],
+    "classification_per_field": {
+      "f2p_count_and_node_identity": "DERIVABLE (per_task_v2.jsonl + wp2_m17_contract.py)",
+      "adapter_resolved": "DERIVABLE (adapter_report.json)",
+      "test_command": "DERIVABLE (per_task_v2.jsonl test_command / census inference)",
+      "evaluator_boundary": "DERIVABLE (E1 evalcore)",
+      "preservation_identity": "DERIVABLE (P2P-S/P2P-U scripts)",
+      "environment_test_contract_executable": "DERIVABLE (Full144 readiness manifest) + requires dry preflight execution at binding time (instrument construction)"
+    },
+    "manifest_builder": "MISSING_IMPLEMENTATION",
+    "generation_requires_scientific_or_owner_policy": false
+  },
+
+  "task_D_eligibility_ready_funnel_inventory": {
+    "authority": "research/opws-protocol-r1/OPWS_ELIGIBILITY_FUNNEL_R1.json",
+    "stages": [
+      {"id": "STAGE_1_FROZEN_TASK_UNIVERSE", "name": "frozen task universe", "outcome": "in_universe", "definition": "task id in MAIN_297 manifest AND in future Full-D7 frame"},
+      {"id": "STAGE_2_TEST_EVIDENCE", "name": "test evidence available", "outcome": "test_evidence", "definition": "frozen per-task F2P count > 0 and node identities resolvable (no MISSING_F2P_NODES)"},
+      {"id": "STAGE_3_BEHAVIOR_CONTRACT_RESOLVED", "name": "adapter / behavior contract resolved", "outcome": "behavior_contract", "definition": "adapter resolved, test command determined, evaluator boundary instantiable"},
+      {"id": "STAGE_4_ENV_READY", "name": "Full-D7 environment READY", "outcome": "env_ready", "definition": "frozen Full-D7 readiness record says READY (environment controls passed); source = Full-D7 readiness records (negative + positive controls; READY decision) at final frozen census"},
+      {"id": "STAGE_5_BEHAVIOR_CONTRACT_EXECUTABLE", "name": "behavior contract executable on OPWS worktree", "outcome": "behavior_executable", "definition": "dry preflight accepts OPWS patching scheme; no PATCH_APPLICATION_INVALID / TEST_CONTRACT_INVALID"},
+      {"id": "STAGE_6_OPWS_ELIGIBLE", "name": "OPWS eligible", "outcome": "opws_eligible", "definition": "in_universe AND test_evidence AND behavior_contract AND env_ready AND behavior_executable"},
+      {"id": "STAGE_7_PRIMARY_PAIRED_ELIGIBLE", "name": "primary paired eligible", "outcome": "primary_paired_eligible", "definition": "opws_eligible AND both RM_CSS and AGENT frozen prediction artifacts resolve AND GOLD validity control resolvable"}
+    ],
+    "distinct_markers": {
+      "ENV_READY": "environment readiness only (Full-D7 READY census)",
+      "OPWS_ELIGIBLE": "environment-ready AND complete OPWS contract resolvable for the task",
+      "PRIMARY_PAIRED_ELIGIBLE": "OPWS eligible AND RM_CSS+AGENT scope artifacts + GOLD validity available (paired subpopulation)"
+    },
+    "frozen_full_d7_readiness_records_that_say_READY": [
+      "research/env-canon-r4/R4_FULL144_READINESS_MANIFEST.json (readiness_verdict=READY for 144/144 units; aggregate READY:144)",
+      "research/env-canon-r4/R4_E3_AFFECTED_REVALIDATION_RECEIPT.json (all 65 blocked units transitioned to READY_LOCAL_ZERO_CONTAINER_AFTER_RECOVERY; 219 tasks commit_ready per census per_member_task_readiness commit_ready=219)",
+      "research/env-canon-r4/R4_I6_CORRECTED_ZERO_CONTAINER_CENSUS_144.json per_member_task_readiness = {commit_missing: [], commit_ready: 219}",
+      "research/env-canon-r4/R4_SCIENTIFIC_FULL144_SUCCESSOR_RESULT_2026-10-17.json (144/144 PASS - post-run validation)"
+    ],
+    "candidate_owner_proposal": {
+      "proposal": "task READY iff the validation unit containing that task PASSed in scientific Full144; expected resulting count 219",
+      "mechanical_count": {
+        "n_validation_units": 144,
+        "n_mapped_tasks": 219,
+        "all_units_PASS": true,
+        "n_tasks_in_PASS_units": 219,
+        "mechanically_follows_from_frozen_rules": true,
+        "source": "R4_I6 census per_member_task_readiness.commit_ready=219 AND R4_FULL144_READINESS_MANIFEST readiness_verdict=READY for all 144 units AND R4_SCIENTIFIC_FULL144_SUCCESSOR_RESULT counts.PASS=144",
+        "important": "n_env_ready=219 (tasks) follows mechanically from the frozen census + readiness manifest. n=144 is the validation-UNIT count, NOT the task count. The funnel STAGE_4 ENV_READY is a per-task outcome derived from unit-level READY records via member_task_ids."
+      },
+      "classification": "PLAUSIBLE_BUT_NEW_OWNER_POLICY",
+      "evidence": "Frozen authority (OPWS_ELIGIBILITY_FUNNEL_R1.json STAGE_4) defines ENV_READY from 'frozen Full-D7 readiness records (negative + positive controls; READY decision) at final frozen census'. It does NOT literally say 'iff the validation unit PASSed in scientific Full144'. Because all 144 units are BOTH READY (manifest) and PASS (scientific result), the count 219 coincides. The rule phrasing 'iff unit PASSed in Full144' is a NEW owner-policy formulation that is CONSISTENT with, but not identical to, the frozen READY-census definition. Do not assert n_env_ready=144 for tasks; 144 is the unit count. 219 is the mechanically-derivable per-task ENV_READY count under the frozen READY census."
+    }
+  },
+
+  "task_E_owner_proposal_review": {
+    "P1": {
+      "proposal": "5169c69d45f0761c85792ec182c9e949f58d8c9f5a29355d5a371944293d2ef2 is runtime/image binding and should be a component of environment_id, NEVER population identity.",
+      "classification": "SUPPORTED_BY_FROZEN_AUTHORITY (for 'is runtime/image binding, not population identity'); SAFE_OWNER_CLARIFICATION (for 'component of environment_id')",
+      "evidence": [
+        "research/env-canon-r4/R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json deterministic_binding_hash = 5169c69d... (11 unique (docker_profile_id, native_profile_id) pairs with immutable_image_id)",
+        "R4_SCIENTIFIC_FULL144_SUCCESSOR_RESULT_2026-10-17.json authority_hashes.image_binding_hash = 5169c69d...",
+        "src/benchmark/wp2/full144/population.py EXPECTED_BINDING_HASH = 5169c69d...",
+        "Population identity is DIFFERENT: ce51d2ec...; ordered membership 8eb4a724...; so 5169c69d is NOT population identity.",
+        "Static audit OPWS_STATIC_READINESS_AUDIT_2026-10-16.json: runtime_binding_5169c69d expected to map to opws_bound_population_hash OR be consumed as OPWS environment_id / behavior-contract manifest identity; exact field assignment must be recorded at Full-D7 freeze (forward bookkeeping item).",
+        "Frozen OPWS protocol defines environment_id as a dedup-tuple field but does NOT freeze its composition/value; so assigning image-binding hash as a component is a binding-time bookkeeping decision (SAFE_OWNER_CLARIFICATION), not a scientific semantic change."
+      ]
+    },
+    "P2": {
+      "proposal": "ordered_task_ids_sha256 is computed over 219 ordered task IDs, not the 144 validation-unit order. Candidate serialization: UTF-8 JSON array, deterministic compact representation.",
+      "classification": "SUPPORTED_BY_FROZEN_AUTHORITY (task-level ordering); CONTRADICTED (if mapped to the frozen 8eb4a724 membership hash)",
+      "evidence": [
+        "OPWS_POPULATION_BINDING_SCHEMA_R1.json: ordered_task_ids = 'ordered, deduplicated, deterministic list of bound task IDs'; ordered_task_ids_sha256 = 'canonical sha256 of the ordered task-ID list' -> task-level, not unit-level.",
+        "BUT: frozen D7 authority (src/benchmark/wp2/full144/population.py ordered_membership_hash()) computes 8eb4a724 over the ORDERED 144 VALIDATION-UNIT ids (verified: sha256(json.dumps(144 unit ids, separators=(',',':'))) == 8eb4a724). It is NOT over 219 task ids.",
+        "The static audit (OPWS_STATIC_READINESS_AUDIT_2026-10-16.json) mapped 'ordered_membership_8eb4a724' to binding field ordered_task_ids_sha256. That mapping is AMBIGUOUS/CONFLICTED: the OPWS binding field is task-level (219), the frozen D7 hash is unit-level (144).",
+        "P2's serialization (UTF-8 JSON array, deterministic compact representation, separators=(',',':')) matches population.py's canonical json.dumps(...separators=(',',':')) exactly; the object being hashed is the ONLY open question.",
+        "RESOLUTION NEEDED (owner/binding record): either (a) ordered_task_ids_sha256 = sha256 over the 219 ordered TASK ids (new hash, NOT 8eb4a724), or (b) binding reuses frozen 8eb4a724 (144 unit ids) with an explicit note that the field name is task-level but the hash is unit-level. This must be recorded at binding time; it changes no protocol semantic."
+      ]
+    },
+    "P3": {
+      "proposal": "task ENV_READY iff its associated scientific Full144 validation unit PASSed.",
+      "classification": "PLAUSIBLE_BUT_NEW_OWNER_POLICY",
+      "evidence": "Same as Task D. Frozen funnel STAGE_4 keys ENV_READY on the Full-D7 READY census / readiness records (controls; READY decision), not literally on Full144 PASS. All 144 units are both READY and PASS, so counts coincide (219 tasks). The rule phrasing is new owner policy, consistent but not identical to the frozen READY-census rule."
+    },
+    "P4": {
+      "proposal": "0fea61c799b3b3ded9d0c74a0a20ea3535d103c1 and m17-d7-r4-scientific-full144-successor-pass-2026-10-17 are accepted as Full-D7 evidence commit/tag.",
+      "classification": "SUPPORTED_BY_FROZEN_AUTHORITY",
+      "evidence": [
+        "HEAD == required HEAD == 0fea61c; tag m17-d7-r4-scientific-full144-successor-pass-2026-10-17 peels to 0fea61c (verified).",
+        "R4_SCIENTIFIC_FULL144_SUCCESSOR_RESULT_2026-10-17.json at HEAD: 144/144 PASS, 0 non-PASS.",
+        "R4_RUN_TO_RUN_SECONDARY_ANALYSIS_SUCCESSOR_2026-10-17.json at HEAD: 144/144 agreement, STABLE, 0 disagreements.",
+        "These satisfy OPWS_POPULATION_BINDING_SCHEMA_R1 fields full_d7_evidence_commit and full_d7_tag. Frozen evidence is immutable; recording them is mechanical binding, not owner policy."
+      ]
+    },
+    "P5": {
+      "proposal": "behavior_contract_manifest creation is instrument construction, not an owner semantic decision, provided every field is mechanically derivable from frozen artifacts.",
+      "classification": "SUPPORTED_BY_FROZEN_AUTHORITY (with MISSING_IMPLEMENTATION caveat)",
+      "evidence": [
+        "OPWS_POPULATION_BINDING_SCHEMA_R1.json lists behavior_contract_manifest + behavior_contract_manifest_sha256 as binding fields (UNBOUND_PENDING_FULL_D7).",
+        "All required per-task values exist in frozen artifacts (adapter_report.json, per_task_v2.jsonl, census, E1 evaluator, P2P scripts) => mechanically derivable.",
+        "The manifest builder + schema definition are MISSING_IMPLEMENTATION (instrument construction). No frozen rule makes manifest creation an owner semantic decision.",
+        "Caveat: 'mechanically derivable' must be demonstrated by the builder producing a manifest whose sha256 is recorded; a dry behavior-executable preflight (funnel STAGE_5) is a non-outcome instrument check, not a scientific outcome."
+      ]
+    }
+  },
+
+  "task_F_environment_id_and_dedup_inventory": {
+    "authority": "research/opws-protocol-r1/OPWS_EXECUTION_REUSE_DEDUP_R1.json",
+    "physical_execution_identity_5_tuple": ["TASK_ID", "SCOPE_HASH", "REFERENCE_PATCH_HASH", "TEST_CONTRACT_HASH", "ENVIRONMENT_ID"],
+    "field_sources": {
+      "TASK_ID": "bound population ordered task IDs (frozen manifest order at binding)",
+      "SCOPE_HASH": "canonical deterministic scope hash (OPWS_SCOPE_SEMANTICS_R1.json: sha256 over sorted deduped normalized selected file list, json.dumps separators=(',',':'))",
+      "REFERENCE_PATCH_HASH": "scoped reference patch = git diff <parent> <target> -- <selected files> per selected non-test path; hash of that patch content (m14r scoped_gold_diff precedent)",
+      "TEST_CONTRACT_HASH": "frozen F2P node set + test command + evaluator boundary identity (behavior contract manifest); currently UNBOUND (manifest not produced)",
+      "ENVIRONMENT_ID": "NOT DEFINED in any frozen artifact. Candidates that frozen artifacts imply: (a) image binding hash 5169c69d (runtime/image binding), (b) per-pair immutable_image_id (11 unique pairs), (c) environment_fingerprint in per_task_v2.jsonl. Frozen protocol uses environment_id in dedup tuple + output schemas but never freezes its composition. => REQUIRES_BINDING / MISSING."
+    },
+    "test_contract_hash_source": "frozen evaluator artifacts (BEHAVIORAL_F2P / SYMBOL_ABSENCE_F2P node records bounded by frozen counts) + E1 evaluator identity + deterministic test command; i.e., the behavior_contract_manifest per task",
+    "patch_identity_source": "scoped reference patch (git diff parent target -- selected) canonical hash",
+    "selector_arm_identity_source": "arm_id from frozen OPWS_ARM_REGISTRY_R1.json + per-arm frozen prediction artifact",
+    "repetition_identity": "dedup contract has no separate repetition field; repetitions appear as distinct logical arm records (e.g., AGENT r1/r2/r3 are distinct arm_ids in the frozen registry's scope sources); physical dedup only when the full 5-tuple matches",
+    "what_prevents_physical_execution_count_today": [
+      "ENVIRONMENT_ID undefined",
+      "TEST_CONTRACT_HASH depends on behavior_contract_manifest (not produced)",
+      "SCOPE_HASH needs Q08 scope materialization over the bound population + 12 arms (not done)",
+      "population binding (13 fields) not done",
+      "no OPWS_EXECUTION_MANIFEST with n_physical_executions"
+    ],
+    "existing_frozen_implied_environment_identity": {
+      "statement": "Frozen artifacts already imply a unique environment identity at the VALIDATION-UNIT level: R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json binds each (docker_profile_id, native_profile_id) to an immutable_image_id (11 unique pairs; deterministic_binding_hash=5169c69d) and R4_FULL144_READINESS_MANIFEST.json maps every unit to its pair + image. Per-task environment_fingerprint also exists in per_task_v2.jsonl.",
+      "derivation": "If environment_id is defined (by owner/binding record) as e.g. the per-unit immutable_image_id or the pair-level binding hash, then a unique environment identity already follows mechanically from frozen artifacts. But the frozen protocol does NOT itself name which value fills ENVIRONMENT_ID; that is REQUIRES_OWNER_DECISION (binding-time bookkeeping, not a scientific semantic change)."
+    },
+    "status": "REQUIRES_BINDING / MISSING (no frozen value; derivation exists from frozen artifacts)"
+  },
+
+  "task_G_execution_schedule_size": {
+    "authority": "research/opws-protocol-r1/OPWS_ARM_REGISTRY_R1.json",
+    "arms": [
+      {"arm_id": "RM_CSS", "role": "OUR_METHOD", "mandatory_for_primary": true},
+      {"arm_id": "AGENT", "role": "BUDGET_BOUNDED_ITERATIVE_AGENT", "mandatory_for_primary": true},
+      {"arm_id": "GOLD", "role": "DIAGNOSTIC_ONLY", "mandatory_for_primary": false, "mandatory_control": true},
+      {"arm_id": "SELECT_ALL", "role": "CEILING_CONTROL", "mandatory_for_primary": false, "mandatory_control": true},
+      {"arm_id": "RANDOM_SIZE_MATCHED_RM_CSS", "role": "RANDOM_SIZE_MATCHED_CONTROL", "diagnostic_supporting": true},
+      {"arm_id": "BM25_TO_CIA_1HOP", "role": "CIA_STYLE_ADAPTATION_CONTROL", "diagnostic_supporting": true},
+      {"arm_id": "DENSE_K3", "role": "RETRIEVAL_BASELINE", "diagnostic_supporting": true},
+      {"arm_id": "DENSE_K10", "role": "RETRIEVAL_BASELINE", "diagnostic_supporting": true},
+      {"arm_id": "BM25_K3", "role": "RETRIEVAL_BASELINE", "diagnostic_supporting": true},
+      {"arm_id": "BM25_K10", "role": "RETRIEVAL_BASELINE", "diagnostic_supporting": true},
+      {"arm_id": "SIP", "role": "SELECTIVE_BASELINE", "diagnostic_supporting": true},
+      {"arm_id": "AGENTLESS_STYLE_ADAPTATION", "role": "LITERATURE_INSPIRED_LOCALIZATION_ADAPTATION", "diagnostic_supporting": true}
+    ],
+    "mandatory_for_primary_analysis": ["RM_CSS", "AGENT"],
+    "mandatory_controls": ["GOLD", "SELECT_ALL"],
+    "diagnostic_supporting": ["RANDOM_SIZE_MATCHED_RM_CSS", "BM25_TO_CIA_1HOP", "DENSE_K3", "DENSE_K10", "BM25_K3", "BM25_K10", "SIP", "AGENTLESS_STYLE_ADAPTATION"],
+    "repetitions": "No explicit repetition arms in the registry; AGENT r1/r2/r3 exist only as separate scope sources for the AGENT arm in M15R (Pilot-B), NOT in the R1 12-arm registry. R1 registry has exactly 12 arms.",
+    "preservation_checks": "P2P-S (changed-test PASS_TO_PASS) + P2P-U (unchanged-test STABLE_P2P, cap-200, 3 reps) run per task on the OPWS worktree as part of each physical execution (preservation_pass metric)",
+    "logical_bounds": {
+      "n_tasks_upper": 219,
+      "n_arms": 12,
+      "logical_records_upper_bound": "12 x 219 = 2628 (all tasks OPWS_ELIGIBLE for all arms)",
+      "primary_logical_records": "2 x n_primary_paired (RM_CSS + AGENT) + GOLD + SELECT_ALL on eligible tasks",
+      "logical_records_lower_bound": ">= 2 x n_ppep + 2 x n_opws_eligible (GOLD/SELECT_ALL) for controls",
+      "n_physical_executions": "UNKNOWN until dedup map built (depends on scope-hash / patch-hash / test-contract-hash / env-id collisions across arms per task)"
+    },
+    "still_needed_for_exact_physical_count": [
+      "population binding + ordered task list (219)",
+      "per-task arm scope hashes (Q08 materialization)",
+      "behavior_contract_manifest + test_contract_hash per task",
+      "environment_id definition",
+      "dedup run over the 5-tuple -> OPWS_PHYSICAL_EXECUTION_MAP.json"
+    ],
+    "no_execution": true
+  },
+
+  "task_H_instrument_validity_gate": {
+    "question": "Does frozen authority already specify pre-MAIN smoke, GOLD validity/control gate, adapter qualification, zero-outcome preflight, stop criteria before MAIN outcomes?",
+    "frozen_gates_found": [
+      {"gate": "Q00_KIT_SELFTEST", "authority": "controller/plan_m17_v1_main.json", "note": "unit tests; zero network / zero Docker / zero WSL"},
+      {"gate": "Q01_GUARD", "authority": "controller/plan_m17_v1_main.json + scripts/wp2_m17_run.py", "note": "frozen design/membership hashes, protected pools, resource gates"},
+      {"gate": "Q02_ADAPTER_VERIFY", "authority": "controller/plan_m17_v1_main.json", "note": "adapter qualification on frame tasks (zero Docker)"},
+      {"gate": "funnel STAGE_3 + STAGE_5", "authority": "OPWS_ELIGIBILITY_FUNNEL_R1.json", "note": "behavior contract resolved + executable on OPWS worktree (dry preflight, no PATCH_APPLICATION_INVALID / TEST_CONTRACT_INVALID)"},
+      {"gate": "funnel STAGE_4 ENV_READY", "authority": "OPWS_ELIGIBILITY_FUNNEL_R1.json", "note": "Full-D7 readiness records (negative + positive controls; READY decision)"},
+      {"gate": "GOLD / SELECT_ALL validity controls", "authority": "OPWS_GOLD_SELECT_ALL_VALIDITY_R1.json", "note": "GOLD diagnostic floor (OPWS_INVALID_CONTROL_FAILURE if behavior/preservation-contract attributable); SELECT_ALL ceiling; HARNESS_CONSISTENCY_FAILURE if GOLD/SELECT_ALL disagree on identical effective reference patch"},
+      {"gate": "outcome taxonomy fail-closed", "authority": "OPWS_OUTCOME_TAXONOMY_R1.json", "note": "INFRASTRUCTURE / TEST_CONTRACT / ARM_PREDICTION invalids fail-closed, never silent"}
+    ],
+    "pre_main_smoke_already_frozen": {
+      "answer": "YES for adapter/readiness/eligibility gates (Q00-Q07 + funnel STAGE_1..5 + GOLD/SELECT_ALL validity).",
+      "note": "There is NO frozen rule that literally says 'GOLD pilot must pass before MAIN' as a single global gate. The GOLD validity gate is per-task invalidation logic (OPWS_INVALID_CONTROL_FAILURE), and eligibility STAGE_5 is the dry preflight. A NEW global 'GOLD pilot must pass' rule would be OWNER_DECISION_REQUIRED."
+    },
+    "zero_outcome_preflight": {
+      "authorized_by": "funnel STAGE_5 (behavior contract executable on OPWS worktree: dry preflight accepts the OPWS patching scheme; no PATCH_APPLICATION_INVALID / TEST_CONTRACT_INVALID) + Q00/Q01/Q02",
+      "minimum_non_outcome_technical_smoke_that_verifies": [
+        "callable executor (opws-evaluate CLI real implementation reaches a real task executor)",
+        "path/materialization mechanics (parent worktree from git objects in Linux; scoped reference patch applies cleanly; git diff <parent> <target> -- <selected>)",
+        "Docker/local prerequisites (zero-container full144 precedent; image binding hash 5169c69d present)",
+        "cleanup (worktree removal after a dry run; disk guards)",
+        "disk peak (measure before/after on one probe task)"
+      ],
+      "allowed_by_frozen_authority": true,
+      "classification": "zero-outcome technical smoke IS already authorized by the frozen funnel STAGE_5 dry-preflight and the M17 Q00-Q02 gates; it must not produce OPWS_TASK_ARM_RESULTS or any scientific outcome."
+    }
+  },
+
+  "task_I_build_gap_table": [
+    {
+      "component": "dynamic OPWS task executor (opws-evaluate real implementation)",
+      "current_status": "DESIGN_ONLY_STUB (M17_MAIN_NOT_AUTHORIZED)",
+      "existing_reusable_code": "scripts/wp2_m15r_run.py opws_evaluate + EvalFns; scripts/wp2_m14a_evalcore(_e1).py; RealExecutor (scripts/wp2_m17_exec.py); full144 UnitRunner for env harness",
+      "required_new_code": "R1-compliant executor: parent worktree materialization + scoped reference patch apply + behavior eval (F2P) + preservation eval (P2P) + classification via OPWS_OUTCOME_TAXONOMY_R1",
+      "scientific_semantics_involved": "no (instrument construction; R1 semantics frozen)",
+      "owner_decision_required": "no (authorization to build/execute is owner gate, but design is instrument)",
+      "estimated_implementation_complexity": "HIGH",
+      "estimated_validation_effort": "HIGH (unit + integration + zero-outcome smoke)",
+      "dependencies": "binding, scope manifests, behavior contract manifest, environment_id, Linux worktree, E1 evaluator",
+      "disk_network_api_impact": "Linux worktree per task (saleor repo); zero network; zero model API"
+    },
+    {
+      "component": "population binding writer (13 OPWS_POPULATION_BINDING_SCHEMA_R1 fields)",
+      "current_status": "UNBOUND_PENDING_FULL_D7 (schema frozen, no values)",
+      "existing_reusable_code": "OPWS_POPULATION_BINDING_SCHEMA_R1.json; population.py (ordered_membership_hash); validator check_population_unbound",
+      "required_new_code": "binding record writer that fills the 13 fields from frozen D7 evidence + eligibility manifest + ordered_task_ids + protocol_sha256 (tag peel hash)",
+      "scientific_semantics_involved": "no (schema frozen)",
+      "owner_decision_required": "partial - exact mapping of 8eb4a724/ordered_task_ids_sha256 (P2) and environment_id composition (P1) must be recorded; that is bookkeeping, not semantic",
+      "estimated_implementation_complexity": "LOW",
+      "estimated_validation_effort": "LOW (validator + P2P/F2P)",
+      "dependencies": "full D7 evidence (present), READY census, eligibility manifest, protocol tag",
+      "disk_network_api_impact": "none"
+    },
+    {
+      "component": "READY / eligibility manifest (per-task stage outcomes + reason codes)",
+      "current_status": "MISSING (funnel logic frozen; no instantiated manifest)",
+      "existing_reusable_code": "OPWS_ELIGIBILITY_FUNNEL_R1.json; R4 readiness + census; adapter_report; per_task_v2",
+      "required_new_code": "eligibility manifest generator per funnel stages 1..7 -> OPWS_ELIGIBILITY_MANIFEST (binding-era artifact)",
+      "scientific_semantics_involved": "no (funnel frozen)",
+      "owner_decision_required": "no (counts follow mechanically; P3 phrasing is owner clarification)",
+      "estimated_implementation_complexity": "LOW-MEDIUM",
+      "estimated_validation_effort": "MEDIUM",
+      "dependencies": "binding, behavior contract manifest",
+      "disk_network_api_impact": "none"
+    },
+    {
+      "component": "behavior contract manifest builder",
+      "current_status": "MISSING_IMPLEMENTATION (field UNBOUND)",
+      "existing_reusable_code": "adapter_report.json, per_task_v2.jsonl, census, E1, P2P scripts",
+      "required_new_code": "manifest schema + builder producing behavior_contract_manifest + sha256",
+      "scientific_semantics_involved": "no (P5)",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "LOW",
+      "estimated_validation_effort": "LOW",
+      "dependencies": "frozen artifacts only",
+      "disk_network_api_impact": "none"
+    },
+    {
+      "component": "environment_id builder",
+      "current_status": "MISSING (not defined)",
+      "existing_reusable_code": "R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json (immutable_image_id, binding hash), R4_FULL144_READINESS_MANIFEST.json, per_task_v2 environment_fingerprint",
+      "required_new_code": "environment_id derivation recorded in binding record (choose and freeze composition)",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "yes (owner/binding must pick composition; SAFE_OWNER_CLARIFICATION)",
+      "estimated_implementation_complexity": "LOW",
+      "estimated_validation_effort": "LOW",
+      "dependencies": "binding",
+      "disk_network_api_impact": "none"
+    },
+    {
+      "component": "dedup / physical execution map",
+      "current_status": "MISSING (no OPWS_PHYSICAL_EXECUTION_MAP.json)",
+      "existing_reusable_code": "OPWS_EXECUTION_REUSE_DEDUP_R1.json (5-tuple rule)",
+      "required_new_code": "dedup runner producing OPWS_PHYSICAL_EXECUTION_MAP.json",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "LOW",
+      "estimated_validation_effort": "LOW",
+      "dependencies": "scope hashes, test contract hash, environment_id, binding",
+      "disk_network_api_impact": "none"
+    },
+    {
+      "component": "patch application (scoped reference patch)",
+      "current_status": "REUSABLE_SEMANTICS (m14r scoped_gold_diff precedent; no R1 executor instance)",
+      "existing_reusable_code": "scripts/wp2_m14r_run.py scoped_gold_diff; m15r opws_plan diff_fn",
+      "required_new_code": "R1 patch-applier on Linux worktree (parent + selected reference non-test patch), per-task/arm",
+      "scientific_semantics_involved": "no (frozen M/A/D/R semantics in OPWS_PROTOCOL_R1 §3)",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "MEDIUM",
+      "estimated_validation_effort": "MEDIUM (dry preflight funnel STAGE_5)",
+      "dependencies": "Linux worktree, scopes",
+      "disk_network_api_impact": "Linux worktree; zero network"
+    },
+    {
+      "component": "Linux worktree materialization",
+      "current_status": "REUSABLE_EXISTING_COMPONENT (full144 harness, harness_v3, oracle_confirmation linux worktrees)",
+      "existing_reusable_code": "src/benchmark/wp2/full144/driver.py UnitRunner.materialize; harness_v3 ensure_worktrees_v3",
+      "required_new_code": "R1 parent-commit clean-state worktree materialization (git objects only, Linux)",
+      "scientific_semantics_involved": "no (frozen clean-state rule)",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "MEDIUM",
+      "estimated_validation_effort": "MEDIUM",
+      "dependencies": "saleor git objects, Linux/WSL",
+      "disk_network_api_impact": "disk ~saleor repo per worktree; no network"
+    },
+    {
+      "component": "behavior evaluator invocation",
+      "current_status": "REUSABLE_EXISTING_COMPONENT (E1 evaluator exists)",
+      "existing_reusable_code": "scripts/wp2_m14a_evalcore(_e1).py; wp2_m17_contract.py f2p_node_set/task_resolvable",
+      "required_new_code": "wire E1 on OPWS-patched worktree; per-node status; fail-closed F2P",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "MEDIUM",
+      "estimated_validation_effort": "MEDIUM",
+      "dependencies": "patch applied worktree, behavior contract manifest",
+      "disk_network_api_impact": "test execution (CPU); zero model API"
+    },
+    {
+      "component": "preservation evaluator invocation",
+      "current_status": "REUSABLE_EXISTING_COMPONENT (P2P-S / P2P-U scripts)",
+      "existing_reusable_code": "scripts/wp2_p2p_s_freeze_v1.py; wp2_p2p_u_v2_exec.py",
+      "required_new_code": "preservation pass evaluation on OPWS worktree (P2P-S + P2P-U STABLE)",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "MEDIUM",
+      "estimated_validation_effort": "MEDIUM",
+      "dependencies": "behavior contract manifest, worktree",
+      "disk_network_api_impact": "test execution; zero model API"
+    },
+    {
+      "component": "evidence hashing / checkpointing / resume",
+      "current_status": "REUSABLE_EXISTING_COMPONENT (full144 driver atomic checkpoint, M17 runner resumability)",
+      "existing_reusable_code": "full144 driver intent/checkpoint, wp2_m17_run resumable tokens",
+      "required_new_code": "OPWS record atomicity + resume + fail-closed per OPWS output schemas",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "MEDIUM",
+      "estimated_validation_effort": "MEDIUM",
+      "dependencies": "output schemas",
+      "disk_network_api_impact": "small"
+    },
+    {
+      "component": "cleanup",
+      "current_status": "REUSABLE_EXISTING_COMPONENT (remove_worktrees_v3, disk guards)",
+      "existing_reusable_code": "harness_v3.remove_worktrees_v3; wp2_m17_exec disk_gate",
+      "required_new_code": "per-task worktree cleanup + disk guards in R1 executor",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "LOW",
+      "estimated_validation_effort": "LOW",
+      "dependencies": "executor",
+      "disk_network_api_impact": "disk reclaimed"
+    },
+    {
+      "component": "result schemas (10 OPWS output artifacts)",
+      "current_status": "FROZEN_SCHEMA_ONLY (no instances)",
+      "existing_reusable_code": "OPWS_OUTPUT_SCHEMAS_R1.json",
+      "required_new_code": "writers for OPWS_EXECUTION_MANIFEST.json, OPWS_TASK_ARM_RESULTS.jsonl, OPWS_PHYSICAL_EXECUTION_MAP.json, OPWS_FAILURE_TAXONOMY_COUNTS.json, OPWS_ARM_SUMMARY.json, OPWS_PAIRED_COMPARISONS.json, OPWS_BOOTSTRAP_RESULTS.json, OPWS_SUFFICIENCY_SCOPE_FRONTIER.csv, OPWS_INVALID_TASKS.json, OPWS_EXECUTION_RECEIPT.json",
+      "scientific_semantics_involved": "no",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "LOW-MEDIUM",
+      "estimated_validation_effort": "MEDIUM (validator must accept)",
+      "dependencies": "executor + metrics",
+      "disk_network_api_impact": "small"
+    },
+    {
+      "component": "summary / statistics stage",
+      "current_status": "REUSABLE_EXISTING_COMPONENT (paired bootstrap algorithm)",
+      "existing_reusable_code": "src/benchmark/wp1b/main_scoring.py (paired task bootstrap 10000, seed re-frozen 20261012)",
+      "required_new_code": "OPWS paired bootstrap + frontier table + analysis per OPWS_ANALYSIS_PLAN_R1.md",
+      "scientific_semantics_involved": "no (estimands/seed frozen)",
+      "owner_decision_required": "no",
+      "estimated_implementation_complexity": "MEDIUM",
+      "estimated_validation_effort": "MEDIUM",
+      "dependencies": "OPWS_TASK_ARM_RESULTS.jsonl + eligibility denominators",
+      "disk_network_api_impact": "none"
+    }
+  ],
+
+  "task_J_realistic_build_plan": {
+    "principle": "No compression of estimates; build is NOT authorized in this mission; plan is for owner review.",
+    "phases": [
+      {
+        "phase": "Phase 1 - owner semantic decisions only",
+        "subtasks": [
+          "Confirm P4 (Full-D7 evidence commit/tag 0fea61c + tag)",
+          "Resolve P2 hash mapping: ordered_task_ids_sha256 over 219 task ids vs frozen 8eb4a724 (144 unit ids); record choice in binding schema",
+          "Resolve P1 environment_id composition (image binding hash / immutable_image_id / environment_fingerprint) and record in binding record",
+          "Confirm P3 ENV_READY rule phrasing (READY census vs Full144 PASS) - count 219 mechanically, but rule wording is owner policy",
+          "Approve P5 (behavior contract manifest as instrument construction)"
+        ],
+        "expected_time": "1-2h owner meeting (not agent)",
+        "expected_disk": "0",
+        "internet_data": "0",
+        "model_api_cost": "0",
+        "stop_conditions": "any unresolved authority conflict"
+      },
+      {
+        "phase": "Phase 2 - mechanically derivable binding / manifests",
+        "subtasks": [
+          "Build behavior_contract_manifest builder (adapter + F2P + test command + evaluator boundary per task; sha256)",
+          "Build READY/eligibility manifest generator (funnel stages 1..7 over frozen census; n_env_ready=219, n_opws_eligible, n_primary_paired)",
+          "Build population binding writer (13 fields; ordered_task_ids_sha256; protocol_sha256=tag peel)",
+          "Generate OPWS_SCOPE_MANIFEST (per-arm per-task normalized selected file lists + scope hashes) from frozen prediction artifacts"
+        ],
+        "expected_time": "0.5-1 day",
+        "expected_disk": "<100 MiB (manifests)",
+        "internet_data": "0",
+        "model_api_cost": "0",
+        "stop_conditions": "any field not mechanically derivable -> STOP_OWNER"
+      },
+      {
+        "phase": "Phase 3 - executor implementation",
+        "subtasks": [
+          "Implement R1 OPWS task executor: Linux parent worktree materialize + scoped reference patch apply + behavior eval (E1/F2P) + preservation eval (P2P) + taxonomy classification",
+          "Implement OPWS output writers + checkpoint/resume/cleanup",
+          "Implement dedup/physical execution map",
+          "Implement summary/statistics (paired bootstrap + frontier)"
+        ],
+        "expected_time": "3-7 days",
+        "expected_disk": "Linux worktrees (saleor repo ~ per worktree); bounded by disk guards",
+        "internet_data": "0 (zero-network policy)",
+        "model_api_cost": "0",
+        "stop_conditions": "any R1 semantic mutation; any frozen artifact drift"
+      },
+      {
+        "phase": "Phase 4 - static / unit / integration validation",
+        "subtasks": [
+          "opws_protocol_r1_validate.py PASS (all check groups)",
+          "Unit tests (incl. 41 test_opws_protocol_r1, M17 suite)",
+          "P2P/F2P on manifests, binding record, executor with fake task",
+          "Integration: run executor on 1 probe task with real worktree (zero outcome? no - would produce a real outcome; use zero-outcome dry preflight instead)",
+          "git diff --check; ruff; mypy on changed production files"
+        ],
+        "expected_time": "1-2 days",
+        "expected_disk": "<250 MiB",
+        "internet_data": "0",
+        "model_api_cost": "0",
+        "stop_conditions": "validator FAIL; any test failure not resolved"
+      },
+      {
+        "phase": "Phase 5 - zero-outcome smoke (if authorized)",
+        "subtasks": [
+          "Zero-outcome technical smoke on 1 probe task: callable executor, path/materialization mechanics, Docker/local prerequisites, cleanup, disk peak - WITHOUT producing OPWS_TASK_ARM_RESULTS or scientific outcome (funnel STAGE_5 dry preflight + Q00-Q02 precedent)",
+          "Verify no scientific outcomes written; fail-closed behavior"
+        ],
+        "expected_time": "1-2h",
+        "expected_disk": "<1 GiB (one worktree)",
+        "internet_data": "0",
+        "model_api_cost": "0",
+        "stop_conditions": "any scientific outcome produced -> STOP"
+      },
+      {
+        "phase": "Phase 6 - instrument freeze / tag",
+        "subtasks": [
+          "Freeze executor + manifests + binding record + smoke evidence",
+          "Create instrument tag on accepted commit; record protocol_sha256 (tag peel hash)",
+          "Re-run validator + full targeted suite"
+        ],
+        "expected_time": "0.5 day",
+        "expected_disk": "small",
+        "internet_data": "0",
+        "model_api_cost": "0",
+        "stop_conditions": "provenance invariant violated (artifact source commit != tag peel)"
+      },
+      {
+        "phase": "Phase 7 - first OPWS scientific execution",
+        "subtasks": [
+          "Owner authorization to execute",
+          "Q08 scopes -> Q09 opws-evaluate on READY census (219 tasks, task-major order)",
+          "Q10 completeness -> Q11 analysis -> Q12 summary",
+          "Paired RM-CSS vs AGENT on PRIMARY_PAIRED_ELIGIBLE; frontier; sensitivity treatment",
+          "Final receipt + result tag (NOT this mission)"
+        ],
+        "expected_time": "days to weeks (saleor test executions, zero model API)",
+        "expected_disk": "large (per-task worktrees; disk guards required)",
+        "internet_data": "0",
+        "model_api_cost": "0 (OPWS is zero-generator/zero-LLM by design)",
+        "stop_conditions": "any infra failure not matching predeclared transient; owner review"
+      }
+    ]
+  },
+
+  "task_K_readiness_audit_lesson": {
+    "prior_verdict": "PASS_OPWS_STATIC_READY_WAITING_FOR_FULL_D7_BIND (2026-10-16, commit a117edae)",
+    "validity_statement": "The 2026-10-16 verdict was valid for its explicitly STATIC scope (protocol consistency, machine-validated PASS, population UNBOUND, path/hash/file contracts resolve, compatibility with D7 Phase4 facts). It must NOT be relabeled as a failed audit. It did not prove dynamic executability, and it did not claim to.",
+    "distinction": {
+      "STATIC_PROTOCOL_READINESS": "protocol contract internally consistent + machine-validated + population/eligibility/dedup/output schemas frozen + authority paths resolve + zero OPWS execution",
+      "EXECUTABLE_INSTRUMENT_READINESS": "a real callable opws-evaluate path exists (not DESIGN_ONLY stub) + population binding + behavior contract manifest + environment_id + scope manifests + one zero-outcome or dry preflight verified + resume/cleanup/fail-closed verified"
+    },
+    "proposed_executable_readiness_checklist": [
+      "real callable opws-evaluate reaches a real R1 task executor (no M17_MAIN_NOT_AUTHORIZED / DESIGN_ONLY stub)",
+      "population binding written with all 13 fields (incl. ordered_task_ids_sha256, protocol_sha256)",
+      "behavior_contract_manifest exists with sha256 and every field mechanically verified against frozen artifacts",
+      "environment_id composition recorded in binding record",
+      "OPWS_SCOPE_MANIFEST exists (per-arm/per-task scope hashes)",
+      "dedup map (OPWS_PHYSICAL_EXECUTION_MAP.json) computable",
+      "zero-outcome technical smoke OR funnel STAGE_5 dry preflight executed successfully on at least one probe (patch applies, evaluator boundary instantiates, cleanup works, disk peak measured)",
+      "OPWS output schema validator accepts a dry/empty manifest structure",
+      "fail-closed paths verified (patch reject, infra, test-contract invalid) without producing scientific outcomes"
+    ],
+    "future_terminology_rule": "Do NOT use the word 'execution-ready' or 'execution instrument ready' until the checklist above (or an explicitly authorized non-outcome smoke) is satisfied. Use 'STATIC_PROTOCOL_READINESS' for the 2026-10-16 class of result."
+  },
+
+  "validation_performed": {
+    "opws_protocol_validator": "scripts/opws_protocol_r1_validate.py at a117edae -> OPWS_PROTOCOL_R1_VALIDATION=PASS (all check groups; run in a clean throwaway git worktree copy; the 2 git-status checks pass when a clean .git is present)",
+    "opws_protocol_unit_tests": "tests/unit/wp2/test_opws_protocol_r1.py at a117edae -> 41/41 PASS in throwaway copy; test_p23 git-status check passes with clean .git",
+    "m17_static_tests": "tests/unit/wp2/m17 at HEAD -> 91 passed, 6 failed (failures are environment/cache-dependent: missing frozen saleor repo cache on D:; qualification member adapter resolution requires external frozen cache C:/Users/Ahmed/Desktop/OpenCode/.../project/dist/pilot-repo-cache/saleor). No source code was changed; these are pre-existing environment-dependent failures, not instrument defects. Working tree restored to clean.",
+    "git_diff_check": "PASS (clean)",
+    "no_dynamic_opws_execution": true,
+    "no_network": true,
+    "no_docker": true,
+    "no_scientific_results_generated": true,
+    "read_only_verification_only": true
+  },
+
+  "evidence_file_references": {
+    "static_audit": "research/opws/OPWS_STATIC_READINESS_AUDIT_2026-10-16.json (at a117edae)",
+    "scientific_full144_result": "research/env-canon-r4/R4_SCIENTIFIC_FULL144_SUCCESSOR_RESULT_2026-10-17.json",
+    "run_to_run_secondary": "research/env-canon-r4/R4_RUN_TO_RUN_SECONDARY_ANALYSIS_SUCCESSOR_2026-10-17.json",
+    "readiness_manifest": "research/env-canon-r4/R4_FULL144_READINESS_MANIFEST.json",
+    "image_binding": "research/env-canon-r4/R4_EXECUTION_IMAGE_BINDING_RUNTIME_CLEAN.json",
+    "census": "research/env-canon-r4/R4_I6_CORRECTED_ZERO_CONTAINER_CENSUS_144.json",
+    "controller_plan": "controller/plan_m17_v1_main.json",
+    "m17_runner": "scripts/wp2_m17_run.py",
+    "m15r_executor": "scripts/wp2_m15r_run.py",
+    "m17_exec": "scripts/wp2_m17_exec.py",
+    "protocol_frozen_dir": "research/opws-protocol-r1/ (at a117edae)"
+  },
+
+  "handoff": {
+    "path": "D:/WP2/handoffs/M17_OPWS_INSTRUMENT_GAP_INVENTORY_HANDOFF.md",
+    "in_repo": false
+  }
+}
