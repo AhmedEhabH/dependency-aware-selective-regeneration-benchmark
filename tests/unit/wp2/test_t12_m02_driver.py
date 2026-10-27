@@ -41,11 +41,27 @@ class TestDriverAdmissionFailClosed(unittest.TestCase):
         self.assertIn("FROZEN_WORKTREE_DRIFT", res["hard_stops"])
         self.assertFalse(res["admission_ready"])
 
-    def test_runtime_integration_gap_always_reported(self):
+    def test_input_contract_status_closed_by_d2_derivation(self):
+        # M02-D2: the integration gap (no frozen classification JSON) is CLOSED
+        # by the offline derivation; the preflight now reports contract status
+        # and stops ONLY on missing artifacts/authorization — never on a fake gap.
         res = mod.preflight(Path(tempfile.mkdtemp()) / "absent", admission_required=False)
-        self.assertIn("RUNNER_INTEGRATION_GAP_CLASSIFICATION_INPUT_UNRESOLVED",
-                      res["hard_stops"])
-        self.assertIn("classification JSON", res["runner_integration_gap"])
+        self.assertIsNone(res["runner_integration_gap"])
+        self.assertNotIn("RUNNER_INTEGRATION_GAP_CLASSIFICATION_INPUT_UNRESOLVED",
+                         res["hard_stops"])
+        self.assertIn("input_contract_status", res)
+        self.assertIn("EXECUTION_NOT_AUTHORIZED", res["hard_stops"])
+
+    def test_rd8_artifacts_required_for_ready_status(self):
+        with tempfile.TemporaryDirectory() as td:
+            fake_cls = Path(td) / "classification.json"
+            fake_cls.write_text('{"changes": {}}', encoding="utf-8")
+            res = mod.preflight(_fake_worktree(), admission_required=False,
+                                classification_artifact=fake_cls,
+                                test_authority_artifact=Path(td) / "authority.json")
+            self.assertIn("RD8_TEST_AUTHORITY_ARTIFACT_MISSING", res["hard_stops"])
+            self.assertNotEqual(res["input_contract_status"],
+                                "INPUT_CONTRACT_READY_FOR_RESEARCHER_REVIEW")
 
     def test_no_run_subcommand_exists(self):
         with self.assertRaises(SystemExit):
@@ -85,7 +101,13 @@ class TestDriverDryRun(unittest.TestCase):
         rows = {r["arm_id"]: r for r in mod.dry_run_rows(_fake_worktree())}
         self.assertEqual(rows["NEG"]["scope_pin_status"], "DERIVED_CONTROL")
         self.assertEqual(rows["FULL_REFERENCE"]["scope_pin_status"], "DERIVED_CONTROL")
-        self.assertEqual(rows["SIP"]["classification_input"], "UNRESOLVED")
+        # without the D2 normalized artifacts the raw multi-task prediction file
+        # is recorded as NOT materializer-ready (never passed as scope-json)
+        self.assertEqual(rows["SIP"]["scope_pin_status"],
+                         "PIN_MATCH_BUT_MULTI_TASK_SOURCE")
+        # RD-8: derived proposals are NOT silently treated as historical pins
+        self.assertEqual(rows["SIP"]["classification_input"],
+                         "DERIVED_PROPOSED_PENDING_RD8_APPROVAL")
 
     def test_dry_run_cli_writes_manifest(self):
         with tempfile.TemporaryDirectory() as td:

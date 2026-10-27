@@ -182,10 +182,15 @@ ARM_SCOPE_SOURCES: dict[str, dict[str, Any]] = {
         "source": "materialize_full_reference", "sha256": None, "kind": "DERIVED_CONTROL",
     },
 }
-# No frozen byte-pinned per-arm classification JSON exists on disk (verified
-# 2026-10-27); the materializer's --classification-json argument therefore
-# stays UNRESOLVED for the reference-transfer phase until re-pinned.
-CLASSIFICATION_INPUT_STATUS = "UNRESOLVED"
+# M02-D1 (2026-10-27): no frozen byte-pinned per-arm classification JSON
+# existed on disk -> CLASSIFICATION_INPUT_STATUS was UNRESOLVED.
+# M02-D2 (2026-10-27): a deterministic offline DERIVATION from the frozen
+# parent->target reference diff (git name-status M/D/A, no-renames, the frozen
+# protocol's own classifier) cross-checked against the frozen per-task census
+# is provable (`scripts/t12_m02_classification_provenance.py`) and byte-pinned.
+# It is a NEW artifact -- never historically frozen -- so it is PROPOSED and
+# waits for researcher RD-8 approval before any run admission.
+CLASSIFICATION_INPUT_STATUS = "DERIVED_PROPOSED_PENDING_RD8_APPROVAL"
 
 
 def resolve_scope_source(arm_id: str, base: Path | None = None) -> dict:
@@ -539,16 +544,43 @@ def structural_assertion_only() -> dict:
         "claim": "STRUCTURAL_ASSERTION_ONLY",
         "runtime_isolation_verified": "PENDING",
         "prompt_leakage_audit": "PENDING",
-        "selector_input_domain": ["frozen_scope_json", "frozen_classification_json"],
-        "selector_never_consumes": [
-            "junit_xml_receipts", "behavioral_outcomes", "gold_labels",
+        # M02-D2 correction: the frozen scope sources are the ONLY selector
+        # inputs; the reference-diff classification / test authority are
+        # MATERIALIZER (outcome-domain) inputs and must never flow into any
+        # selector, prompt or plan input.  Enforced by the allowlisted scope
+        # normalizer + the leakage tests; still a STATIC policy assertion,
+        # never a claim of runtime sandbox isolation.
+        "selector_input_domain": [
+            "frozen_scope_json"
         ],
+        "materializer_outcome_inputs": [
+            "classification_json_reference_diff",
+            "test_authority_json_census",
+            "junit_xml_receipts",
+            "behavioral_outcomes",
+            "gold_labels",
+        ],
+        "selector_never_consumes": [
+            "classification_json_reference_diff",
+            "test_authority_json_census",
+            "junit_xml_receipts",
+            "behavioral_outcomes",
+            "gold_labels",
+        ],
+        "classification_never_consumed_by_selector": (
+            "STATIC_ASSERTION: scope extraction reads ONLY the per-arm allowlisted "
+            "prediction field (see t12_m02_scope_normalizer.EXTRACTION_RULES); the "
+            "classification/test-authority artifacts appear ONLY in the materializer "
+            "argv (engine input), never in --scope-json or any plan/scope row"
+        ),
         "authority_boundary": (
             "adapter holds no credentials; route reference is configuration only; "
             "no request interface is ever executed by adapter code"
         ),
         "output_provenance": "manifest/dry-run/admission only; receipts are validated offline",
-        "note": "no dynamic leakage claim without a tested runtime isolation audit",
+        "note": "no dynamic leakage claim without a tested runtime isolation audit; "
+                "real call-graph/data-flow proof of the dry-run route is provided by "
+                "the scope-normalizer/classification modules and their tests",
     }
 
 

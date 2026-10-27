@@ -154,6 +154,24 @@ class TestNoOracleLeakage(unittest.TestCase):
         self.assertIn("junit_xml_receipts", r["selector_never_consumes"])
         self.assertNotIn("junit_xml_receipts", r["selector_input_domain"])
 
+    def test_m02d2_classification_isolated_from_selector_domain(self):
+        r = mod.structural_assertion_only()
+        # M02-D2: the red-flag lumping (frozen_classification_json inside the
+        # selector domain) is corrected: classification is a MATERIALIZER
+        # (outcome-domain) input, never a selector input.
+        self.assertNotIn("classification_json_reference_diff", r["selector_input_domain"])
+        self.assertNotIn("frozen_classification_json", r["selector_input_domain"])
+        self.assertIn("classification_json_reference_diff", r["materializer_outcome_inputs"])
+        self.assertIn("classification_json_reference_diff", r["selector_never_consumes"])
+        self.assertIn("test_authority_json_census", r["materializer_outcome_inputs"])
+        self.assertIn("classification_never_consumed_by_selector", r)
+        self.assertTrue(r["classification_never_consumed_by_selector"].startswith(
+            "STATIC_ASSERTION"))
+
+    def test_classification_status_is_derived_pending_rd8(self):
+        self.assertEqual(mod.CLASSIFICATION_INPUT_STATUS,
+                         "DERIVED_PROPOSED_PENDING_RD8_APPROVAL")
+
     def test_plan_scope_inputs_are_never_junit_paths(self):
         # deterministic: UNRESOLVED placeholders only (no machine paths)
         rows = mod.dry_run_plan(scope_base=Path(tempfile.mkdtemp(prefix="t12m02_empty_")))
