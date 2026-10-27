@@ -1,0 +1,65 @@
+diff --git a/saleor/app/installation_utils.py b/saleor/app/installation_utils.py
+--- a/saleor/app/installation_utils.py
++++ b/saleor/app/installation_utils.py
+@@ -298,12 +298,14 @@
+ 
+     _, token = app.tokens.create(name="Default token")  # type: ignore[call-arg] # calling create on a related manager # noqa: E501
+ 
+-    try:
+-        send_app_token(target_url=manifest_data.get("tokenTargetUrl"), token=token)
+-    except requests.RequestException as e:
+-        fetch_brand_data_async(manifest_data, app_installation=app_installation)
+-        app.delete()
+-        raise e
++    token_target_url = manifest_data.get("tokenTargetUrl")
++    if token_target_url:
++        try:
++            send_app_token(target_url=token_target_url, token=token)
++        except requests.RequestException as e:
++            fetch_brand_data_async(manifest_data, app_installation=app_installation)
++            app.delete()
++            raise e
+     PluginsManager(plugins=settings.PLUGINS).app_installed(app)
+     fetch_brand_data_async(manifest_data, app=app)
+     return app, token
+diff --git a/saleor/app/manifest_validations.py b/saleor/app/manifest_validations.py
+--- a/saleor/app/manifest_validations.py
++++ b/saleor/app/manifest_validations.py
+@@ -50,18 +50,22 @@
+     - url can start with '/' when one of these conditions is true:
+         a) extension.target == APP_PAGE
+         b) appUrl is provided
++        c) tokenTargetUrl is provided
+     - url cannot start with protocol when target == "APP_PAGE"
+     """
+     extension_url = extension["url"]
+ 
+-    # Assume app URL is the one that originally received the token.
+-    app_url = manifest_data.get("tokenTargetUrl")
+-
+-    if not app_url:
+-        raise ValidationError("Manifest is invalid, token_target_url is missing")
++    # Check if app URL or token target URL is provided
++    app_url = manifest_data.get("appUrl")
++    token_target_url = manifest_data.get("tokenTargetUrl")
+ 
+     # Only validate absolute URLs (with protocol)
+-    # Relative URLs (starting with '/') are allowed when tokenTargetUrl is provided
++    # Relative URLs (starting with '/') are allowed when appUrl or tokenTargetUrl is provided
++    if not extension_url.startswith("/") and not (app_url or token_target_url):
++        raise ValidationError(
++            "Manifest is invalid, appUrl or tokenTargetUrl is required when using absolute URLs"
++        )
++
+     if not extension_url.startswith("/"):
+         _clean_app_url(extension_url)
+ 
+@@ -294,7 +298,7 @@
+ 
+ 
+ def _validate_required_fields(manifest_data, errors):
+-    manifest_required_fields = {"id", "version", "name", "tokenTargetUrl"}
++    manifest_required_fields = {"id", "version", "name"}
+     extension_required_fields = {"label", "url", "mount"}
+     webhook_required_fields = {"name", "targetUrl", "query"}
+ 

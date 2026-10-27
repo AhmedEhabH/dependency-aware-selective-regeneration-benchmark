@@ -1,0 +1,40 @@
+{
+  "error": "EDIT_OLD_SNIPPET_NOT_UNIQUE_IN_CURRENT_FILE: saleor/app/manifest_validations.py",
+  "evaluator": "NOT_RUN",
+  "http_status": 200,
+  "model_calls_this_attempt": 1,
+  "model_requested": "qwen/qwen3-coder",
+  "model_returned": "qwen/qwen3-coder",
+  "patch_sha256": null,
+  "protocol_sha256": "8cc9399e39380609813788edb12cfe8138d6aea268698b3b5826490545a14464",
+  "provider_requested": "deepinfra/turbo",
+  "provider_returned": "DeepInfra",
+  "request_sha256": "719392bc4af73272c159bc98fa8ed12fd22ffaaaf53cbcd466d5358cc89721ca",
+  "retries": 0,
+  "schema": "t11_r9_a3_result_v1",
+  "status": "PATCH_QUALIFICATION_FAIL",
+  "usage": {
+    "completion_tokens": 640,
+    "completion_tokens_details": {
+      "audio_tokens": 0,
+      "image_tokens": 0,
+      "reasoning_tokens": 0
+    },
+    "cost": 0.0022147,
+    "cost_details": {
+      "upstream_inference_completions_cost": 0.00064,
+      "upstream_inference_cost": 0.0022147,
+      "upstream_inference_prompt_cost": 0.0015747
+    },
+    "is_byok": false,
+    "prompt_tokens": 5249,
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cache_write_tokens": 0,
+      "cached_tokens": 0,
+      "video_tokens": 0
+    },
+    "total_tokens": 5889
+  },
+  "wall_sec": 9.5917
+}
