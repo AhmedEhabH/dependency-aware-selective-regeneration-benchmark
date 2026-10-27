@@ -1,0 +1,19 @@
+{
+  "classification": "TEST_INFORMED_REPAIR_CONTROL_NOT_MODEL_PASS_AT_1",
+  "d3_repair_patch_sha256": null,
+  "d3_source_sha256": null,
+  "disclosures": [
+    "The repair used previously observed frozen F2P failures",
+    "Shared DB means physical repeats are not independent statistical replicates",
+    "Chosen P2P subset is not the full repository test suite",
+    "Security audit, mutation score and coverage remain unqualified"
+  ],
+  "f2p_stable_pass": null,
+  "official_A5_R1": "STOP",
+  "p2p_stable_pass": null,
+  "previous_D2_F2P_stable_pass": 1,
+  "previous_D2_P2P_stable_pass": 103,
+  "schema": "t11_d3_public_safe_summary_v1",
+  "status": "INFRASTRUCTURE_STOP_BEFORE_REPAIR",
+  "verified_invocations": null
+}

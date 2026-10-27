@@ -76,3 +76,9 @@ Original A3 diagnostic replay program and original A3 result receipt are preserv
 - Test-informed control D3 declared before running D3 E2E; original A5-R1 STOP and D2 frozen.
 - Sources and protocol committed as separate branch evidence. No generated D3 Saleor behavioral result yet.
 - D2 baseline 1/3 F2P, 103/103 P2P; D3 will require 3/3 and 103/103 stable.
+
+## D3 REPAIR CONTROL RESULT (2026-10-27)
+
+- D3 status: `INFRASTRUCTURE_STOP_BEFORE_REPAIR`. D3 is test-informed, NOT model pass@1.
+- F2P stable: `None/3`; P2P stable: `None/103`; complete physical invocations: `None`.
+- Raw test logs and environment secrets remain local. A5-R1 STOP preserved.
