@@ -138,16 +138,32 @@ class TestOptionBOnePhysicalExecutionPerArm(unittest.TestCase):
 
 
 class TestNoOracleLeakage(unittest.TestCase):
-    """(c) no JUnit/test-oracle leakage to selectors."""
+    """(c) no JUnit/test-oracle leakage to selectors (structural assertion)."""
+
+    def test_structural_assertion_report_is_not_constant_true(self):
+        r = mod.structural_assertion_only()
+        self.assertEqual(r["claim"], "STRUCTURAL_ASSERTION_ONLY")
+        self.assertEqual(r["runtime_isolation_verified"], "PENDING")
+        self.assertEqual(r["prompt_leakage_audit"], "PENDING")
+        self.assertNotIn("PASS", r["assessment"].upper() if "assessment" in r else "PENDING")
+        self.assertFalse(hasattr(mod, "results_are_outcome_domain_only"),
+                         "constant-True claim must be removed, not kept")
+
+    def test_selector_domain_never_includes_junit(self):
+        r = mod.structural_assertion_only()
+        self.assertIn("junit_xml_receipts", r["selector_never_consumes"])
+        self.assertNotIn("junit_xml_receipts", r["selector_input_domain"])
 
     def test_plan_scope_inputs_are_never_junit_paths(self):
-        rows = mod.dry_run_plan(Path("."))
+        # deterministic: UNRESOLVED placeholders only (no machine paths)
+        rows = mod.dry_run_plan(scope_base=Path(tempfile.mkdtemp(prefix="t12m02_empty_")))
         for r in rows:
             cmd = r["materialize_cmd"].lower()
             self.assertNotIn(".xml", cmd)
             self.assertNotIn("receipt", cmd)
             self.assertNotIn("junit", cmd)
             self.assertIn("--scope-json", cmd)
+            self.assertIn("--dry-run", cmd)
 
     def test_preflight_unaffected_by_junit_files(self):
         wt = _fake_worktree()
@@ -159,19 +175,13 @@ class TestNoOracleLeakage(unittest.TestCase):
         self.assertIn("FROZEN_WORKTREE_DRIFT", res_after["hard_stops"])
 
     def test_receipts_are_outcomes_not_inputs(self):
-        # receipts-check consumes JUnit XMLs as OUTPUT evidence only; the
-        # materialization plan inputs never point at the execution receipts dir.
-        with tempfile.TemporaryDirectory():
-            rows = mod.dry_run_plan(Path("."))
-            plan_inputs = set()
-            for r in rows:
-                for part in r["materialize_cmd"].split():
-                    if part.startswith("<") and part.endswith((".json>", '"')):
-                        plan_inputs.add(part)
-            self.assertTrue(all(p.endswith(".json>") for p in plan_inputs))
-        # the ordering guarantee is structural: JUnit receipts are produced
-        # only after scope selection; the adapter never reads *.xml for scope input.
-        self.assertTrue(mod.results_are_outcome_domain_only())
+        # receipts validators consume JUnit XMLs as OUTPUT evidence only; the
+        # materialization plan inputs never point at execution receipts dirs.
+        rows = mod.dry_run_plan(scope_base=Path(tempfile.mkdtemp(prefix="t12m02_empty_")))
+        for r in rows:
+            for part in r["materialize_cmd"].split():
+                if part.startswith("<") and (part.endswith(".json>") or part.endswith(">")):
+                    self.assertNotIn(".xml", part)
 
 
 class TestRefusalOfMismatchedHashes(unittest.TestCase):
@@ -297,24 +307,87 @@ class TestUnknownProviderUnsetBudget(unittest.TestCase):
         self.assertTrue(any("unknown arm" in e for e in va["errors"]))
 
     def test_valid_authorization_passes_schema(self):
-        auth = {"budget_usd": 10.0, "route": {"provider": "deepinfra/turbo", "model": "qwen/qwen3-coder",
-                                              "allow_fallbacks": False}, "arms": ["SIP", "NEG", "FULL_REFERENCE"],
-                "resource_window": "2026-11-02..2026-11-06", "approval_message_id": "sep-auth-1",
-                "tasks": [mod.FROZEN_TASK]}
-        self.assertTrue(mod.validate_authorization(auth)["ok"])
+        auth = {"budget_usd": 10.0,
+                "generation_api_budget_usd": 10.0,
+                "max_tokens": 65536, "max_wall_seconds": 7200,
+                "route": {"provider": "deepinfra/turbo", "model": "qwen/qwen3-coder",
+                          "allow_fallbacks": False}, "arms": ["SIP", "NEG", "FULL_REFERENCE"],
+                "resource_window": "2026-11-02T00:00:00Z..2026-11-06T00:00:00Z",
+                "approval_message_id": "sep-auth-1", "tasks": [mod.FROZEN_TASK]}
+        va = mod.validate_authorization(auth)
+        self.assertTrue(va["ok"], va["errors"])
+        self.assertEqual(va["scope"], "DECLARATIVE_SCHEMA_ONLY")
+        self.assertFalse(va["live_measured_resource_ownership"])
+        self.assertTrue(va["no_authorization_granted_by_validation"])
+
+    def _valid_auth(self, **overrides) -> dict:
+        auth = {"budget_usd": 10.0, "generation_api_budget_usd": 10.0,
+                "max_tokens": 65536, "max_wall_seconds": 7200,
+                "route": {"provider": "deepinfra/turbo", "model": "qwen/qwen3-coder",
+                          "allow_fallbacks": False},
+                "arms": ["SIP"], "resource_window": "2026-11-02T00:00:00Z..2026-11-06T00:00:00Z",
+                "approval_message_id": "sep-auth-x", "tasks": [mod.FROZEN_TASK]}
+        auth.update(overrides)
+        return auth
+
+    def test_zero_generation_api_requires_explicit_declaration(self):
+        va = mod.validate_authorization(self._valid_auth(budget_usd=0))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("generation_api_budget_usd=0" in e for e in va["errors"]))
+
+    def test_zero_generation_declaration_passes_reference_phase(self):
+        va = mod.validate_authorization(self._valid_auth(budget_usd=0, generation_api_budget_usd=0))
+        self.assertTrue(va["ok"], va["errors"])
+
+    def test_budget_over_cap_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(budget_usd=mod.FROZEN_MAX_GENERATION_BUDGET_USD + 1))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("cap" in e for e in va["errors"]))
+
+    def test_unbounded_tokens_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(max_tokens=None))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("max_tokens" in e for e in va["errors"]))
+
+    def test_unbounded_duration_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(max_wall_seconds=None))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("max_wall_seconds" in e for e in va["errors"]))
+
+    def test_duplicate_arms_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(arms=["SIP", "SIP"]))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("duplicate" in e for e in va["errors"]))
 
     def test_run_refuses_without_authorization(self):
         code = mod.main(["run", "--authorization", str(Path(".") / "missing_auth.json")])
         self.assertEqual(code, 2, "run must fail closed when no authorization file is readable")
 
+    def test_missing_tasks_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(tasks=None))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("tasks must be exactly" in e for e in va["errors"]))
+
+    def test_non_frozen_tasks_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(tasks=["other-task"]))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("tasks must be exactly" in e for e in va["errors"]))
+
+    def test_fake_free_text_window_rejected(self):
+        va = mod.validate_authorization(self._valid_auth(resource_window="sometime in november"))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("resource_window" in e for e in va["errors"]))
+
+    def test_window_end_before_start_rejected(self):
+        va = mod.validate_authorization(
+            self._valid_auth(resource_window="2026-11-06T00:00:00Z..2026-11-02T00:00:00Z"))
+        self.assertFalse(va["ok"])
+        self.assertTrue(any("after start" in e for e in va["errors"]))
+
     def test_run_refuses_design_gap_even_with_auth(self):
         with tempfile.TemporaryDirectory() as td:
             p = Path(td) / "auth.json"
-            p.write_text(json.dumps({"budget_usd": 10.0,
-                                     "route": {"provider": "deepinfra/turbo", "model": "qwen/qwen3-coder",
-                                               "allow_fallbacks": False},
-                                     "arms": ["SIP"], "resource_window": "2026-11-02..2026-11-06",
-                                     "approval_message_id": "sep-auth-2", "tasks": [mod.FROZEN_TASK]}),
+            p.write_text(json.dumps(self._valid_auth(approval_message_id="sep-auth-2")),
                          encoding="utf-8")
             code = mod.main(["run", "--authorization", str(p)])
             self.assertEqual(code, 5, "no frozen multi-node per-arm F2P driver: design gap, not a mock run")
@@ -449,6 +522,115 @@ class TestNoPseudoReplication(unittest.TestCase):
                          "changing the frozen node list must fail the pin")
         self.assertFalse(mod.check_f2p_nodes(mod.F2P_NODES + ["extra/node"]))
         self.assertEqual(mod.f2p_pin_status(), "EXTERNALLY_VERIFIED_PIN_COMPOSITION_UNDOCUMENTED")
+
+
+class TestAdmissionFailClosed(unittest.TestCase):
+    """(j) M02-D1: execution-admission preflight fails closed with typed STOPs
+    on missing worktree/inputs, tampered route and tampered file identity."""
+
+    def test_missing_worktree_is_typed_stop(self):
+        res = mod.preflight(Path(tempfile.mkdtemp()) / "absent",
+                            admission_required=True)
+        self.assertFalse(res["admission_ready"])
+        self.assertIn("REQUIRED_WORKTREE_MISSING", res["hard_stops"])
+        self.assertEqual(res["exit_code"], 4)
+
+    def test_missing_matrix_plan_route_are_typed_stops(self):
+        wt = _fake_worktree()
+        res = mod.preflight(wt, admission_required=True)
+        self.assertIn("REQUIRED_MATRIX_MISSING", res["hard_stops"])
+        self.assertIn("REQUIRED_PLAN_MISSING", res["hard_stops"])
+        self.assertIn("REQUIRED_ROUTE_MISSING", res["hard_stops"])
+        self.assertEqual(res["exit_code"], 4)
+
+    def test_diagnostic_mode_never_claims_admission(self):
+        """With a perfectly valid worktree but NO required inputs supplied,
+        the diagnostic preflight must never claim execution admission."""
+        wt = mod.FROZEN_WORKTREE_ROOT_DEFAULT
+        if not wt.is_dir():
+            self.skipTest("frozen worktree not present on this machine")
+        res = mod.preflight(wt)
+        self.assertEqual(res["hard_stops"], [])
+        self.assertFalse(res["admission_ready"])
+        self.assertTrue(res["incomplete_not_admission"])
+        self.assertEqual(res["exit_code"], 0)
+
+    def test_tampered_route_fails_admission(self):
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "route.json"
+            p.write_text(json.dumps({"model": "qwen/qwen3-coder",
+                                     "provider_order": ["deepinfra/turbo"],
+                                     "allow_fallbacks": False,
+                                     "endpoint": "https://openrouter.ai/api/v1/chat/completions"}),
+                             encoding="utf-8")  # not byte-identical to frozen ref
+            res = mod.preflight(Path("."), route_path=p, admission_required=True)
+            self.assertIn("ROUTE_PIN_MISMATCH", res["hard_stops"])
+            self.assertFalse(res["admission_ready"])
+
+    def test_admission_cli_exit_4_when_inputs_missing(self):
+        wt = _fake_worktree()
+        code = mod.main(["preflight", "--worktree", str(wt), "--admission-required"])
+        self.assertEqual(code, 4)
+
+    def test_gate_uses_admission_and_never_passes_on_missing_inputs(self):
+        pre = mod.preflight(Path(tempfile.mkdtemp()) / "absent", admission_required=True)
+        gates = mod.compute_gates(pre)
+        self.assertEqual(gates["verdict"], "STOP")
+        self.assertEqual(gates["gates"]["preflight_admission"], "INCOMPLETE_NOT_ADMISSION")
+
+    def test_file_identity_tamper_detected(self):
+        # running under a fake worktree: stage file content hash must match the
+        # frozen pin; a replaced file must flip stage_hash_pins_ok.
+        wt = _fake_worktree()
+        res = mod.preflight(wt)
+        self.assertFalse(res["stage_hash_pins_ok"])
+        self.assertIn("FROZEN_WORKTREE_DRIFT", res["hard_stops"])
+
+
+class TestScopeSourcePins(unittest.TestCase):
+    """(k) M02-D1: frozen per-arm scope/classification source pins."""
+
+    def test_all_13_arms_have_scope_source_entries(self):
+        arms = {a["arm_id"] for a in mod.load_arms()}
+        self.assertEqual(set(mod.ARM_SCOPE_SOURCES), arms)
+
+    def test_scope_sources_have_pins_or_derived_marker(self):
+        for arm_id, pin in mod.ARM_SCOPE_SOURCES.items():
+            self.assertIn("sha256", pin)
+            if pin["kind"] == "DERIVED_CONTROL":
+                self.assertIsNone(pin["sha256"])
+            else:
+                self.assertTrue(pin["sha256"], f"{arm_id} lacks a byte pin")
+
+    def test_alias_pair_has_same_effective_scope_pin(self):
+        self.assertIsNotNone(mod.ARM_SCOPE_SOURCES["AGENTLESS_STYLE_ADAPTATION"]["sha256"])
+        self.assertIsNotNone(mod.ARM_SCOPE_SOURCES["BM25_K3"]["sha256"])
+
+    def test_resolve_scope_source_missing_arm(self):
+        r = mod.resolve_scope_source("NOT_AN_ARM")
+        self.assertEqual(r["reason"], "UNKNOWN_ARM")
+
+    def test_derived_controls_resolve_as_derived(self):
+        for arm in ("NEG", "FULL_REFERENCE"):
+            r = mod.resolve_scope_source(arm)
+            self.assertTrue(r["present"])
+            self.assertTrue(r["match"])
+            self.assertEqual(r["reason"], "DERIVED_CONTROL")
+
+    def test_scope_source_drift_stops_dry_run_marker(self):
+        with tempfile.TemporaryDirectory() as td:
+            rows = mod.dry_run_plan(scope_base=Path(td))
+            by_arm = {r["arm_id"]: r for r in rows}
+            self.assertEqual(by_arm["SIP"]["materialize_inputs"], "MATERIALIZE_INPUTS_UNRESOLVED")
+            self.assertEqual(by_arm["NEG"]["materialize_inputs"], "MATERIALIZE_INPUTS_DERIVED")
+
+    def test_real_frozen_scope_sources_resolve_when_present(self):
+        """Machine-dependent: byte-verifies the frozen sources when this host
+        carries them (2026-10-27 verified); skips elsewhere."""
+        r = mod.resolve_scope_source("SIP")
+        if not r["present"]:
+            self.skipTest("frozen scope sources not present on this machine")
+        self.assertTrue(r["match"], "SIP scope source must byte-match the frozen pin")
 
 
 class TestCliSanity(unittest.TestCase):

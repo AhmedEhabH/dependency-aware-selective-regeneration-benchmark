@@ -104,6 +104,124 @@ STAGE_HASH_PINS = {
 # here as FAILURE without fake assertion-type introspection).
 CONTROL_EXPECTED_JUNIT = {"NEG": "FAILURE", "FULL_REFERENCE": "PASS", "RM_CSS": "PASS"}
 
+# --------------------------------------------------------------------------
+# Frozen per-arm scope/classification input pins (M02-D1, verified 2026-10-27)
+#
+# Source of truth: the frozen EFFECTIVE_PATCH_PLAN_219.json ``arm_status``
+# records per arm the ``scope_source`` path and byte pin ``source_sha256``.
+# These are the SELECTOR (scope) inputs ONLY; they are frozen prediction
+# files, never behavioral outcomes.  Paths were verified on this machine and
+# all pins marked MATCH reproduce byte-for-byte (2026-10-27).
+# --------------------------------------------------------------------------
+FROZEN_WORKTREE_ROOT_DEFAULT = Path(r"D:\WP2\active\opws-runtime-compat-2026-10-26")
+FROZEN_SOURCE_SALEOR_REPO = Path(
+    r"C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355",
+    "project", "dist", "pilot-repo-cache", "saleor",
+)
+ARM_SCOPE_SOURCES: dict[str, dict[str, Any]] = {
+    "SIP": {
+        "source": "research/wp1a/sip_rmcss_per_task_predictions.json",
+        "sha256": "76f16217f11043338ebfeb2c402bc4eaef8e6673394d93232fc41ddb21123e8f",
+        "kind": "PREDICTION_FILE",
+    },
+    "DENSE_K3": {
+        "source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+        "sha256": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed",
+        "kind": "PREDICTION_FILE",
+    },
+    "DENSE_K10": {
+        "source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+        "sha256": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed",
+        "kind": "PREDICTION_FILE",
+    },
+    "BM25_K10": {
+        "source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+        "sha256": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed",
+        "kind": "PREDICTION_FILE",
+    },
+    "BM25_TO_CIA_1HOP": {
+        "source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+        "sha256": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed",
+        "kind": "PREDICTION_FILE",
+    },
+    "SELECT_ALL": {
+        "source": "benchmark_data/real_commit_impact_saleor/scientific/<task_id>/public/candidate_universe.json",
+        # byte pin of the PILOT task candidate universe (2026-10-27 hash).
+        "sha256": "38b4db0ef99d09b586219f983ba4f63bb56b2fe2d6fa4e2a6f86fad7b4d7c9e3",
+        "kind": "UNIVERSE_FILE",
+    },
+    "GOLD": {
+        "source": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+        "sha256": "d4ecdb7de555e0943c726a5e9ec0bfc7854515aba4406883f164697e39056e43",
+        "kind": "PREDICTION_FILE",
+    },
+    "RM_CSS": {
+        "source": "research/wp1a/sip_rmcss_per_task_predictions.json",
+        "sha256": "76f16217f11043338ebfeb2c402bc4eaef8e6673394d93232fc41ddb21123e8f",
+        "kind": "PREDICTION_FILE",
+    },
+    "AGENT": {
+        "source": "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json",
+        "sha256": "c0b85dc7170327f283c977116e46d0deec0a2907d172137349b9b3dac3abc743",
+        "kind": "PREDICTION_FILE",
+    },
+    "AGENTLESS_STYLE_ADAPTATION": {
+        "source": "D:/wp2_agentless_main297/research/competitor-agentless-r1/agentless_r1_prediction_freeze.json",
+        "sha256": "90495bbb2c8d66a2c9a079cb2dfcd6e1cbf929c01972f1331df4242cdabd9815",
+        "kind": "PREDICTION_FILE",
+    },
+    "BM25_K3": {
+        "source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+        "sha256": "601e9c192aaee7748f33996d55712ad4cb5a3c04c98125feac6ebf345d59c6ed",
+        "kind": "PREDICTION_FILE",
+    },
+    "NEG": {
+        "source": "derived-control:empty-scope", "sha256": None, "kind": "DERIVED_CONTROL",
+    },
+    "FULL_REFERENCE": {
+        "source": "materialize_full_reference", "sha256": None, "kind": "DERIVED_CONTROL",
+    },
+}
+# No frozen byte-pinned per-arm classification JSON exists on disk (verified
+# 2026-10-27); the materializer's --classification-json argument therefore
+# stays UNRESOLVED for the reference-transfer phase until re-pinned.
+CLASSIFICATION_INPUT_STATUS = "UNRESOLVED"
+
+
+def resolve_scope_source(arm_id: str, base: Path | None = None) -> dict:
+    """Resolve + byte-verify one arm's frozen scope source (never reads content).
+
+    Returns a report dict; reads happen ONLY for hashing.  Content of the
+    frozen prediction files is never printed or stored (no label exposure).
+    """
+    pin = ARM_SCOPE_SOURCES.get(arm_id)
+    if pin is None:
+        return {"arm_id": arm_id, "path": None, "present": False,
+                "match": None, "reason": "UNKNOWN_ARM"}
+    src = pin["source"]
+    if pin["kind"] == "DERIVED_CONTROL":
+        return {"arm_id": arm_id, "path": None, "present": True, "match": True,
+                "reason": "DERIVED_CONTROL", "kind": pin["kind"], "source": src}
+    path = Path(src)
+    if not path.is_absolute():
+        base = base or FROZEN_WORKTREE_ROOT_DEFAULT
+        path = base / src
+    if "<task_id>" in src:
+        path = Path(str(path).replace("<task_id>", FROZEN_TASK))
+    if not path.is_file():
+        return {"arm_id": arm_id, "path": str(path), "present": False,
+                "match": None, "reason": "FILE_NOT_FOUND",
+                "kind": pin["kind"], "source": src}
+    dig = sha256_file(path)
+    if pin["sha256"] is None:
+        return {"arm_id": arm_id, "path": str(path), "present": True,
+                "match": True, "reason": "UNPINNED_SOURCE",
+                "kind": pin["kind"], "source": src, "sha256": dig}
+    return {"arm_id": arm_id, "path": str(path), "present": True,
+            "match": dig == pin["sha256"], "reason": "PIN_MATCH" if dig == pin["sha256"] else "PIN_DRIFT",
+            "kind": pin["kind"], "source": src, "sha256": dig}
+
+
 # Frozen 13-arm identity rows, verbatim from EXECUTION_IDENTITY_MATRIX.csv
 # (matrix sha c7a81b06…).  Field order follows the frozen CSV.
 # arm_id, order, effective_tree_oid, scope_hash, reference_patch_sha256,
@@ -408,15 +526,31 @@ def execution_id_for(arm_id: str, run_token: str) -> str:
     return sha256_join([SCHEMA, arm_id, run_token, FROZEN_TASK])[:16]
 
 
-def results_are_outcome_domain_only() -> bool:
-    """Structural leakage guarantee (requirement c): scope selection inputs are
-    frozen scope/classification JSON only; JUnit receipts are produced strictly
-    AFTER scope selection and are never consumed as selector inputs."""
-    # The adapter's materialization plan takes scope-json / classification-json
-    # inputs only.  receipts-check() consumes *.xml evidence in the opposite
-    # direction (outcome verification) and shares no path domain with the
-    # selector input classes.
-    return True
+def structural_assertion_only() -> dict:
+    """Scoped, verifiable leakage-policy report (replaces the former constant-True
+    ``results_are_outcome_domain_only()`` claim).
+
+    Returns a STRUCTURAL_ASSERTION_ONLY policy statement.  It asserts what is
+    statically provable offline (selector input domain, authority boundary,
+    output provenance) and marks everything that would require a runtime
+    isolation audit as PENDING.  It never claims runtime isolation proof.
+    """
+    return {
+        "claim": "STRUCTURAL_ASSERTION_ONLY",
+        "runtime_isolation_verified": "PENDING",
+        "prompt_leakage_audit": "PENDING",
+        "selector_input_domain": ["frozen_scope_json", "frozen_classification_json"],
+        "selector_never_consumes": [
+            "junit_xml_receipts", "behavioral_outcomes", "gold_labels",
+        ],
+        "authority_boundary": (
+            "adapter holds no credentials; route reference is configuration only; "
+            "no request interface is ever executed by adapter code"
+        ),
+        "output_provenance": "manifest/dry-run/admission only; receipts are validated offline",
+        "note": "no dynamic leakage claim without a tested runtime isolation audit",
+    }
+
 
 
 def no_pseudo_replication() -> dict:
@@ -541,15 +675,60 @@ def receipts_check(run_dir: Path, expected_map: dict | None = None) -> dict:
 # --------------------------------------------------------------------------
 # gate / authorization
 # --------------------------------------------------------------------------
+def _parse_window(window: str) -> tuple[datetime.datetime, datetime.datetime] | None:
+    try:
+        start_s, end_s = window.split("..")
+        start = datetime.datetime.strptime(start_s, "%Y-%m-%dT%H:%M:%SZ")
+        end = datetime.datetime.strptime(end_s, "%Y-%m-%dT%H:%M:%SZ")
+    except Exception:
+        return None
+    return start, end
+
+
+FROZEN_MAX_GENERATION_BUDGET_USD = 100.0
+
+
 def validate_authorization(auth: dict) -> dict:
-    """Fail-closed schema for a separate M02 execution authorization.
+    """Fail-closed DECLARATIVE authorization schema (v2, M02-D1 hardened).
 
     The scientific route is pinned: qwen/qwen3-coder @ deepinfra/turbo,
-    allow_fallbacks=false.  Anything else, or missing budget, is a STOP.
+    allow_fallbacks=false.  Anything else, missing tasks, duplicate/unknown
+    arms, unbounded USD/token/duration budgets, or a fake exclusive-window
+    string is a STOP.  A schema PASS here is DECLARATIVE only: it NEVER grants
+    live authorization, never measures resource ownership, and never substitutes
+    for per-request provider receipts.
     """
     errors = []
-    if not isinstance(auth.get("budget_usd"), (int, float)) or auth["budget_usd"] <= 0:
-        errors.append("budget_usd must be a positive number (experimental API budget defaults to USD 0; no free ride)")
+    tasks = auth.get("tasks")
+    if tasks != [FROZEN_TASK]:
+        errors.append(
+            f"tasks must be exactly [{FROZEN_TASK}] (frozen pilot); "
+            "absent/empty/extra/non-frozen rejected")
+    arms = auth.get("arms") or []
+    frozen_ids = {a["arm_id"] for a in load_arms()}
+    if not arms:
+        errors.append("arms list must be non-empty (exact arm list/task IDs from researcher)")
+    if len(arms) != len(set(arms)):
+        errors.append("duplicate arm ids rejected")
+    unknown = sorted(set(arms) - frozen_ids)
+    if unknown:
+        errors.append(f"unknown arm ids: {unknown}")
+    budget = auth.get("budget_usd")
+    if not isinstance(budget, (int, float)) or budget < 0:
+        errors.append("budget_usd must be a non-negative number")
+    elif budget == 0:
+        if auth.get("generation_api_budget_usd") != 0:
+            errors.append(
+                "zero benchmark budget requires an explicit generation_api_budget_usd=0 "
+                "declaration (reference-patch phase), kept distinct from Qwen generation")
+    else:
+        if budget > FROZEN_MAX_GENERATION_BUDGET_USD:
+            errors.append(
+                f"budget_usd exceeds the frozen cap {FROZEN_MAX_GENERATION_BUDGET_USD:g}")
+    if not isinstance(auth.get("max_tokens"), int) or auth["max_tokens"] <= 0:
+        errors.append("max_tokens must be an explicit positive integer bound")
+    if not isinstance(auth.get("max_wall_seconds"), (int, float)) or auth["max_wall_seconds"] <= 0:
+        errors.append("max_wall_seconds must be an explicit positive bound (duration cap)")
     route = auth.get("route") or {}
     if route.get("provider") != "deepinfra/turbo":
         errors.append(f"provider must be deepinfra/turbo, got {route.get('provider')!r}")
@@ -557,21 +736,23 @@ def validate_authorization(auth: dict) -> dict:
         errors.append(f"model must be qwen/qwen3-coder, got {route.get('model')!r}")
     if route.get("allow_fallbacks") is not False:
         errors.append("allow_fallbacks must be false")
-    arms = auth.get("arms") or []
-    frozen_ids = {a["arm_id"] for a in load_arms()}
-    unknown = sorted(set(arms) - frozen_ids)
-    if unknown:
-        errors.append(f"unknown arm ids: {unknown}")
-    if not arms:
-        errors.append("arms list must be non-empty (exact arm list/task IDs from researcher)")
-    if not auth.get("resource_window"):
-        errors.append("confirmed exclusive resource window required")
+    window = auth.get("resource_window")
+    parsed = _parse_window(window) if isinstance(window, str) else None
+    if parsed is None:
+        errors.append("resource_window must be an ISO-8601 UTC pair 'YYYY-MM-DDTHH:MM:SSZ..YYYY-MM-DDTHH:MM:SSZ'")
+    elif not (parsed[1] > parsed[0]):
+        errors.append("resource_window end must be after start")
     if not auth.get("approval_message_id"):
         errors.append("separate explicit researcher execution authorization message id required")
-    tasks = auth.get("tasks") or []
-    if tasks and tasks != [FROZEN_TASK]:
-        errors.append(f"tasks must be exactly [{FROZEN_TASK}] for the frozen pilot")
-    return {"ok": not errors, "errors": errors}
+    return {
+        "ok": not errors,
+        "errors": errors,
+        "scope": "DECLARATIVE_SCHEMA_ONLY",
+        "live_measured_resource_ownership": False,
+        "live_provider_receipts": "NOT_MEASURED",
+        "no_authorization_granted_by_validation": True,
+    }
+
 
 
 def compute_gates(preflight_result: dict, auth: dict | None = None) -> dict:
@@ -590,12 +771,13 @@ def compute_gates(preflight_result: dict, auth: dict | None = None) -> dict:
             "runner_13_arm_driver") == "MISSING" else "PASS"),
         "S5_S6_S7_frozen_population": "UNRESOLVED",
         "runtime_prompt_leakage_audit": "PENDING",
+        "preflight_admission": (
+            "EXECUTION_READY" if preflight_result.get("admission_ready")
+            else "INCOMPLETE_NOT_ADMISSION"),
     }
     gates = dict(ok_map)
-    if auth is not None:
-        va = validate_authorization(auth)
-        gates["A7_bounded_m02e_execution_authorization"] = "PASS" if va["ok"] else "STOP"
-        gates["A3_request_level_provider_receipts"] = "PENDING"  # request-level receipts only exist after execution
+    if not preflight_result.get("admission_ready"):
+        gates["A2_frozen_m01d_integrity"] = "STOP"
     if auth is not None:
         va = validate_authorization(auth)
         gates["A7_bounded_m02e_execution_authorization"] = "PASS" if va["ok"] else "STOP"
@@ -612,8 +794,18 @@ def compute_gates(preflight_result: dict, auth: dict | None = None) -> dict:
 # preflight
 # --------------------------------------------------------------------------
 def preflight(worktree: Path, matrix_path: Path | None = None,
-              plan_path: Path | None = None, route_path: Path | None = None) -> dict:
-    """Read-only environment/identity verification.  Never writes to worktree."""
+              plan_path: Path | None = None, route_path: Path | None = None,
+              admission_required: bool = False) -> dict:
+    """Read-only environment/identity verification.  Never writes to worktree.
+
+    Admission mode (``admission_required=True``) FAILS CLOSED with typed
+    hard stops if the worktree, matrix, plan, route, frozen stage scripts,
+    revision or test nodes are absent or mismatched — an execution-admission
+    result is never executable unless admission_ready is True.  The default
+    diagnostic mode keeps inputs optional but marks the result
+    INCOMPLETE_NOT_ADMISSION whenever anything required is missing, so an
+    optional diagnostic can never be interpreted as execution-ready.
+    """
     result: dict[str, Any] = {
         "worktree_present": worktree.is_dir(),
         "worktree_head": None,
@@ -627,6 +819,12 @@ def preflight(worktree: Path, matrix_path: Path | None = None,
         "f2p_nodes_ok": check_f2p_nodes(F2P_NODES),
         "matrix_arithmetic": matrix_arithmetic(),
         "runner_13_arm_driver": "MISSING",
+        "required_inputs": {
+            "worktree": worktree.is_dir(),
+            "matrix": matrix_path is not None,
+            "plan": plan_path is not None,
+            "route": route_path is not None,
+        },
         "gates": {},
     }
     if result["worktree_present"]:
@@ -650,7 +848,23 @@ def preflight(worktree: Path, matrix_path: Path | None = None,
     if route_path is not None:
         result["route_hash_ok"], result["route_pin_ok"], result["route_pin"] = check_route_file(route_path)
     hard = []
-    if result["worktree_present"] and (not result["worktree_head_match"] or not result["stage_hash_pins_ok"]):
+    if admission_required:
+        if not result["worktree_present"]:
+            hard.append("REQUIRED_WORKTREE_MISSING")
+        if matrix_path is None:
+            hard.append("REQUIRED_MATRIX_MISSING")
+        if plan_path is None:
+            hard.append("REQUIRED_PLAN_MISSING")
+        if route_path is None:
+            hard.append("REQUIRED_ROUTE_MISSING")
+        if not result["f2p_nodes_ok"]:
+            hard.append("F2P_NODE_LIST_HASH_MISMATCH")
+        missing_stages = [rel for rel, st in result["stage_hash_pins"].items()
+                          if st["actual"] is None]
+        if missing_stages:
+            hard.append("STAGE_HASH_PINS_MISSING: " + ",".join(missing_stages))
+    if result["worktree_present"] and (not result["worktree_head_match"]
+                                        or not result["stage_hash_pins_ok"]):
         hard.append("FROZEN_WORKTREE_DRIFT")
     if matrix_path is not None and not result["matrix_hash_ok"]:
         hard.append("MATRIX_HASH_MISMATCH")
@@ -661,6 +875,19 @@ def preflight(worktree: Path, matrix_path: Path | None = None,
     if not result["f2p_nodes_ok"]:
         hard.append("F2P_NODE_LIST_HASH_MISMATCH")
     result["hard_stops"] = hard
+    result["admission_ready"] = (
+        result["worktree_present"]
+        and result["worktree_head_match"]
+        and result["stage_hash_pins_ok"]
+        and result["matrix_hash_ok"] is True
+        and result["plan_hash_ok"] is True
+        and result["route_hash_ok"] is True
+        and result["route_pin_ok"] is True
+        and result["f2p_nodes_ok"]
+        and not hard
+    )
+    result["diagnostic_only"] = not result["admission_ready"] and not hard
+    result["incomplete_not_admission"] = result["diagnostic_only"]
     result["exit_code"] = 4 if hard else 0
     return result
 
@@ -668,27 +895,43 @@ def preflight(worktree: Path, matrix_path: Path | None = None,
 # --------------------------------------------------------------------------
 # dry-run plan
 # --------------------------------------------------------------------------
-def dry_run_plan(_worktree: Path, materializer: str = "scripts/opws_phase3b_patch_materialize.py",
-                 scope_json_placeholder: str = "<FROZEN_SCOPE_JSON><arm_id>.json") -> list[dict]:
-    """Deterministic per-arm plan.  No execution; no writes to worktree.
+def dry_run_plan(_worktree: Path | None = None,
+                 materializer: str = "scripts/opws_phase3b_patch_materialize.py",
+                 scope_base: Path | None = None) -> list[dict]:
+    """Deterministic per-arm plan using the frozen, byte-pinned scope sources.
 
-    Honest availability markers:
-      * MATERIALIZE_INPUTS_FROZEN   — scope/classification JSON path pinned by hash
-      * MATERIALIZE_INPUTS_UNRESOLVED — per-arm scope path list not present in kit
-      * F2P_EXECUTION_DRIVER=GAP     — no frozen multi-node per-arm F2P driver exists
+    No execution; no writes to worktree.  Uses ONLY flags verified by source
+    inspection of the frozen materializer (M02-D1 contract reads).  Honest
+    availability markers:
+      * MATERIALIZE_INPUTS_FROZEN   — scope JSON present and pin matches
+      * MATERIALIZE_INPUTS_DERIVED  — NEG/FULL_REFERENCE derived controls
+      * MATERIALIZE_INPUTS_UNRESOLVED — scope source missing or drift
+      * --classification-json       — always marked UNRESOLVED (no frozen
+        byte-pinned per-arm classification JSON exists on disk; verified)
+      * F2P_EXECUTION_DRIVER=GAP     — no frozen multi-node per-arm F2P driver
       * P2P_ENGINE_AVAILABLE         — wp2_p2p_u_v2_exec.py --cap 200|400 exists
     """
     rows = []
+    base = scope_base or FROZEN_WORKTREE_ROOT_DEFAULT
     for arm in load_arms():
-        scope_json = scope_json_placeholder.replace("<arm_id>", arm["arm_id"])
+        pin = resolve_scope_source(arm["arm_id"], base=base)
+        if pin["kind"] == "DERIVED_CONTROL":
+            scope_json = pin["source"]
+            inputs_status = "MATERIALIZE_INPUTS_DERIVED"
+        elif pin["present"] and pin["match"]:
+            scope_json = pin["path"]
+            inputs_status = "MATERIALIZE_INPUTS_FROZEN"
+        else:
+            scope_json = f"<UNRESOLVED:{pin['reason']}>"
+            inputs_status = "MATERIALIZE_INPUTS_UNRESOLVED"
         posed_cmd = [
             "python", materializer,
-            "--repo", "<FROZEN_GIT_REPO>",
+            "--repo", "<FROZEN_SOURCE_GIT_REPO>",
             "--parent", FROZEN_PARENT,
             "--target", FROZEN_TARGET,
             "--task-id", FROZEN_TASK,
             "--scope-json", scope_json,
-            "--classification-json", f"{scope_json}.classification.json",
+            "--classification-json", "<UNRESOLVED:no-frozen-per-arm-classification-json>",
             "--dry-run",
         ]
         rows.append({
@@ -697,16 +940,22 @@ def dry_run_plan(_worktree: Path, materializer: str = "scripts/opws_phase3b_patc
             "tree_oid": arm["effective_tree_oid"],
             "materialize_cmd": " ".join(posed_cmd),
             "materialize_engine": "AVAILABLE",
-            "materialize_inputs": "UNRESOLVED" if scope_json.startswith("<") else "FROZEN",
+            "materialize_inputs": inputs_status,
+            "scope_pin": pin["match"],
+            "scope_source": pin.get("source"),
+            "classification_input": CLASSIFICATION_INPUT_STATUS,
             "execute_driver": "INTEGRATION_GAP",
             "execute_note": (
                 "no frozen multi-node per-arm F2P driver; wp2_m3b_runner_smoke.py is a "
-                "single-node smoke; controlled requalification for NEG/FULL_REFERENCE/RM_CSS "
-                "requires fresh M02-e runs (R7 receipts are historical, never reused)"
+                "single-node smoke; run_state_v3 provides fresh unique DB + 3x per "
+                "changed test file, but a 13-arm orchestrator with Option B isolation "
+                "is not frozen; controlled requalification requires fresh M02-e runs "
+                "(R7 receipts are historical, never reused)"
             ),
             "expected_junit": CONTROL_EXPECTED_JUNIT.get(arm["arm_id"], "UNKNOWN"),
             "junit_count_plan": JUNIT_COUNT_PER_ARM_PILOT,
-            "p2p_engine": "wp2_p2p_u_v2_exec.py --cap 200|400 (requires budget decision; NOT_RUN until authorized)",
+            "p2p_engine": ("wp2_p2p_u_v2_exec.py --task <TID> --cap 200|400 "
+                            "(requires budget decision; NOT_RUN until authorized)"),
             "status": "NOT_RUN",
             "model_usd": 0.0,
         })
@@ -725,6 +974,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--matrix", default=None)
     p.add_argument("--plan", default=None)
     p.add_argument("--route", default=None)
+    p.add_argument("--admission-required", action="store_true",
+                   help="fail closed (exit 4) on any missing/mismatched admission input")
     p.add_argument("--json", action="store_true")
 
     p = sub.add_parser("dry-run", help="emit deterministic per-arm plan + NOT_RUN manifest")
@@ -756,7 +1007,8 @@ def main(argv: list[str] | None = None) -> int:
         res = preflight(Path(args.worktree),
                         Path(args.matrix) if args.matrix else None,
                         Path(args.plan) if args.plan else None,
-                        Path(args.route) if args.route else None)
+                        Path(args.route) if args.route else None,
+                        admission_required=args.admission_required)
         if args.json:
             print(json.dumps(res, indent=2, default=str))
         else:
@@ -775,15 +1027,18 @@ def main(argv: list[str] | None = None) -> int:
             if res["hard_stops"]:
                 print("  HARD_STOPS: " + ", ".join(res["hard_stops"]))
                 return int(res["exit_code"])
-            print("  NO_HARD_STOPS (PENDING gates remain; execution NOT authorized)")
-        return 0 if not res["hard_stops"] else int(res["exit_code"])
+            if res["admission_ready"]:
+                print("  EXECUTION_ADMISSION_READY (gates remain; execution NOT authorized)")
+            else:
+                print("  INCOMPLETE_NOT_ADMISSION (diagnostic only; execution NOT authorized)")
+        return int(res["exit_code"])
 
     if args.command == "dry-run":
-        plan = dry_run_plan(Path(args.worktree))
+        plan = dry_run_plan(Path(args.worktree) if args.worktree else None)
         for row in plan:
             print(f"{row['frozen_order']:>2} {row['arm_id']:<26} status={row['status']:<7} "
                   f"execute={row['execute_driver']:<15} junit_plan={row['junit_count_plan']} "
-                  f"expected={row['expected_junit']}")
+                  f"inputs={row['materialize_inputs']} expected={row['expected_junit']}")
         if args.out:
             rows = build_manifest_rows()
             write_manifest_csv(Path(args.out), rows)
@@ -815,7 +1070,8 @@ def main(argv: list[str] | None = None) -> int:
         pre = preflight(Path(args.worktree),
                         Path(args.matrix) if args.matrix else None,
                         Path(args.plan) if args.plan else None,
-                        Path(args.route) if args.route else None)
+                        Path(args.route) if args.route else None,
+                        admission_required=True)
         auth = None
         if args.auth:
             auth = json.loads(Path(args.auth).read_text(encoding="utf-8"))
