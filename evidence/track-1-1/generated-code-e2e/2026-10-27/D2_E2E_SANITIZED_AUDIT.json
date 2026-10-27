@@ -1,0 +1,75 @@
+{
+  "schema": "t11_d2_e2e_sanitized_milestone_20261027_v1",
+  "origin": "independent audit of researcher-provided original ZIP; see exact archive hash",
+  "task": "saleor-rc-7e42fc67ce72",
+  "classification": "D2_POST_HOC_DIAGNOSTIC_ONLY",
+  "original_A5_R1_status": "PATCH_QUALIFICATION_FAIL_NO_RETRY",
+  "D2_patch_sha256": "de027cdf63d9badf221fd6ec0807a0425aa54a4e8c5da005629f1c69f396277f",
+  "frozen_NEG_tree_oid": "65cd0b6e07e73c102ae600fea0fabea827b7fe29",
+  "raw_evidence_zip_name": "T11_D2_RESUME_E2E_20261027T183920378Z.zip",
+  "raw_evidence_zip_sha256": "b3327793e5c926d6621bbb694fa231fb5a35f535e62d89112b5bf832f472463a",
+  "original_JUnit_audit_sha256": "02b1779cb21bc10d659d77fc06a82b1e03ad7a5ec6b1ac9e08aea34175ba02c7",
+  "raw_archive_files_manifest_verified": 648,
+  "physical_pytest_invocations": {
+    "expected": 318,
+    "verified": 318,
+    "pass": 312,
+    "fail": 6,
+    "error": 0,
+    "skip": 0
+  },
+  "f2p": {
+    "distinct": 3,
+    "stable_pass": 1,
+    "stable_fail": 2,
+    "physical_pass": 3,
+    "physical_fail": 6,
+    "physical_invocations": 9,
+    "mixed_repetition_nodes": 0
+  },
+  "p2p": {
+    "distinct": 103,
+    "stable_pass": 103,
+    "stable_fail": 0,
+    "physical_pass": 309,
+    "physical_fail": 0,
+    "physical_invocations": 309,
+    "mixed_repetition_nodes": 0
+  },
+  "f2p_failed_nodes": [
+    {
+      "node": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided",
+      "reason": "app.tokens.count() was 1, expected 0; code creates default token before conditional send",
+      "repeated_failures": 3
+    },
+    {
+      "node": "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url",
+      "reason": "expected ValidationError for relative new_tab extension URL with appUrl absent; no exception raised",
+      "repeated_failures": 3
+    }
+  ],
+  "environment": {
+    "docker_image_id": "sha256:a6e743589b60a4c15676eece07f52ed8347dc501bc782cc53ddffb7200d06c4c",
+    "uv_lock_sha256": "a4c21a2deb52e20e52b691857fd5adae8f130e6844626c18b3aaebc688eb2d66",
+    "hashed_requirements_sha256": "4490925a48929830c920ff01dd77ee34c9d1358fb60d64dba4ea24861da8dd49",
+    "preparation_receipt_sha256": "4094dc06e834daadc309544de1e7fa2baebbc1f35fb8fcd626f6106239a96611",
+    "python": "3.12.15",
+    "pytest": "8.4.2",
+    "isolation": "fresh Postgres, Docker internal network; measured run stdout indicates external egress blocked"
+  },
+  "runtime": {
+    "runner_reported_total_wall_seconds": 5584,
+    "sum_f2p_per_invocation_wall_seconds": 301.81,
+    "sum_p2p_per_invocation_wall_seconds": 5583.2,
+    "timing_warning": "Cumulative per-invocation wall-time fields exceed the reported whole-run wall-time; do not treat the cumulative figure as benchmark runtime until reconciled."
+  },
+  "limits": [
+    "JUnit validates test outcomes, not full provenance or all functional behavior",
+    "Three physical repetitions share environment and are not statistically independent",
+    "Frozen F2P and P2P nodes are a selected subset, not proof of universal correctness",
+    "No retrospective promotion of A5-R1 to success",
+    "No newer model generation call during this evaluator",
+    "Results derive from a single task and post-hoc edited model response"
+  ],
+  "raw_evidence_retention": "KEEP_PRIVATE (test logs contain a synthetic auth token; do not publish original raw ZIP or stdout/stderr files)."
+}

@@ -60,3 +60,13 @@ Original A3 diagnostic replay program and original A3 result receipt are preserv
 - Read-only WSL discovery log: `CACHE_DISCOVERY.log` SHA-256 `edde9441aa24c633541ecac8f37b67de8a646a5bdb599e80a8df957499459ace`. Found `amqp-5.1.1` in a 372-file wheelhouse, but a candidate `amqp-5.3.1.dist-info` plus package and uv cache index at `/opt/wp2_v2/m17-env/uv-cache`. Package metadata and full closure still unverified.
 - Next: read-only integrity gate; then evaluator-only uv-cache mount with fresh isolated DB and no external network; then exact F2P followed by P2P. Frozen A5-R1 STOP, D2 classification, model call counts and scientific receipts remain unchanged.
 - This is a **dependency-source scope / evaluator integration issue**, not a measured defect in generated Saleor behavior. No model calls, no benchmark tests, and no network downloads in the read-only discovery.
+
+## Update — 2026-10-27 23:12 Cairo: first D2 exploratory behavioral E2E complete
+
+- **E2E execution PASS; D2 change-functionality FAIL.** Offline hashed lock install, Docker isolated fresh database, and egress checks passed. 318/318 physical invocations of 106 frozen test nodes produced integrity-checked JUnit and matching ledger receipts.
+- **F2P: 1/3 stable passing** (3/9 invocations passing; the other two nodes fail in all 3 repeats). **P2P: 103/103 stable passing** (309/309 invocations passing). Overall 312/318 aggregate passes must NOT be reported as a regeneration success rate.
+- Failing F2P: the model still creates a token when no `tokenTargetUrl` is supplied; a relative `new_tab` URL is incorrectly accepted without `appUrl`. See `D2_E2E_MILESTONE_20261027.md`.
+- Frozen A5-R1 remains `EDIT_2_NOOP_STOP`, D2 is `POST_HOC_DIAGNOSTIC_ONLY`; none of these outputs are prospective qualified pass@1. 3 repetitions share DB and are not independent replicates.
+- User-host raw ZIP SHA-256: `b3327793e5c926d6621bbb694fa231fb5a35f535e62d89112b5bf832f472463a`; original JUnit auditor SHA-256: `02b1779cb21bc10d659d77fc06a82b1e03ad7a5ec6b1ac9e08aea34175ba02c7`; raw ZIP PRIVATE (synthetic authentication token in a stdout log).
+- Model calls during this E2E run 0; run reports 5584s wall-time; cumulative per-invocation timing disagrees and must be reconciled before comparing cost/time.
+- **Next:** preserve original evidence immutable, preregister prospective candidate/protocol; no retrospective edits to D2 or silent F2P fix.
