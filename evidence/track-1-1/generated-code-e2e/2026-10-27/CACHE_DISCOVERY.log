@@ -1,0 +1,35 @@
+MODE=READ_ONLY_DEPENDENCY_RECOVERY
+GENERATED_TESTS=NOT_RUN
+MODEL_CALLS=0
+=== HISTORICAL BASELINE ===
+R7_R8_FINDLINKS=1078
+R7_R8_INSTALLED_PACKAGES=237
+REQUIRED_AMQP=5.3.1
+=== KNOWN WHEELHOUSES ===
+SOURCE=/opt/wp2_v2/m17-env/wheelhouse_full COUNT=372
+SOURCE=/opt/wp2_v2/m17-env/wheelhouse COUNT=1
+SOURCE=/mnt/d/wp2_env_store/wheelhouse COUNT=0
+SOURCE=/mnt/d/wp2_env_store/built_wheelhouse COUNT=0
+=== UV CACHE LOCATIONS ===
+=== ADDITIONAL ARCHIVES AND AMQP CANDIDATES ===
+SCAN_ROOT=/opt/wp2_v2
+/opt/wp2_v2/m17-env/wheelhouse_full
+/opt/wp2_v2/m17-env/wheelhouse_full/amqp-5.1.1-py3-none-any.whl
+/opt/wp2_v2/m17-env/uv-cache
+/opt/wp2_v2/m17-env/uv-cache/archive-v0/UzJ_64rE6DeU0VPm/kombu/transport/pyamqp.py
+/opt/wp2_v2/m17-env/uv-cache/archive-v0/J7_otMdZ4W5eyNo4/celery/app/amqp.py
+/opt/wp2_v2/m17-env/uv-cache/archive-v0/J7_otMdZ4W5eyNo4/celery/bin/amqp.py
+/opt/wp2_v2/m17-env/uv-cache/archive-v0/78t-8_kYua-4CL9A/amqp
+/opt/wp2_v2/m17-env/uv-cache/archive-v0/78t-8_kYua-4CL9A/amqp-5.3.1.dist-info
+/opt/wp2_v2/m17-env/uv-cache/wheels-v6/pypi/amqp
+/opt/wp2_v2/m17-env/wheelhouse
+/opt/wp2_v2/m17-env/uv-cache-audit
+SCAN_ROOT=/root/.cache/uv
+/root/.cache/uv/archive-v0/2j_9HQB_EuiDnv4b/jedi/third_party/typeshed/stubs/pika/pika/amqp_object.pyi
+SCAN_ROOT=/root/.cache/pip
+SCAN_ROOT=/mnt/d/wp2_env_store
+SCAN_ROOT=/root/M19B_R7_F2P_PILOT_1113f7fb
+=== RESULT ===
+DEPENDENCY_DISCOVERY_COMPLETED=YES
+LOCKFILE_UNCHANGED=YES
+NO_DOCKER_CHANGES=YES

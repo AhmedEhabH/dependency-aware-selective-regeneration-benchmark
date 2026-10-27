@@ -53,3 +53,10 @@ Status: **STOP / NO GENERATED-CODE E2E CLAIM**. Research task: `saleor-rc-7e42fc
 No new paid calls or OCI/test runs were executed while preparing this GitHub report. D2 derivation requires negligible local disk; actual Docker/test data usage, egress, execution time and DB cleanup remain **NOT_MEASURED** and must be reported from user's host only. API key, private raw HTTP metadata, owner identifiers, and tokens must not be committed. Change-scope coverage is not demonstrated by syntactic match alone.
 
 Original A3 diagnostic replay program and original A3 result receipt are preserved unchanged in this package with exact SHA-256 listed in README. The A3 post-hoc D1 AST result is FAIL; not rerun here. No independent contemporaneous researcher GO is claimed for A3 (NOT_CAPTURED).
+
+## Update — 2026-10-27 12:33 Cairo: offline dependency cache candidate located
+
+- **STOP before behavioral testing:** D2 V1 reached isolated DB/egress PASS, but `uv export --frozen --group dev | uv pip install ...` failed offline for `amqp==5.3.1` (no wheel in V1 visible find-links). V2 STOP before Docker with `STOP_AMQP_5_3_1_NOT_PRESENT_IN_LOCAL_WHEELHOUSES`. Neither reached pytest; F2P 0/3 and P2P 0/103 distinct nodes, 0/318 physical invocations.
+- Read-only WSL discovery log: `CACHE_DISCOVERY.log` SHA-256 `edde9441aa24c633541ecac8f37b67de8a646a5bdb599e80a8df957499459ace`. Found `amqp-5.1.1` in a 372-file wheelhouse, but a candidate `amqp-5.3.1.dist-info` plus package and uv cache index at `/opt/wp2_v2/m17-env/uv-cache`. Package metadata and full closure still unverified.
+- Next: read-only integrity gate; then evaluator-only uv-cache mount with fresh isolated DB and no external network; then exact F2P followed by P2P. Frozen A5-R1 STOP, D2 classification, model call counts and scientific receipts remain unchanged.
+- This is a **dependency-source scope / evaluator integration issue**, not a measured defect in generated Saleor behavior. No model calls, no benchmark tests, and no network downloads in the read-only discovery.
