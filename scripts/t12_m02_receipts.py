@@ -54,7 +54,10 @@ F2P_NODES_COUNT = _adapt.F2P_NODES_COUNT  # 3
 JUNIT_RE = re.compile(
     r"^(?P<task>[0-9a-f]{4,})_(?P<tag>[0-9a-f]{8})_r(?P<rep>[0-2])_f(?P<node>[0-2])\.xml$")
 # DB identity precedent from R7: opws_m3b_<task8>_<HHMMSS>_<12hex>.
-DB_IDENTITY_RE = re.compile(r"^opws_[0-9a-z_]+_[0-9a-f]{8}_[0-9]{6}_[0-9a-f]{12}$")
+# D3-R1: the FROZEN OpwsIsolatedRuntime.fresh_db_name() produces an 80-bit
+# nonce via secrets.token_hex(10) (20 hex chars) — the suffix regex therefore
+# accepts 12..20 hex chars so REAL frozen-format DB identities validate.
+DB_IDENTITY_RE = re.compile(r"^opws_[0-9a-z_]+_[0-9a-f]{8}_[0-9]{6}_[0-9a-f]{12,20}$")
 
 REQUIRED_IDENTITY_FIELDS = [
     "task_id", "arm_id", "effective_tree_oid", "scope_hash",

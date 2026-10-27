@@ -290,6 +290,16 @@ class TestBusyMatrixBurnCheck(unittest.TestCase):
             self.assertIn("PLAN_HASH_MISMATCH", reason)
 
 
+def _load_sibling(name: str):
+    """Load a sibling test module by file path (fixture helpers reuse)."""
+    p = Path(__file__).parent / f"{name}.py"
+    s = importlib.util.spec_from_file_location(name, p)
+    assert s is not None and s.loader is not None
+    m = importlib.util.module_from_spec(s)
+    s.loader.exec_module(m)
+    return m
+
+
 class TestRealEngineBridge(unittest.TestCase):
     """The execution path must call the REAL pinned frozen functions; mocks
     only here.  Partial engine failure must never be reported as PASS."""
@@ -307,67 +317,57 @@ class TestRealEngineBridge(unittest.TestCase):
         self.assertTrue(all(v["ok"] for v in st.values()), st)
 
     def test_partial_engine_failure_never_pass(self):
-        # Mock ONLY in the unit test: a fake engine module whose run_state_v3
-        # fails for the second authorized arm (a real partial failure), and a
-        # fake materialize subprocess that reports success (never touches the
-        # real engine or the frozen worktree).
-        class FakeEngine:
-            def run_state_v3(self, **kwargs: object) -> dict:
-                arm = str(kwargs.get("state"))
-                if arm == "NEG":
-                    raise RuntimeError("CONTAINER_CRASH_MID_RUN")
-                return {"junit": ["x"] * 9, "junit_failures": 0, "db_name": "opws_m3b_x"}
-
-        class FakeProc:
-            returncode = 0
-            stdout = "MATERIALIZE_RECORD_OK"
-            stderr = ""
-
-        fake = FakeEngine()
-        orig_load = mod._load_frozen_module
-        orig_sub = mod.subprocess.run
-
-        def _fake_load(_wt: object, _rel: str, name: str) -> object:
-            if name == "benchmark_harness_v3":
-                return fake
-
-            class _Dummy:
-                class OpwsIsolatedRuntime:
-                    def __init__(self, **kwargs: object) -> None:
-                        pass
-
-            return _Dummy()
-
-        try:
-            mod._load_frozen_module = _fake_load
-            mod.subprocess.run = lambda *a, **k: FakeProc()
-            with tempfile.TemporaryDirectory() as td:
-                auth = {
-                    "authorized_arms": ["SIP", "NEG"],
-                    "max_wall_s": 7200,
-                    "exclusivity_window": {},
-                    "recorded_by": "t",
-                }
-                result = mod.run_bridge(
-                    {"worktree_linux": "/root/m19b_r3_20261024/wt_t_SIP", "worktree_oid_expected": "x"},
-                    rd8={"status": "ADOPT_PILOT_ONLY"},
-                    auth=auth,
-                    budget={"status": "OK"},
-                    worktree=FROZEN_WORKTREE,
-                    source_repo=Path("."),
-                    scopes_dir=Path("."),
-                    classification=Path("."),
-                    test_authority=Path("."),
-                    out_root=Path(td) / "out",
-                )
-        finally:
-            mod._load_frozen_module = orig_load
-            mod.subprocess.run = orig_sub
+        # D3-R1: an infrastructure failure in the FIRST control (NEG) stops the
+        # bridge before SIP; the remaining controls and SIP are NOT_RUN, there
+        # is NO retry, and the failure is typed.  A partial engine failure is
+        # never reported as PASS.  (The D3-era test asserted the OLD buggy
+        # contract — sorted/requested order and SIP-PASS before controls.)
+        r1 = _load_sibling("test_t12_m02_execute_f2p_r1_safety")
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            wt = r1.write_fake_frozen_worktree(td)
+            r1._write_engine_config(wt, {"crash_arms": ["NEG"]})
+            rows = {a["arm_id"]: dict(a) for a in mod._adapt.load_arms()}
+            arms = ["NEG", "FULL_REFERENCE", "RM_CSS", "SIP"]
+            worktrees: dict[str, Path] = {}
+            oids: dict[str, str] = {}
+            for arm in arms:
+                p, o = r1._arm_worktree(td / "wt", arm)
+                worktrees[arm] = p
+                oids[arm] = o
+            out_root = td / "out"
+            scope_dir = td / "scopes"
+            scope_dir.mkdir()
+            for arm in arms:
+                (scope_dir / f"scope_{arm}.json").write_text("{}", encoding="utf-8")
+            cls = td / "c.json"
+            authf = td / "a.json"
+            cls.write_text("{}", encoding="utf-8")
+            authf.write_text("{}", encoding="utf-8")
+            plan_doc = r1.build_plan_doc(
+                td, arms=arms, worktrees=worktrees, oids=oids, out_root=out_root
+            )
+            result = mod.run_bridge(
+                plan_doc,
+                rd8={"status": "ADOPT_PILOT_ONLY"},
+                auth={"authorized_arms": ["SIP", "RM_CSS", "NEG", "FULL_REFERENCE"], "max_wall_s": 7200},
+                budget={"status": "OK", "max_wall_s": 3600},
+                worktree=wt,
+                source_repo=td,
+                scopes_dir=scope_dir,
+                classification=cls,
+                test_authority=authf,
+                out_root=out_root,
+                materializer=r1.make_mat_runner(rows),
+                postrun_db_probe=lambda: [],
+            )
         self.assertEqual(result["overall"], "FAIL")
         by_arm = {a["arm_id"]: a for a in result["arms"]}
-        self.assertEqual(by_arm["SIP"]["status"], "PASS")
         self.assertEqual(by_arm["NEG"]["status"], "FAIL")
         self.assertIn("CONTAINER_CRASH_MID_RUN", by_arm["NEG"]["reason"])
+        for arm in ("FULL_REFERENCE", "RM_CSS", "SIP"):
+            self.assertEqual(by_arm[arm]["status"], "NOT_RUN")
+        self.assertFalse(by_arm["SIP"]["executed"])
 
 
 class TestCliGate(unittest.TestCase):

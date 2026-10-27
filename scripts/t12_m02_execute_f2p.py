@@ -55,13 +55,16 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import hashlib
 import importlib.util
 import json
 import os
+import re
+import shlex
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 _SCRIPTS = Path(__file__).resolve().parent
 _module = _SCRIPTS.name  # for stable import names
@@ -96,8 +99,12 @@ PILOT_ARMS = ["SIP", "NEG", "FULL_REFERENCE", "RM_CSS"]  # frozen first competit
 PILOT_NODE_COUNT = 3
 PILOT_REPS = 3
 PILOT_JUNIT_PER_ARM = PILOT_NODE_COUNT * PILOT_REPS  # 9
-ERA_KEY = _adapt.FROZEN_TASK.split("-")[-1][:8]  # 7e42fc67 (task8), not an era key
+# D3-R1: the first N=1 F2P pilot executes its controls in EXACTLY this order
+# and STOP-BEFORE-SIP on any control mismatch or infrastructure failure.
+CONTROL_EXECUTION_ORDER = ["NEG", "FULL_REFERENCE", "RM_CSS", "SIP"]
+ERA_KEY = _adapt.FROZEN_TASK.split("-")[-1][:8]  # task8 (7e42fc67), NOT an era key
 TID = "7e42fc67ce72"
+TASK8 = "7e42fc67"
 MATERIALIZER_REL = "scripts/opws_phase3b_patch_materialize.py"
 HARNESS_REL = "src/benchmark/wp2/harness_v3.py"
 RUNTIME_COMPAT_REL = "src/benchmark/wp2/runtime_image_compat_v1.py"
@@ -123,6 +130,29 @@ DERIVED_TEST_AUTHORITY_SHA256 = "c08b26c4389e1d9a1971769505d1f407b1cff54da9297bd
 
 def _utc_now() -> str:
     return datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+
+def _utc_seconds() -> str:
+    """Second-precision UTC (the receipts validator's times format)."""
+    return datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _parse_utc_iso(value: object) -> datetime.datetime | None:
+    """Strict ISO-8601 UTC parse (Z or +00:00 only).  None on malformed or
+    non-UTC input (fail closed)."""
+    if not isinstance(value, str):
+        return None
+    try:
+        dt = datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.utcoffset() != datetime.timedelta(0):
+        return None
+    return dt
+
+
+def _sha256_bytes(data: str | bytes) -> str:
+    return hashlib.sha256(data if isinstance(data, bytes) else data.encode("utf-8")).hexdigest()
 
 
 def sha256_file(path: Path) -> str:
@@ -302,9 +332,17 @@ def validate_rd8_decision(path: Path | None) -> dict[str, Any]:
     }
 
 
-def validate_authorization(path: Path | None, requested_arms: list[str]) -> dict[str, Any]:
+def validate_authorization(
+    path: Path | None, requested_arms: list[str], *, now_utc: datetime.datetime | None = None
+) -> dict[str, Any]:
     """Separate typed RD-9 execution authorization: exclusivity window, arm
-    set, wall cap and researcher record.  Absence = NOT_AUTHORIZED."""
+    set, wall cap and researcher record.  Absence = NOT_AUTHORIZED.
+
+    D3-R1: the window must be a syntactically valid ISO-8601 UTC interval,
+    current UTC must be INSIDE it, and max_wall_s must fit the remaining
+    window.  ``recorded_by``/``signed_by`` are operator ATTESTATIONS (plain
+    text), never cryptographic signatures — reported as such.
+    """
     if path is None or not Path(path).is_file():
         return {
             "present": False,
@@ -320,11 +358,13 @@ def validate_authorization(path: Path | None, requested_arms: list[str]) -> dict
     if rec.get("grant") != "RD9_F2P_PILOT":
         return {"present": True, "status": "STOP", "reason": "grant is not RD9_F2P_PILOT"}
     authorized = set(rec.get("authorized_arms") or [])
-    if not authorized or not authorized.issubset(set(PILOT_ARMS)):
+    invalid = sorted(authorized - set(PILOT_ARMS))
+    if not authorized or invalid:
         return {
             "present": True,
             "status": "STOP",
-            "reason": "authorized arms must be a non-empty subset of the frozen pilot arms",
+            "reason": "authorized arms must be a non-empty subset of the frozen pilot arms; "
+            f"invalid: {invalid}",
         }
     if not authorized.issuperset(set(requested_arms)):
         return {"present": True, "status": "STOP", "reason": "requested arms exceed the authorized set"}
@@ -333,12 +373,41 @@ def validate_authorization(path: Path | None, requested_arms: list[str]) -> dict
         return {"present": True, "status": "STOP", "reason": "exclusivity window missing"}
     if not isinstance(rec.get("max_wall_s"), (int, float)) or rec["max_wall_s"] <= 0:
         return {"present": True, "status": "STOP", "reason": "max_wall_s missing/invalid"}
+    start_dt = _parse_utc_iso(window.get("start_utc"))
+    end_dt = _parse_utc_iso(window.get("end_utc"))
+    if start_dt is None or end_dt is None:
+        return {
+            "present": True,
+            "status": "STOP",
+            "reason": "exclusivity window timestamps are not valid ISO-8601 UTC: "
+            f"{window.get('start_utc')!r} / {window.get('end_utc')!r}",
+        }
+    if end_dt <= start_dt:
+        return {"present": True, "status": "STOP", "reason": "exclusivity window end <= start"}
+    now = now_utc if now_utc is not None else datetime.datetime.now(datetime.UTC)
+    if now < start_dt:
+        return {"present": True, "status": "STOP", "reason": "exclusivity window has not yet started"}
+    if now >= end_dt:
+        return {"present": True, "status": "STOP", "reason": "exclusivity window has expired"}
+    remaining_s = (end_dt - now).total_seconds()
+    if rec["max_wall_s"] > remaining_s:
+        return {
+            "present": True,
+            "status": "STOP",
+            "reason": "max_wall_s exceeds the remaining exclusivity window "
+            f"({rec['max_wall_s']}s > {remaining_s:.0f}s)",
+        }
     return {
         "present": True,
         "status": "GRANTED",
         "authorized_arms": sorted(authorized),
         "exclusivity_window": rec["exclusivity_window"],
+        "parsed_window_utc": {"start": start_dt.isoformat(), "end": end_dt.isoformat()},
+        "remaining_window_s": remaining_s,
         "max_wall_s": rec["max_wall_s"],
+        # plain-text operator attestation, NOT a cryptographic signature
+        "attestation": "operator-recorded text; NOT a cryptographic signature",
+        "signed_by_attestation": rec.get("signed_by") or rec.get("recorded_by"),
         "recorded_by": rec.get("recorded_by"),
     }
 
@@ -394,9 +463,13 @@ def physical_plan_for(
         "execution_id": _adapt.execution_id_for(arm_id, "M02E-PILOT-UNRAN"),
         "worktree_linux": worktrees[arm_id],
         "worktree_oid_expected": row["effective_tree_oid"],
+        "scope_hash": row["scope_hash"],
+        "reference_patch_sha256": row["patch_sha256"],
+        "reference_patch_bytes": row["patch_bytes"],
+        "test_contract_hash": row["test_contract_hash"],
         "db_identity": {
             "legacy_mode": f"saleor_v3_{TID}_{arm_id}",
-            "isolated_mode_pattern": f"opws_m3b_{TID}_<stamp>_<nonce>",
+            "isolated_mode_pattern": f"opws_m3b_{TASK8}_<stamp>_<nonce>",
             "fresh_per_state": True,
             "unique_per_arm": True,
         },
@@ -441,7 +514,7 @@ def physical_plan_for(
                 "timeout_s": 7200,
                 "isolated": "REQUIRED_INPUT_FROM_EXECUTION: OpwsIsolatedRuntime("
                 "scratch_linux=<out_linux>, scratch_windows=<out_dir>, "
-                "db_commit_short=7e42fc67ce72) - frozen py312 isolated mode",
+                f"db_commit_short={TASK8}) - frozen py312 isolated mode",
             },
             "junit_expected": PILOT_JUNIT_PER_ARM,
             "junit_naming": f"{TID}_{arm_id}_r<rep>_f<idx>.xml (engine line ~758)",
@@ -548,6 +621,10 @@ def _load_frozen_module(worktree: Path, rel: str, name: str) -> Any:
     spec = importlib.util.spec_from_file_location(name, worktree / rel)
     assert spec is not None and spec.loader is not None
     mod = importlib.util.module_from_spec(spec)
+    # D3-R1: register the module in sys.modules BEFORE executing it, otherwise
+    # frozen classes decorated with @dataclass (OpwsIsolatedRuntime) break at
+    # decoration time because cls.__module__ is not resolvable.
+    sys.modules[name] = mod
     spec.loader.exec_module(mod)
     return mod
 
@@ -565,8 +642,123 @@ def real_bridge_stage_details() -> dict[str, str]:
     }
 
 
+def _default_materializer(argv: list[str], timeout_s: int = 900) -> subprocess.CompletedProcess[str]:
+    """REAL materializer subprocess (frozen CLI argv; the only execution-path
+    runner).  Tests inject a fake runner; production never uses fakes."""
+    return subprocess.run(
+        argv, capture_output=True, text=True, encoding="utf-8", timeout=timeout_s, check=False
+    )
+
+
+def _default_db_probe() -> list[str]:
+    """REAL post-run DB scan on the isolated PG fixture (D3 teardown evidence).
+
+    The read-only scan command is operator-supplied via the environment
+    (``T12_M02_DB_SCAN_CMD``); every surviving ``opws_m3b_*`` database is
+    returned.  Absent or un-runnable command => raise: the executor NEVER
+    invents a teardown PASS.
+    """
+    cmd = os.environ.get("T12_M02_DB_SCAN_CMD")
+    if not cmd:
+        raise RuntimeError("TEARDOWN_NOT_VERIFIED: T12_M02_DB_SCAN_CMD not configured")
+    argv_scan = shlex.split(cmd, posix=(os.name != "nt"))
+    proc = subprocess.run(
+        argv_scan, capture_output=True, text=True, encoding="utf-8", timeout=120, check=False
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(f"TEARDOWN_NOT_VERIFIED: DB scan failed rc={proc.returncode}: {proc.stderr[-400:]}")
+    leftovers: list[str] = []
+    for line in (proc.stdout or "").splitlines():
+        tok = line.strip()
+        if _receipts.DB_IDENTITY_RE.match(tok):
+            leftovers.append(tok)
+    return leftovers
+
+
+def _plan_for_arm(plan_doc: dict[str, Any], arm_id: str) -> dict[str, Any]:
+    """D1: the per-arm plan is selected ONLY from ``plan_doc['arms']``.  The
+    plan-doc top level never carries per-arm keys (old bridge KeyError)."""
+    arms = plan_doc.get("arms")
+    if not isinstance(arms, list) or not arms:
+        raise RuntimeError(f"PLAN_DOC_NO_ARMS (schema={plan_doc.get('schema')})")
+    for p in arms:
+        if p.get("arm_id") == arm_id:
+            return cast(dict[str, Any], p)
+    raise RuntimeError(f"PLAN_MISSING_ARM:{arm_id}")
+
+
+def _worktree_tree_oid(wt: Path) -> str | None:
+    """D6: READ-ONLY proof of the execution worktree content: ``git rev-parse
+    HEAD^{tree}`` must equal the arm's effective_tree_oid.  None => fail
+    closed (no run with an unverifiable tree)."""
+    r = subprocess.run(
+        ["git", "-C", str(wt), "rev-parse", "HEAD^{tree}"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=False,
+    )
+    if r.returncode != 0:
+        return None
+    oid = r.stdout.strip()
+    return oid or None
+
+
+# Engine-native JUnit file name produced by the frozen run_state_v3 isolated
+# runs script: ``{tid}_{state}_r{rep}_f{idx}.xml`` (harness_v3.py ~line 758).
+ENGINE_JUNIT_RE = re.compile(
+    r"^(?P<task>[0-9a-f]{4,})_(?P<state>[A-Z0-9_]+)_r(?P<rep>[0-2])_f(?P<node>[0-2])\.xml$"
+)
+
+
+def _canonical_junit_map(raw_dir: Path, junit_dir: Path, arm_id: str) -> dict[str, str]:
+    """D7: copy the RAW engine-produced JUnit XMLs to the receipts-schema
+    canonical names (``<task8>_<tag8>_r<rep>_f<node>.xml``).  Returns
+    native-name -> canonical-name.  Raises on any non-matching, missing or
+    duplicated per-repetition/node slot — exactly 9 distinct physical files
+    are required, never fewer and never extra."""
+    row = next((a for a in _adapt.load_arms() if a["arm_id"] == arm_id), None)
+    if row is None:
+        raise RuntimeError(f"UNKNOWN_ARM:{arm_id}")
+    tag = str(_adapt.four_field_id(row))[:8]
+    task8 = _adapt.FROZEN_TASK.split("-")[-1][:8]
+    raw = sorted(p.name for p in raw_dir.glob("*.xml"))
+    native: dict[tuple[int, int], str] = {}
+    for fname in raw:
+        m = ENGINE_JUNIT_RE.match(fname)
+        if not m or m.group("task") != TID:
+            raise RuntimeError(f"JUNIT_NATIVE_NAME_UNEXPECTED:{fname}")
+        native[(int(m.group("rep")), int(m.group("node")))] = fname
+    expected_slots = {(r, n) for r in range(PILOT_REPS) for n in range(PILOT_NODE_COUNT)}
+    if set(native) != expected_slots:
+        raise RuntimeError(
+            "JUNIT_COVERAGE_MISMATCH: physical files give "
+            f"{sorted(native)}; need every r0..r2 x f0..f2 slot"
+        )
+    junit_dir.mkdir(parents=True, exist_ok=True)
+    mapping: dict[str, str] = {}
+    for (rep, node), fname in native.items():
+        canonical = f"{task8}_{tag}_r{rep}_f{node}.xml"
+        (junit_dir / canonical).write_bytes((raw_dir / fname).read_bytes())
+        mapping[fname] = canonical
+    return mapping
+
+
+def _load_materialize_records(mat_dir: Path) -> list[dict[str, Any]]:
+    """All JSON engineering records written by the frozen materializer."""
+    out: list[dict[str, Any]] = []
+    for p in sorted(mat_dir.rglob("*.json")):
+        try:
+            rec = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if isinstance(rec, dict):
+            out.append(rec)
+    return out
+
+
 def run_bridge(
-    plan: dict[str, Any],
+    plan_doc: dict[str, Any],
     *,
     rd8: dict[str, Any],
     auth: dict[str, Any],
@@ -577,20 +769,137 @@ def run_bridge(
     classification: Path,
     test_authority: Path,
     out_root: Path,
+    deadline_utc: str | None = None,
+    materializer: Any = None,
+    postrun_db_probe: Any = None,
 ) -> dict[str, Any]:
     """Executes the per-arm bridge for authorized arms.  Real frozen engine
-    functions are imported and called; every stage is recorded; no retries;
-    an arm is PASS only when every stage verifies.  D3 never reaches this."""
+    functions are imported and called; every stage is recorded; no retries.
+
+    D3-R1 hardening (all eight demonstrated defects):
+
+    D1  per-arm plan selection: ``plan_doc['arms'][i]`` is the only source of
+        ``worktree_linux`` / ``worktree_oid_expected`` / digests; the plan DOC
+        top level is never read for per-arm keys.
+    D2  the install fragment is the REAL output of the frozen
+        ``lock_install_script(worktree_linux, target_manifests(target))``,
+        never the literal string ``'computed'``.
+    D3  no invented status booleans: teardown is proven by a real post-run DB
+        scan (absent probe => TEARDOWN_NOT_VERIFIED => FAIL); the executor
+        never claims it resolved the runtime image (delegated to the frozen
+        engine's first fail-closed step).
+    D4  execution order is exactly NEG -> FULL_REFERENCE -> RM_CSS -> SIP
+        regardless of authorization order; ANY control mismatch or
+        infrastructure failure stops before SIP (SIP NOT_RUN); NEG's expected
+        assertion failure is CONTROL_EXPECTED, never PASS.
+    D6  the frozen isolated runtime requires basename ``wt_t``; the executor
+        READ-ONLY proves the worktree content equals the arm's
+        effective_tree_oid BEFORE any side effect (wrong tree never runs).
+    D7  exactly 9 raw per-repetition/node JUnit XML receipts are canonicalised
+        from the REAL engine-produced files and validated by the REAL
+        ``validate_run_receipt``; cross-arm DB identity collisions STOP; the
+        cross-arm bundle scan reports Option-B process/container identity
+        gaps instead of fabricating distinctness.
+    D8  classification/test-authority reach ONLY the materializer argv; the
+        materializer engineering record digests must match the frozen arm
+        plan (tampered record STOPS before the engine).
+
+    Wall deadline (F): before every arm, current UTC must be < deadline;
+    otherwise the arm is NOT_RUN and the run FAILs closed.
+    """
+    materializer = materializer or _default_materializer
     arms_results: list[dict[str, Any]] = []
-    overall = "PASS"
-    for arm in auth["authorized_arms"]:
+    overall = "FAIL"
+    stop_reason: str | None = None
+    note: list[str] = []
+    authorized = set(auth.get("authorized_arms") or [])
+    unknown = sorted(authorized - set(PILOT_ARMS))
+    if unknown:
+        return {
+            "overall": "FAIL",
+            "arms": [],
+            "executed_at_utc": _utc_now(),
+            "note": f"PLANNED_ORDER_UNSATISFIABLE: unauthorized arms {unknown}",
+        }
+    seq = [a for a in CONTROL_EXECUTION_ORDER if a in authorized]
+    if not seq:
+        return {
+            "overall": "FAIL",
+            "arms": [],
+            "executed_at_utc": _utc_now(),
+            "note": "NO_CONTROLS_AUTHORIZED",
+        }
+    # eager admission: every planned arm must exist in the per-arm plan BEFORE
+    # any side effect (a missing arm plan stops the WHOLE bridge, typed)
+    for arm in seq:
+        _plan_for_arm(plan_doc, arm)
+    db_names_seen: list[str] = []
+    run_dirs: list[Path] = []
+    passed_controls = 0
+    for arm in seq:
         arm_dir = out_root / f"arm_{arm}"
-        started = _utc_now()
-        stage = {"arm_id": arm, "status": "FAIL", "stages": {}, "start_utc": started}
+        run_dir = arm_dir / "receipts"
+        stage: dict[str, Any] = {
+            "arm_id": arm,
+            "status": "NOT_RUN",
+            "control_outcome": "NOT_RUN",
+            "stages": {},
+            "start_utc": _utc_now(),
+            "executed": False,
+        }
+        if stop_reason is not None:
+            stage["reason"] = stop_reason
+            arms_results.append(stage)
+            continue
+        if deadline_utc is not None:
+            dl = _parse_utc_iso(deadline_utc)
+            if dl is None or datetime.datetime.now(datetime.UTC) >= dl:
+                stop_reason = "WALL_DEADLINE_EXCEEDED"
+                stage["reason"] = stop_reason
+                overall = "FAIL"
+                arms_results.append(stage)
+                continue
         try:
-            # 1. materialize (real frozen CLI, engineering record only)
+            arm_plan = _plan_for_arm(plan_doc, arm)
+            stage["stages"]["plan_selection"] = {
+                "arm_id": arm,
+                "worktree_linux": arm_plan["worktree_linux"],
+                "worktree_oid_expected": arm_plan["worktree_oid_expected"],
+                "execution_id": arm_plan["execution_id"],
+            }
+            wt_linux = arm_plan["worktree_linux"]
+            wt = Path(wt_linux)
+            # ---- admission BEFORE any side effect (D6, fail-before-side-effect) ----
+            if not wt.is_dir():
+                raise RuntimeError("WORKTREE_MISSING")
+            if wt.name != "wt_t":
+                raise RuntimeError(
+                    "WORKTREE_UNEXPECTED: the frozen OpwsIsolatedRuntime.validate() "
+                    "requires the execution worktree basename 'wt_t'"
+                )
+            actual_oid = _worktree_tree_oid(wt)
+            if actual_oid is None:
+                raise RuntimeError("WORKTREE_OID_UNVERIFIABLE: git rev-parse failed (fail closed)")
+            if actual_oid != arm_plan["worktree_oid_expected"]:
+                raise RuntimeError(
+                    f"WORKTREE_OID_MISMATCH: {wt_linux} tree {actual_oid} "
+                    f"!= plan expected {arm_plan['worktree_oid_expected']}"
+                )
+            stage["stages"]["worktree_input"] = {
+                "path": wt_linux,
+                "expected_oid": arm_plan["worktree_oid_expected"],
+                "tree_proven_oid": actual_oid,
+                "content_identity": True,
+                "mislabel_guard": (
+                    f"run tree == arm effective tree {actual_oid}; "
+                    "unmodified target tree is never presented as an arm result"
+                ),
+            }
+            # ---- materialize (real frozen CLI argv; engineering record) ----
+            if arm_dir.exists():
+                raise RuntimeError(f"ARM_DIR_REUSE: {arm_dir} already exists (fresh out dir per arm)")
+            arm_dir.mkdir(parents=True, exist_ok=False)
             mat_dir = arm_dir / "materialize_record"
-            mat_dir.mkdir(parents=True, exist_ok=True)
             argv = [
                 "python",
                 str(worktree / MATERIALIZER_REL),
@@ -611,75 +920,279 @@ def run_bridge(
                 "--out-dir",
                 str(mat_dir),
             ]
-            proc = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8", timeout=900, check=False)
+            proc = materializer(argv, timeout_s=900)
             stage["stages"]["materialize"] = {
                 "exit": proc.returncode,
-                "stdout": proc.stdout[-4000:],
-                "stderr": proc.stderr[-4000:],
+                "stdout": (proc.stdout or "")[-4000:],
+                "stderr": (proc.stderr or "")[-4000:],
             }
             if proc.returncode != 0:
                 raise RuntimeError("MATERIALIZE_FAILED")
-            # byte-verify engineering record (scope + patch digests vs matrix)
-            (arm_dir / "console.log").write_text(proc.stdout + "\n" + proc.stderr, encoding="utf-8")
-
-            # 2. engine imports (frozen, real)
+            (arm_dir / "console.log").write_text(
+                str(proc.stdout or "") + "\n" + str(proc.stderr or ""), encoding="utf-8"
+            )
+            records = _load_materialize_records(mat_dir)
+            if not records:
+                raise RuntimeError("MATERIALIZER_RECORD_MISSING")
+            bad = [
+                r
+                for r in records
+                if r.get("scope_hash") != arm_plan.get("scope_hash")
+                or r.get("reference_patch_sha256") != arm_plan.get("reference_patch_sha256")
+            ]
+            if bad:
+                raise RuntimeError(f"MATERIALIZER_RECORD_MISMATCH: {bad[0]}")
+            stage["stages"]["materialize"]["record_digests_match"] = True
+            # ---- engine imports (frozen, real) ----
             harness = _load_frozen_module(worktree, HARNESS_REL, "benchmark_harness_v3")
-            isolated_mod = _load_frozen_module(worktree, ISOLATED_RUNTIME_REL, "benchmark_opws_isolated_runtime_v1")
+            isolated_mod = _load_frozen_module(
+                worktree, ISOLATED_RUNTIME_REL, "benchmark_opws_isolated_runtime_v1"
+            )
             stage["stages"]["engine_imports"] = {"ok": True}
-
-            # 3. prerequisites resolved BEFORE any side effect
-            wt_linux = plan["worktree_linux"]
-            stage["stages"]["worktree_input"] = {
-                "path": wt_linux,
-                "expected_oid": plan["worktree_oid_expected"],
+            # ---- real lock-exact install fragment (D2, frozen function) ----
+            manifests = harness.target_manifests(_adapt.FROZEN_TARGET)
+            fragment_raw, install_mode, install_evidence = harness.lock_install_script(wt_linux, manifests)
+            if not isinstance(fragment_raw, str) or not fragment_raw.strip():
+                raise RuntimeError("INSTALL_FRAGMENT_EMPTY")
+            stage["stages"]["install_fragment"] = {
+                "mode": install_mode,
+                "fragment_sha256": _sha256_bytes(fragment_raw),
+                "evidence": install_evidence,
+                "source": "frozen harness.lock_install_script(worktree_linux, target_manifests(target))",
             }
-            # runtime image resolution (py312 OCI manifest) is performed by the
-            # frozen engine before any DB side effect; no host image command
-            # is issued outside the engine.
-            stage["stages"]["runtime_image_resolved"] = {"era": "py312"}
-
-            # 4. install fragment from the frozen function (manifests at target commit)
-            stage["stages"]["install_fragment"] = {"mode": "computed"}
-
+            # ---- runtime image: the executor NEVER claims it verified (D3) ----
+            stage["stages"]["runtime_image_resolved"] = {
+                "executor_claim": (
+                    "delegated to the frozen resolve_runtime_image inside run_state_v3 "
+                    "(the engine's first fail-closed step when isolated is set); "
+                    "the executor did NOT self-verify the OCI digest"
+                )
+            }
             isolated = isolated_mod.OpwsIsolatedRuntime(
+                worktree_linux=wt_linux,
                 scratch_linux=f"{LINUX_SCRATCH_BASE}/{out_root.name}",
                 scratch_windows=str(out_root),
-                db_commit_short=TID,
+                # 8-hex task segment: matches the frozen R7 DB identity precedent
+                # and the receipts DB_IDENTITY_RE (a 12-hex segment would make
+                # every real receipt fail schema validation)
+                db_commit_short=TASK8,
             )
-            stage["stages"]["isolated_runtime"] = {"validated": True}
-
+            isolated.validate()
+            stage["stages"]["isolated_runtime"] = {
+                "declared_worktree_linux": wt_linux,
+                "validated_by_frozen_contract": True,
+                "db_prefix": "opws_m3b_",
+                "validation": "frozen OpwsIsolatedRuntime.validate() run at admission",
+            }
+            # ---- the REAL frozen 3-node x 3-rep engine call ----
+            pid = os.getpid()
+            run_start = _utc_seconds()
             result = harness.run_state_v3(
                 era_key="py312",
                 worktree_linux=wt_linux,
                 tid=TID,
                 state=arm,
-                test_files=_adapt.F2P_NODES,
-                install_fragment=stage["stages"]["install_fragment"]["mode"],
-                raw_junit_dir=str(arm_dir / "receipts"),
+                test_files=list(_adapt.F2P_NODES),
+                install_fragment=fragment_raw,
+                locked_dev_fragment="echo NO_LOCKED_DEV_GROUP",
+                raw_junit_dir=str(run_dir / "engine_raw_junit"),
+                timeout_s=7200,
                 isolated=isolated,
             )
+            run_end = _utc_seconds()
             stage["stages"]["run_state_v3"] = {
-                "junit_files": len(result.get("junit") or []),
-                "junit_failures": result.get("junit_failures"),
+                "pid": pid,
+                "start_utc": run_start,
+                "end_utc": run_end,
                 "db_name": result.get("db_name"),
             }
-            if len(result.get("junit") or []) != PILOT_JUNIT_PER_ARM:
-                raise RuntimeError("JUNIT_COUNT_MISMATCH")
-            stage["stages"]["post_run_teardown"] = {"db_deleted": True}
+            # ---- honest evidence checks (D3/D7): no invented booleans ----
+            db_name = result.get("db_name")
+            if not isinstance(db_name, str) or not _receipts.DB_IDENTITY_RE.match(db_name):
+                raise RuntimeError("DB_IDENTITY_UNPROVEN: engine result lacks a fresh opws_m3b_ db identity")
+            if result.get("db_cleanup") != "DROPPED_AFTER_JUNIT_PARSE":
+                raise RuntimeError(
+                    "DB_CLEANUP_UNPROVEN: engine result does not attest the post-parse DB drop"
+                )
+            junit_files = list(result.get("junit_files") or [])
+            if len(junit_files) != PILOT_JUNIT_PER_ARM:
+                raise RuntimeError(
+                    f"JUNIT_COUNT_MISMATCH: {len(junit_files)} != {PILOT_JUNIT_PER_ARM}"
+                )
+            # canonicalise the RAW engine-produced XML bytes (never fabricated)
+            mapping = _canonical_junit_map(run_dir / "engine_raw_junit", run_dir / "junit", arm)
+            if len(mapping) != PILOT_JUNIT_PER_ARM:
+                raise RuntimeError("JUNIT_CANONICAL_COUNT_MISMATCH")
+            classifications = [
+                _receipts.classify_junit(run_dir / "junit" / c) for c in sorted(mapping.values())
+            ]
+            stage["stages"]["junit_evidence"] = {
+                "raw_files": len(junit_files),
+                "canonical_files": sorted(mapping.values()),
+                "engine_native_to_canonical": mapping,
+                "classifications": classifications,
+            }
+            # ---- control semantics (D4): classify the RAW junit evidence
+            # BEFORE any receipt is written; a mismatch stops before SIP ----
+            expected = _adapt.CONTROL_EXPECTED_JUNIT.get(arm)
+            observed = set(classifications)
+            stage["stages"]["control"] = {
+                "expected": expected,
+                "observed": sorted(observed),
+            }
+            if expected is not None and observed != {expected}:
+                raise RuntimeError(
+                    f"CONTROL_MISMATCH: {arm} expected {expected}, observed {sorted(observed)}"
+                )
+            # ---- teardown proof via a REAL post-run DB scan, BEFORE the
+            # receipt is written/validated (D3: no invented booleans) ----
+            if postrun_db_probe is None:
+                raise RuntimeError("TEARDOWN_NOT_VERIFIED: no post-run DB scan is available")
+            leftovers = list(postrun_db_probe() or [])
+            scan_path = run_dir / "post_run_db_scan.json"
+            scan_path.write_text(
+                json.dumps({"remaining_opws_m3b_databases": leftovers, "checked_at_utc": _utc_now()}),
+                encoding="utf-8",
+            )
+            stage["stages"]["post_run_teardown"] = {
+                "engine_db_cleanup": result.get("db_cleanup"),
+                "post_run_db_scan": leftovers,
+                "scan_artifact": str(scan_path),
+                "db_deleted": len(leftovers) == 0,
+            }
+            if leftovers:
+                raise RuntimeError(f"DB_LEFTOVER: {leftovers}")
+            # control outcome bookkeeping (NEG's expected assertion failure is
+            # a classified CONTROL_EXPECTED event, never an ordinary PASS)
+            if expected is not None:
+                stage["control_outcome"] = "CONTROL_EXPECTED" if arm == "NEG" else "CONTROL_PASS"
+                stage["status"] = "CONTROL_EXPECTED" if arm == "NEG" else "PASS"
+                passed_controls += 1
+            else:
+                stage["observed_classifications"] = sorted(observed)
+                stage["control_outcome"] = "OUTCOME_DATA"
+                stage["status"] = "PASS"
+            # ---- real receipt + real validator against the real artifacts (D7) ----
+            receipt = _receipts.sample_run_receipt(
+                arm_id=arm, run_token=arm_plan["execution_id"], junit_classifications=classifications
+            )
+            start_dt = _parse_utc_iso(run_start)
+            end_dt = _parse_utc_iso(run_end)
+            wall_s = max(0.0, (end_dt - start_dt).total_seconds() if start_dt and end_dt else 0.0)
+            receipt.update(
+                {
+                    "execution_id": arm_plan["execution_id"],
+                    "process": {
+                        "pid": pid,
+                        "driver_argv": list(sys.argv),
+                        # frozen py312 OCI manifest digest (runtime identity of
+                        # the pinned image); resolved by the frozen engine, NOT
+                        # by the executor (see runtime_image_resolved stage)
+                        "container_oci_id": "sha256:a6e743589b60a4c15676eece07f52ed8347dc501bc782cc53ddffb7200d06c4c",
+                        "per_state_container_evidence": (
+                            "engine-managed per-state V3 container; engine result does "
+                            "not expose a per-state container id"
+                        ),
+                    },
+                    "database": {
+                        "engine": "postgres (isolated PG fixture)",
+                        "db_identity": db_name,
+                        "db_created_receipt": True,
+                    },
+                    "times": {
+                        "start_utc": run_start,
+                        "end_utc": run_end,
+                        "monotonic": True,
+                        "wall_seconds": wall_s,
+                    },
+                    "resources": {
+                        "cpu_seconds": _receipts.NOT_MEASURED,
+                        "peak_ram_mb": _receipts.NOT_MEASURED,
+                        "disk_bytes": _receipts.NOT_MEASURED,
+                        "network_bytes": 0,
+                        "sampler": "NOT_MEASURED: resource sampling not executed in this mode",
+                    },
+                    "teardown_receipt": {
+                        "present": True,
+                        "db_deleted": True,
+                        "path": "post_run_db_scan.json",
+                        "verified_by_post_run_scan": True,
+                        "post_run_db_scan": leftovers,
+                    },
+                    "pinned_image": {
+                        "image": "opws-py312-isolated",
+                        "oci_id": "sha256:a6e743589b60a4c15676eece07f52ed8347dc501bc782cc53ddffb7200d06c4c",
+                        "resolved_by_executor": False,
+                        "resolved_by": "frozen resolve_runtime_image (engine first fail-closed step)",
+                    },
+                    "materialize_provenance": {
+                        "materializer": MATERIALIZER_REL,
+                        "scope_hash": arm_plan["scope_hash"],
+                        "reference_patch_sha256": arm_plan["reference_patch_sha256"],
+                        "record_digests_match": True,
+                        "record_dir": str(mat_dir),
+                    },
+                    "junit_engine_native_to_canonical": mapping,
+                    "engine_native_junit_dir": str(run_dir / "engine_raw_junit"),
+                }
+            )
+            _receipts.write_run_receipt(run_dir, receipt)
+            vres = _receipts.validate_run_receipt(run_dir)
+            issues = list(vres.get("issues") or [])
+            stage["stages"]["receipt_validation"] = {
+                "status": "PASS" if not issues else "STOP",
+                "issues": issues[:10],
+            }
+            if issues:
+                raise RuntimeError("RECEIPT_INVALID: " + "; ".join(issues[:8]))
             stage["ended_utc"] = _utc_now()
-            stage["status"] = "PASS"
+            stage["executed"] = True
+            db_names_seen.append(db_name)
+            run_dirs.append(run_dir)
         except Exception as exc:
             stage["ended_utc"] = _utc_now()
             stage["reason"] = f"{type(exc).__name__}: {exc}"
             stage["status"] = "FAIL"
+            stage["executed"] = False
             overall = "FAIL"
+            stop_reason = f"STOP_AFTER_{arm}_FAILURE (stop-before-SIP)"
         arms_results.append(stage)
+    # ---- cross-arm Option-B identity: distinct DB per executed arm ----
+    identity_proven = len(db_names_seen) == len(set(db_names_seen))
+    if not identity_proven:
+        note.append("IDENTITY_COLLISION: opws_m3b_ db identity not unique across executed arms")
+    had_failure = any(a.get("status") == "FAIL" for a in arms_results)
+    overall = "FAIL" if (stop_reason is not None or had_failure or not identity_proven) else "PASS"
+    # ---- real bundle scan on the real produced receipts ----
+    bundle: dict[str, Any] = {}
+    if len(run_dirs) >= 2:
+        bres = _receipts.validate_receipts_bundle(run_dirs)
+        bundle = {"status": bres.get("status"), "issues": bres.get("cross_arm_identity_violations") or []}
+        if bundle["issues"]:
+            overall = "FAIL"
+            note.append(
+                "IDENTITY_GAP: "
+                + "; ".join(str(i) for i in bundle["issues"][:4])
+                + " — the sequential driver shares one OS pid and the frozen "
+                "run_state_v3 result exposes no per-state container id, so "
+                "per-arm physical process/container identity cannot be proven "
+                "in-process; a real pilot MUST STOP at this gate unless the "
+                "engine exposes per-state container identity."
+            )
+    if not stop_reason and overall == "FAIL" and not note:
+        note.append("CONTROL_SEQUENCE_FAILED: see per-arm stages")
     return {
         "overall": overall,
         "arms": arms_results,
         "executed_at_utc": _utc_now(),
-        "admission_basis": {"rd8": rd8.get("status"), "budget": budget.get("status")},
-        "note": "expected-failure classification: NEG assertion",
+        "admission_basis": {
+            "rd8": rd8.get("status"),
+            "authorization": auth.get("status", "GRANTED"),
+            "budget": budget.get("status"),
+            "deadline_utc": deadline_utc,
+        },
+        "receipt_bundle": bundle,
+        "note": " | ".join(note) if note else "ok",
     }
 
 
@@ -829,6 +1342,10 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         hard.append("AUTORUN_FLAG_MISSING_OR_WRONG")
     if args.wall_max_s is None:
         hard.append("WALL_MAX_S_MISSING")
+    if args.worktrees_json is None:
+        # the concrete per-arm execution worktrees are a REQUIRED input for
+        # run (the dry-run pattern is a proposal, never executed)
+        hard.append("WORKTREES_JSON_REQUIRED")
     if hard:
         gates["budget"] = {"status": "STOP", "reason": "gate not open; budget not evaluated"}
         gates["hard_stops"] = hard
@@ -863,6 +1380,9 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         args.worktrees_json,
         out_root,
     )
+    # F: fail-closed wall deadline computed from the researched budget cap.
+    now_dt = datetime.datetime.now(datetime.UTC)
+    deadline_utc = (now_dt + datetime.timedelta(seconds=float(budget["max_wall_s"]))).isoformat()
     bridge = run_bridge(
         plan_doc,
         rd8=rd8,
@@ -874,6 +1394,9 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         classification=Path(args.classification) if args.classification else Path(),
         test_authority=Path(args.test_authority) if args.test_authority else Path(),
         out_root=out_root,
+        deadline_utc=deadline_utc,
+        materializer=None,
+        postrun_db_probe=_default_db_probe,
     )
     gates["bridge"] = bridge
     gates["outcome"] = bridge["overall"] if bridge["overall"] == "PASS" else "FAIL"
