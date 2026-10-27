@@ -1,0 +1,156 @@
+{
+ "cohort": {
+  "all_sha_pattern_40hex": true,
+  "c4_values": [
+   "C4_PASS"
+  ],
+  "c5_values": [
+   "TEST_CHANGE"
+  ],
+  "count": 174,
+  "count_174": true,
+  "non_old6000": 38,
+  "old6000": 136,
+  "single_parent": 174,
+  "years": [
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ]
+ },
+ "elapsed_s": 2.8,
+ "hashes": {
+  "C1_C5_PER_SHA.jsonl": {
+   "frozen": "67C4793060FC9A7E73A5AF85C3BE67A975855B9DFCC57DAADE429AAA22308C19",
+   "match": true,
+   "path": "D:\\WP2\\audit_results\\TRACK02_WPB_C4_EVIDENCE_V2\\C1_C5_PER_SHA.jsonl",
+   "sha256": "67C4793060FC9A7E73A5AF85C3BE67A975855B9DFCC57DAADE429AAA22308C19"
+  },
+  "D0_COMMITS.jsonl": {
+   "frozen": "8CC43BFA92BBA71D5616E4E0236B746DC17C5E9FE739F97F725FD5B9F8E8D62E",
+   "match": true,
+   "path": "D:\\WP2\\audit_results\\FULL_HISTORY_V2_H2_20261026T115058\\D0_COMMITS.jsonl",
+   "sha256": "8CC43BFA92BBA71D5616E4E0236B746DC17C5E9FE739F97F725FD5B9F8E8D62E"
+  },
+  "D0_FILE_EVENTS.jsonl": {
+   "frozen": "6F3722DCD86E9BE6FDA7AD6735BF4B53E50C6E86BE72D33FD6F52D6FEE5F9FB0",
+   "match": true,
+   "path": "D:\\WP2\\audit_results\\FULL_HISTORY_V2_H2_20261026T115058\\D0_FILE_EVENTS.jsonl",
+   "sha256": "6F3722DCD86E9BE6FDA7AD6735BF4B53E50C6E86BE72D33FD6F52D6FEE5F9FB0"
+  },
+  "D0_GRAPH_TOPO_DESC.txt": {
+   "frozen": "BF589410FF5FE537114392C16DDAFF4D30844EB8110DDD0A50ECE7DB4C052614",
+   "match": true,
+   "path": "D:\\WP2\\audit_results\\FULL_HISTORY_V2_H2_20261026T115058\\D0_GRAPH_TOPO_DESC.txt",
+   "sha256": "BF589410FF5FE537114392C16DDAFF4D30844EB8110DDD0A50ECE7DB4C052614"
+  },
+  "PROOF_AUDIT_174.csv": {
+   "frozen": "711B3039D56182B9104D74D0E82E1E96F9F9F7D6DF760E549AEFFC2FFEECBC14",
+   "match": true,
+   "path": "D:\\WP2\\audit_results\\TRACK02_WPB_C4_EVIDENCE_V2\\PROOF_AUDIT_174.csv",
+   "sha256": "711B3039D56182B9104D74D0E82E1E96F9F9F7D6DF760E549AEFFC2FFEECBC14"
+  }
+ },
+ "mission": "TRACK02 C6 FINAL ORACLE CORRECTIONS",
+ "pilots": {
+  "P1": {
+   "C4": "C4_PASS",
+   "C5": "TEST_CHANGE",
+   "C5_test_paths_hash_frozen": "801C817B7B0B56693C8E4BEBD28EABE7505A67FC8975D1D9AB00D4047F2D4E71",
+   "C5_test_paths_hash_recomputed": "801C817B7B0B56693C8E4BEBD28EABE7505A67FC8975D1D9AB00D4047F2D4E71",
+   "P": "cdd557873a4c16ee39d73440d99f991704e980f4",
+   "c5_recompute_match": true,
+   "contract": [
+    {
+     "blob_P": "81da3af852d6032cbdfe0df735ce0be1dc6a01c5",
+     "blob_T": "311b70e3667a275e82ce8b9cbfc068cd48dbd757",
+     "exists_at_P": true,
+     "exists_at_T": true,
+     "path": "tests/test_impersonation.py",
+     "status": "M"
+    }
+   ],
+   "issue": 1564,
+   "old6000": false,
+   "p_available": [
+    "tests/test_impersonation.py"
+   ],
+   "pr": 1567,
+   "t_only": [],
+   "task_sha": "a28f79819aa261000a3352dcd5770ed1d1afa3fc",
+   "year": 2018
+  },
+  "P2": {
+   "C4": "C4_PASS",
+   "C5": "TEST_CHANGE",
+   "C5_test_paths_hash_frozen": "39F499F55E94868528613842CD51ABB1A8BBB9E364553D5B53284C681B3A4841",
+   "C5_test_paths_hash_recomputed": "39F499F55E94868528613842CD51ABB1A8BBB9E364553D5B53284C681B3A4841",
+   "P": "5b0e5206c5fd30d81438b6489d0441df51038a85",
+   "c5_recompute_match": true,
+   "contract": [
+    {
+     "blob_P": "2dfc1745d1fd5fba460305f414bed36cd753d92d",
+     "blob_T": "d4e297fff271934bb96961b0242188b59d6c7a3d",
+     "exists_at_P": true,
+     "exists_at_T": true,
+     "path": "saleor/graphql/product/tests/test_product.py",
+     "status": "M"
+    }
+   ],
+   "issue": 10877,
+   "old6000": true,
+   "p_available": [
+    "saleor/graphql/product/tests/test_product.py"
+   ],
+   "pr": 10965,
+   "t_only": [],
+   "task_sha": "06d25ce29c984d9af0f8759044cd80aa8a835e83",
+   "year": 2022
+  },
+  "P3": {
+   "C4": "C4_PASS",
+   "C5": "TEST_CHANGE",
+   "C5_test_paths_hash_frozen": "5AC468A3B40D2103F98BBBA51F219CB7815568568BD9554DCD1041020641DFB3",
+   "C5_test_paths_hash_recomputed": "5AC468A3B40D2103F98BBBA51F219CB7815568568BD9554DCD1041020641DFB3",
+   "P": "ddb8921a67441288b2489135a2490f6062d7a7c4",
+   "c5_recompute_match": true,
+   "contract": [
+    {
+     "blob_P": null,
+     "blob_T": "bbbf0fb8b9bf2dc5f1f03fc2a04cdc5fdcece9b7",
+     "exists_at_P": false,
+     "exists_at_T": true,
+     "path": "saleor/discount/tests/test_utils/test_update_rule_variant_relation.py",
+     "status": "A"
+    },
+    {
+     "blob_P": "c3029b7dd49095406ac7a31a2fbcb5173714608c",
+     "blob_T": "698439fdb8fd498ec21ceb7d669c0d791e7b332d",
+     "exists_at_P": true,
+     "exists_at_T": true,
+     "path": "saleor/product/tests/test_fetch_variants_for_promotion_rules.py",
+     "status": "M"
+    }
+   ],
+   "issue": 15145,
+   "old6000": true,
+   "p_available": [
+    "saleor/product/tests/test_fetch_variants_for_promotion_rules.py"
+   ],
+   "pr": 15176,
+   "t_only": [
+    "saleor/discount/tests/test_utils/test_update_rule_variant_relation.py"
+   ],
+   "task_sha": "9235b0af3f8a223fd40c6d7e004eb8150c79f553",
+   "year": 2024
+  }
+ },
+ "verdict": "PASS",
+ "verify": "read-only; v0.3.0 cohort + frozen inputs unchanged after v0.4.0 fix"
+}

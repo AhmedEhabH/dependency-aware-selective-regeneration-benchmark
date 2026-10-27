@@ -1,0 +1,35 @@
+{
+ "schema": "c6-task-plan-v1",
+ "task": "06d25ce29c984d9af0f8759044cd80aa8a835e83",
+ "command": [
+  "python",
+  "-m",
+  "pytest",
+  "saleor/graphql/product/tests/test_product.py",
+  "-q"
+ ],
+ "test_paths": [
+  "saleor/graphql/product/tests/test_product.py"
+ ],
+ "t_only_paths": [],
+ "oracle_mode": "POSITIVE_REFERENCE",
+ "isolation_backend": "docker",
+ "image": "envcanon/saleor-c6-p2-py39-era:r3",
+ "image_digest": "4b41010cadabc8e5b9d09c1207f32ebbc59dbad72662e01c91f415f6a4ee6919",
+ "interpreter": "python",
+ "interpreter_version": "3.9.25",
+ "wheelhouse": "D:\\wp2_env_store\\wheelhouse\\py39",
+ "wheelhouse_id": "707542BF660FEC149390367B54606D30BB10A237BD2BD808B8E3CA30160184BB",
+ "junitxml_path": "/scratch-dir/c6-junit.xml",
+ "resources": {
+  "timeout_s": 1800.0,
+  "ram_mb": 16384.0,
+  "disk_mb": 5120.0,
+  "scratch_mb": 5120.0,
+  "global_floor_gb": 20.0,
+  "network_bytes": 0,
+  "pids_limit": 512,
+  "cpu_quota": 1.0
+ },
+ "notes": "P2 historical environment (T=06d25ce2...,P=5b0e5206..., runtime.txt python-3.9.14). Derived image r3 = base 3220486db0...(Py 3.9.25) + era wheelhouse (offline, hash-pinned offwh subset) + pytest 7.1.3 + psycopg2 EXACT 2.9.4 local cp39 wheel. interpreter_version is the CONCRETE probed 3.9.25 (patch-level compatibility verified for the contract closure; exact 3.9.14 identity NOT claimed). Requires a same-host PostgreSQL service (postgres:15-alpine sha256:9b4593c6de44..., unix socket via shared named volume; driver DATA_URL host=/pg-sock) \u2014 the v0.4.0 runner cannot inject env/mounts; see C6_P2_RUNNER_DELTA_PROPOSAL.md."
+}

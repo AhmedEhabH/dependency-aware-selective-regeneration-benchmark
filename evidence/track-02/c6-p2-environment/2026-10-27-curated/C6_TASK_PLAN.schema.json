@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "C6 task plan (schema c6-task-plan-v1)",
+  "description": "The immutable, authorization-bound specification for ONE C6 task (v0.3.0). The operator authors this file; its canonical SHA-256 (TaskPlan.canonical_sha256) is bound into C6_AUTHORIZATION_RECEIPT.json task_bindings. The runner and CLI execute ONLY this plan; there are no free-form overrides. Runtime identity (finding F4): every docker plan pins an IMMUTABLE image_digest; the interpreter is resolved INSIDE that image and interpreter_version may pin it exactly; wheelhouse may be bound by wheelhouse_id. Oracle evidence (finding F3): the junitxml_path is injected into the frozen pytest command and the resulting junit-xml report inside the sandbox is the ONLY valid behavioral oracle.",
+  "type": "object",
+  "required": ["schema", "task", "command", "test_paths", "oracle_mode", "isolation_backend"],
+  "properties": {
+    "schema": {"const": "c6-task-plan-v1"},
+    "task": {"type": "string", "pattern": "^[0-9A-Fa-f]{40}$"},
+    "command": {"type": "array", "items": {"type": "string"},
+      "description": "Exact argv (test command frozen by the operator; the runner never invents commands)."},
+    "test_paths": {"type": "array", "items": {"type": "string"},
+      "description": "M/A test paths from the frozen F9 mapping (P-available ones)."},
+    "t_only_paths": {"type": "array", "items": {"type": "string"},
+      "description": "T-only oracle paths: bytes quarantined under oracle/ and executed ONLY in the separate oracle evaluator."},
+    "oracle_mode": {"enum": ["POSITIVE_REFERENCE", "NEG_TESTS_EXPECTED_FAIL", "NONE"],
+      "description": "Evaluation-role selector (v0.4.0). POSITIVE_REFERENCE (C6 default): verdict from the P2P positive reference (T code + T tests) while the F2P negative baseline (P code + T tests) is ALWAYS executed and recorded (expected_failure must never be treated as a broken environment). NEG_TESTS_EXPECTED_FAIL: verdict from the F2P baseline expectation. NONE: P code + P tests diagnostic only — never a PASS source (always BLOCKED)."},
+    "isolation_backend": {"enum": ["docker", "job-object", "python-process"],
+      "description": "OS-level backend. docker is required for any network_bytes == 0 plan; python-process is harness-only (never for production)."},
+    "image": {"type": "string",
+      "description": "Image reference for docker backend (era-canonical, operator-frozen; may be a tag). Runtime launch ALWAYS uses the immutable digest."},
+    "image_digest": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$",
+      "description": "IMMUTABLE OCI image digest frozen by the operator (sha256 hex). Required for every docker plan. The runner resolves plan.image locally and requires equality (ENV_DRIFT GLOBAL STOP on mismatch); mutable tags never serve as runtime identity."},
+    "interpreter": {"type": "string", "default": "python"},
+    "interpreter_version": {"type": "string",
+      "description": "Optional exact interpreter version resolved INSIDE the pinned image (e.g. '3.9.14'). When declared, drift stops execution (ENV_DRIFT)."},
+    "wheelhouse": {"type": "string",
+      "description": "Optional offline wheelhouse dir mounted read-only into the container."},
+    "wheelhouse_id": {"type": "string",
+      "description": "Optional frozen wheelhouse identity; when declared, mismatch stops execution (ENV_DRIFT)."},
+    "junitxml_path": {"type": "string", "default": "/scratch-dir/c6-junit.xml",
+      "description": "Container path (under /scratch-dir) where the runner injects --junitxml; the report becomes the machine-readable oracle evidence file."},
+    "resources": {
+      "type": "object",
+      "properties": {
+        "timeout_s": {"type": "number", "minimum": 1},
+        "ram_mb": {"type": "number", "minimum": 1},
+        "disk_mb": {"type": "number", "minimum": 0},
+        "scratch_mb": {"type": "number", "minimum": 0},
+        "global_floor_gb": {"type": "number", "minimum": 0},
+        "network_bytes": {"type": "integer", "minimum": 0},
+        "pids_limit": {"type": "integer", "minimum": 1},
+        "cpu_quota": {"type": "number", "minimum": 0}
+      }
+    },
+    "notes": {"type": "string"},
+    "harness": {"type": "boolean", "default": false}
+  },
+  "additionalProperties": false
+}

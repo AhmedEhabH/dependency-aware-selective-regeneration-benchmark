@@ -1,0 +1,18 @@
+test_id,mission_issue,phase,evidence
+test_red_all_skipped_report_cannot_be_valid_pass,I1,RED-on-v0.3.0,valid=True ran=2 skipped testcases counted -> would PASS; GREEN-on-v0.4.0: executed=0 reason=all_skipped valid=False -> BLOCKED
+test_red_all_xfail_report_cannot_be_valid_pass,I1,RED-on-v0.3.0,valid=True -> PASS; GREEN-on-v0.4.0: xfailed=2 executed=0 reason=only_xfail -> BLOCKED
+test_red_all_xpass_report_cannot_be_valid_pass,I1,RED-on-v0.3.0,AttributeError JunitReport.xpassed (no field) + valid=True -> PASS; GREEN-on-v0.4.0: xpassed=2 executed=2 reason=only_xpass -> BLOCKED
+test_red_zero_execution_report_is_explicitly_vacuous,I1,GUARD-green-on-both,vacuous BLOCKED before and after (reason no_tests)
+test_red_ran_is_only_genuinely_executed_non_skipped_tests,I1,RED-on-v0.3.0,ran=3 counted skip+xfail; GREEN-on-v0.4.0: ran=1 executed only test_real_pass; skipped=2 xfailed=1 explicit; PASS
+test_red_e2e_degenerate_contract_never_pass[all_skipped],I1,RED-on-v0.3.0,all-skipped T contract -> PASS; GREEN-on-v0.4.0: BLOCKED (reference invalid all_skipped)
+test_red_e2e_degenerate_contract_never_pass[all_xfail],I1,RED-on-v0.3.0,all-xfail T contract -> PASS; GREEN-on-v0.4.0: BLOCKED (reference invalid only_xfail)
+test_red_e2e_degenerate_contract_never_pass[all_xpass],I1,RED-on-v0.3.0,all-xpass T contract -> PASS; GREEN-on-v0.4.0: BLOCKED (reference invalid only_xpass)
+test_red_e2e_zero_execution_never_pass,I1,GUARD-green-on-both,no-tests contract -> vacuous BLOCKED; oracle_report vacuous=True
+test_red_p2p_positive_reference_uses_t_code_e2e,I2,RED-on-v0.3.0,P code+T tests evaluated as POSITIVE_REFERENCE -> FAIL (defect: no T code); GREEN-on-v0.4.0: P2P on T code -> PASS
+test_red_p2p_reference_tree_contains_t_code_not_p_code,I2,RED-on-v0.3.0,eval_work had P code VALUE=1; GREEN-on-v0.4.0: eval_work/P2P VALUE=2, eval_f2p VALUE=1, src VALUE=1
+test_red_f2p_expected_failure_not_broken_environment,I2,RED-on-v0.3.0,no negative_baseline_f2p block; GREEN-on-v0.4.0: outcome=expected_failure, blocked_reason absent, verdict PASS from P2P
+test_red_diagnostic_pp_never_pass_in_none_mode,I2,RED-on-v0.3.0,NONE mode + green P/P -> PASS; GREEN-on-v0.4.0: BLOCKED (diagnostic never a PASS source)
+test_red_green_pp_diagnostic_evidence_preserved,I2,RED-on-v0.3.0,reference_definition.roles absent; GREEN-on-v0.4.0: roles.diagnostic.content == 'P code + P tests'
+test_red_t_bytes_never_prospective_input,I2,GUARD-green-on-both,src P-only + T-only absent from input command + T code confined to P2P tree
+test_red_neg_mode_expected_failure_is_f2p_grounded,I2,RED-on-v0.3.0,no f2p role/outcome fields; GREEN-on-v0.4.0: role=f2p outcome=expected_failure; NEG verdict PASS on the labeled F2P run
+test_f7_reference_tree_separation,I2,RED-on-v0.3.0,old contract asserted P code in eval_work; GREEN-on-v0.4.0: P2P= T code + T tests, F2P= P code + T tests, src P-only (contract updated to the corrected role semantics)

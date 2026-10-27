@@ -1,0 +1,116 @@
+{
+ "artifacts_sha256": {
+  "plans/P2.json": "84850E4FD4194CD261090E444C97459F2C42007B91E435BC0F394E55157B3DF3",
+  "work/p2_env_unblock/build_img/Dockerfile": "29E13C60EECCA6FDF81C5762B4B6FF83E684E7222FEC04BAB8B2C51A568DF4CF",
+  "work/p2_env_unblock/build_img/Dockerfile.r3": "A297C7BA86460D1E8F8EDC256C21D46024D17969A3D45EA39F2A9D75FC8C3265",
+  "work/p2_env_unblock/build_img/era_install_clean.txt": "5E7178A27557459B5E3A8647A22FEDF01778DC47D4BDF67D8633592D123F55B6",
+  "work/p2_env_unblock/build_img/offwh/SHA256SUMS.txt": "733D31417F32E18BF3A878E2B133520BE15C3734AB4F0377E24F76C3C1378E64",
+  "work/p2_env_unblock/build_img/phaseA.txt": "2655C9E08F9B8202D2D824D32870EB5987A1D30F5256DDAD9DE3AD7564D88EEF",
+  "work/p2_env_unblock/build_img/phaseB.txt": "8446A0C9C82590F1FD6FE027F7881F743843C537EFF0FB43FACE7A2A40A49A40",
+  "work/p2_env_unblock/probes/closure_probe.py": "DE3D3B2BD00D1D23C36A903BD80BC6A74E170829C2753F1B74EE7FF716CFAA76",
+  "work/p2_env_unblock/probes/integration_probe.py": "C4C1B5EF4B89BD9502ADA1F4609B377F481689D3A65488D897928E7378B2028A",
+  "work/p2_env_unblock/probes/isolation_probe.py": "FA0DB5FFBAF033792DFA11D443789C8CE12BD92499CC37AE92BAB19BE134AFAF",
+  "work/p2_env_unblock/probes/pg_probe.py": "66AA22D758DD57A7DB721028B55C02EB1C0E5A4D142B0235BBCBCCD04645BEF1"
+ },
+ "images": {
+  "base": {
+   "arch": "amd64",
+   "digest": "sha256:3220486db0d8f7649b29bfe01875a1ef794c860539e2713587d9d32f5bd91b89",
+   "interpreter": "3.9.25",
+   "os": "Debian 12 bookworm",
+   "ref": "envcanon/saleor-env-r4b-py39-native:latest"
+  },
+  "derived_r3": {
+   "digest": "sha256:4b41010cadabc8e5b9d09c1207f32ebbc59dbad72662e01c91f415f6a4ee6919",
+   "interpreter": "3.9.25",
+   "pip_freeze_count": 237,
+   "ref": "envcanon/saleor-c6-p2-py39-era:r3"
+  },
+  "postgres": {
+   "digest": "sha256:9b4593c6de443299b46098151fc1ec154c882339b77a56334c7ce612c8a7be6a",
+   "ref": "postgres:15-alpine",
+   "version": "PostgreSQL 15.18"
+  }
+ },
+ "mission": "TRACK02-C6-P2-ENV-UNBLOCK",
+ "plan": {
+  "canonical_sha256": "382E9280998B3B18BEED9B2FB95320CE9125C0DD4C7B830F6DD0FA4E91B53C88",
+  "schema": "c6-task-plan-v1",
+  "schema_required": [
+   "all present"
+  ]
+ },
+ "probes": {
+  "cleanup": {
+   "orphans_label_c6.task": 0,
+   "orphans_name_c6p2-pg": 0,
+   "probe_containers_removed": [
+    "c6p2-pg-probe3",
+    "c6p2-pg-probe4",
+    "c6p2-pg-probe5",
+    "c6p2-pg-probe6"
+   ],
+   "volumes_removed": [
+    "c6p2sock"
+   ]
+  },
+  "closure": {
+   "contract_module_import": "OK",
+   "django.setup()": "OK",
+   "filters_import": "OK",
+   "petl_was_required_by_plugins(webhook->csv)": "verified_hard_dependency",
+   "plugin_app_ready": "OK"
+  },
+  "derived_image_failures_ledger": {
+   "excluded": [
+    "pylint* (lint tooling, zero C6 closure)",
+    "python-magic-bin (win32-only marker)"
+   ],
+   "phaseA": [
+    "before-after==1.0.1 (order; fixed in r3)"
+   ],
+   "phaseB": [
+    "petl==1.7.11 (pep517 0.0.0; fixed via setuptools-scm/legacy; VERIFIED installed)"
+   ]
+  },
+  "integration": {
+   "databases_parse": "dj_database_url OPTIONS host=/pg-sock -> psycopg2 connect OK",
+   "django": "4.0.8",
+   "engine": "django.db.backends.postgresql",
+   "network": "none for BOTH containers",
+   "orm_select": "OK",
+   "postgres": "15.18",
+   "searchvector": "OK",
+   "transport": "unix socket over shared docker named volume"
+  },
+  "isolation": {
+   "loopback_under_network_none": "present (127.0.0.1 bind+connect OK)",
+   "memory_cap_256m_alloc300m": "rc=137 (OOM)",
+   "outbound_tcp_8.8.8.8:53": "BLOCKED(OSError)",
+   "pids_cap_64_threads200": "RuntimeError can't start new thread",
+   "rootfs_read_only": "ENFORCED errno=30",
+   "scratch-dir_write": "ok",
+   "scratch_tmpfs_write": "ok"
+  },
+  "pin_resolution": {
+   "exact_wheels": 220,
+   "missing_meaningful": 0,
+   "patch_compatible": 3,
+   "requirements.txt@P": 170,
+   "requirements_dev.txt@P": 245,
+   "sdists": 20,
+   "win32_only_excluded": 1
+  },
+  "python": {
+   "pip": "23.0.1",
+   "version": "3.9.25"
+  }
+ },
+ "runner": {
+  "db_service_capability": "absent (no env injection, no service stanza, fixed mounts) -> REQUIRES delta",
+  "isolation_check": "docker AVAILABLE (memory/network/pids/cpu)",
+  "version": "0.4.0"
+ },
+ "schema": "c6-t5-probe-receipt-v1",
+ "utc": "2026-10-27T10:00Z-11:00Z approx"
+}
