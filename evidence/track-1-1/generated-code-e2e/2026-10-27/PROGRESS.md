@@ -70,3 +70,9 @@ Original A3 diagnostic replay program and original A3 result receipt are preserv
 - User-host raw ZIP SHA-256: `b3327793e5c926d6621bbb694fa231fb5a35f535e62d89112b5bf832f472463a`; original JUnit auditor SHA-256: `02b1779cb21bc10d659d77fc06a82b1e03ad7a5ec6b1ac9e08aea34175ba02c7`; raw ZIP PRIVATE (synthetic authentication token in a stdout log).
 - Model calls during this E2E run 0; run reports 5584s wall-time; cumulative per-invocation timing disagrees and must be reconciled before comparing cost/time.
 - **Next:** preserve original evidence immutable, preregister prospective candidate/protocol; no retrospective edits to D2 or silent F2P fix.
+
+## D3 REPAIR CONTROL PROTOCOL (2026-10-27)
+
+- Test-informed control D3 declared before running D3 E2E; original A5-R1 STOP and D2 frozen.
+- Sources and protocol committed as separate branch evidence. No generated D3 Saleor behavioral result yet.
+- D2 baseline 1/3 F2P, 103/103 P2P; D3 will require 3/3 and 103/103 stable.
