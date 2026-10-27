@@ -82,3 +82,10 @@ Original A3 diagnostic replay program and original A3 result receipt are preserv
 - D3 status: `INFRASTRUCTURE_STOP_BEFORE_REPAIR`. D3 is test-informed, NOT model pass@1.
 - F2P stable: `None/3`; P2P stable: `None/103`; complete physical invocations: `None`.
 - Raw test logs and environment secrets remain local. A5-R1 STOP preserved.
+
+## D3 R2 EVALUATOR HASH-PIN CORRECTION (2026-10-27)
+
+- D3 first attempt stopped before repair and pytest due to **wrong embedded evaluator builder hash**; earlier STOP is immutable.
+- Original builder SHA-256: `2736b630c55f465d3de0d879e0540b74c1e9412855c05764537b3663a8078966`. Only the R2 runner's hash pin was corrected.
+- D3 remains a test-informed engineering control, not an LLM pass@1 success. Frozen original A5-R1 = STOP.
+- Corrected evaluator committed **before** the R2 host E2E execution.
