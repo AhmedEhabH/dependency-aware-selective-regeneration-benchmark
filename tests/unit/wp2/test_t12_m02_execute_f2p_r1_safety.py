@@ -842,7 +842,10 @@ class TestD7RealReceipts(unittest.TestCase):
 
     def test_repeated_db_identity_across_arms_fails(self):
         with tempfile.TemporaryDirectory() as td:
-            same_db = "opws_m3b_7e42fc67_083233_ab12cd34ef56"
+            # neutral (non-fixture) identity: the fixture-style name
+            # (083233_ab12cd34ef56) is reserved for the D3-R2 anti-synthetic
+            # fixture-marker gate, which has its own dedicated tests.
+            same_db = "opws_m3b_7e42fc67_093142_1a2b3c4d5e6f7a8b9c0d"
             result, _wt, _hist = _run_bridge_cfg(
                 Path(td),
                 arms=["NEG", "FULL_REFERENCE", "RM_CSS", "SIP"],

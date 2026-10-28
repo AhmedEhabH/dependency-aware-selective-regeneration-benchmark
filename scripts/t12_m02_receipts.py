@@ -220,6 +220,99 @@ def sample_run_receipt(
     return base
 
 
+def live_run_receipt_template(
+    *,
+    arm_id: str,
+    run_token: str,
+    junit_classifications: list[str],
+    db_identity: str,
+    process: dict,
+    times: dict,
+    resources: dict,
+    teardown: dict,
+    materialize_provenance: dict,
+    junit_dir: Path,
+    host: dict | None = None,
+    environment: dict | None = None,
+    pinned_image: dict | None = None,
+    cost: dict | None = None,
+    container: dict | None = None,
+    junit_receipts_sha: list[str] | None = None,
+) -> dict:
+    """D3-R2 LIVE receipt constructor: built ONLY from measured evidence.
+
+    Never seeds any field from ``sample_run_receipt``; every field is either a
+    caller-provided real measurement, a deterministic identity pin, or the
+    explicit ``NOT_MEASURED`` marker.  Unmeasured network bytes are expressed
+    as ``NOT_MEASURED`` (never an invented 0).
+    """
+    if len(junit_classifications) != JUNIT_RECEIPTS_EXPECTED:
+        raise ValueError(f"need exactly {JUNIT_RECEIPTS_EXPECTED} classifications")
+    arms = {a["arm_id"]: a for a in _adapt.load_arms()}
+    row = arms[arm_id]
+    tag = _tag_for(arm_id)
+    task8 = _adapt.FROZEN_TASK.split("-")[-1][:8]
+    jsha = list(junit_receipts_sha or []) + [None] * (JUNIT_RECEIPTS_EXPECTED - len(junit_receipts_sha or []))
+    body: dict[str, Any] = {
+        "schema": RECEIPT_SCHEMA,
+        "identity": {
+            "task_id": _adapt.FROZEN_TASK,
+            "arm_id": arm_id,
+            "effective_tree_oid": row["effective_tree_oid"],
+            "scope_hash": row["scope_hash"],
+            "reference_patch_sha256": row["patch_sha256"],
+            "reference_patch_bytes": row["patch_bytes"],
+            "test_contract_hash": row["test_contract_hash"],
+            "five_field_provisional_id": row["five_field_provisional_id"],
+        },
+        "f2p_nodes": _adapt.F2P_NODES,
+        "f2p_nodes_sha256": _adapt.F2P_NODES_SHA256,
+        "f2p_repetitions": F2P_REPETITIONS,
+        "execution_id": _adapt.execution_id_for(arm_id, run_token),
+        "process": dict(process),
+        "database": {
+            "engine": "postgres (isolated PG fixture)",
+            "db_identity": db_identity,
+            "db_created_receipt": True,
+        },
+        "times": dict(times),
+        "junit_receipts": [],
+        "resources": dict(resources),
+        "cost": cost or {
+            "benchmark_api_model_usd": 0.0,
+            "request_count": 0,
+            "provider_receipts": [],
+            "zero_generation_api_declared": True,
+            "note": "reference-patch phase: zero benchmark API; orchestration cost recorded separately",
+        },
+        "teardown_receipt": dict(teardown),
+        "host": host or {"hostname": "HOST_UNSET", "os": "WSL2/Windows"},
+        "environment": environment or {"environment_id": "ENV_UNSET"},
+        "pinned_image": pinned_image or {"image": "opws-py312-isolated", "oci_id": "UNRESOLVED"},
+        "materialize_provenance": dict(materialize_provenance),
+        "run_token": run_token,
+    }
+    if container is not None:
+        body["container"] = dict(container)
+    jdir = Path(junit_dir)
+    for i in range(JUNIT_RECEIPTS_EXPECTED):
+        rep, node = divmod(i, 3)
+        fname = f"{task8}_{tag}_r{rep}_f{node}.xml"
+        dig = jsha[i]
+        if dig is None and (jdir / fname).is_file():
+            # measured from the real artifact at construction time (the
+            # validator re-verifies; this is never a place for invention)
+            dig = _sha256_file(jdir / fname)
+        body["junit_receipts"].append({
+            "filename": fname,
+            "node_id": _adapt.F2P_NODES[node],
+            "repetition": rep,
+            "classification": junit_classifications[i],
+            "sha256": dig,
+        })
+    return body
+
+
 def write_run_receipt(run_dir: Path, receipt: dict) -> Path:
     run_dir.mkdir(parents=True, exist_ok=True)
     p = run_dir / RECEIPT_FILENAME
@@ -374,12 +467,40 @@ def validate_run_receipt(run_dir: Path) -> dict:
     if td.get("db_deleted") is not True:
         issues.append("teardown_receipt.db_deleted must attest DB removal")
 
-    # resources: numbers or explicit NOT_MEASURED
+    # resources: numbers or explicit NOT_MEASURED (D3-R2: a bare 0 without a
+    # sampler is an invented measurement and is rejected; numeric values require
+    # sampler provenance; a sampler claim with nothing measured is a lie)
     res = rec.get("resources") or {}
     for k in ("cpu_seconds", "peak_ram_mb", "disk_bytes", "network_bytes"):
         v = res.get(k)
         if not (isinstance(v, (int, float)) or v == NOT_MEASURED):
             issues.append(f"resources.{k} must be numeric or {NOT_MEASURED}")
+    _samp_raw = res.get("sampler")
+    _active_sampler = isinstance(_samp_raw, str) and not str(_samp_raw).startswith(NOT_MEASURED)
+    if res.get("network_bytes") == 0 and not _active_sampler:
+        issues.append(
+            "ZERO_UNMEASURED_NETWORK: network_bytes=0 without sampler provenance "
+            "is an invented measurement; use NOT_MEASURED or a measured value"
+        )
+    if isinstance(res.get("network_bytes"), (int, float)) and not _active_sampler:
+        issues.append(
+            "NUMERIC_RESOURCE_WITHOUT_SAMPLER: numeric resources require "
+            "resources.sampler provenance (never a bare number)"
+        )
+    if _active_sampler and all(
+        res.get(k) == NOT_MEASURED for k in ("cpu_seconds", "peak_ram_mb", "disk_bytes", "network_bytes")
+    ):
+        issues.append("SAMPLER_CLAIMED_BUT_NOTHING_MEASURED: sampler set while all resources are NOT_MEASURED")
+
+    # D3-R2: the post-run DB scan must be snapshotted (read-only hash evidence)
+    td2 = rec.get("teardown_receipt") or {}
+    _scan_rel = td2.get("path") if isinstance(td2.get("path"), str) else "post_run_db_scan.json"
+    scan_f = run_dir / str(_scan_rel)
+    if td2.get("verified_by_post_run_scan") is True:
+        if not scan_f.is_file():
+            issues.append("teardown_receipt verified_by_post_run_scan but scan file missing")
+        elif not td2.get("post_run_db_scan_sha256") or len(str(td2.get("post_run_db_scan_sha256"))) != 64:
+            issues.append("DB_SCAN_SNAPSHOT_MISSING: verified scan requires post_run_db_scan_sha256 (read-only hash)")
 
     # cost/request receipts
     cost = rec.get("cost") or {}
@@ -414,7 +535,9 @@ def _bundle_scan(run_dirs: list[Path]) -> tuple[list[str], list[dict], dict]:
     signals: list[dict] = []
     seen_exec: dict[str, str] = {}
     seen_db: dict[str, str] = {}
-    seen_pid: dict[str, str] = {}
+    seen_pid: dict[int, tuple[str, str]] = {}  # pid -> (arm, verified birth)
+    seen_nonce: dict[str, str] = {}
+    seen_container: dict[str, str] = {}
     seen_receipt_bytes: dict[str, str] = {}
     seen_junit_bytes: dict[str, list[tuple[str, str, str]]] = {}
     idx: dict[str, Any] = {}
@@ -428,7 +551,13 @@ def _bundle_scan(run_dirs: list[Path]) -> tuple[list[str], list[dict], dict]:
         arm = (rec.get("identity") or {}).get("arm_id")
         exec_id = rec.get("execution_id")
         dbi = (rec.get("database") or {}).get("db_identity")
-        pid = (rec.get("process") or {}).get("pid")
+        proc = rec.get("process") or {}
+        pid = proc.get("pid")
+        pb = proc.get("process_birth") or {}
+        osst = pb.get("os_start") or {}
+        birth = osst.get("os_start_utc") or pb.get("monotonic_start_ns") or None
+        nonce = proc.get("nonce")
+        cinst = (rec.get("container") or {}).get("container_instance_id")
         rh = _sha256_file(rp)
         if rh in seen_receipt_bytes:
             issues.append(
@@ -446,11 +575,38 @@ def _bundle_scan(run_dirs: list[Path]) -> tuple[list[str], list[dict], dict]:
                 issues.append(f"db_identity {dbi!r} reused across arms "
                               f"({seen_db[dbi]} vs {arm}) — shared DB violates Option B")
             seen_db[dbi] = arm or str(rd)
+        if nonce:
+            if nonce in seen_nonce and seen_nonce[nonce] != arm:
+                issues.append(f"nonce {nonce!r} reused across arms "
+                              f"({seen_nonce[nonce]} vs {arm}) — replayed worker evidence")
+            seen_nonce[nonce] = arm or str(rd)
+        if cinst:
+            if cinst in seen_container and seen_container[cinst] != arm:
+                issues.append(f"container_instance_id {cinst!r} reused across arms "
+                              f"({seen_container[cinst]} vs {arm}) — shared container violates Option B")
+            seen_container[cinst] = arm or str(rd)
         if pid:
-            if pid in seen_pid and seen_pid[pid] != arm:
-                issues.append(f"process pid {pid} reused across arms "
-                              f"({seen_pid[pid]} vs {arm})")
-            seen_pid[pid] = arm or str(rd)
+            if pid in seen_pid:
+                prev_arm, prev_birth = seen_pid[pid]
+                if (birth is not None and prev_birth not in (None, "UNMEASURED")
+                        and str(birth) != str(prev_birth)):
+                    # OS recycled the pid across two genuinely distinct processes
+                    signals.append({
+                        "kind": "PID_RECYCLED_DISTINCT_BIRTH",
+                        "pid": pid, "arm": arm, "birth": str(birth),
+                        "prev_arm": prev_arm, "prev_birth": str(prev_birth),
+                        "interpretation": "distinct verified process births -> two distinct "
+                                          "physical processes; NOT shared execution",
+                    })
+                elif str(birth) == str(prev_birth):
+                    issues.append(
+                        f"SHARED_PROCESS_EVIDENCE: pid {pid} reused by {prev_arm} and {arm} with "
+                        "IDENTICAL verified process birth -> same physical process "
+                        "(Option B violation, STOP)")
+                else:
+                    issues.append(f"process pid {pid} reused across arms "
+                                  f"({prev_arm} vs {arm}) with unverified/absent birth")
+            seen_pid[int(pid)] = (arm or str(rd), str(birth) if birth is not None else "UNMEASURED")
         jdir = rd / JUNIT_DIR_REL
         for f in sorted(jdir.glob("*.xml")):
             dig = _sha256_file(f)
