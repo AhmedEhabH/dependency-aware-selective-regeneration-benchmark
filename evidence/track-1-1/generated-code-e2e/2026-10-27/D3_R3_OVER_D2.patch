@@ -1,0 +1,47 @@
+diff --git a/saleor/app/installation_utils.py b/saleor/app/installation_utils.py
+--- a/saleor/app/installation_utils.py
++++ b/saleor/app/installation_utils.py
+@@ -296,10 +296,10 @@
+             )
+     WebhookEvent.objects.bulk_create(webhook_events)
+ 
+-    _, token = app.tokens.create(name="Default token")  # type: ignore[call-arg] # calling create on a related manager # noqa: E501
+-
+     token_target_url = manifest_data.get("tokenTargetUrl")
++    token = None
+     if token_target_url:
++        _, token = app.tokens.create(name="Default token")  # type: ignore[call-arg] # calling create on a related manager # noqa: E501
+         try:
+             send_app_token(target_url=token_target_url, token=token)
+         except requests.RequestException as e:
+diff --git a/saleor/app/manifest_validations.py b/saleor/app/manifest_validations.py
+--- a/saleor/app/manifest_validations.py
++++ b/saleor/app/manifest_validations.py
+@@ -50,17 +50,24 @@
+     - url can start with '/' when one of these conditions is true:
+         a) extension.target == APP_PAGE
+         b) appUrl is provided
+-        c) tokenTargetUrl is provided
+     - url cannot start with protocol when target == "APP_PAGE"
+     """
+     extension_url = extension["url"]
+ 
+-    # Check if app URL or token target URL is provided
++    # A non-APP_PAGE relative extension needs appUrl, not just tokenTargetUrl.
+     app_url = manifest_data.get("appUrl")
+     token_target_url = manifest_data.get("tokenTargetUrl")
++    if (
++        extension_url.startswith("/")
++        and extension.get("target", DEFAULT_APP_TARGET).lower() != "app_page"
++        and not app_url
++    ):
++        raise ValidationError(
++            "Manifest is invalid, appUrl is required for a relative extension URL"
++        )
+ 
+     # Only validate absolute URLs (with protocol)
+-    # Relative URLs (starting with '/') are allowed when appUrl or tokenTargetUrl is provided
++    # Relative URLs require an APP_PAGE target or a configured appUrl.
+     if not extension_url.startswith("/") and not (app_url or token_target_url):
+         raise ValidationError(
+             "Manifest is invalid, appUrl or tokenTargetUrl is required when using absolute URLs"

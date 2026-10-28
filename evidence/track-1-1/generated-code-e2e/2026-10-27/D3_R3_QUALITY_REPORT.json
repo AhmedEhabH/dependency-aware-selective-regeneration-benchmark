@@ -1,0 +1,39 @@
+{
+  "classification": "TEST_INFORMED_REPAIR_CONTROL_NOT_PROSPECTIVE_MODEL_GENERATION",
+  "code_identity": {
+    "d3_over_d2_sha256": "01cd8d20d8efe3810022d6b8b04e0775145bed188faa4861f7715094f8e9df6f",
+    "d3_sources_sha256": {
+      "saleor/app/installation_utils.py": "7bcf494d0065a72b9fcbfe496571f0c5a9a37340a5e0d45466d4082e54221823",
+      "saleor/app/manifest_validations.py": "71b95eab5ad9703fc27a2012f3e93cfe164534082779707eb45c6df5f3aa46c7"
+    }
+  },
+  "frozen_original_A5_R1": "STOP",
+  "functional": {
+    "all_stable": true,
+    "expected_F2P": 3,
+    "expected_P2P": 103,
+    "stable_F2P": 3,
+    "stable_P2P": 103,
+    "verified_physical_invocations": 318
+  },
+  "qualifications": {
+    "branch_coverage": "NOT_MEASURED",
+    "code_review": "NOT_PERFORMED",
+    "full_repository_tests": "NOT_RUN",
+    "independent_replicates": "NOT_PROVEN_SHARED_DB",
+    "mutation_score": "NOT_MEASURED",
+    "no_competitor_comparison": true,
+    "no_model_pass_at_1_claim": true,
+    "security_review": "NOT_PERFORMED"
+  },
+  "schema": "t11_d3_bounded_code_quality_v1",
+  "scope": {
+    "diff_added_lines": 12,
+    "diff_deleted_lines": 5,
+    "files_modified_from_D2": 2
+  },
+  "static": {
+    "ruff_format": "PASS",
+    "ruff_lint": "PASS"
+  }
+}

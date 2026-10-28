@@ -98,3 +98,12 @@ Original A3 diagnostic replay program and original A3 result receipt are preserv
 - The same R3 kit is published using uniquely prefixed names to avoid the pre-existing `T11_D3_CREATE_CONTROL.py` collision.
 - D2 and A5-R1 remain frozen; this is a test-informed engineering control, not a new model attempt.
 - This pre-run evaluator correction was published before any R3 behavioral E2E tests.
+
+## D3 R3 REAL BEHAVIORAL RESULT (2026-10-28)
+
+- R2 repository-less `git diff --check` STOP and R2 result publication STOP are preserved separately in R3 correction milestone.
+- Original first D3 attempt remains `INFRASTRUCTURE_STOP_BEFORE_REPAIR`. R3 corrects repository-less patch validation only; D3 semantic edits remain unchanged.
+- **R3 run verdict:** `D3_COMPLETE_CONTROL_PASS`; D3 test-informed control, never independent model pass@1.
+- F2P stable: `3/3`; P2P stable: `103/103`; full verified physical invocations: `318`.
+- Public summary, bounded quality metrics and D3 patch, if generated, are sanitized. Raw JUnit/logs and tokens stay on the host.
+- Original A5-R1 remains STOP; D2 remains frozen 1/3 F2P and 103/103 P2P.

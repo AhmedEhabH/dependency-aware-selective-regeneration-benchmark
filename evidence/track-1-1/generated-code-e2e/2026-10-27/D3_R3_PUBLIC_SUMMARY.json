@@ -1,0 +1,22 @@
+{
+  "classification": "TEST_INFORMED_REPAIR_CONTROL_NOT_MODEL_PASS_AT_1",
+  "d3_repair_patch_sha256": "01cd8d20d8efe3810022d6b8b04e0775145bed188faa4861f7715094f8e9df6f",
+  "d3_source_sha256": {
+    "saleor/app/installation_utils.py": "7bcf494d0065a72b9fcbfe496571f0c5a9a37340a5e0d45466d4082e54221823",
+    "saleor/app/manifest_validations.py": "71b95eab5ad9703fc27a2012f3e93cfe164534082779707eb45c6df5f3aa46c7"
+  },
+  "disclosures": [
+    "The repair used previously observed frozen F2P failures",
+    "Shared DB means physical repeats are not independent statistical replicates",
+    "Chosen P2P subset is not the full repository test suite",
+    "Security audit, mutation score and coverage remain unqualified"
+  ],
+  "f2p_stable_pass": 3,
+  "official_A5_R1": "STOP",
+  "p2p_stable_pass": 103,
+  "previous_D2_F2P_stable_pass": 1,
+  "previous_D2_P2P_stable_pass": 103,
+  "schema": "t11_d3_public_safe_summary_v1",
+  "status": "D3_COMPLETE_CONTROL_PASS",
+  "verified_invocations": 318
+}
