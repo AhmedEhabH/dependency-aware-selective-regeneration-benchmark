@@ -89,3 +89,12 @@ Original A3 diagnostic replay program and original A3 result receipt are preserv
 - Original builder SHA-256: `2736b630c55f465d3de0d879e0540b74c1e9412855c05764537b3663a8078966`. Only the R2 runner's hash pin was corrected.
 - D3 remains a test-informed engineering control, not an LLM pass@1 success. Frozen original A5-R1 = STOP.
 - Corrected evaluator committed **before** the R2 host E2E execution.
+
+## D3 R3 NON-REPOSITORY PATCH APPLICATION CORRECTION (2026-10-28)
+
+- Previous R2 host run stopped before pytest because `git diff --check` was called on a non-repository stage; this was an evaluator issue.
+- R2 result publication also stopped; no previous evidence is overwritten.
+- The R3 builder uses `git apply --check`, `git apply`, reverse applicability, and exact source SHA on an ephemeral COPY.
+- The same R3 kit is published using uniquely prefixed names to avoid the pre-existing `T11_D3_CREATE_CONTROL.py` collision.
+- D2 and A5-R1 remain frozen; this is a test-informed engineering control, not a new model attempt.
+- This pre-run evaluator correction was published before any R3 behavioral E2E tests.
