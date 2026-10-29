@@ -40,6 +40,9 @@ WITHER_SCHEMA = "t12_m02_d3r2_worker_input_v1"
 ORCH_SCHEMA_PREFLIGHT = "t12_m02_d3r2_preflight_v1"
 ORCH_SCHEMA_DRYRUN = "t12_m02_d3r2_dryrun_v1"
 ORCH_SCHEMA_RUN = "t12_m02_d3r2_run_v1"
+# Post-kill grace wait that MEASURES whether a timed-out child actually
+# terminated (teardown is verified, never asserted).
+TERMINATION_GRACE_S = 5.0
 
 
 def _load(rel_name: str, mod_name: str) -> Any:
@@ -339,6 +342,30 @@ def dry_run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # run (RD-8/RD-9 gated; never reached in D3)
 # ---------------------------------------------------------------------------
+def _derived_deadline_utc(
+    authorization: dict[str, Any],
+    budget: dict[str, Any],
+    *,
+    now_utc: Any | None = None,
+) -> str:
+    """Real UTC wall deadline for a gated run: the EARLIEST of
+    now + authorization max_wall_s, now + budget max_wall_s and the approved
+    RD-9 exclusivity-window end — i.e. bounded by BOTH the window end and the
+    authorized wall cap.  Fail closed: an unparseable window end raises
+    WALL_DEADLINE_INVALID."""
+    import datetime
+
+    window_end = _exe._parse_utc_iso(authorization.get("parsed_window_utc", {}).get("end"))
+    if window_end is None:
+        raise RuntimeError("WALL_DEADLINE_INVALID")
+    now_dt: datetime.datetime = datetime_now() if now_utc is None else now_utc
+    caps = [float(authorization.get("max_wall_s", 0.0)),
+            float(budget.get("max_wall_s", 0.0))]
+    remaining_window_s: float = float((window_end - now_dt).total_seconds())
+    deadline_s = min(caps + [remaining_window_s])
+    return (now_dt + datetime.timedelta(seconds=deadline_s)).isoformat()
+
+
 def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
     """Gated real execution: one NEW OS child per arm.  Execution path exists
     ONLY to prove that real run-mode code uses the real pinned engine; D3
@@ -375,6 +402,11 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
     matrix = matrix_pins(Path(args.matrix))
     scope_dir = Path(args.scopes_dir)
     sim_worker = args.worker_path or str(_SCRIPTS / "t12_m02_d3r2_worker.py")
+    # Round 2 safety: forward a REAL UTC deadline bounded by BOTH the
+    # approved RD-9 exclusivity-window end and the authorized max_wall_s
+    # (the admitted budget), never None — so the wall cap is actually
+    # enforced by run_arms_physical.
+    deadline_utc = _derived_deadline_utc(auth, budget)
     return run_arms_physical(
         out_root=out_root, arms=arms, worktree=worktree,
         source_repo=Path(args.source_repo) if args.source_repo else _adapt.FROZEN_SOURCE_SALEOR_REPO,
@@ -383,7 +415,7 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         worktrees=json.loads(args.worktrees_json) if args.worktrees_json else {},
         db_scan_cmd_env=os.environ.get("T12_M02_DB_SCAN_CMD"),
         worker_path=sim_worker, docker_events=True,
-        deadline_utc=None, spawner=None)
+        deadline_utc=deadline_utc, spawner=None)
 
 
 def spawn_worker_proc(worker_path: str, witness_input: Path, arm_dir: Path,
@@ -423,6 +455,11 @@ def run_arms_physical(
     note: list[str] = []
     overall = "FAIL"
     stop_reason: str | None = None
+    deadline_dt: Any = None
+    if deadline_utc is not None:
+        deadline_dt = _exe._parse_utc_iso(deadline_utc)
+        if deadline_dt is None:
+            raise RuntimeError("WALL_DEADLINE_INVALID")
     for arm in arms:
         arm_dir = out_root / f"arm_{arm}"
         stage: dict[str, Any] = {"arm_id": arm, "status": "NOT_RUN",
@@ -431,6 +468,25 @@ def run_arms_physical(
             stage["reason"] = stop_reason
             arms_results.append(stage)
             continue
+        # Enforced BEFORE this arm spawns (deadline is re-checked every arm):
+        # STOP, never start the arm, record truthful partial evidence with
+        # the measured deadline and check time.
+        if deadline_dt is not None:
+            remaining_s = (deadline_dt - datetime_now()).total_seconds()
+            if remaining_s <= 0:
+                stage["reason"] = "WALL_DEADLINE_EXCEEDED"
+                stage["stages"] = {
+                    "deadline": {
+                        "deadline_utc": deadline_dt.isoformat(),
+                        "checked_utc": datetime_now().isoformat(),
+                        "remaining_s": 0.0,
+                    }
+                }
+                overall = "FAIL"
+                stop_reason = "WALL_DEADLINE_EXCEEDED: stop-before-SIP"
+                note.append("WALL_DEADLINE_EXCEEDED:" + arm)
+                arms_results.append(stage)
+                continue
         try:
             if arm_dir.exists():
                 raise RuntimeError("ARM_DIR_REUSE")
@@ -466,18 +522,36 @@ def run_arms_physical(
             child_pid = proc.pid
             run_done = False
             deadline_s = None
-            if deadline_utc is not None:
-                dl = _exe._parse_utc_iso(deadline_utc)
-                if dl is None:
-                    raise RuntimeError("WALL_DEADLINE_INVALID")
-                deadline_s = max(1.0, (dl - datetime_now()).total_seconds())
+            if deadline_dt is not None:
+                deadline_s = max(0.01, (deadline_dt - datetime_now()).total_seconds())
             try:
-                rc = proc.wait(timeout=deadline_s if deadline_s else None)
+                rc = proc.wait(timeout=deadline_s)
                 run_done = True
             except subprocess.TimeoutExpired:
+                # Wall cap hit while the child is still running: STOP this
+                # arm with truthful partial evidence; cleanup is MEASURED via
+                # a post-kill grace wait, never asserted/claimed.
+                run_done = False
                 proc.kill()
+                try:
+                    proc.wait(timeout=TERMINATION_GRACE_S)
+                    child_terminated = True
+                except subprocess.TimeoutExpired:
+                    child_terminated = False
                 rc = -999
+                stage["stages"]["child_spawn"] = {
+                    "argv": argv_text,
+                    "argv_digest": _identity.argv_digest(argv_text.split()),
+                    "child_pid": child_pid,
+                    "spawned_utc": spawned_utc,
+                    "exit_code": None,
+                    "ran_to_completion": False,
+                    "wall_timeout": True,
+                    "child_terminated_verified": child_terminated,
+                }
                 note.append("CHILD_WALL_TIMEOUT:" + arm)
+                raise RuntimeError(
+                    f"CHILD_WALL_TIMEOUT:{arm} terminated_verified={child_terminated}") from None
             stage["stages"]["child_spawn"] = {
                 "argv": argv_text, "argv_digest": _identity.argv_digest(argv_text.split()),
                 "child_pid": child_pid, "spawned_utc": spawned_utc, "exit_code": rc,

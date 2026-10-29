@@ -18,12 +18,16 @@ Required negatives covered (mission step 5):
 """
 from __future__ import annotations
 
+import datetime
 import importlib.util
 import json
+import os
+import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 _SCRIPTS = Path(__file__).resolve().parents[3] / "scripts"
 
@@ -334,6 +338,275 @@ class TestRunPhysicalIdentity(unittest.TestCase):
                                   {"NEG": dict(w)}, {"NEG": 7777}, probe)
         self.assertEqual(stage["overall"], "FAIL")
         self.assertIn("WITNESS_PID_MISMATCH", stage["arms"][0].get("reason", ""))
+
+
+class _ClockNow:
+    """Deterministic UTC clock for deadline tests (patched over
+    ``_orch.datetime_now``)."""
+
+    def __init__(self, start_utc: datetime.datetime):
+        self._now = start_utc
+
+    def __call__(self) -> datetime.datetime:
+        return self._now
+
+    def advance(self, seconds: float) -> None:
+        self._now = self._now + datetime.timedelta(seconds=seconds)
+
+
+class _TimeoutProc:
+    """Fake child still running when the wall deadline expires.  First
+    ``wait()`` raises TimeoutExpired (the wall cap); after ``kill()`` the
+    grace wait either reports termination (verified) or raises again
+    (unverified — teardown must then NOT be claimed)."""
+
+    def __init__(self, pid: int, *, second_wait_raises: bool = False):
+        self.pid = pid
+        self.killed = False
+        self._second_raises = second_wait_raises
+        self.waits = 0
+
+    def wait(self, timeout: float | None = None):
+        self.waits += 1
+        if self.waits == 1:
+            raise subprocess.TimeoutExpired("fake-child", timeout)
+        if self._second_raises:
+            raise subprocess.TimeoutExpired("fake-child-grace", timeout)
+        return -9
+
+    def kill(self):
+        self.killed = True
+
+
+class TestD3R2DeadlineSafety(unittest.TestCase):
+    """Track 1.2 D3-R2 live-deadline safety (RED first, then GREEN): the
+    orchestrator must derive a REAL UTC deadline bounded by BOTH the
+    approved RD-9 exclusivity-window end and the authorized max_wall_s,
+    enforce it before every arm spawn and during every child wait, and on
+    timeout STOP (no further arm) with truthful partial evidence — never
+    claiming teardown it did not measure."""
+
+    def test_run_passes_real_deadline_bounded_by_window_and_budget(self):
+        """The confirmed defect: ``run()`` forwards ``deadline_utc=None`` so
+        the authorized wall cap is never enforced.  After repair, ``run()``
+        must forward a real UTC deadline bounded by BOTH the approved RD-9
+        window end and the authorized max_wall_s budget."""
+        now = datetime.datetime.now(datetime.UTC)
+        clock = _ClockNow(now)
+        start = now - datetime.timedelta(hours=1)
+        end = now + datetime.timedelta(hours=4)
+        auth_payload = {
+            "schema": "t12_m02_execution_authorization_v1",
+            "grant": "RD9_F2P_PILOT",
+            "authorized_arms": list(_orch.PILOT_ARMS),
+            "exclusivity_window": {"start_utc": start.isoformat(), "end_utc": end.isoformat()},
+            "max_wall_s": 3600,
+            "recorded_by": "test-operator",
+        }
+        rd8_payload = {
+            "schema": "t12_m02_rd8_pilot_decision_v1",
+            "decision": "ADOPT_PILOT_ONLY",
+            "signed_by": "test-operator",
+            "signed_at_utc": now.isoformat(),
+            "classification_sha256": _exe.DERIVED_CLASSIFICATION_SHA256,
+            "test_authority_sha256": _exe.DERIVED_TEST_AUTHORITY_SHA256,
+        }
+        budget_payload = {"benchmark_api_model_usd": 0.0, "request_count": 0}
+        captured: dict[str, object] = {}
+
+        def spy_run_arms_physical(**kwargs: object) -> dict[str, object]:
+            captured["deadline_utc"] = kwargs.get("deadline_utc")
+            return {"schema": _orch.ORCH_SCHEMA_RUN, "mode": "RUN",
+                    "overall": "PASS", "arms": [],
+                    "generated_at_utc": now.isoformat()}
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "rd8.json").write_text(json.dumps(rd8_payload), encoding="utf-8")
+            (root / "auth.json").write_text(json.dumps(auth_payload), encoding="utf-8")
+            (root / "budget.json").write_text(json.dumps(budget_payload), encoding="utf-8")
+
+            class _Args:
+                pass
+
+            args = _Args()
+            args.worktree = str(root)
+            args.source_repo = str(root)
+            args.matrix = str(root / "matrix.csv")
+            args.scopes_dir = str(root / "scopes")
+            args.classification = str(root / "cls.json")
+            args.test_authority = str(root / "ta.json")
+            args.worktrees_json = "{}"
+            args.worker_path = None
+            args.rd8_decision = str(root / "rd8.json")
+            args.authorization = str(root / "auth.json")
+            args.budget_json = str(root / "budget.json")
+            args.wall_max_s = 120.0
+            args.autorun_in_d3_flag = "NEVER_IN_D3"
+            with mock.patch.object(_orch, "datetime_now", clock), \
+                 mock.patch.object(_orch, "matrix_pins", return_value={}), \
+                 mock.patch.object(_orch, "run_arms_physical", side_effect=spy_run_arms_physical), \
+                 mock.patch.dict(os.environ, {"T12_M02_DB_SCAN_CMD": "true"}):
+                _orch.run(args, root / "out")
+        self.assertIsNotNone(captured.get("deadline_utc"),
+                             "run() must forward a real deadline, never None")
+        dl = _exe._parse_utc_iso(captured["deadline_utc"])
+        self.assertIsNotNone(dl)
+        # bounded by BOTH the approved window end and the authorized cap
+        self.assertEqual(dl, now + datetime.timedelta(seconds=120.0))
+        self.assertLessEqual(dl, end)
+
+    def test_expired_window_deadline_stops_before_any_spawn(self):
+        """A deadline already past (RD-9 window over) must STOP before
+        spawning ANY arm: no child process, no arm dir, truthful NOT_RUN
+        with WALL_DEADLINE_EXCEEDED and measured deadline evidence."""
+        matrix = {a["arm_id"]: a for a in _adapt.load_arms()}
+        calls: list[str] = []
+
+        def spawner(worker_path, witness_input, arm_dir):
+            calls.append(json.loads(witness_input.read_text(encoding="utf-8"))["arm"])
+            return _TimeoutProc(pid=4242), "TEST_SPAWNER"
+
+        probe = make_arm_probe({"arm_NEG/wt_t": matrix["NEG"]["effective_tree_oid"]})
+        out = Path(tempfile.mkdtemp()) / "out"
+        res = _orch.run_arms_physical(
+            out_root=out, arms=["NEG", "SIP"], worktree=Path("frozen"),
+            source_repo=Path("repo"), scope_dir=Path("scopes"),
+            classification=Path("cls.json"), test_authority=Path("ta.json"),
+            matrix=matrix,
+            worktrees={"NEG": "/root/scratch/arm_NEG/wt_t", "SIP": "/root/scratch/arm_SIP/wt_t"},
+            db_scan_cmd_env="true", worker_path="t12_m02_d3r2_worker.py",
+            docker_events=False, deadline_utc="2020-01-01T00:00:00Z",
+            spawner=spawner, probe=probe)
+        self.assertEqual(calls, [], "no arm may spawn after an expired deadline")
+        self.assertFalse((out / "arm_NEG").exists(), "no arm dir on expired deadline")
+        self.assertEqual(res["overall"], "FAIL")
+        by_arm = {a["arm_id"]: a for a in res["arms"]}
+        for arm in ("NEG", "SIP"):
+            st = by_arm[arm]
+            self.assertEqual(st["status"], "NOT_RUN")
+            self.assertIn("WALL_DEADLINE_EXCEEDED", st.get("reason", ""))
+
+    def test_exhausted_budget_binds_deadline_when_tighter_than_window(self):
+        """Deadline derivation must take the EARLIEST of (authorization cap,
+        budget cap, approved window end): an exhausted/min budget is the
+        binding bound, and the window end binds when it is tighter."""
+        t0 = datetime.datetime(2026, 11, 10, 9, 0, 0, tzinfo=datetime.UTC)
+        auth_window = {"parsed_window_utc": {"end": (t0 + datetime.timedelta(hours=4)).isoformat()},
+                       "max_wall_s": 3600}
+        d1 = _exe._parse_utc_iso(
+            _orch._derived_deadline_utc(auth_window, {"max_wall_s": 120.0}, now_utc=t0))
+        self.assertEqual(d1, t0 + datetime.timedelta(seconds=120))
+        auth_tight = {"parsed_window_utc": {"end": (t0 + datetime.timedelta(seconds=60)).isoformat()},
+                      "max_wall_s": 120}
+        d2 = _exe._parse_utc_iso(
+            _orch._derived_deadline_utc(auth_tight, {"max_wall_s": 120.0}, now_utc=t0))
+        self.assertEqual(d2, t0 + datetime.timedelta(seconds=60))
+
+    def test_child_wall_timeout_truthful_partial_evidence_stops_before_sip(self):
+        """A child still running at the wall cap must be STOPPED with
+        truthful partial evidence: no teardown claim without a MEASURED
+        post-kill termination check, and later arms (SIP) never start."""
+        matrix = {a["arm_id"]: a for a in _adapt.load_arms()}
+        deadline = datetime.datetime.now(datetime.UTC) + datetime.timedelta(seconds=60)
+        calls: list[str] = []
+
+        def spawner(worker_path, witness_input, arm_dir):
+            calls.append(json.loads(witness_input.read_text(encoding="utf-8"))["arm"])
+            return _TimeoutProc(pid=5000 + len(calls)), "TEST_SPAWNER"
+
+        probe = make_arm_probe({"arm_NEG/wt_t": matrix["NEG"]["effective_tree_oid"]})
+        out = Path(tempfile.mkdtemp()) / "out"
+        res = _orch.run_arms_physical(
+            out_root=out, arms=["NEG", "SIP"], worktree=Path("frozen"),
+            source_repo=Path("repo"), scope_dir=Path("scopes"),
+            classification=Path("cls.json"), test_authority=Path("ta.json"),
+            matrix=matrix,
+            worktrees={"NEG": "/root/scratch/arm_NEG/wt_t", "SIP": "/root/scratch/arm_SIP/wt_t"},
+            db_scan_cmd_env="true", worker_path="t12_m02_d3r2_worker.py",
+            docker_events=False, deadline_utc=deadline.isoformat(),
+            spawner=spawner, probe=probe)
+        self.assertEqual(calls, ["NEG"], "SIP must never spawn after a wall timeout")
+        by_arm = {a["arm_id"]: a for a in res["arms"]}
+        neg = by_arm["NEG"]
+        self.assertIn("CHILD_WALL_TIMEOUT", neg.get("reason", ""))
+        spawn = neg["stages"]["child_spawn"]
+        self.assertFalse(spawn["ran_to_completion"])
+        self.assertTrue(spawn.get("wall_timeout") is True)
+        self.assertTrue(spawn.get("child_terminated_verified") is True)  # MEASURED
+        self.assertEqual(by_arm["SIP"]["status"], "NOT_RUN")
+        self.assertEqual(res["overall"], "FAIL")
+
+    def test_child_wall_timeout_unverified_termination_never_claimed(self):
+        """If the post-kill grace wait does NOT confirm termination, the
+        orchestrator must record child_terminated_verified=False — it never
+        claims successful teardown it did not measure."""
+        matrix = {a["arm_id"]: a for a in _adapt.load_arms()}
+        deadline = datetime.datetime.now(datetime.UTC) + datetime.timedelta(seconds=60)
+
+        def spawner(worker_path, witness_input, arm_dir):
+            return _TimeoutProc(pid=5111, second_wait_raises=True), "TEST_SPAWNER"
+
+        probe = make_arm_probe({"arm_NEG/wt_t": matrix["NEG"]["effective_tree_oid"]})
+        out = Path(tempfile.mkdtemp()) / "out"
+        res = _orch.run_arms_physical(
+            out_root=out, arms=["NEG"], worktree=Path("frozen"),
+            source_repo=Path("repo"), scope_dir=Path("scopes"),
+            classification=Path("cls.json"), test_authority=Path("ta.json"),
+            matrix=matrix, worktrees={"NEG": "/root/scratch/arm_NEG/wt_t"},
+            db_scan_cmd_env="true", worker_path="t12_m02_d3r2_worker.py",
+            docker_events=False, deadline_utc=deadline.isoformat(),
+            spawner=spawner, probe=probe)
+        neg = res["arms"][0]
+        self.assertIn("CHILD_WALL_TIMEOUT", neg.get("reason", ""))
+        self.assertIn("terminated_verified=False", neg.get("reason", ""))
+        self.assertTrue(neg["stages"]["child_spawn"].get("child_terminated_verified") is False)
+
+    def test_deadline_expiry_between_arms_blocks_next_arm_spawn(self):
+        """The deadline is re-checked BEFORE every spawn: an expiration
+        after NEG PASS (between arms) must STOP before SIP starts."""
+        matrix = {a["arm_id"]: a for a in _adapt.load_arms()}
+        t0 = datetime.datetime(2026, 11, 10, 9, 0, 0, tzinfo=datetime.UTC)
+        clock = _ClockNow(t0)
+        calls: list[str] = []
+
+        def spawner(worker_path, witness_input, arm_dir):
+            arm = json.loads(witness_input.read_text(encoding="utf-8"))["arm"]
+            calls.append(arm)
+            arm_dir.mkdir(exist_ok=True)
+            pid = 6000 + len(calls)
+            w = _witness(arm, pid, "2026-11-10T09:00:00.000Z",
+                         f"n{len(calls)}" + "x" * 16, 100)
+            (arm_dir / "witness.json").write_text(json.dumps(w), encoding="utf-8")
+            st = {"status": "PASS", "control_outcome": "OUTCOME_DATA"}
+            if arm == "NEG":
+                st = {"status": "CONTROL_EXPECTED", "control_outcome": "CONTROL_EXPECTED"}
+            (arm_dir / "worker_stage.json").write_text(json.dumps(st), encoding="utf-8")
+            _fake_receipt_dir(arm_dir, arm)
+            if arm == "NEG":
+                clock.advance(11.0)  # deadline passes before SIP is considered
+            return _FakeProc(pid, 0), "TEST_SPAWNER"
+
+        probe = make_arm_probe({"arm_NEG/wt_t": matrix["NEG"]["effective_tree_oid"]})
+        out = Path(tempfile.mkdtemp()) / "out"
+        deadline_utc = (t0 + datetime.timedelta(seconds=10)).isoformat()
+        with mock.patch.object(_orch, "datetime_now", clock):
+            res = _orch.run_arms_physical(
+                out_root=out, arms=["NEG", "SIP"], worktree=Path("frozen"),
+                source_repo=Path("repo"), scope_dir=Path("scopes"),
+                classification=Path("cls.json"), test_authority=Path("ta.json"),
+                matrix=matrix,
+                worktrees={"NEG": "/root/scratch/arm_NEG/wt_t",
+                           "SIP": "/root/scratch/arm_SIP/wt_t"},
+                db_scan_cmd_env="true", worker_path="t12_m02_d3r2_worker.py",
+                docker_events=False, deadline_utc=deadline_utc,
+                spawner=spawner, probe=probe)
+        by_arm = {a["arm_id"]: a for a in res["arms"]}
+        self.assertEqual(calls, ["NEG"], "SIP must not spawn after the deadline expires")
+        self.assertEqual(by_arm["SIP"]["status"], "NOT_RUN")
+        self.assertIn("WALL_DEADLINE_EXCEEDED", by_arm["SIP"].get("reason", ""))
+        self.assertEqual(res["overall"], "FAIL")
+        self.assertFalse((out / "arm_SIP").exists())
 
 
 class TestReceiptIntegrityFromContract(unittest.TestCase):

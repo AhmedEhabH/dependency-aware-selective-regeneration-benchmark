@@ -11,7 +11,7 @@ execution entrypoint:
 | --- | --- |
 | `preflight` | read-only fail-closed admission (branch/HEAD, matrix/plan FULL SHA pins, engine stage pin hashes, RD-8/RD-9 artifact state, eligibility NOT_RUN). exit 4 with typed stops. |
 | `dry-run` | 13-arm NOT_RUN plan + a CONCRETE fully-resolved prospective physical run plan for the frozen first pilot (4 arms, 3 nodes x 3 reps = 9 JUnit/arm, 36 total, USD 0.00, requests 0). Never executes. |
-| `run` | fail-CLOSED. Refuses unless a typed signed RD-8 `ADOPT_PILOT_ONLY` decision, a separate RD-9 authorization (exclusivity window + arm set + wall cap), a zero-API budget, and per-arm worktree inputs exist. In D3 the outcome is always `STOP_NOT_AUTHORIZED`, executed=false. |
+| `run` | fail-CLOSED. Refuses unless a typed RD-8 `ADOPT_PILOT_ONLY` decision (schema `t12_m02_rd8_pilot_decision_v1`: decision, record of `signed_by`/`signed_at_utc` as operator ATTESTATION — never a cryptographic signature, pinned classification/test-authority sha256), a separate RD-9 authorization (schema `t12_m02_execution_authorization_v1`: grant `RD9_F2P_PILOT`, arm set ⊆ frozen pilot, exclusivity window, wall cap), a zero-API budget, and per-arm worktree inputs exist. The orchestrator derives a real UTC deadline bounded by BOTH the approved window end and the authorized `max_wall_s` and enforces it before every arm spawn and per child wait. In D3 the outcome is always `STOP_NOT_AUTHORIZED`, executed=false. |
 
 All three modes read the SAME immutable plan and frozen source paths
 (frozen worktree `opws-runtime-compat-2026-10-26`; no fake CLI flags).
@@ -36,6 +36,11 @@ receives them (unit-tested).
   and never PASS.
 - No retries; fresh out dir per execution; run requires artifacts that do not
   exist yet in D3, so it cannot self-authorize.
+- A real UTC wall deadline is derived BEFORE execution: the earliest of the
+  approved RD-9 exclusivity-window end and now + `max_wall_s`. Enforced before
+  every arm spawn and during every child wait; on expiry the run STOPS (no new
+  arm starts) with truthful partial evidence, and post-kill termination is
+  MEASURED — teardown is never asserted without measurement.
 - Mocks appear only in unit tests; the execution path imports the real frozen
   engine functions.
 
@@ -56,6 +61,9 @@ NOT_RUN: all 13 prospective arms `NOT_RUN`, 0 model requests, USD 0.00. The
 only two remaining blockers are researcher decisions: RD-8
 (ADOPT_PILOT_ONLY/REJECT with pinned hashes) and RD-9 execution
 authorization (exclusivity + wall cap). P2P stays NOT qualified (RD-3).
-Proposal artifacts: `RD8_PILOT_DECISION_PROPOSAL.md`,
-`AUTHORIZATION_SCHEMA_PILOT.json` (EMPTY template), `FIRST_PILOT_DESIGN.md`,
-`FIRST_PILOT_GATE.json` in the mission evidence directory.
+Proposal artifacts must follow the validators' schema ids
+`t12_m02_rd8_pilot_decision_v1` (RD-8 decision) and
+`t12_m02_execution_authorization_v1` (RD-9 authorization):
+`RD8_PILOT_DECISION_PROPOSAL.md`, `AUTHORIZATION_SCHEMA_PILOT.json` (EMPTY
+template), `FIRST_PILOT_DESIGN.md`, `FIRST_PILOT_GATE.json` in the mission
+evidence directory.
