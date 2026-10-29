@@ -27,6 +27,7 @@ functions.  Test doubles appear only in unit tests.
 from __future__ import annotations
 
 import argparse
+import datetime
 import importlib.util
 import json
 import os
@@ -56,6 +57,18 @@ _identity = _load("t12_m02_d3r2_identity", "t12_m02_d3r2_identity")
 _receipts = _load("t12_m02_receipts", "t12_m02_receipts")
 
 WORKER_SCHEMA = "t12_m02_d3r2_worker_input_v1"
+
+# D4 safety constants for the per-arm container-instance event window:
+# ``docker events --since`` is padded BEFORE the engine call by
+# EVENT_SINCE_PAD_S (preflight-verified host<->WSL skew <= 0.5 s plus spawn
+# latency), the daemon stream's ``--until`` is the REAL wall deadline the
+# orchestrator forwarded (the worker must finish before it), the tail grace
+# bounds a natural exit wait before terminate/kill and a validating rebuild
+# tolerates inter-clock noise up to EVENT_WINDOW_TOLERANCE_S.
+EVENT_SINCE_PAD_S = 5.0
+EVENT_WINDOW_TOLERANCE_S = 5.0
+EVENT_TAIL_GRACE_S = 15.0
+EVENT_REAP_GRACE_S = 5.0
 
 
 def _load_frozen(worktree: Path, rel: str, name: str) -> Any:
@@ -158,28 +171,51 @@ def run_arm(witness_input: Path, out_dir: Path, *, db_scan_cmd_env: str | None =
         # after the engine returns.
         container_evidence = {"container_instance_status": "CONTAINER_INSTANCE_NOT_MEASURED",
                               "reason": "docker events capture disabled or unavailable"}
+        events_cap: dict[str, Any] | None = None
         cap_proc: Any = None
         cap_file = out_dir / "docker_events_window.jsonl"
-        if cfg.get("docker_events"):
-            until_proj = _identity.utc_seconds()
-            cap_proc, _ = _start_events_capture(cap_file, since=stage["worker_utc_start"], until=until_proj)
-        # ---- 4) the REAL frozen one-arm engine call ----
         run_start = _identity.utc_seconds()
-        result = harness.run_state_v3(
-            era_key="py312",
-            worktree_linux=wt_linux,
-            tid=_exe.TID,
-            state=arm,
-            test_files=list(_adapt.F2P_NODES),
-            install_fragment=fragment_raw,
-            locked_dev_fragment="echo NO_LOCKED_DEV_GROUP",
-            raw_junit_dir=str(run_dir / "engine_raw_junit"),
-            timeout_s=7200,
-            isolated=isolated,
-        )
-        run_end = _identity.utc_seconds()
-        if cap_proc is not None:
-            events_cap = _finish_events_capture(cap_proc, cap_file, pinned_oci)
+        run_end: str | None = None
+        # D4: the stream's ``--since`` is projected BEFORE the engine call
+        # (padded), and its ``--until`` is the REAL wall deadline the
+        # orchestrator forwarded (the worker must finish inside it) — so the
+        # window DEMONSTRABLY covers the engine interval.  The old defect
+        # projected ``until`` before ``run_state_v3`` and pushed the arm's
+        # create/start events outside the stream; an unbounded or invented
+        # bound is a fail-closed error.  The capture is finished (terminated/
+        # awaited) on EVERY path including engine exceptions.
+        since_proj, until_proj = "", ""
+        if cfg.get("docker_events"):
+            since_proj = _events_since_projection(run_start)
+            until_proj = _events_until_projection(cfg)
+            cap_proc, _ = _start_events_capture(cap_file, since=since_proj, until=until_proj)
+        try:
+            # ---- 4) the REAL frozen one-arm engine call ----
+            result = harness.run_state_v3(
+                era_key="py312",
+                worktree_linux=wt_linux,
+                tid=_exe.TID,
+                state=arm,
+                test_files=list(_adapt.F2P_NODES),
+                install_fragment=fragment_raw,
+                locked_dev_fragment="echo NO_LOCKED_DEV_GROUP",
+                raw_junit_dir=str(run_dir / "engine_raw_junit"),
+                timeout_s=7200,
+                isolated=isolated,
+            )
+            run_end = _identity.utc_seconds()
+        finally:
+            # Always close + await the stream: success AND every exception
+            # path.  ``_finish_events_capture`` never raises; the engine
+            # exception (if any) still propagates to the outer handler.
+            if cap_proc is not None:
+                events_cap = _finish_events_capture(
+                    cap_proc, cap_file, pinned_oci,
+                    run_start=run_start, run_end=run_end,
+                    since_proj=since_proj, until_proj=until_proj)
+                cap_proc = None
+                stage["stages"]["container_events"] = events_cap
+        if events_cap is not None:
             if events_cap.get("status") == "MEASURED":
                 container_evidence = {
                     "container_instance_status": "MEASURED",
@@ -331,33 +367,74 @@ def build_parser() -> argparse.ArgumentParser:
     return ap
 
 
+def _parse_events_utc(value: object) -> datetime.datetime | None:
+    """Strict ISO-8601 UTC parse (Z or +00:00 only; None on anything else)."""
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        dt = datetime.datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.utcoffset() != datetime.timedelta(0):
+        return None
+    return dt.astimezone(datetime.UTC)
+
+
+def _events_iso(dt: datetime.datetime) -> str:
+    return dt.astimezone(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _events_since_projection(run_start_utc: str) -> str:
+    """The ``docker events --since`` lower bound: padded BEFORE the engine
+    interval so preflight-verified clock skew and spawn latency can never push
+    the arm's first daemon event outside the stream."""
+    dt = _parse_events_utc(run_start_utc)
+    if dt is None:
+        raise RuntimeError("EVENT_SINCE_INVALID")
+    return _events_iso(dt - datetime.timedelta(seconds=EVENT_SINCE_PAD_S))
+
+
+def _events_until_projection(cfg: dict[str, Any]) -> str:
+    """The ``docker events --until`` upper bound: the REAL wall deadline
+    forwarded by the orchestrator (bounded by the RD-9 exclusivity window and
+    the authorized max_wall_s — never None).  This is a fixed bound the worker
+    must finish inside, so it is GUARANTEED to be after the engine interval
+    AND gives the daemon stream a finite termination even if this process is
+    killed.  Fail closed when absent, unparseable or already past."""
+    dt = _parse_events_utc(cfg.get("events_until_utc"))
+    if dt is None or dt <= datetime.datetime.now(datetime.UTC):
+        raise RuntimeError("EVENT_WINDOW_UNBOUNDED")
+    return _events_iso(dt)
+
+
+def _events_wall_epoch(value: Any) -> int:
+    dt = _parse_events_utc(value)
+    if dt is None:
+        raise RuntimeError("EVENT_WINDOW_INVALID")
+    return int(dt.timestamp())
+
+
 def _start_events_capture(cap_file: Path, *, since: str, until: str) -> tuple[Any, Path]:
-    """Start a bounded background ``docker events`` stream (read-only)."""
+    """Start a bounded background ``docker events`` stream (read-only).
+
+    ``--since`` is projected BEFORE the engine call (padded); ``--until`` is
+    the real wall deadline the orchestrator forwarded, so the stream covers
+    the actual engine interval and has a finite daemon-side bound.  stderr is
+    captured to a side file so fail-closed diagnostics never lose the daemon
+    error."""
     argv = ["wsl", "-d", _identity.WSL_DISTRO, "-u", "root", "--",
             "docker", "events", "--format", "{{json .}}",
             "--since", since, "--until", until]
-    with open(cap_file, "w", encoding="utf-8") as fh:
-        proc = subprocess.Popen(argv, stdout=fh, stderr=subprocess.DEVNULL,
-                                text=True, encoding="utf-8")
+    err_file = cap_file.with_suffix(".err")
+    with open(cap_file, "w", encoding="utf-8") as fh, \
+         open(err_file, "w", encoding="utf-8") as eh:
+        proc = subprocess.Popen(argv, stdout=fh, stderr=eh, text=True, encoding="utf-8")
     return proc, cap_file
 
 
-def _finish_events_capture(proc: Any, cap_file: Path, image_digest: str, timeout_s: int = 30) -> dict[str, Any]:
-    """Stop the capture and parse image-matched create/start events."""
-    done = False
-    for _ in range(int(timeout_s * 5)):
-        if proc.poll() is not None:
-            done = True
-            break
-        time.sleep(0.2)
-    if not done:
-        import contextlib
-
-        with contextlib.suppress(Exception):
-            proc.terminate()
+def _read_events(cap_file: Path) -> list[dict[str, Any]]:
+    """Parse the capture file's JSONL lines (skipping any non-JSON line)."""
     events: list[dict[str, Any]] = []
-    matched: list[dict[str, Any]] = []
-    img12 = image_digest.split(":")[-1][:12]
     if cap_file.exists():
         for line in cap_file.read_text(encoding="utf-8", errors="replace").splitlines():
             line = line.strip()
@@ -368,15 +445,141 @@ def _finish_events_capture(proc: Any, cap_file: Path, image_digest: str, timeout
             except Exception:
                 continue
             events.append(ev)
-            if str(ev.get("Action") or "") in ("create", "start") and img12 in json.dumps(ev.get("Actor") or {}):
-                matched.append({"container_id": str(ev.get("id") or (ev.get("Actor") or {}).get("ID") or ""),
-                                "action": str(ev.get("Action") or ""), "time": ev.get("time")})
+    return events
+
+
+def _finish_events_capture(
+    proc: Any,
+    cap_file: Path,
+    image_digest: str,
+    *,
+    run_start: str | None = None,
+    run_end: str | None = None,
+    since_proj: str | None = None,
+    until_proj: str | None = None,
+    timeout_s: float = EVENT_TAIL_GRACE_S,
+    reap_grace_s: float = EVENT_REAP_GRACE_S,
+) -> dict[str, Any]:
+    """Stop, bound and reap the capture; validate container-INSTANCE evidence.
+
+    Bounded termination closed/awaited on EVERY path: bounded natural-exit
+    wait -> terminate -> bounded grace wait -> kill -> bounded grace wait ->
+    final poll and ``wait()`` reap.  Evidence is MEASURED only when docker
+    emitted a create/start event for the pinned image whose REAL container
+    instance id (never the image digest) sits inside the arm window; any
+    empty, temporal, identity or stream anomaly fails closed to
+    CONTAINER_INSTANCE_NOT_MEASURED.  Never raises."""
+    window: dict[str, Any] = {
+        "since_proj": since_proj, "until_proj": until_proj,
+        "run_start_utc": run_start, "run_end_utc": run_end,
+    }
+    exited = proc.poll() is not None
+    if not exited and timeout_s > 0:
+        t_end = time.monotonic() + float(timeout_s)
+        while time.monotonic() < t_end:
+            time.sleep(0.1)
+            if proc.poll() is not None:
+                exited = True
+                break
+    terminated = False
+    if not exited:
+        try:
+            proc.terminate()
+            terminated = True
+        except Exception:
+            pass
+        grace_end = time.monotonic() + float(reap_grace_s)
+        while time.monotonic() < grace_end:
+            time.sleep(0.1)
+            if proc.poll() is not None:
+                exited = True
+                break
+    killed = False
+    if not exited:
+        try:
+            proc.kill()
+            killed = True
+        except Exception:
+            pass
+        grace_end = time.monotonic() + float(reap_grace_s)
+        while time.monotonic() < grace_end:
+            time.sleep(0.1)
+            if proc.poll() is not None:
+                exited = True
+                break
+    exited = proc.poll() is not None
+    reaped = False
+    if exited:
+        try:
+            proc.wait(timeout=float(reap_grace_s))
+            reaped = True
+        except Exception:
+            reaped = False
+    events = _read_events(cap_file)
+    if not exited:
+        return {
+            "status": "CONTAINER_INSTANCE_NOT_MEASURED",
+            "reason": "docker events capture process never exited after terminate/kill",
+            "capture_exited": False, "terminated": terminated, "killed": killed,
+            "reaped": reaped, "window": window, "events_seen": len(events), "instances": [],
+        }
+    if run_start is not None and run_end is None:
+        # The engine call did not complete (exception): a finished arm window
+        # was never measured, so instance evidence is NEVER claimed fail-closed.
+        return {
+            "status": "CONTAINER_INSTANCE_NOT_MEASURED",
+            "reason": "engine interval end not measured (run did not complete); instance evidence unclaimed",
+            "capture_exited": True, "terminated": terminated, "killed": killed,
+            "reaped": reaped, "window": window, "events_seen": len(events),
+            "instances": [],
+        }
+    img12 = str(image_digest).split(":")[-1][:12]
+    start_epoch = _events_wall_epoch(since_proj) if since_proj is not None else None
+    end_epoch = (_events_wall_epoch(run_end) if run_end is not None
+                 else (_events_wall_epoch(until_proj) if until_proj is not None else None))
+    tol = EVENT_WINDOW_TOLERANCE_S
+    matched: list[dict[str, Any]] = []
+    anomalies: list[str] = []
+    for ev in events:
+        ev_time = ev.get("time")
+        action = str(ev.get("Action") or ev.get("action") or "")
+        actor_json = json.dumps(ev.get("Actor") or {})
+        if action not in ("create", "start"):
+            continue
+        if img12 not in actor_json:
+            continue
+        if not isinstance(ev_time, (int, float)):
+            anomalies.append("EVENT_WITHOUT_TIMESTAMP")
+            continue
+        # relevant run window: the event must fall inside the arm window
+        # (tolerant of the preflight-verified <= 0.5 s host<->WSL skew).
+        if (start_epoch is not None and end_epoch is not None
+                and not (start_epoch - tol <= float(ev_time) <= end_epoch + tol)):
+            anomalies.append("EVENT_OUTSIDE_ARM_WINDOW")
+            continue
+        inst = str(ev.get("id") or (ev.get("Actor") or {}).get("ID") or "").strip()
+        # a REAL container instance id: non-empty, long enough to be a daemon
+        # id, and never the image digest (fail closed on substitution).
+        if len(inst) < 12 or inst == image_digest or inst.lower().startswith("sha256:"):
+            anomalies.append("EVENT_WITHOUT_INSTANCE_ID")
+            continue
+        matched.append({"container_id": inst, "action": action, "time": ev_time})
     if not matched:
-        return {"status": "CONTAINER_INSTANCE_NOT_MEASURED",
-                "reason": "no pinned-image create/start event in arm window",
-                "events_seen": len(events)}
-    return {"status": "MEASURED", "instances": matched,
-            "events_seen": len(events), "image_digest": image_digest}
+        return {
+            "status": "CONTAINER_INSTANCE_NOT_MEASURED",
+            "reason": "no pinned-image create/start event with a real container instance id in the arm window",
+            "capture_exited": True, "terminated": terminated, "killed": killed,
+            "reaped": reaped, "window": window, "events_seen": len(events),
+            "anomalies": anomalies, "instances": [],
+        }
+    return {
+        "status": "MEASURED",
+        "instances": matched,
+        "capture_exited": True, "terminated": terminated, "killed": killed,
+        "reaped": reaped, "window": window, "events_seen": len(events),
+        "anomalies": anomalies, "image_digest": image_digest,
+        "note": "container instance ids come from daemon events only; an image digest is never an instance id",
+    }
 
 
 def main(argv: list[str] | None = None) -> int:

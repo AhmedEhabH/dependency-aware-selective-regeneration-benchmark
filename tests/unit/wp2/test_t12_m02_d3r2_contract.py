@@ -516,6 +516,10 @@ class TestD3R2DeadlineSafety(unittest.TestCase):
             return _TimeoutProc(pid=5000 + len(calls)), "TEST_SPAWNER"
 
         probe = make_arm_probe({"arm_NEG/wt_t": matrix["NEG"]["effective_tree_oid"]})
+        # D4: the timeout path now runs a measured containment audit; the fake
+        # host runner keeps the test hermetic (no real PowerShell/WSL/Docker).
+        containment_host = FakeRunner({"Get-CimInstance": FakeCmd(0, "", ""),
+                                       "true": FakeCmd(0, "", "")})
         out = Path(tempfile.mkdtemp()) / "out"
         res = _orch.run_arms_physical(
             out_root=out, arms=["NEG", "SIP"], worktree=Path("frozen"),
@@ -525,7 +529,7 @@ class TestD3R2DeadlineSafety(unittest.TestCase):
             worktrees={"NEG": "/root/scratch/arm_NEG/wt_t", "SIP": "/root/scratch/arm_SIP/wt_t"},
             db_scan_cmd_env="true", worker_path="t12_m02_d3r2_worker.py",
             docker_events=False, deadline_utc=deadline.isoformat(),
-            spawner=spawner, probe=probe)
+            spawner=spawner, probe=probe, containment_host_runner=containment_host)
         self.assertEqual(calls, ["NEG"], "SIP must never spawn after a wall timeout")
         by_arm = {a["arm_id"]: a for a in res["arms"]}
         neg = by_arm["NEG"]
@@ -548,6 +552,9 @@ class TestD3R2DeadlineSafety(unittest.TestCase):
             return _TimeoutProc(pid=5111, second_wait_raises=True), "TEST_SPAWNER"
 
         probe = make_arm_probe({"arm_NEG/wt_t": matrix["NEG"]["effective_tree_oid"]})
+        # D4: hermetic containment audit (no real PowerShell/WSL/Docker).
+        containment_host = FakeRunner({"Get-CimInstance": FakeCmd(0, "", ""),
+                                       "true": FakeCmd(0, "", "")})
         out = Path(tempfile.mkdtemp()) / "out"
         res = _orch.run_arms_physical(
             out_root=out, arms=["NEG"], worktree=Path("frozen"),
@@ -556,7 +563,7 @@ class TestD3R2DeadlineSafety(unittest.TestCase):
             matrix=matrix, worktrees={"NEG": "/root/scratch/arm_NEG/wt_t"},
             db_scan_cmd_env="true", worker_path="t12_m02_d3r2_worker.py",
             docker_events=False, deadline_utc=deadline.isoformat(),
-            spawner=spawner, probe=probe)
+            spawner=spawner, probe=probe, containment_host_runner=containment_host)
         neg = res["arms"][0]
         self.assertIn("CHILD_WALL_TIMEOUT", neg.get("reason", ""))
         self.assertIn("terminated_verified=False", neg.get("reason", ""))

@@ -27,6 +27,7 @@ import argparse
 import importlib.util
 import json
 import os
+import shlex
 import subprocess
 import sys
 from collections.abc import Callable
@@ -43,6 +44,9 @@ ORCH_SCHEMA_RUN = "t12_m02_d3r2_run_v1"
 # Post-kill grace wait that MEASURES whether a timed-out child actually
 # terminated (teardown is verified, never asserted).
 TERMINATION_GRACE_S = 5.0
+# D4: bounded per-probe timeout for the post-timeout descendant containment
+# audit (host process-tree, read-only docker ps -a, read-only DB scan).
+CONTAINMENT_PROBE_TIMEOUT_S = 120
 
 
 def _load(rel_name: str, mod_name: str) -> Any:
@@ -429,6 +433,162 @@ def spawn_worker_proc(worker_path: str, witness_input: Path, arm_dir: Path,
     return proc, " ".join(argv)
 
 
+def _split_db_scan_cmd(cmd: str | None) -> list[str]:
+    """Split the operator-supplied read-only DB-scan command with the SAME
+    semantics as the worker: POSIX splitting on POSIX, Windows splitting
+    (posix=False) on Windows Python — quoted paths with spaces must survive as
+    one token (proven scanner DB_SCAN_OPWS.ps1, never reinterpreted).
+
+    Raises TEARDOWN_NOT_VERIFIED when no scanner is configured."""
+    if not cmd:
+        raise RuntimeError("TEARDOWN_NOT_VERIFIED: T12_M02_DB_SCAN_CMD not configured")
+    return shlex.split(cmd, posix=(os.name != "nt"))
+
+
+def _container_snapshot(probe: Any, timeout_s: int = CONTAINMENT_PROBE_TIMEOUT_S) -> dict[str, Any]:
+    """Bounded READ-ONLY ``docker ps -a`` snapshot (never starts anything)."""
+    r = probe.docker_readonly(
+        ["ps", "-a", "--format", "{{.ID}}|{{.Names}}|{{.Image}}"], timeout_s)
+    ok = getattr(r, "returncode", None) == 0
+    lines = [ln.strip() for ln in (r.stdout or "").splitlines() if ln.strip()]
+    return {
+        "status": "MEASURED" if ok else "NOT_MEASURED",
+        "containers": lines,
+        "reason": str(r.stderr or "")[-200:] if not ok else "",
+    }
+
+
+def _process_tree_probe(child_pid: int, host_runner: Callable[..., Any],
+                        timeout_s: int = CONTAINMENT_PROBE_TIMEOUT_S) -> dict[str, Any]:
+    """HOST-side recursive descendant query (PowerShell/CIM): every Windows
+    process whose ancestry reaches the killed child (incl. the wsl.exe clients
+    the worker may have spawned).  Bounded; NOT_MEASURED on any probe failure.
+
+    ``proc.kill()`` terminates only the direct Windows Python worker; this is
+    the measured check that no descendent process survived it."""
+    ps = (
+        "$all = Get-CimInstance Win32_Process; "
+        f"$root = @({int(child_pid)}); $desc = @(); "
+        "while ($true) { $kids = @($all | Where-Object { $root -Contains $_.ParentProcessId }); "
+        "if ($kids.Count -eq 0) { break }; "
+        "$root = @($kids | ForEach-Object { $_.ProcessId }); $desc += $root; }; "
+        "($desc | Select-Object -Unique) -join '|'"
+    )
+    r = host_runner(
+        ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", ps],
+        None, timeout_s)
+    if getattr(r, "returncode", None) != 0:
+        return {"status": "NOT_MEASURED",
+                "reason": f"process tree probe failed rc={r.returncode}: {(r.stderr or '')[-200:]}",
+                "pids": []}
+    pids = [p.strip() for p in (r.stdout or "").split("|") if p.strip()]
+    return {"status": "MEASURED", "pids": pids}
+
+
+def _db_scan_leftovers(db_scan_cmd_env: str | None, host_runner: Callable[..., Any],
+                       timeout_s: int = CONTAINMENT_PROBE_TIMEOUT_S) -> dict[str, Any]:
+    """Read-only DB leftover scan through the operator's proven scanner (same
+    posix= semantics as the worker).  NOT_MEASURED on any failure."""
+    if not db_scan_cmd_env:
+        return {"status": "NOT_MEASURED",
+                "reason": "T12_M02_DB_SCAN_CMD not configured", "leftovers": []}
+    try:
+        argv = _split_db_scan_cmd(db_scan_cmd_env)
+    except Exception as exc:
+        return {"status": "NOT_MEASURED",
+                "reason": f"DB_SCAN_UNSPLITTABLE: {exc}", "leftovers": []}
+    r = host_runner(argv, None, timeout_s)
+    if getattr(r, "returncode", None) != 0:
+        return {"status": "NOT_MEASURED",
+                "reason": f"DB scan failed rc={getattr(r, 'returncode', None)}: {(r.stderr or '')[-200:]}",
+                "leftovers": []}
+    leftovers = [t.strip() for t in (r.stdout or "").splitlines()
+                 if _receipts.DB_IDENTITY_RE.match(t.strip())]
+    return {"status": "MEASURED", "leftovers": leftovers}
+
+
+def containment_audit(
+    *,
+    child_pid: int,
+    direct_child_exited: bool,
+    probe: Any,
+    baseline_containers: list[str] | None,
+    db_scan_cmd_env: str | None,
+    spawned_utc: str,
+    host_runner: Callable[..., Any] | None = None,
+    per_probe_timeout_s: int = CONTAINMENT_PROBE_TIMEOUT_S,
+) -> dict[str, Any]:
+    """MEASURED, bounded, post-timeout descendant containment audit.
+
+    The parent's ``proc.kill()`` proves only the direct Windows Python worker
+    ended; it is NOT proof that descendant WSL processes, Docker containers or
+    DB activity ended.  This audit probes (all bounded, all best-effort with
+    a typed NOT_MEASURED on failure):
+      1. direct child exit (caller-measured post-kill grace wait);
+      2. host process-tree descendants of the child (PowerShell/CIM);
+      3. docker containers beyond the pre-spawn baseline (read-only ps -a);
+      4. opws databases left by the run (operator's read-only scanner).
+
+    Status is CONTAINMENT_VERIFIED ONLY when every probe measured EMPTY; any
+    unmeasurable or resident resource => CONTAINMENT_UNVERIFIED with the
+    resident resources REPORTED (the STOP contract: keep STOP and report
+    unverified resources instead of claiming success).  The long-lived PG
+    fixture is never deleted and never counted as a leftover.  Never raises."""
+    host_runner = host_runner or _identity.make_host_runner(per_probe_timeout_s)
+    tree = _process_tree_probe(child_pid, host_runner, per_probe_timeout_s)
+    # Always attempt the read-only post-timeout docker snapshot (it reports
+    # what is CURRENTLY resident even when no pre-spawn baseline exists);
+    # attribution ("new vs baseline") additionally needs the pre-spawn shot.
+    cur = _container_snapshot(probe, per_probe_timeout_s)
+    docker_status = cur["status"]
+    docker_reason = str(cur.get("reason") or "")
+    new_containers: list[str] = []
+    attribution_ok = baseline_containers is not None and docker_status == "MEASURED"
+    if attribution_ok and baseline_containers is not None:
+        baseline_set = set(baseline_containers)
+        new_containers = [
+            line for line in cur["containers"]
+            if line not in baseline_set
+            and f"|{_identity.PG_FIXTURE}|" not in line
+            and not line.startswith("|")
+        ]
+    elif baseline_containers is None and docker_status == "MEASURED":
+        docker_reason = "no pre-spawn docker baseline available; surviving containers cannot be attributed"
+    db = _db_scan_leftovers(db_scan_cmd_env, host_runner, per_probe_timeout_s)
+    resident = {
+        "processes": tree.get("pids", []) if tree["status"] == "MEASURED" else [],
+        "containers": new_containers,
+        "opws_databases": db.get("leftovers", []) if db["status"] == "MEASURED" else [],
+    }
+    measured_clean = (
+        bool(direct_child_exited)
+        and tree["status"] == "MEASURED" and not tree.get("pids")
+        and docker_status == "MEASURED" and attribution_ok and not new_containers
+        and db["status"] == "MEASURED" and not db.get("leftovers")
+    )
+    return {
+        "schema": "t12_m02_d3r2_containment_audit_v1",
+        "status": "CONTAINMENT_VERIFIED" if measured_clean else "CONTAINMENT_UNVERIFIED",
+        "direct_child_exited": bool(direct_child_exited),
+        "resident_resources": resident,
+        "probes": {
+            "process_tree": tree,
+            "docker": {"status": docker_status, "reason": docker_reason,
+                        "new_containers": new_containers,
+                        "attribution_ok": attribution_ok,
+                        "baseline_containers": baseline_containers is not None,
+                        "pg_fixture_preserved": True},
+            "db_scan": db,
+        },
+        "spawned_utc": spawned_utc,
+        "measured_at_utc": _identity.utc_now(),
+        "bounded_by": {
+            "per_probe_timeout_s": per_probe_timeout_s,
+            "note": "every probe bounded separately; the audit never waits unboundedly",
+        },
+    }
+
+
 def run_arms_physical(
     *,
     out_root: Path,
@@ -446,6 +606,7 @@ def run_arms_physical(
     deadline_utc: str | None,
     spawner: Callable[[str, Path, Path], tuple[Any, str]] | None = None,
     probe: Any = None,
+    containment_host_runner: Callable[..., Any] | None = None,
 ) -> dict[str, Any]:
     """One child per arm, cross-checked by the parent, stop-before-SIP."""
     spawner = spawner or (lambda w, wi, ad: spawn_worker_proc(w, wi, ad))
@@ -509,6 +670,10 @@ def run_arms_physical(
                 "execution_id": _adapt.execution_id_for(arm, "M02E-PILOT"),
                 "scratch_linux_base": os.environ.get("T12_M02_SCRATCH_LINUX", "/results"),
                 "docker_events": docker_events,
+                # D4: the worker's docker-events stream upper bound — the real
+                # wall deadline (never None in a gated run), guaranteeing the
+                # stream covers the engine interval with finite termination.
+                "events_until_utc": deadline_utc,
                 "db_scan_cmd_env_digest": _identity.argv_digest([db_scan_cmd_env or ""]),
             }
             (arm_dir / "witness_input.json").write_text(
@@ -518,6 +683,10 @@ def run_arms_physical(
             if not pre_gate["pass"]:
                 raise RuntimeError("WORKTREE_GATE_FAILED_PRE:" + ";".join(pre_gate["reasons"]))
             spawned_utc = _identity.utc_now()
+            # D4: read-only pre-spawn docker baseline (diffed at a wall timeout
+            # to attribute surviving containers; never starts anything).
+            baseline_snapshot = _container_snapshot(probe) if docker_events else {
+                "status": "NOT_MEASURED", "containers": []}
             proc, argv_text = spawner(worker_path, arm_dir / "witness_input.json", arm_dir)
             child_pid = proc.pid
             run_done = False
@@ -529,15 +698,30 @@ def run_arms_physical(
                 run_done = True
             except subprocess.TimeoutExpired:
                 # Wall cap hit while the child is still running: STOP this
-                # arm with truthful partial evidence; cleanup is MEASURED via
-                # a post-kill grace wait, never asserted/claimed.
+                # arm with truthful partial evidence.  ``proc.kill()`` only
+                # terminates the direct Windows Python worker — descendant WSL
+                # processes, Docker containers and DB activity MUST be MEASURED
+                # (containment audit), never asserted.  Unverified resources
+                # keep STOP and are reported; success is never claimed.
                 run_done = False
                 proc.kill()
+                child_terminated = False
                 try:
                     proc.wait(timeout=TERMINATION_GRACE_S)
                     child_terminated = True
                 except subprocess.TimeoutExpired:
                     child_terminated = False
+                audit = containment_audit(
+                    child_pid=child_pid,
+                    direct_child_exited=child_terminated,
+                    probe=probe,
+                    baseline_containers=(
+                        list(baseline_snapshot.get("containers") or [])
+                        if baseline_snapshot.get("status") == "MEASURED" else None),
+                    db_scan_cmd_env=db_scan_cmd_env,
+                    spawned_utc=spawned_utc,
+                    host_runner=containment_host_runner)
+                audit["baseline_container_snapshot"] = baseline_snapshot
                 rc = -999
                 stage["stages"]["child_spawn"] = {
                     "argv": argv_text,
@@ -549,9 +733,11 @@ def run_arms_physical(
                     "wall_timeout": True,
                     "child_terminated_verified": child_terminated,
                 }
-                note.append("CHILD_WALL_TIMEOUT:" + arm)
+                stage["stages"]["containment"] = audit
+                note.append(f"CHILD_WALL_TIMEOUT:{arm} containment={audit['status']}")
                 raise RuntimeError(
-                    f"CHILD_WALL_TIMEOUT:{arm} terminated_verified={child_terminated}") from None
+                    f"CHILD_WALL_TIMEOUT:{arm} terminated_verified={child_terminated} "
+                    f"containment={audit['status']}") from None
             stage["stages"]["child_spawn"] = {
                 "argv": argv_text, "argv_digest": _identity.argv_digest(argv_text.split()),
                 "child_pid": child_pid, "spawned_utc": spawned_utc, "exit_code": rc,
