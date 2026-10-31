@@ -82,6 +82,71 @@ def _default_db_scan(cmd: str | None) -> list[str]:
     return shlex.split(cmd, posix=(os.name != "nt"))
 
 
+NEG_FINGERPRINT_MIN_LEN = 8
+
+
+def verify_neg_failure_identity(
+    junit_dir: Path,
+    mapping: dict[str, str],
+    expected_fingerprint: str | None,
+    *,
+    nodes: list[str] | None = None,
+) -> dict[str, Any]:
+    """FAIL-CLOSED NEG failure identity proof (prereg 02_GROUND_TRUTH).
+
+    Each canonical NEG JUnit XML must carry the EXACT frozen testcase
+    (classname+name of the slot's node) and a ``<failure>`` whose
+    message/text contains the frozen bug-specific substring.  A wrong
+    testcase, an ERROR/skipped XML, an unrelated traceback or a missing /
+    too-short fingerprint is ``CONTROL_INVALID`` — never a passing negative
+    control (the pre-D6 worker accepted any ``<failure>``; the offline
+    scorer is NOT a substitute for the run-time gate).
+
+    Returns a verification report dict; raises RuntimeError on any mismatch.
+    """
+    nodes = nodes or _adapt.F2P_NODES
+    if not isinstance(expected_fingerprint, str) or len(expected_fingerprint) < NEG_FINGERPRINT_MIN_LEN:
+        raise RuntimeError(
+            "NEG_FINGERPRINT_UNCONFIGURED: the frozen bug-specific failure "
+            f"substring is required (>={NEG_FINGERPRINT_MIN_LEN} chars) before "
+            "any NEG control may pass")
+    report: dict[str, Any] = {"fingerprint": expected_fingerprint, "slots": []}
+    import xml.etree.ElementTree as ElementTree
+    for canon in sorted(mapping.values()):
+        m = _exe._receipts.JUNIT_RE.match(canon)
+        if not m:
+            raise RuntimeError(f"CONTROL_INVALID: canonical JUnit name unexpected {canon}")
+        node_idx = int(m.group("node"))
+        node_spec = nodes[node_idx]
+        mod_path, test_name = node_spec.split("::", 1)
+        expected_class = mod_path.removesuffix(".py").replace("/", ".")
+        fp = junit_dir / canon
+        try:
+            tcs = list(ElementTree.parse(str(fp)).getroot().iter("testcase"))
+        except Exception as exc:  # malformed / missing
+            raise RuntimeError(f"CONTROL_INVALID: NEG JUnit unreadable {canon}: {exc}") from exc
+        if len(tcs) != 1:
+            raise RuntimeError(f"CONTROL_INVALID: NEG testcase count != 1 in {canon}")
+        tc = tcs[0]
+        if tc.get("classname") != expected_class or tc.get("name") != test_name:
+            raise RuntimeError(
+                f"CONTROL_INVALID: NEG slot f{node_idx} testcase "
+                f"{tc.get('classname')}::{tc.get('name')} != frozen {node_spec}")
+        if tc.find("skipped") is not None or tc.find("error") is not None:
+            raise RuntimeError(f"CONTROL_INVALID: NEG {canon} has skipped/error (never a failure)")
+        fail = tc.find("failure")
+        if fail is None:
+            raise RuntimeError(f"CONTROL_INVALID: NEG {canon} has no failure element")
+        signature = (fail.get("message") or "") + "\n" + (fail.text or "")
+        if expected_fingerprint not in signature:
+            raise RuntimeError(
+                f"CONTROL_INVALID: NEG {canon} failure lacks frozen fingerprint "
+                f"{expected_fingerprint!r} (unrelated traceback, not the intended bug)")
+        report["slots"].append({"file": canon, "node": node_spec,
+                                "fingerprint_matched": True})
+    return report
+
+
 def run_arm(witness_input: Path, out_dir: Path, *, db_scan_cmd_env: str | None = None) -> dict[str, Any]:
     """Execute EXACTLY ONE arm; returns the arm stage result (never raises on
     scientific outcome; raises on engineering contract violations)."""
@@ -122,7 +187,14 @@ def run_arm(witness_input: Path, out_dir: Path, *, db_scan_cmd_env: str | None =
     try:
         # ---- 0) worktree admission on the OS that owns it, BEFORE side effects
         probe = _identity.PlatformProbe()
-        gate = _identity.linux_worktree_gate(probe, wt_linux, expected_oid)
+        # D6: the operator's NARROW per-invocation trust forwarded by the
+        # orchestrator applies to the worker's OWN gate too — exact path only,
+        # after stat-verified path+ownership; identity checks still bind.
+        _arm_trust = _identity.resolve_worktree_git_trust(
+            probe, cfg.get("git_trust_path") or None, wt_linux)
+        gate = _identity.linux_worktree_gate(
+            probe, wt_linux, expected_oid, git_trust_path=_arm_trust)
+        gate["git_trust_applied"] = _arm_trust
         stage["stages"]["worktree_gate_pre"] = gate
         if not gate["pass"]:
             raise RuntimeError("WORKTREE_GATE_FAILED_PRE:" + ";".join(gate["reasons"]))
@@ -251,6 +323,16 @@ def run_arm(witness_input: Path, out_dir: Path, *, db_scan_cmd_env: str | None =
         observed = set(classifications)
         if expected is not None and observed != {expected}:
             raise RuntimeError(f"CONTROL_MISMATCH:{arm} expected {expected} observed {sorted(observed)}")
+        # D6 (NEG bug identity): classification-level FAILURE is NOT enough —
+        # the frozen bug-specific fingerprint + exact testcase identity per
+        # slot must hold, else CONTROL_INVALID (stop before SIP).  The offline
+        # scorer is not a substitute for the run-time gate.
+        if arm == "NEG":
+            neg_ver = verify_neg_failure_identity(
+                run_dir / "junit", mapping,
+                cfg.get("expected_negative_failure_substring"),
+                nodes=_adapt.F2P_NODES)
+            stage["stages"]["neg_failure_identity"] = neg_ver
         # ---- 6) real teardown DB scan + read-only snapshot hash ----
         scan_cmd = db_scan_cmd_env or os.environ.get("T12_M02_DB_SCAN_CMD")
         if not scan_cmd:

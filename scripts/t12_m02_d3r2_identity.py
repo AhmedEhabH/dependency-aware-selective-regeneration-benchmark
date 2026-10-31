@@ -435,6 +435,33 @@ def linux_worktree_ownership(probe: PlatformProbe, wt_linux: str) -> dict[str, A
     }
 
 
+def resolve_worktree_git_trust(
+    probe: PlatformProbe,
+    operator_trust: str | None,
+    wt_linux: str,
+) -> str | None:
+    """Admit the NARROW per-invocation ``git -c safe.directory=<exact path>``
+    override for ONE arm worktree, mirroring the D5 preflight rule.
+
+    The override is applied ONLY when BOTH hold:
+      * the operator-supplied trust path EXACTLY equals this arm's resolved
+        ``wt_linux`` (never a different path, never a wildcard, never a
+        prefix); and
+      * the WSL ``stat`` probe verified the path exists as a directory
+        (ownership evidence; the adapter never chowns or writes config).
+
+    It NEVER weakens the identity gate: the caller still requires the
+    measured tree OID to equal the frozen value and readable+empty status /
+    staged-diff.  Returns the exact path when admissible, else None.
+    """
+    if not operator_trust or operator_trust != wt_linux:
+        return None
+    own = linux_worktree_ownership(probe, wt_linux)
+    if not (bool(own.get("stat_ok")) and bool(own.get("is_dir"))):
+        return None
+    return wt_linux
+
+
 def linux_worktree_gate(
     probe: PlatformProbe,
     wt_linux: str,

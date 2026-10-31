@@ -480,7 +480,11 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         worktrees=worktrees,
         db_scan_cmd_env=os.environ.get("T12_M02_DB_SCAN_CMD"),
         worker_path=sim_worker, docker_events=True,
-        deadline_utc=deadline_utc, spawner=None)
+        deadline_utc=deadline_utc, spawner=None,
+        # D6: forward the operator's NARROW per-arm git trust (exact path;
+        # applied run-side only after exact match + stat-verified path).
+        git_trust_path=getattr(args, "worktree_git_trust", None) or None,
+        neg_fingerprint=getattr(args, "neg_fingerprint", None) or None)
 
 
 def spawn_worker_proc(worker_path: str, witness_input: Path, arm_dir: Path,
@@ -668,6 +672,8 @@ def run_arms_physical(
     spawner: Callable[[str, Path, Path], tuple[Any, str]] | None = None,
     probe: Any = None,
     containment_host_runner: Callable[..., Any] | None = None,
+    git_trust_path: str | None = None,
+    neg_fingerprint: str | None = None,
 ) -> dict[str, Any]:
     """One child per arm, cross-checked by the parent, stop-before-SIP."""
     spawner = spawner or (lambda w, wi, ad: spawn_worker_proc(w, wi, ad))
@@ -725,6 +731,12 @@ def run_arms_physical(
                 "scopes_dir": str(scope_dir), "classification": str(classification),
                 "test_authority": str(test_authority),
                 "worktree_linux": wt_linux, "effective_tree_oid": row["effective_tree_oid"],
+                # D6: forward the operator's narrow exact-path git trust so the
+                # worker's OWN pre gate applies the same per-invocation rule.
+                "git_trust_path": git_trust_path or None,
+                # D6: the frozen bug-specific NEG failure fingerprint; the
+                # worker fails closed (CONTROL_INVALID) when absent/unmatched.
+                "expected_negative_failure_substring": neg_fingerprint or None,
                 "scope_hash": row["scope_hash"], "patch_sha256": row["patch_sha256"],
                 "patch_bytes": int(row["patch_bytes"]),
                 "materializer_rel": _exe.MATERIALIZER_REL,
@@ -739,7 +751,16 @@ def run_arms_physical(
             }
             (arm_dir / "witness_input.json").write_text(
                 json.dumps(witness_input, indent=2), encoding="utf-8")
-            pre_gate = _identity.linux_worktree_gate(probe, wt_linux, row["effective_tree_oid"])
+            # D6: per-arm NARROW git trust (D5 preflight rule extended to the
+            # RUN path).  Admissible ONLY when the operator's exact path equals
+            # this arm's wt_linux AND the WSL stat probe verified the path dir;
+            # never global/wildcard/chown; identity checks still bind.
+            _arm_trust = _identity.resolve_worktree_git_trust(
+                probe, git_trust_path, wt_linux)
+            pre_gate = _identity.linux_worktree_gate(
+                probe, wt_linux, row["effective_tree_oid"],
+                git_trust_path=_arm_trust)
+            pre_gate["git_trust_applied"] = _arm_trust
             stage["stages"] = {"worktree_gate_pre": pre_gate}
             if not pre_gate["pass"]:
                 raise RuntimeError("WORKTREE_GATE_FAILED_PRE:" + ";".join(pre_gate["reasons"]))
@@ -818,7 +839,10 @@ def run_arms_physical(
                 raise RuntimeError("WITNESS_INVALID:" + ";".join(vw["issues"][:6]))
             witnesses.append((arm, w))
             # worktree checked AGAIN after use (mission 2)
-            post_gate = _identity.linux_worktree_gate(probe, wt_linux, row["effective_tree_oid"])
+            post_gate = _identity.linux_worktree_gate(
+                probe, wt_linux, row["effective_tree_oid"],
+                git_trust_path=_arm_trust)
+            post_gate["git_trust_applied"] = _arm_trust
             stage["stages"]["worktree_gate_post"] = post_gate
             if not post_gate["pass"]:
                 raise RuntimeError("WORKTREE_GATE_FAILED_POST:" + ";".join(post_gate["reasons"]))
@@ -893,6 +917,11 @@ def build_parser() -> argparse.ArgumentParser:
                  "git -c safe.directory=<path> override (D5: applied only after "
                  "stat-verified path + ownership; tree OID and clean status "
                  "still required; never global/wildcard/chown)")
+        p.add_argument(
+            "--neg-fingerprint", default=None,
+            help="frozen bug-specific NEG failure substring (min 8 chars), e.g. "
+                 "'django.core.exceptions.ValidationError'; REQUIRED for the "
+                 "NEG arm (CONTROL_INVALID/STOP when missing or unmatched)")
 
     sub = ap.add_subparsers(dest="command", required=True)
     p = sub.add_parser("preflight")

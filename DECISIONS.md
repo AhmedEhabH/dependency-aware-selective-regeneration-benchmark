@@ -2613,3 +2613,28 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   annotated tag `wp2-m17-v1-real-oracle-kit-r1-2026-10-05`.
 - Next: STOP_TOKEN=M17_LAUNCH_READY; await brain review before the REAL 12-task
   qualification. No scientific run until approved.
+
+## T12 M02-D6 (2026-10-31) — Fair F2P prereg admission: run-path narrow git trust + NEG failure identity (ENGINEERING ONLY, NO LIVE RUN)
+
+**MISSION:** `T12_M02_FAIR_F2P_PREREG_20261031` atomic tasks 2,3,6. READ-ONLY admission audit; no F2P/P2P execution, no PG start/stop, no RD-9 grant, no frozen input mutation.
+
+**Two verified STOP-gate harness defects, RED first, repaired GREEN (33 new unit tests; 303/303 affected suite green; ruff+mypy+compile+`git diff --check` clean):**
+
+1. **Run-path narrow git trust missing (D5 preflight override alone insufficient).**
+   - Defect: `run_arms_physical` pre/post gates and the D3-R2 worker's step-0 gate called `linux_worktree_gate` with NO `git_trust_path`, so a real WSL worktree rejected as `dubious ownership` (REPRODUCED live on `/root/m19b_r3_20261024/wt_t`: git 2.43 refuses without the override) could never be admitted at run time even when the operator authorized the narrow override — only orchestrator PREFLIGHT had the plumbing.
+   - Repair: shared `identity.resolve_worktree_git_trust()` (exact-path equality + stat-verified ownership, never global/wildcard/chown, identity checks still bind); wired into `run_arms_physical` pre/post + worker witness; `--worktree-git-trust` forwarded by `run()`.
+   - Evidence: tests/unit/wp2/test_t12_m02_d6_run_path_narrow_trust.py (9), RED→GREEN; live WSL probes recorded.
+
+2. **NEG control accepted ANY XML `<failure>` (bug-signature gap documented in 02_GROUND_TRUTH.md).**
+   - Repair: worker `verify_neg_failure_identity()` requires frozen bug-specific substring (min 8 chars, e.g. `django.core.exceptions.ValidationError` observed in all 9 frozen R7 NEG XMLs) AND exact per-slot frozen testcase identity; missing/wrong/unrelated/ERROR → typed `CONTROL_INVALID`/`NEG_FINGERPRINT_UNCONFIGURED`, never `CONTROL_EXPECTED`. Orchestrator `--neg-fingerprint` threads to witness.
+   - Evidence: tests/unit/wp2/test_t12_m02_d6_neg_identity.py (6), RED→GREEN.
+
+3. **Preflight runtime edge gates unit coverage** added (PG stopped → typed STOP / docker unreachable / pinned image missing / network missing / matrix hash drift): test_t12_m02_d6_edge_gates.py (6).
+
+**Frozen pins RE-VERIFIED byte-exact after all edits:** matrix `c7a81b06…`, plan `62ef7358…`, RD-8 `c53c5d50…`, classification `b51632ad…`, test-authority `c08b26c4…`, scope source `76f16217…`, candidate universe `38b4db0e…`, census `6146237d…`, node list `aa12d546…`.
+
+**U/G/S audit (pre-outcome, from pinned sources only):** U = 1130 unique paths (candidate_universe, no dupes); G = 8 reference-changed files (classification, all status M; 5 of 8 outside U → reported separately, never truncated); S_SIP = 1 ⊆ U (matches frozen prediction hash), S_RM_CSS = 3 ⊆ U (matches frozen), S_NEG = ∅ (derived control), S_FULL = materialize_full_reference. In-universe selection metrics are reference-diff proxy only: SIP TP=1/FP=0/FN=2 → P=1.0, R=1/3, F1=1/2; RM_CSS TP=2/FP=1/FN=1 → P=R=2/3, F1=2/3; NEG zero-denominator → UNDEFINED. All counts recorded in D6 ledger; no F1 invented.
+
+**Remaining admission gates (STOP, evidence preserved):** PG fixture `wp2-opws-pg-smoke` currently `exited` (operator must start + pg_isready + empty read-only scan inside an explicitly approved exclusive window; NO auto-restart); four concrete per-arm worktrees currently NOT materialized under the run-mode `--worktrees-json` paths (the FOUR arm wt_t exist only as R7/scratch historical trees; run-mode requires a strict per-arm mapping with basename `wt_t`); NEG fingerprint must be frozen by researcher into the scorer input (`08_OBSERVATIONS_NOT_RUN.json` currently `null`); RD-9 signed UTC window/cap absent by design. Result: `PREPARED / NOT_EXECUTED`; `P2P_NOT_QUALIFIED`.
+
+**Rule:** no commit to main; branch `research/track-1-2-opws-comparators-2026-10-27` only.
