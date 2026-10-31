@@ -321,9 +321,23 @@ class PlatformProbe:
             "stderr_tail": "",
         }
 
-    def linux_git(self, repo_linux: str, *args: str) -> CmdResult:
-        """READ-ONLY git inside WSL (git -C <repo> <args>) — the owning OS."""
-        return self.runner(["git", "-C", repo_linux, *args], None, 120)
+    def linux_git(self, repo_linux: str, *args: str,
+                  trust_path: str | None = None) -> CmdResult:
+        """READ-ONLY git inside WSL (git -C <repo> <args>) — the owning OS.
+
+        ``trust_path`` enables the NARROW, per-invocation
+        ``-c safe.directory=<exact path>`` override in front of ``-C``: it is
+        used ONLY to let the read-only probes run when git 2.43 refuses a
+        repo as ``dubious ownership``.  Never global, never wildcard, never
+        writes git config, and it does NOT relax identity/cleanliness checks
+        (the caller still requires a measured tree OID == frozen and a
+        readable, empty status/staged diff).
+        """
+        argv = ["git"]
+        if trust_path:
+            argv += ["-c", f"safe.directory={trust_path}"]
+        argv += ["-C", repo_linux, *args]
+        return self.runner(argv, None, 120)
 
     def measure_clocks(self, n_samples: int = 3) -> dict[str, Any]:
         """Midpoint-method host<->WSL UTC skew (same pinned primitive the
@@ -392,12 +406,42 @@ class PlatformProbe:
 # ---------------------------------------------------------------------------
 # Worktree admission (2): content identity, not just HEAD^{tree}
 # ---------------------------------------------------------------------------
+def linux_worktree_ownership(probe: PlatformProbe, wt_linux: str) -> dict[str, Any]:
+    """READ-ONLY ownership evidence for the EXACT worktree path (``stat`` on
+    the owning OS, never Windows ``pathlib``).  Used ONLY to decide whether the
+    narrow per-invocation ``git -c safe.directory=<exact path>`` override is
+    admissible: the path must exist as a directory.  Ownership is recorded as
+    evidence; the adapter never chowns, never changes mode, never writes
+    config, and the actual tree identity is verified by ``linux_worktree_gate``
+    AFTER the override (a wrong OID or dirty tree stays STOP)."""
+    r = probe.runner(["stat", "-c", "%U|%u|%g|%F|%a", wt_linux], None, 60)
+    ok = bool(r.returncode == 0 and (r.stdout or "").strip())
+    owner = uid = gid = file_type = mode = ""
+    if ok:
+        parts = (r.stdout or "").strip().split("|")
+        if len(parts) == 5:
+            owner, uid, gid, file_type, mode = parts
+    return {
+        "path": wt_linux,
+        "probe": "wsl root stat -c '%U|%u|%g|%F|%a' (owning OS)",
+        "stat_ok": ok,
+        "is_dir": file_type == "directory",
+        "owner": owner,
+        "uid": uid,
+        "gid": gid,
+        "file_type": file_type,
+        "mode": mode,
+        "stderr_tail": (r.stderr or "")[-200:],
+    }
+
+
 def linux_worktree_gate(
     probe: PlatformProbe,
     wt_linux: str,
     expected_tree_oid: str,
     *,
     require_basename: str = WORKTREE_BASENAME,
+    git_trust_path: str | None = None,
 ) -> dict[str, Any]:
     """Admit one arm's execution worktree ONLY with clean/stable bytes on the
     OS that owns it (WSL).  Checks, all read-only:
@@ -411,7 +455,17 @@ def linux_worktree_gate(
       uncommitted edits;
     * the scope/common-test patch bytes are the frozen ones (via the tree OID
       plus deterministic materializer pins, cross-checked by the caller).
-    """
+
+    ``git_trust_path`` enables the NARROW per-invocation ``-c safe.directory``
+    override on the read-only git argv (see ``PlatformProbe.linux_git``); it
+    exists so a verified frozen worktree that git 2.43+ mislabels as "dubious
+    ownership" can still be MEASURED instead of failing unreadably.  The
+    override is accepted ONLY when the caller has stat-verified the exact path
+    and its ownership first, and it NEVER weakens the identity gate: the tree
+    OID must still be measured and equal the frozen value, and the status +
+    staged-diff probes must still be read AND empty.  D5: unreadable Git
+    status or staged diff is NEVER treated as proof of a clean tree
+    (``clean`` is false unless both probes were READABLE and empty)."""
     reasons: list[str] = []
     pt = probe.linux_path_type(wt_linux)
     path_ok = pt["exists"] and pt["is_dir"]
@@ -429,8 +483,11 @@ def linux_worktree_gate(
     status_lines: list[str] = []
     staged_lines: list[str] = []
     staged_diff_ok = True
+    status_readable = False
+    staged_readable = False
     if path_ok and basename_ok:
-        r = probe.linux_git(wt_linux, "rev-parse", "HEAD^{tree}")
+        r = probe.linux_git(wt_linux, "rev-parse", "HEAD^{tree}",
+                            trust_path=git_trust_path)
         if r.ok:
             tree_oid = (r.stdout or "").strip()
             tree_matches = tree_oid == expected_tree_oid
@@ -438,19 +495,25 @@ def linux_worktree_gate(
             reasons.append("WORKTREE_OID_UNVERIFIABLE:" + (r.stderr or "")[-200:])
         if not tree_matches:
             reasons.append(f"WORKTREE_OID_MISMATCH:{tree_oid} != {expected_tree_oid}")
-        s = probe.linux_git(wt_linux, "status", "--porcelain", "--untracked-files=all")
+        s = probe.linux_git(wt_linux, "status", "--porcelain", "--untracked-files=all",
+                            trust_path=git_trust_path)
         if s.ok:
             status_lines = [ln for ln in (s.stdout or "").splitlines() if ln.strip()]
+            status_readable = True
         else:
             reasons.append("WORKTREE_STATUS_UNREADABLE:" + (s.stderr or "")[-200:])
-        d = probe.linux_git(wt_linux, "diff", "--cached", "--name-only")
+        d = probe.linux_git(wt_linux, "diff", "--cached", "--name-only",
+                            trust_path=git_trust_path)
         if d.ok:
             staged_lines = [ln for ln in (d.stdout or "").splitlines() if ln.strip()]
+            staged_readable = True
         else:
             reasons.append("WORKTREE_STAGED_DIFF_UNREADABLE:" + (d.stderr or "")[-200:])
         staged_diff_ok = not staged_lines
-    clean = not status_lines and staged_diff_ok
-    if not clean:
+    # D5: clean state is PROVEN only when BOTH probes were readable and both
+    # empty.  Unreadable status/staged diff is never clean evidence.
+    clean = status_readable and staged_readable and not status_lines and staged_diff_ok
+    if not clean and status_readable and staged_readable and (status_lines or staged_lines):
         reasons.append(
             "WORKTREE_NOT_CLEAN: unstaged/untracked=" + ",".join(status_lines[:8])
             + ((" staged=" + ",".join(staged_lines[:8])) if staged_lines else "")

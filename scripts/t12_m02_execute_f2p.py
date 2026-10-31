@@ -282,16 +282,58 @@ def _plan_ok(plan_path: Path) -> tuple[bool, str]:
     return ok, ("OK" if ok else f"PLAN_HASH_MISMATCH sha256={dig}")
 
 
+def resolve_worktrees_required(arms: list[str], worktrees_json: str | None) -> dict[str, str]:
+    """STRICT run-mode worktree resolver (D5 Defect A contract):
+    ``--worktrees-json`` is a JSON FILE PATH -- exactly the same contract as
+    dry-run -- NEVER inline JSON.  Fail closed, each failure a typed
+    ``ValueError`` prefix the caller turns into a hard STOP:
+
+    * absent argument                 -> WORKTREES_JSON_NOT_SUPPLIED
+    * file missing / unreadable       -> WORKTREES_JSON_FILE_UNREADABLE
+    * malformed JSON / not an object  -> WORKTREES_JSON_MALFORMED / _NOT_AN_OBJECT
+    * any requested arm absent        -> WORKTREES_MISSING_ARMS
+    * value not an absolute Linux
+      worktree path                   -> WORKTREES_PATH_INVALID
+    * two arms sharing one path       -> WORKTREES_DUPLICATE_PATHS
+
+    Proposed paths are NEVER silently substituted for live execution: the
+    concrete materialized per-arm worktrees are a REQUIRED input."""
+    if not worktrees_json:
+        raise ValueError("WORKTREES_JSON_NOT_SUPPLIED")
+    try:
+        payload = json.loads(Path(worktrees_json).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        raise ValueError(f"WORKTREES_JSON_FILE_MISSING:{worktrees_json}") from None
+    except OSError as exc:
+        raise ValueError(f"WORKTREES_JSON_FILE_UNREADABLE:{worktrees_json}:{exc}") from None
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"WORKTREES_JSON_MALFORMED:{worktrees_json}:{exc}") from None
+    if not isinstance(payload, dict):
+        raise ValueError(f"WORKTREES_JSON_NOT_AN_OBJECT:{worktrees_json}")
+    missing = [a for a in arms if a not in payload]
+    if missing:
+        raise ValueError(f"WORKTREES_MISSING_ARMS:{missing}")
+    resolved = {a: str(payload[a]) for a in arms}
+    bad = [a for a in resolved
+           if not resolved[a].startswith("/") or "\\" in resolved[a]
+           or not resolved[a].strip() or resolved[a].strip() != resolved[a]]
+    if bad:
+        raise ValueError(f"WORKTREES_PATH_INVALID:{bad}")
+    dup = sorted({p for p in resolved.values()
+                  if list(resolved.values()).count(p) > 1})
+    if dup:
+        raise ValueError(f"WORKTREES_DUPLICATE_PATHS:{dup}")
+    return resolved
+
+
 def _resolve_worktrees(arms: list[str], worktrees_json: str | None) -> dict[str, str]:
     """Arm -> linux worktree path.  REQUIRED INPUT for --run; for dry-run the
-    frozen pattern proposes concrete per-arm paths (never executed)."""
-    if worktrees_json:
-        payload = json.loads(Path(worktrees_json).read_text(encoding="utf-8"))
-        missing = [a for a in arms if a not in payload]
-        if missing:
-            raise ValueError(f"WORKTREES_MISSING_ARMS: {missing}")
-        return {a: str(payload[a]) for a in arms}
-    return {a: WORKTREE_ARM_PATTERN_LINUX.format(arm=a) for a in arms}
+    frozen pattern proposes concrete per-arm paths (never executed).  Absent
+    argument => PROPOSED pattern (dry-run only); present argument => strict
+    file-path resolution shared with run-mode."""
+    if not worktrees_json:
+        return {a: WORKTREE_ARM_PATTERN_LINUX.format(arm=a) for a in arms}
+    return resolve_worktrees_required(arms, worktrees_json)
 
 
 def arms_to_run(arms_arg: str | None, pilot_only: bool) -> list[str]:

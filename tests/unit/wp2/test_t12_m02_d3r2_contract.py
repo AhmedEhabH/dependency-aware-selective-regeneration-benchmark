@@ -425,6 +425,14 @@ class TestD3R2DeadlineSafety(unittest.TestCase):
             (root / "rd8.json").write_text(json.dumps(rd8_payload), encoding="utf-8")
             (root / "auth.json").write_text(json.dumps(auth_payload), encoding="utf-8")
             (root / "budget.json").write_text(json.dumps(budget_payload), encoding="utf-8")
+            # D5 contract: --worktrees-json is a JSON FILE PATH in both modes
+            # (never inline JSON), so the fixture writes a real worktrees file.
+            (root / "worktrees.json").write_text(json.dumps({
+                "NEG": "/root/scratch/arm_NEG/wt_t",
+                "FULL_REFERENCE": "/root/m19b_r3_20261024/wt_t",
+                "RM_CSS": "/root/scratch/arm_RM_CSS/wt_t",
+                "SIP": "/root/scratch/arm_SIP/wt_t",
+            }), encoding="utf-8")
 
             class _Args:
                 pass
@@ -436,7 +444,7 @@ class TestD3R2DeadlineSafety(unittest.TestCase):
             args.scopes_dir = str(root / "scopes")
             args.classification = str(root / "cls.json")
             args.test_authority = str(root / "ta.json")
-            args.worktrees_json = "{}"
+            args.worktrees_json = str(root / "worktrees.json")
             args.worker_path = None
             args.rd8_decision = str(root / "rd8.json")
             args.authorization = str(root / "auth.json")

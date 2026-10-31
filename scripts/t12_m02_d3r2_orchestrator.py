@@ -155,9 +155,60 @@ def preflight(args: argparse.Namespace, _out_root: Path) -> dict[str, Any]:
     # current reality of the frozen baseline worktree (FULL_REFERENCE tree)
     wt_reality = {}
     if platform["wsl_root_reachable"].get("reachable"):
-        wt_reality = _identity.linux_worktree_gate(
+        base_reality = _identity.linux_worktree_gate(
             probe, _identity.WORKTREE_PATTERN_LINUX,
             "b555542a98f62636173c6c82db80d380c083f180")
+        # D5 remediation: a NARROW per-invocation git trust override
+        # (git -c safe.directory=<exact path>) may re-measure the frozen tree
+        # ONLY when (a) the operator EXPLICITLY requested it with the EXACT
+        # frozen path and (b) the WSL stat ownership probe verified the path is
+        # a directory.  It never writes git config, never uses a wildcard,
+        # never changes ownership, and does NOT weaken the identity gate: the
+        # tree OID must still be measured and equal the frozen value, and
+        # status / staged-diff must be readable AND empty.
+        trust_path = getattr(args, "worktree_git_trust", None)
+        ownership = _identity.linux_worktree_ownership(
+            probe, _identity.WORKTREE_PATTERN_LINUX)
+        trust_admissible = (
+            bool(trust_path)
+            and trust_path == _identity.WORKTREE_PATTERN_LINUX
+            and bool(ownership.get("stat_ok"))
+            and bool(ownership.get("is_dir"))
+        )
+        wt_reality = base_reality
+        trusted_reality = None
+        if trust_admissible and not base_reality.get("pass"):
+            trusted_reality = _identity.linux_worktree_gate(
+                probe, _identity.WORKTREE_PATTERN_LINUX,
+                "b555542a98f62636173c6c82db80d380c083f180",
+                git_trust_path=_identity.WORKTREE_PATTERN_LINUX)
+            wt_reality = trusted_reality
+        # D5 Defect B: ANY failed Linux worktree identity gate (the ACTIVE
+        # reality, i.e. after any admissible trust re-measure) is a typed hard
+        # STOP -- never a silent READY.  The recovered PREFLIGHT showed verdict
+        # READY with hard_stops [] while the gate reported pass=false (dubious
+        # ownership / unreadable status / unverified OID).
+        if not wt_reality.get("pass"):
+            hard.append("LINUX_WORKTREE_GATE_FAILED:"
+                        + " | ".join(wt_reality.get("reasons", [])[:6]))
+        if trusted_reality is not None:
+            wt_reality["base_without_trust"] = base_reality
+        wt_reality["ownership"] = ownership
+        wt_reality["git_trust_override"] = {
+            "requested": trust_path,
+            "exact_path": _identity.WORKTREE_PATTERN_LINUX,
+            "applied": trust_admissible,
+            "per_invocation_only": True,
+            "writes_git_config": False,
+            "global_safe_directory": False,
+            "wildcard": False,
+            "chown": False,
+            "ownership_verified": bool(ownership.get("stat_ok")
+                                        and ownership.get("is_dir")),
+            "note": "git -c safe.directory=<exact path> per invocation only "
+                    "after stat-verified path + ownership; tree OID must still "
+                    "match the frozen value with readable+empty status/staged diff",
+        }
         platform["linux_worktree_reality"] = [wt_reality]
 
     # engine pins (read-only hashes)
@@ -388,6 +439,16 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         hard.append("AUTORUN_FLAG_MISSING_OR_WRONG")
     if not os.environ.get("T12_M02_DB_SCAN_CMD"):
         hard.append("TEARDOWN_SCAN_CMD_UNCONFIGURED")
+    # D5 Defect A contract: --worktrees-json is a JSON FILE PATH in BOTH
+    # modes (dry-run reads it through the shared planner; run() now too).
+    # Live execution never parses inline JSON and never silently substitutes
+    # proposed paths: every missing/malformed/inconsistent input is a typed
+    # hard stop before ANY side effect.
+    try:
+        worktrees = _exe.resolve_worktrees_required(arms, args.worktrees_json)
+    except ValueError as exc:
+        worktrees = {}
+        hard.append(str(exc))
     if hard:
         gates.update({
             "schema": ORCH_SCHEMA_RUN, "mode": "RUN",
@@ -416,7 +477,7 @@ def run(args: argparse.Namespace, out_root: Path) -> dict[str, Any]:
         source_repo=Path(args.source_repo) if args.source_repo else _adapt.FROZEN_SOURCE_SALEOR_REPO,
         scope_dir=scope_dir, classification=Path(args.classification),
         test_authority=Path(args.test_authority), matrix=matrix,
-        worktrees=json.loads(args.worktrees_json) if args.worktrees_json else {},
+        worktrees=worktrees,
         db_scan_cmd_env=os.environ.get("T12_M02_DB_SCAN_CMD"),
         worker_path=sim_worker, docker_events=True,
         deadline_utc=deadline_utc, spawner=None)
@@ -826,6 +887,12 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--classification", default=None)
         p.add_argument("--test-authority", default=None)
         p.add_argument("--scratch-linux", default=None)
+        p.add_argument(
+            "--worktree-git-trust", default=None,
+            help="exact frozen Linux worktree path for a NARROW per-invocation "
+                 "git -c safe.directory=<path> override (D5: applied only after "
+                 "stat-verified path + ownership; tree OID and clean status "
+                 "still required; never global/wildcard/chown)")
 
     sub = ap.add_subparsers(dest="command", required=True)
     p = sub.add_parser("preflight")
