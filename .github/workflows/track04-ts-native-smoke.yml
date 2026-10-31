@@ -1,0 +1,140 @@
+name: Track04 TypeScript Native Smoke
+
+on:
+  push:
+    branches:
+      - research/track04-typescript-smoke-2026-10-31
+    paths:
+      - '.github/workflows/track04-ts-native-smoke.yml'
+      - 'track04/typescript/**'
+
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: track04-ts-native-smoke
+  cancel-in-progress: true
+
+jobs:
+  tinybench-baseline:
+    name: Tinybench Historical Baseline
+
+    runs-on: ubuntu-22.04
+
+    timeout-minutes: 20
+
+    env:
+      CI: 'true'
+      UPSTREAM_SHA: c9816afede719138d581b66bdde1188346010f53
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Install pinned pnpm
+        run: npm install --global pnpm@9.15.4
+
+      - name: Fetch historical tinybench revision
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p evidence upstream
+
+          git -C upstream init -q
+
+          git -C upstream remote add origin \
+            https://github.com/tinylibs/tinybench.git
+
+          git -C upstream fetch \
+            --no-tags \
+            --depth=1 \
+            origin "$UPSTREAM_SHA"
+
+          git -C upstream checkout --detach FETCH_HEAD
+
+          ACTUAL_SHA=$(git -C upstream rev-parse HEAD)
+
+          if [ "$ACTUAL_SHA" != "$UPSTREAM_SHA" ]; then
+            echo "UPSTREAM_SHA_MISMATCH"
+            exit 1
+          fi
+
+          {
+            echo "repository=tinylibs/tinybench"
+            echo "upstream_sha=$UPSTREAM_SHA"
+            echo "node_version=$(node --version)"
+            echo "pnpm_version=$(pnpm --version)"
+            sha256sum upstream/pnpm-lock.yaml
+          } > evidence/PROVENANCE.txt
+
+      - name: Install historical dependencies
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          pnpm install \
+            --frozen-lockfile \
+            --reporter=append-only \
+            2>&1 | tee ../evidence/INSTALL.log
+
+      - name: Run native quality gates
+        working-directory: upstream
+        shell: bash
+        run: |
+          set +e
+
+          pnpm run typecheck \
+            > ../evidence/TYPECHECK.log 2>&1
+          TYPECHECK=$?
+
+          pnpm exec vitest run \
+            --retry=0 \
+            --maxWorkers=1 \
+            --minWorkers=1 \
+            > ../evidence/VITEST.log 2>&1
+          TESTS=$?
+
+          pnpm run build \
+            > ../evidence/BUILD.log 2>&1
+          BUILD=$?
+
+          {
+            echo "typecheck_exit=$TYPECHECK"
+            echo "vitest_exit=$TESTS"
+            echo "build_exit=$BUILD"
+          } > ../evidence/RESULT.txt
+
+      - name: Evaluate gates
+        if: always()
+        shell: bash
+        run: |
+          echo "### Track04 Native Baseline" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "No model inference executed." >> "$GITHUB_STEP_SUMMARY"
+
+          echo "No RM-CSS behavioral claim." >> "$GITHUB_STEP_SUMMARY"
+
+          if [ ! -f evidence/RESULT.txt ]; then
+            echo "RESULT_MISSING"
+            exit 1
+          fi
+
+          cat evidence/RESULT.txt >> "$GITHUB_STEP_SUMMARY"
+
+          grep -qx 'typecheck_exit=0' evidence/RESULT.txt || exit 1
+          grep -qx 'vitest_exit=0' evidence/RESULT.txt || exit 1
+          grep -qx 'build_exit=0' evidence/RESULT.txt || exit 1
+
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: track04-tinybench-smoke
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 7
