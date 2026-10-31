@@ -1,0 +1,125 @@
+name: Track04 TypeScript Parent-Graph G1
+
+on:
+  push:
+    branches:
+      - research/track04-typescript-smoke-2026-10-31
+    paths:
+      - '.github/workflows/track04-ts-adapter-g1.yml'
+      - 'track04/typescript/src/**'
+      - 'track04/typescript/test/**'
+      - 'track04/typescript/docs/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track04-ts-parent-graph
+  cancel-in-progress: true
+
+jobs:
+  parent-graph-g1:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+      UPSTREAM_SHA: c9816afede719138d581b66bdde1188346010f53
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Historical package-manager
+        run: npm install --global pnpm@9.15.4
+      - name: Checkout frozen upstream parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p upstream evidence
+          git -C upstream init -q
+          git -C upstream remote add origin https://github.com/tinylibs/tinybench.git
+          git -C upstream fetch --depth=1 --no-tags origin "$UPSTREAM_SHA"
+          git -C upstream checkout --detach FETCH_HEAD
+          test "$(git -C upstream rev-parse HEAD)" = "$UPSTREAM_SHA"
+      - name: Install frozen historical dependencies (without lifecycle scripts)
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile --ignore-scripts --reporter=append-only
+      - name: Adapter unit tests on synthetic fixtures
+        shell: bash
+        env:
+          NODE_PATH: ${{ github.workspace }}/upstream/node_modules
+        run: |
+          set -euo pipefail
+          node --test track04/typescript/test/ts_parent_graph.test.cjs | tee evidence/ADAPTER_TEST.log
+      - name: Build deterministic parent-only graph
+        shell: bash
+        env:
+          NODE_PATH: ${{ github.workspace }}/upstream/node_modules
+        run: |
+          set -euo pipefail
+          node track04/typescript/src/ts_parent_graph.cjs \
+            --repo "$PWD/upstream" \
+            --profile tinybench \
+            --expected-parent "$UPSTREAM_SHA" \
+            --out evidence/TS_PARENT_GRAPH.json
+          sha256sum evidence/TS_PARENT_GRAPH.json | tee evidence/TS_PARENT_GRAPH_SHA256.txt
+          node track04/typescript/src/ts_parent_graph.cjs \
+            --repo "$PWD/upstream" \
+            --profile tinybench \
+            --expected-parent "$UPSTREAM_SHA" \
+            --out evidence/TS_PARENT_GRAPH_REPEAT.json
+          cmp evidence/TS_PARENT_GRAPH.json evidence/TS_PARENT_GRAPH_REPEAT.json
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const x=JSON.parse(fs.readFileSync('evidence/TS_PARENT_GRAPH.json','utf8'));
+          if(x.parent_sha !== process.env.UPSTREAM_SHA || !x.files.some(f=>f.units.length))process.exit(1);
+          const expectedFiles=['src/bench.ts','src/constants.ts','src/event.ts','src/index.ts','src/task.ts','src/types.ts','src/utils.ts'];
+          if(JSON.stringify(x.files.map(f=>f.path))!==JSON.stringify(expectedFiles))throw new Error('PARENT_UNIVERSE_MISMATCH');
+          if(x.files.some(f=>!f.path.startsWith('src/') || /(?:spec|test|\.d)\.ts$/.test(f.path)))process.exit(1);
+          console.log('T04_PARENT_GRAPH_PASS files='+x.files.length+' edges='+x.edges.length+' units='+x.files.reduce((n,f)=>n+f.units.length,0));
+          NODE
+          rm evidence/TS_PARENT_GRAPH_REPEAT.json
+      - name: Independently verify graph against frozen Git blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PYVERIFY' | tee evidence/INDEPENDENT_VERIFY.log
+          import hashlib, json, os, subprocess
+          with open('evidence/TS_PARENT_GRAPH.json',encoding='utf-8') as f:
+              g=json.load(f)
+          assert g['parent_sha']==os.environ['UPSTREAM_SHA']
+          assert g['profile']=='tinybench'
+          paths=[f['path'] for f in g['files']]
+          assert len(paths)==len(set(paths)) and paths
+          good=set(paths)
+          blobs=subprocess.check_output(['git','-C','upstream','ls-tree','-r','--name-only',g['parent_sha'],'--','src'],text=True).splitlines()
+          assert good.issubset(set(blobs)), 'graph includes files absent from parent tree'
+          for entry in g['files']:
+              p=entry['path']
+              assert p.startswith('src/') and p.endswith(('.ts','.tsx','.mts','.cts'))
+              assert not any(x in p for x in ['/test/','/tests/','/generated/'])
+              content=subprocess.check_output(['git','-C','upstream','show',g['parent_sha']+':'+p])
+              assert hashlib.sha256(content).hexdigest()==entry['sha256'], p
+              assert all(x in good for x in entry['imports']), p
+          edges=[tuple(row) for row in g['edges']]
+          assert len(edges)==len(set(edges)), 'duplicate graph edge'
+          assert all(a in good and b in good for a,b in edges)
+          assert set(edges)=={(f['path'],target) for f in g['files'] for target in f['imports']}
+          assert any(f['units'] for f in g['files']), 'no code units'
+          print('INDEPENDENT_PARENT_BLOB_AUDIT_PASS files='+str(len(paths))+' edges='+str(len(edges)))
+          PYVERIFY
+      - name: Upload G1 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: track04-ts-parent-graph-g1
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 7
