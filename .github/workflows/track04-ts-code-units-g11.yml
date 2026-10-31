@@ -1,0 +1,135 @@
+name: Track04 TypeScript Code Units G1.1
+
+on:
+  push:
+    branches:
+      - research/track04-typescript-smoke-2026-10-31
+    paths:
+      - '.github/workflows/track04-ts-code-units-g11.yml'
+      - 'track04/typescript/src/ts_parent_graph_v2.cjs'
+      - 'track04/typescript/test/ts_parent_graph_v2.test.cjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track04-ts-code-units-g11
+  cancel-in-progress: true
+
+jobs:
+  strict-unit-inventory:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+      PARENT_SHA: c9816afede719138d581b66bdde1188346010f53
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Install pinned package manager
+        run: npm install --global pnpm@9.15.4
+      - name: Prepare frozen parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p upstream evidence
+          git -C upstream init -q
+          git -C upstream remote add origin https://github.com/tinylibs/tinybench.git
+          git -C upstream fetch --no-tags --depth=1 origin "$PARENT_SHA"
+          git -C upstream checkout --detach FETCH_HEAD
+          test "$(git -C upstream rev-parse HEAD)" = "$PARENT_SHA"
+          (cd upstream && pnpm install --frozen-lockfile --ignore-scripts --reporter=append-only)
+      - name: Run 13 synthetic unit tests
+        shell: bash
+        env:
+          NODE_PATH: ${{ github.workspace }}/upstream/node_modules
+        run: |
+          set -euo pipefail
+          node --test track04/typescript/test/ts_parent_graph_v2.test.cjs | tee evidence/UNIT_TESTS.txt
+      - name: Compare v1 and v2 real-parent graphs without altering v1
+        shell: bash
+        env:
+          NODE_PATH: ${{ github.workspace }}/upstream/node_modules
+        run: |
+          set -euo pipefail
+          node track04/typescript/src/ts_parent_graph.cjs \
+            --repo "$PWD/upstream" --profile tinybench --expected-parent "$PARENT_SHA" \
+            --out evidence/PARENT_GRAPH_V1.json
+          node track04/typescript/src/ts_parent_graph_v2.cjs \
+            --repo "$PWD/upstream" --profile tinybench --expected-parent "$PARENT_SHA" \
+            --out evidence/PARENT_GRAPH_V2.json
+          node track04/typescript/src/ts_parent_graph_v2.cjs \
+            --repo "$PWD/upstream" --profile tinybench --expected-parent "$PARENT_SHA" \
+            --out evidence/PARENT_GRAPH_V2_REPEAT.json
+          cmp evidence/PARENT_GRAPH_V2.json evidence/PARENT_GRAPH_V2_REPEAT.json
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const a=JSON.parse(fs.readFileSync('evidence/PARENT_GRAPH_V1.json','utf8'));
+          const b=JSON.parse(fs.readFileSync('evidence/PARENT_GRAPH_V2.json','utf8'));
+          const paths=(g)=>g.files.map(x=>x.path);
+          const stats=g=>g.files.reduce((n,f)=>n+f.units.length,0);
+          if(b.schema!=='track04-ts-parent-graph-v2'||a.parent_sha!==b.parent_sha||a.parent_sha!==process.env.PARENT_SHA)throw Error('SCHEMA_OR_PARENT_MISMATCH');
+          if(JSON.stringify(paths(a))!==JSON.stringify(paths(b)))throw Error('SOURCE_UNIVERSE_DRIFT');
+          if(JSON.stringify(a.edges)!==JSON.stringify(b.edges))throw Error('DEPENDENCY_EDGE_DRIFT');
+          for(let i=0;i<a.files.length;i++){
+            if(a.files[i].sha256!==b.files[i].sha256 || JSON.stringify(a.files[i].imports)!==JSON.stringify(b.files[i].imports))throw Error('SOURCE_OR_IMPORT_DRIFT');
+          }
+          if(b.files.length!==7||b.files.some(f=>f.units.length===0))throw Error('UNINDEXED_SOURCE_FILE');
+          const kinds=(name)=>b.files.find(f=>f.path===name).units.map(x=>x.kind);
+          if(!kinds('src/types.ts').includes('interface')||!kinds('src/types.ts').includes('type_alias'))throw Error('TYPE_DECLARATIONS_MISSING');
+          if(!kinds('src/index.ts').includes('export_declaration'))throw Error('REEXPORT_DECLARATIONS_MISSING');
+          if(!kinds('src/constants.ts').includes('variable_declaration'))throw Error('DATA_DECLARATIONS_MISSING');
+          console.log('G11_REAL_PARENT_PASS v1_units='+stats(a)+' v2_units='+stats(b)+' files=7 edges='+b.edges.length);
+          NODE
+          sha256sum evidence/PARENT_GRAPH_V1.json evidence/PARENT_GRAPH_V2.json | tee evidence/SHA256SUMS.txt
+          rm evidence/PARENT_GRAPH_V2_REPEAT.json
+      - name: Independently validate frozen content and unit SHA positions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' | tee evidence/INDEPENDENT_AUDIT.txt
+          import hashlib,json,subprocess,os
+          g=json.load(open('evidence/PARENT_GRAPH_V2.json',encoding='utf-8'))
+          assert g['parent_sha']==os.environ['PARENT_SHA']
+          assert len(g['files'])==7
+          for f in g['files']:
+            content=subprocess.check_output(['git','-C','upstream','show',g['parent_sha']+':'+f['path']])
+            assert hashlib.sha256(content).hexdigest()==f['sha256']
+            text=content.decode('utf-8')
+            assert f['units'] and all(1<=u['start_line']<=u['end_line']<=len(text.splitlines())+1 for u in f['units'])
+          print('G11_INDEPENDENT_PARENT_FILE_HASH_PASS files=7')
+          PY
+          node - <<'NODEAUDIT' | tee evidence/INDEPENDENT_SPAN_AUDIT.txt
+          const fs=require('node:fs'),crypto=require('node:crypto'),cp=require('node:child_process');
+          const graph=JSON.parse(fs.readFileSync('evidence/PARENT_GRAPH_V2.json','utf8'));
+          let unitCount=0;
+          for(const file of graph.files){
+            const content=cp.execFileSync('git',['-C','upstream','show',graph.parent_sha+':'+file.path],{encoding:'utf8'});
+            for(const unit of file.units){
+              const a=unit.start_offset_utf16,b=unit.end_offset_utf16;
+              if(!Number.isInteger(a)||!Number.isInteger(b)||a<0||b<a||b>content.length|| (b===a && !(unit.kind==='module_fallback'&&a===0&&content.length===0)))throw Error('UNIT_RANGE_INVALID '+file.path);
+              const part=content.slice(a,b);
+              const hash=crypto.createHash('sha256').update(part,'utf8').digest('hex');
+              if(hash!==unit.sha256)throw Error('UNIT_SHA_MISMATCH '+file.path+':'+unit.name);
+              const startLine=content.slice(0,a).split('\n').length,endLine=content.slice(0,b).split('\n').length;
+              if(startLine!==unit.start_line||endLine!==unit.end_line)throw Error('UNIT_LINE_MISMATCH '+file.path);
+              unitCount++;
+            }
+          }
+          if(unitCount<44)throw Error('UNEXPECTED_UNIT_COUNT_REDUCTION');
+          console.log('G11_INDEPENDENT_UNIT_SPAN_AUDIT_PASS files='+graph.files.length+' units='+unitCount);
+          NODEAUDIT
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: track04-code-units-g11
+          path: evidence/
+          retention-days: 7
+          if-no-files-found: warn
