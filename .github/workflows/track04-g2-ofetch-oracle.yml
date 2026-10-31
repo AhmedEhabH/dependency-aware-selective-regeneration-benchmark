@@ -1,0 +1,142 @@
+name: Track04 G2 ofetch Diagnostic Oracle
+
+on:
+  push:
+    branches:
+      - research/track04-typescript-smoke-2026-10-31
+    paths:
+      - '.github/workflows/track04-g2-ofetch-oracle.yml'
+      - 'track04/typescript/g2/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: track04-g2-ofetch-oracle
+  cancel-in-progress: false
+
+jobs:
+  diagnostic-f2p-p2p:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    env:
+      CI: 'true'
+      PARENT_SHA: a183b02048c5323bcb79f2a03862008466771104
+      REFERENCE_SHA: 7e1b54d1363ba3f5fe57fe8089babab921a8e9ea
+      UPSTREAM: https://github.com/unjs/ofetch.git
+    steps:
+      - name: Checkout isolated research branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Select Node.js runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.8'
+      - name: Install pinned Yarn Classic
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --global --force yarn@1.22.22
+          test "$(yarn --version)" = '1.22.22'
+      - name: Oracle unit tests without installing upstream dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          node --test track04/typescript/g2/test/ofetch_retry_oracle.test.mjs | tee evidence/HARNESS_SELFTEST.log
+      - name: Fetch exact historical parent and reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p work evidence
+          for arm in parent reference; do
+            target="$PARENT_SHA"
+            depth=1
+            if [ "$arm" = reference ]; then target="$REFERENCE_SHA"; depth=2; fi
+            mkdir -p "work/$arm"
+            git -C "work/$arm" init -q
+            git -C "work/$arm" remote add origin "$UPSTREAM"
+            git -C "work/$arm" fetch --depth="$depth" --no-tags origin "$target"
+            git -C "work/$arm" checkout --detach FETCH_HEAD
+            test "$(git -C "work/$arm" rev-parse HEAD)" = "$target"
+          done
+          test "$(git -C work/reference rev-parse HEAD^)" = "$PARENT_SHA"
+          diff -u <(git -C work/parent show "$PARENT_SHA":yarn.lock) <(git -C work/reference show "$REFERENCE_SHA":yarn.lock)
+          git -C work/reference diff --name-only "$PARENT_SHA" "$REFERENCE_SHA" > evidence/REFERENCE_CHANGED_PATHS.txt
+          printf 'src/fetch.ts\ntest/index.test.mjs\n' | diff -u - evidence/REFERENCE_CHANGED_PATHS.txt
+          {
+            echo "upstream=$UPSTREAM"
+            echo "parent_sha=$PARENT_SHA"
+            echo "reference_sha=$REFERENCE_SHA"
+            echo "node=$(node --version)"
+            echo "yarn=$(yarn --version)"
+            echo 'historical_package_name=ohmyfetch'
+            echo 'interpretation=public_diagnostic_not_hidden_holdout'
+            sha256sum track04/typescript/g2/scripts/ofetch_retry_oracle.mjs
+            sha256sum track04/typescript/g2/scripts/evaluate_g2.mjs
+            sha256sum track04/typescript/g2/test/ofetch_retry_oracle.test.mjs
+          } > evidence/PROVENANCE.txt
+          git -C work/parent show "$PARENT_SHA":src/fetch.ts | sha256sum > evidence/PARENT_SOURCE_SHA256.txt
+          git -C work/reference show "$REFERENCE_SHA":src/fetch.ts | sha256sum > evidence/REFERENCE_SOURCE_SHA256.txt
+      - name: Install build typecheck run public diagnostic oracle and native P2P
+        shell: bash
+        run: |
+          set -u
+          ORACLE="$PWD/track04/typescript/g2/scripts/ofetch_retry_oracle.mjs"
+          for arm in parent reference; do
+            dir="$PWD/work/$arm"
+            mkdir -p "evidence/$arm"
+            set +e
+            (cd "$dir" && yarn install --frozen-lockfile --non-interactive --ignore-scripts) > "evidence/$arm/INSTALL.log" 2>&1
+            install_ec=$?
+            echo "$install_ec" > "evidence/$arm/INSTALL.exit"
+            build_ec=99
+            tsc_ec=99
+            oracle_ec=99
+            repeat_ec=99
+            native_ec=99
+            if [ "$install_ec" = 0 ]; then
+              (cd "$dir" && yarn build) > "evidence/$arm/BUILD.log" 2>&1
+              build_ec=$?
+              (cd "$dir" && yarn tsc --noEmit) > "evidence/$arm/TSC.log" 2>&1
+              tsc_ec=$?
+            fi
+            if [ "$build_ec" = 0 ]; then
+              node "$ORACLE" --module "$dir/dist/index.mjs" --out "$PWD/evidence/$arm/F2P.json" > "evidence/$arm/ORACLE.log" 2>&1
+              oracle_ec=$?
+              node "$ORACLE" --module "$dir/dist/index.mjs" --out "$PWD/evidence/$arm/F2P_REPEAT.json" > "evidence/$arm/ORACLE_REPEAT.log" 2>&1
+              repeat_ec=$?
+              if [ "$repeat_ec" = 0 ]; then
+                cmp -s "evidence/$arm/F2P.json" "evidence/$arm/F2P_REPEAT.json"
+                repeat_ec=$?
+              fi
+              (cd "$dir" && yarn test) > "evidence/$arm/NATIVE.log" 2>&1
+              native_ec=$?
+            fi
+            echo "$build_ec" > "evidence/$arm/BUILD.exit"
+            echo "$tsc_ec" > "evidence/$arm/TSC.exit"
+            echo "$oracle_ec" > "evidence/$arm/ORACLE.exit"
+            echo "$repeat_ec" > "evidence/$arm/REPEAT.exit"
+            echo "$native_ec" > "evidence/$arm/NATIVE.exit"
+            printf 'ARM=%s install=%s build=%s tsc=%s oracle=%s repeat=%s native=%s\n' \
+              "$arm" "$install_ec" "$build_ec" "$tsc_ec" "$oracle_ec" "$repeat_ec" "$native_ec"
+            git -C "$dir" status --porcelain=v1 --untracked-files=no -- src test yarn.lock package.json > "evidence/$arm/TRACKED_SOURCE_STATUS.txt"
+            set -e
+          done
+      - name: Evaluate diagnostic admission gates
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          node track04/typescript/g2/scripts/evaluate_g2.mjs evidence
+      - name: Upload immutable-ish diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: track04-g2-ofetch-diagnostic
+          path: evidence/
+          retention-days: 7
+          if-no-files-found: warn
