@@ -1,0 +1,89 @@
+{
+  "schema": "research_snapshot_provenance_v1",
+  "as_of_date": "2026-11-15",
+  "repo": "AhmedEhabH/dependency-aware-selective-regeneration-benchmark",
+  "publication_policy": "documentation branch and draft pull request; no main mutation",
+  "evidence": [
+    {
+      "id": "SALEOR_RESERVE_300",
+      "tier": "REPOSITORY_ORIGINAL_VERIFIED",
+      "path": "reports/saleor_reserve_300_rmcss_result.json",
+      "github_blob_sha1": "8e5eb84b9f8eeda8f5e966dcb86ede6807f9374d",
+      "n": 300,
+      "rmcss_f1": 0.35687263556116017,
+      "sip_f1": 0.26474622770919065,
+      "delta_f1": 0.09212640785196952,
+      "delta_ci95": [
+        0.06907941424149391,
+        0.11563390365093446
+      ]
+    },
+    {
+      "id": "WP1B_MAIN_297",
+      "tier": "REPOSITORY_ORIGINAL_VERIFIED",
+      "path": "reports/wp1b_main297_result.json",
+      "github_blob_sha1": "434e894dbcd75602121ec548289d8dad88789e0f",
+      "n": 297,
+      "rmcss_f1": 0.3568253968253968,
+      "agent_f1": 0.363069245165315,
+      "ni_margin_0_05": "NI_SUPPORTED",
+      "ni_margin_0_03": "INCONCLUSIVE",
+      "selection_tokens_mean_rmcss_viewA": 17011.323232323233,
+      "selection_tokens_mean_agent_viewA": 79531.47474747474
+    },
+    {
+      "id": "T11_SWEBENCH_CONTROL_20261114",
+      "tier": "ATTACHMENT_DERIVED_NOT_RAW_REVALIDATED",
+      "source": "T11_SAFE_CORRECTIONS_20261114.zip",
+      "source_sha256": "d916002db535bf9281319524db7cbe4d8e9b4475c54fac004c6e290b05cc5886",
+      "request_set_sha256_as_reported": "0fb6780545cf5ecefd38d86cc8f74f20cc989822788f0162d9f4f4c6120728cf",
+      "n_tasks": 10,
+      "original_calls": 20,
+      "bm25_resolved": 3,
+      "gold_resolved": 3,
+      "total_model_usd": 0.2751398,
+      "model_rmcss_in_this_lane": false
+    },
+    {
+      "id": "T11_ESC_INTEGRATION_20261115",
+      "tier": "ATTACHMENT_INSPECTED_HANDOFF_CLAIMS_NOT_REEXECUTED",
+      "outer_file": "T11_ESC_INTEGRATION_20261115.zip",
+      "outer_sha256": "d8bcdfc6e93fbaa2ae6dbc15a9fbea14dc1a53da9fb4e5423f3dec84a79218a7",
+      "outer_bytes": 283077,
+      "nested_file": "CHATGPT_HANDOFF.zip",
+      "nested_sha256": "0d0d93f6833b131ba36dc1ac982a3fa6856de59b0a395dc63390e93ba71e4984",
+      "nested_bytes": 145710,
+      "frozen_policy_sha256": "eae159a1c6406f46fe06739094d131dc75d6f6005cbdec76841115b2fd369cdd",
+      "reported_tests_pass": 26,
+      "admitted_tasks": 2,
+      "rejected_tasks": 1,
+      "new_model_posts": 0,
+      "new_e2e_evals": 0,
+      "planned_posts": 4,
+      "planned_cost_estimate_usd": 0.101911,
+      "execution_status": "PLAN_ONLY_BLOCKED_LIVE_WIRING_AND_OWNER_APPROVAL"
+    },
+    {
+      "id": "T11_NEXT_RMCSS_DJANGO_BLOCKER_20261114",
+      "tier": "ATTACHMENT_INSPECTED_PROTOCOL_STOP",
+      "source": "TRACK11_NEXT_RMCSS_BLOCKED_20261114.zip",
+      "source_sha256": "1b162c4d0b59b98c7b7a362bc5a35fe1c31cbbcb838bb641e241ac79c97a9b5e",
+      "source_bytes": 80652,
+      "next_task": "django__django-13658",
+      "status": "STOP_RMCSS_INPUTS_NOT_AVAILABLE",
+      "new_model_calls": 0,
+      "e2e_evals": 0
+    }
+  ],
+  "not_reviewed_in_this_sync": [
+    "Track 1.2 raw",
+    "Track 1.3 raw",
+    "Track 2.1 raw",
+    "Track 2.2 raw",
+    "Track 3 raw",
+    "Track 4 raw",
+    "Track 5 raw"
+  ],
+  "no_paid_model_calls_in_this_sync": true,
+  "no_experiment_runs_in_this_sync": true
+}
